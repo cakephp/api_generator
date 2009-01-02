@@ -44,7 +44,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $components = array('ApiGenerator');
+	public $components = array('ApiGenerator.Documentor');
 /**
  * Browse an Application and find things you would like to generate API docs for.
  *
