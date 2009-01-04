@@ -1,14 +1,32 @@
 <?php
 App::import('Component', 'ApiGenerator.Documentor');
 /**
- * SimpleDocumentorSubjectClass
+ * DocumentorComponentSubject
  *
  * A simple class to test ClassInfo introspection
  *
  * @package this is my package
  * @another-tag long value
  */
-class SimpleDocumentorSubjectClass extends StdClass implements Countable {
+class DocumentorComponentSubject extends StdClass implements Countable {
+/**
+ * This var is protected
+ *
+ * @var string
+ **/
+	protected $_protectedVar;
+/**
+ * This var is public
+ *
+ * @var string
+ **/
+	public $publicVar = 'value';
+/**
+ * This var is public static
+ *
+ * @var string
+ **/
+	public static $publicStatic;
 /**
  * count
  * 
@@ -17,11 +35,33 @@ class SimpleDocumentorSubjectClass extends StdClass implements Countable {
  * @access public
  * @return integer
  */
-	function count() {
-		return 2;
-	}
-} 
+	public function count() { }
+/**
+ * something
+ * 
+ * does something
+ *
+ * @param string $arg1 First arg
+ * @param string $arg2 Second arg
+ * @access public
+ * @return integer
+ */
+	protected function something($arg1, $arg2 = 'file') { }
+/**
+ * goGo
+ * 
+ * does lots of cool things
+ * @param string $param a parameter
+ * @return void
+ **/
+	public static function goGo($param) { }
+}
 
+/**
+ * Documentor Test Case
+ *
+ * @package cake.api_generator.tests
+ */
 class DocumentorTestCase extends CakeTestCase {
 /**
  * start a test case
@@ -40,7 +80,8 @@ class DocumentorTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadClass() {
-		
+		$this->Documentor->loadClass('DocumentorComponentSubject');
+		$this->assertTrue($this->Documentor->getExtractor() instanceof DocumentExtractor);
 	}
 /**
  * end a test case
@@ -49,32 +90,6 @@ class DocumentorTestCase extends CakeTestCase {
  **/
 	public function endTest() {
 		unset($this->Controller, $this->Documentor);
-	}
-}
-
-class DocumentExtractorTestCase extends CakeTestCase {
-/**
- * test the ClassInfo introspection
- *
- * @return void
- **/
-	function testGetClassInfo() {
-		$docs = new DocumentExtractor('SimpleDocumentorSubjectClass');
-		$result = $docs->getClassInfo();
-		$expected = array (
-			'name' => 'SimpleDocumentorSubjectClass', 
-			'fileName' => __FILE__,
-			'classDescription' => 'class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
-			'comment' => array ( 
-				'title' => 'SimpleDocumentorSubjectClass', 
-				'desc' => 'A simple class to test ClassInfo introspection', 
-				'tags' => array (
-					' @package this is my package', 
-					' @another-tag long value'
-				), 
-			), 
-		);
-		$this->assertEqual($result, $expected);
 	}
 }
 ?>

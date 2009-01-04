@@ -26,6 +26,8 @@
  * @lastmodified    
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+App::import('Vendor', 'ApiGenerator.DocumentExtractor');
+
 class DocumentorComponent extends Object {
 /**
  * Holds controller reference
@@ -33,6 +35,12 @@ class DocumentorComponent extends Object {
  * @var object
  */
 	public $controller;
+/**
+ * DocumentorExtractor instance
+ *
+ * @var object
+ **/
+	protected $_extractor;
 /**
  * initialize Callback
  *
@@ -43,111 +51,26 @@ class DocumentorComponent extends Object {
 	}
 /**
  * loadClass
+ * 
+ * Loads the documentation extractor for a given classname.
  *
  * @param string $name Name of class to load. 
  * @access public
  * @return void
  */
 	public function loadClass($name) {
-		
+		$this->_extractor = new DocumentExtractor($name);
 	}
-}
 /**
- * Documentation Extractor
+ * getExtractor
  *
- * Retrieves Documentation using PHP Class Reflection
- *
- * @package api_generator
- */
-class DocumentExtractor extends ReflectionClass {
-/**
- * getClassInfo
- *
- * Get Basic classInfo about the current class
- *
- * @return array Information about Class
- **/
-	public function getClassInfo(){
-		$this->classInfo['name'] = $this->getName();
-		$this->classInfo['fileName'] = $this->getFileName();
-
-		$desc = '';
-		if ($this->isFinal()) {
-			$desc .= 'final ';
-		}
-		if ($this->isAbstract()) {
-			$desc .= 'abstract ';
-		}
-		if ($this->isInterface()) {
-			$desc .= 'interface ';
-		} else {
-			$desc .= 'class ';
-		}
-		$desc .= $this->getName() . ' ';
-		if ($this->getParentClass()) {
-			$desc .= 'extends ' . $this->getParentClass()->getName();
-		}
-
-		$interfaces = $this->getInterfaces();
-		$number = count($interfaces);
-		if ($number > 0){
-			$desc .= ' implements ';
-			foreach ($interfaces as $int) {
-				$desc .= $int->getName() . ' ';
-			}
-		}	
-
-		$this->classInfo['classDescription'] = $desc;
-		$this->classInfo['comment'] = $this->__cleanComment($this->getDocComment());
-
-		return $this->classInfo;
-	}
-
-/**
- * cleanComment
- *
- * Cleans input comments of stars and /'s so it is more readable.
- * Creates a multi dimensional array. That contains semi parsed comments
+ * Get the documentor extractor instance
  * 
- * 'title' contains the title / first line of the doc-block
- * 'desc' contains all information from the title to the @tags.
- * 'tags' contains all the doc-blocks @tags.
- * 
- * @param string $comments The comment block to be cleaned
- * @return array Array of Filtered and separated comments
- **/
-	private function __cleanComment($comments){
-		$com = array();
-
-		//remove stars and slashes
-		$tmp = str_replace('/**', '', $comments);
-		$tmp = str_replace('* ', '', $tmp);
-		$tmp = str_replace('*/', '', $tmp);
-		$tmp = str_replace('*', '', $tmp);
-		//fix new lines
-		$tmp = str_replace("\r", "\n", $tmp);
-		$tmp = str_replace("\n\n", "\n", $tmp);
-		$tmp = str_replace("\t", "", $tmp);
-
-		$tmp = explode("\n", trim($tmp));
-
-		$com['title'] = $tmp[0];
-		$desc = '';	
-		$tags = array();
-		for ($i = 1; $i < count($tmp); $i++ ){
-
-			if (strlen($tmp[$i]) > 0 && substr(trim($tmp[$i]), 0, 1) !== '@') {
-				$desc .= $tmp[$i];
-			}
-			if (substr(trim($tmp[$i]), 0, 1) == '@') {
-				$tags[] = $tmp[$i];
-			}
-
-		}
-		$com['desc'] = trim($desc);
-		$com['tags'] = $tags;
-
-		return $com;
+ * @access public
+ * @return object
+ */	
+	public function getExtractor() {
+		return $this->_extractor;
 	}
 }
 ?>
