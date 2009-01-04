@@ -111,7 +111,7 @@ class DocumentExtractor extends ReflectionClass {
 				'name' => $name, 
 				'comment' => $doc
 			);
-			unset($met['comment']['tags']['param']);
+
 			
 			$params = $method->getParameters();
 			$args = array();
@@ -120,11 +120,20 @@ class DocumentExtractor extends ReflectionClass {
 					'optional' => $param->isOptional(),
 					'default' => null,
 					'position' => $param->getPosition(),
+					'type' => '',
+					'comment' => ''
 				);
 				if ($param->isDefaultValueAvailable()) {
 					$args[$param->name]['default'] = $param->getDefaultValue();
 				}
+				if (!empty($met['comment']['tags']['param'][$param->getPosition()])) {
+					if (preg_match('/(\w+)\s*\$[\w]+\s*([\w\s]+)/i', $met['comment']['tags']['param'][$param->getPosition()], $paramTag)) {
+						$args[$param->name]['type'] = $paramTag[1];
+						$args[$param->name]['comment'] = $paramTag[2];
+					}
+				}
 			}
+			unset($met['comment']['tags']['param']);
 			$met['args'] = $args;
 
 			if ($method->isPublic()) {

@@ -87,13 +87,19 @@ class ApiPagesController extends ApiGeneratorAppController {
 	public function view_file() {
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
+		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
+		
 		if (!file_exists($fullPath)) {
 			$this->_notFound('No file exists with that name');
 		}
+		
 		$classDocs = $this->Documentor->loadFile($fullPath);
-		$this->set(compact('classDocs', 'previousPath'));
+		
 		if (count($classDocs) > 1) {
+			$this->set(compact('classDocs', 'previousPath'));
 			$this->render('multiple_classes');
+		} else {
+			$this->set(array('previousPath' => $previousPath, 'doc' => array_pop($classDocs)));
 		}
 	}
 /**

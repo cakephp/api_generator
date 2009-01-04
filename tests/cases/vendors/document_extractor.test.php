@@ -235,12 +235,16 @@ EOD;
 					'arg1' => array( 
 						'optional' => false, 
 						'default' => NULL, 
-						'position' => 0
+						'position' => 0,
+						'type' => 'string',
+						'comment' => 'First arg'
 					), 
 					'arg2' => array(
 						'optional' => true,
 						'default' => 'file',
-						'position' => 1
+						'position' => 1,
+						'type' => 'string',
+						'comment' => 'Second arg'
 					)
 				), 
 				'access' => 'protected'
@@ -258,12 +262,15 @@ EOD;
 					'param' => array(
 						'optional' => false,
 						'default' => NULL, 
-						'position' => 0
+						'position' => 0,
+						'type' => 'string',
+						'comment' => 'a parameter'
 					)
 				),
 				'access' => 'public static'
 			)
 		);
+		debug($result);
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->methods, $expected);
 	}
