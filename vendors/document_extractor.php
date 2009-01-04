@@ -194,5 +194,15 @@ class DocumentExtractor extends ReflectionClass {
 		$com['tags'] = $tags;
 		return $com;
 	}
+/**
+ * Get all docs for the reflected class
+ *
+ * @return void
+ **/
+	public function getAll() {
+		$this->getClassInfo();
+		$this->getMethods();
+		$this->getProperties();
+	}
 }
 ?>
