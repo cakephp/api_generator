@@ -84,6 +84,19 @@ class DocumentorTestCase extends CakeTestCase {
 		$this->assertTrue($this->Documentor->getExtractor() instanceof DocumentExtractor);
 	}
 /**
+ * test file list generation
+ *
+ * @return void
+ **/
+	function testGetFileList() {
+		$this->Documentor->ignoreFolders = array('config', 'webroot');
+		$result = $this->Documentor->getFileList(APP);
+		$core = CONFIGS . 'core.php';
+		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$this->assertFalse(in_array($core, $result));
+		$this->assertFalse(in_array($vendorJs, $result));
+	}
+/**
  * end a test case
  *
  * @return void

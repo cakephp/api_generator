@@ -36,6 +36,24 @@ class DocumentorComponent extends Object {
  */
 	public $controller;
 /**
+ * A list of folders to ignore.
+ *
+ * @var array
+ **/
+	public $ignoreFolders = array('config', 'webroot');
+/**
+ * a list of extensions to scan for
+ *
+ * @var array
+ **/
+	public $extensionsToScan = array('php');
+/**
+ * A regexp for file names. (will be made case insenstive)
+ *
+ * @var string
+ **/
+	public $fileRegExp = '[a-z_\-0-9]+';
+/**
  * DocumentorExtractor instance
  *
  * @var object
@@ -72,5 +90,37 @@ class DocumentorComponent extends Object {
 	public function getExtractor() {
 		return $this->_extractor;
 	}
+	
+/**
+ * Get a list of Objects that can have docs generated.
+ *
+ * @return void
+ **/
+	public function listObjects($type, $options = array()) {
+		
+	}
+/**
+ * Get a List of files that are known to contain classes
+ *
+ * @param string $basePath base path to start dir and extension scanning from (ends in DS)
+ * @return array Array of all files matching the scan criteria.
+ **/
+	public function getFileList($basePath) {
+		$found = array();
+		$this->Folder = new Folder($basePath);
+		$filePattern =  $this->fileRegExp . '\.' . implode('|', $this->extensionsToScan);
+		$found = $this->Folder->findRecursive($filePattern);
+		$count = count($found);
+		foreach ($this->ignoreFolders as $remove) {
+			$blackListed = DS . $remove . DS;
+			for ($i = 0; $i < $count; $i++) {
+				if (isset($found[$i]) && strpos($found[$i], $blackListed) !== false) {
+					unset($found[$i]);
+				}
+			}
+		}
+		return $found;
+	}
+
 }
 ?>

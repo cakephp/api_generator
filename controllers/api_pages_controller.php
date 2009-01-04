@@ -46,20 +46,37 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public $components = array('ApiGenerator.Documentor');
 /**
- * Browse an Application and find things you would like to generate API docs for.
+ * Browse application files and find things you would like to generate API docs for.
  *
  * @return void
  **/
-	public function browse() {
-	
+	public function browse_files() {
+		$files = $this->Documentor->getFileList($this->path);
+		
+	}
+/**
+ * Browse the classes in the application / API files.
+ *
+ * @return void
+ **/
+	public function browse_classes() {
+		
 	}
 /**
  * View the API docs for all classes in a file.
  *
  * @return void
  **/
-	public function view($file = null) {
+	public function view_file($file = null) {
 	
+	}
+/**
+ * View API docs for a single class used with browse_classes
+ *
+ * @return void
+ **/
+	public function view_class($class = null) {
+		
 	}
 }
 ?>

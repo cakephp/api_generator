@@ -26,6 +26,17 @@
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class ApiGeneratorAppController extends AppController {
-
+/**
+ * beforeFilter callback
+ *
+ * @return void
+ **/
+	public function beforeFilter() {
+		$path = Configure::read('ApiGenerator.filePath');
+		if (empty($path)) {
+			$path = APP;
+		}
+		$this->path = $path;
+	}
 }
 ?>
