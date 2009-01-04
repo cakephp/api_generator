@@ -106,13 +106,16 @@ class DocumentExtractor extends ReflectionClass {
 		foreach ($methods as $method) {
 			$name = $method->getName();
 			$doc = $this->_parseComment($method->getDocComment());
-			
+
+			if (isset($doc['tags']['param'])) {
+				$doc['tags']['param'] = (array)$doc['tags']['param'];
+			}
+
 			$met = array(
 				'name' => $name, 
 				'comment' => $doc
 			);
 
-			
 			$params = $method->getParameters();
 			$args = array();
 			foreach ($params as $param) {

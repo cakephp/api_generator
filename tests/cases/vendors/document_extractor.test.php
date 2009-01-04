@@ -270,7 +270,6 @@ EOD;
 				'access' => 'public static'
 			)
 		);
-		debug($result);
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->methods, $expected);
 	}

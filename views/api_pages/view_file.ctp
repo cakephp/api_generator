@@ -65,7 +65,6 @@
 	</div>
 </div>
 
-{foreach from=$doc.methods item=method name=methods.detail}
 <?php foreach ($doc->methods as $method): ?>
 <div class="doc-block">
 	<div class="doc-head">
@@ -85,9 +84,11 @@
 				<?php $i = 0; ?>
 				<?php foreach ($method['args'] as $name => $paramInfo): ?>
 					<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
-						<td><?php echo $name; ?></td>
-						<td></td>
-						<td></td>
+						<td>$<?php echo $name; ?></td>
+						<td><?php echo $paramInfo['type']; ?></td>
+						<td><?php echo $paramInfo['comment']; ?></td>
+						<td><?php echo ($paramInfo['optional']) ? 'optional' : 'required'; ?></td>
+						<td><?php echo ($paramInfo['default']) ? $paramInfo['default'] : '(no default)'; ?></td>
 					</tr>
 					<?php $i++;?>
 				<?php endforeach; ?>
