@@ -96,6 +96,15 @@ class DocumentorTestCase extends CakeTestCase {
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
 	}
+	
+	function testListObjects() {
+		$this->Documentor->ignoreFolders = array('config', 'webroot');
+		$result = $this->Documentor->listObjects('file', array('path' => APP));
+		$core = CONFIGS . 'core.php';
+		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$this->assertFalse(in_array($core, $result));
+		$this->assertFalse(in_array($vendorJs, $result));
+	}
 /**
  * end a test case
  *

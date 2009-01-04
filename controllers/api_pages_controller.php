@@ -51,8 +51,23 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function browse_files() {
-		$files = $this->Documentor->getFileList($this->path);
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		
+		$path = implode(DS, $this->params['pass']);
+		$files = $this->ApiFile->read($this->path . $path);
+		
+		//$files = $this->Documentor->getFileList($this->path);
+	}
+/**
+ * all_files
+ * 
+ * Gets a recursive list of all files that match documentor criteria.
+ *
+ * @access public
+ * @return void
+ */
+	public function all_files() {
+		//$files = $this->Documentor->getFileList($this->path);
 	}
 /**
  * Browse the classes in the application / API files.

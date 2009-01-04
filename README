@@ -5,3 +5,17 @@ The Api Generator gives you an easy to use file browser, that generators API doc
 Requirements:
 
 PHP5 - Requires PHP5.2.  If you are on PHP4 too bad, time to upgrade anyways.
+
+
+
+Goals of project:
+
+* Provide a file and class browser for explorer for exploring a project and viewing the classes it contains.
+* Provide easy to read and well designed api docs.
+* Allow configuration of api generation
+	* what path is used.
+	* what directories / files are not included.
+	* ability to disable either file or class browser.
+	* ability to omit certain classes from the docs
+	* allow / remove protected / private members from being displayed.
+	

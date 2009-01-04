@@ -110,16 +110,29 @@ class DocumentorComponent extends Object {
 		$this->Folder = new Folder($basePath);
 		$filePattern =  $this->fileRegExp . '\.' . implode('|', $this->extensionsToScan);
 		$found = $this->Folder->findRecursive($filePattern);
-		$count = count($found);
+		$this->_filterFiles($found);
+		
+		return $found;
+	}
+/**
+ * _filterFiles
+ * 
+ * Filter a file list and remove ignoreFolders
+ * 
+ * @param array $files List of files to filter and ignore. (reference)
+ * @return void
+ **/
+	protected function _filterFiles(&$fileList) {
+		$count = count($fileList);
 		foreach ($this->ignoreFolders as $remove) {
 			$blackListed = DS . $remove . DS;
 			for ($i = 0; $i < $count; $i++) {
-				if (isset($found[$i]) && strpos($found[$i], $blackListed) !== false) {
-					unset($found[$i]);
+				if (isset($fileList[$i]) && strpos($fileList[$i], $blackListed) !== false) {
+					unset($fileList[$i]);
 				}
 			}
 		}
-		return $found;
+		$fileList = array_values($fileList);
 	}
 
 }
