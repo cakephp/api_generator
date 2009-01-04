@@ -36,25 +36,7 @@ class DocumentorComponent extends Object {
  */
 	public $controller;
 /**
- * A list of folders to ignore.
- *
- * @var array
- **/
-	public $ignoreFolders = array('config', 'webroot');
-/**
- * a list of extensions to scan for
- *
- * @var array
- **/
-	public $extensionsToScan = array('php');
-/**
- * A regexp for file names. (will be made case insenstive)
- *
- * @var string
- **/
-	public $fileRegExp = '[a-z_\-0-9]+';
-/**
- * DocumentorExtractor instance
+ * DocumentExtractor instance
  *
  * @var object
  **/
@@ -80,6 +62,17 @@ class DocumentorComponent extends Object {
 		$this->_extractor = new DocumentExtractor($name);
 	}
 /**
+ * getClassDocs
+ * 
+ * Gets the parsed docs from the Extractor
+ *
+ * @return array Array with all the extracted docs.
+ **/
+	public function getClassDocs() {
+		$this->_extractor->getAll();
+		return $this->_extractor;
+	}
+/**
  * getExtractor
  *
  * Get the documentor extractor instance
@@ -90,50 +83,58 @@ class DocumentorComponent extends Object {
 	public function getExtractor() {
 		return $this->_extractor;
 	}
-	
 /**
- * Get a list of Objects that can have docs generated.
- *
- * @return void
- **/
-	public function listObjects($type, $options = array()) {
-		
-	}
-/**
- * Get a List of files that are known to contain classes
- *
- * @param string $basePath base path to start dir and extension scanning from (ends in DS)
- * @return array Array of all files matching the scan criteria.
- **/
-	public function getFileList($basePath) {
-		$found = array();
-		$this->Folder = new Folder($basePath);
-		$filePattern =  $this->fileRegExp . '\.' . implode('|', $this->extensionsToScan);
-		$found = $this->Folder->findRecursive($filePattern);
-		$this->_filterFiles($found);
-		
-		return $found;
-	}
-/**
- * _filterFiles
+ * loadFile
  * 
- * Filter a file list and remove ignoreFolders
- * 
- * @param array $files List of files to filter and ignore. (reference)
- * @return void
+ * Load A File and extract docs for all classes contained in that file
+ *
+ * @param string $fullPath FullPath of the file you want to load.
+ * @return array Array of all the docs from all the classes that were loaded as a result of the file being loaded.
  **/
-	protected function _filterFiles(&$fileList) {
-		$count = count($fileList);
-		foreach ($this->ignoreFolders as $remove) {
-			$blackListed = DS . $remove . DS;
-			for ($i = 0; $i < $count; $i++) {
-				if (isset($fileList[$i]) && strpos($fileList[$i], $blackListed) !== false) {
-					unset($fileList[$i]);
-				}
-			}
+	public function loadFile($filePath) {
+		$baseClass = array();
+		if (strpos($filePath, 'models') !== false) {
+			$baseClass['Model'] = 'AppModel';
 		}
-		$fileList = array_values($fileList);
+		if (strpos($filePath, 'helpers') !== false) {
+			$baseClass['Helper'] = 'AppHelper';
+		}
+		if (strpos($filePath, 'view') !== false) {
+			$baseClass['View'] = 'View';
+		}
+		$this->_importBaseClasses($baseClass);
+		
+		$addedClasses = $this->_getClassNamesFromFile($filePath);
+		$docs = array();
+		foreach ($addedClasses as $class) {
+			$this->loadClass($class);
+			$docs[$class] = $this->getClassDocs();
+		}
+		return $docs;
 	}
-
+/**
+ * _getClassNamesFromFile
+ * 
+ * Fetches the class names contained in the target file.
+ *
+ * @return array
+ **/
+	protected function _getClassNamesFromFile($filePath) {
+		$currentClassList = get_declared_classes();
+		include $filePath;
+		$newClasses = array_diff(get_declared_classes(), $currentClassList);
+		return $newClasses;
+	}
+/**
+ * Attempts to solve class dependancies by importing base CakePHP classes
+ *
+ * @return void
+ **/
+	protected function _importBaseClasses($classes = array()) {
+		App::import('Core', array('Model', 'Helper', 'View'));
+		foreach ($classes as $type => $class) {
+			App::import($type, $class);
+		}
+	}
 }
 ?>

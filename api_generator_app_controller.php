@@ -39,5 +39,21 @@ class ApiGeneratorAppController extends AppController {
 		}
 		$this->path = $path;
 	}
+/**
+ * Error Generating Page.
+ *
+ * @return void
+ **/
+	protected function _notFound($name = null, $message = null) {
+		$name = ($name) ? $name : 'Page Not Found';
+		$message = ($message) ? $message : $this->params['url']['url'];
+		$this->cakeError('error', array(
+			'name' => $name,
+			'message' => $message,
+			'code' => 404,
+			'url' => $this->params['url']['url']
+		));
+		$this->_stop();
+	}
 }
 ?>

@@ -52,11 +52,13 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public function browse_files() {
 		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
-		
-		$path = implode(DS, $this->params['pass']);
-		$files = $this->ApiFile->read($this->path . $path);
-		
-		//$files = $this->Documentor->getFileList($this->path);
+		$currentPath = implode('/', $this->passedArgs);
+		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
+		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
+		if (empty($dirs) && empty($files)) {
+			$this->_notFound();
+		}
+		$this->set(compact('dirs', 'files', 'currentPath', 'previousPath'));
 	}
 /**
  * all_files
@@ -82,8 +84,17 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function view_file($file = null) {
-	
+	public function view_file() {
+		$currentPath = implode('/', $this->passedArgs);
+		$fullPath = $this->path . $currentPath;
+		if (!file_exists($fullPath)) {
+			$this->_notFound('No file exists with that name');
+		}
+		$classDocs = $this->Documentor->loadFile($fullPath);
+		$this->set(compact('classDocs', 'previousPath'));
+		if (count($classDocs) > 1) {
+			$this->render('multiple_classes');
+		}
 	}
 /**
  * View API docs for a single class used with browse_classes
