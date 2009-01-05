@@ -55,9 +55,6 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$currentPath = implode('/', $this->passedArgs);
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
-		if (empty($dirs) && empty($files)) {
-			$this->_notFound();
-		}
 		$this->set(compact('dirs', 'files', 'currentPath', 'previousPath'));
 	}
 /**

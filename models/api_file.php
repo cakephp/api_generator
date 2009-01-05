@@ -45,7 +45,7 @@ class ApiFile extends Object {
  *
  * @var array
  **/
-	public $ignoreFiles = array('index.php');
+	public $ignoreFiles = array('index.php', 'empty');
 /**
  * a list of extensions to scan for
  *

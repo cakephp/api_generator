@@ -27,6 +27,12 @@
  */
 class ApiGeneratorAppController extends AppController {
 /**
+ * Use Api Layout
+ *
+ * @var string
+ **/
+	public $layout = 'api';
+/**
  * beforeFilter callback
  *
  * @return void
