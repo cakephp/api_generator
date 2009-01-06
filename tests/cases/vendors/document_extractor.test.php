@@ -217,7 +217,10 @@ EOD;
 						'access' => 'public',
 						'return' => 'integer'
 					)
-				), 
+				),
+				'startLine' => '39',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__,
 				'args' => array( ), 
 				'access' => 'public'
 			), 
@@ -246,7 +249,10 @@ EOD;
 						'type' => 'string',
 						'comment' => 'Second arg'
 					)
-				), 
+				),
+				'startLine' => '50',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__,
 				'access' => 'protected'
 			),
 			array(
@@ -267,6 +273,9 @@ EOD;
 						'comment' => 'a parameter'
 					)
 				),
+				'startLine' => '58',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__, 
 				'access' => 'public static'
 			)
 		);

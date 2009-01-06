@@ -104,7 +104,6 @@ class DocumentExtractor extends ReflectionClass {
 		$methods = parent::getMethods();
 		
 		foreach ($methods as $method) {
-			$name = $method->getName();
 			$doc = $this->_parseComment($method->getDocComment());
 
 			if (isset($doc['tags']['param'])) {
@@ -112,8 +111,11 @@ class DocumentExtractor extends ReflectionClass {
 			}
 
 			$met = array(
-				'name' => $name, 
-				'comment' => $doc
+				'name' => $method->getName(), 
+				'comment' => $doc,
+				'startLine' => $method->getStartLine(),
+				'declaredInClass' => $method->getDeclaringClass()->getName(),
+				'declaredInFile' => $method->getDeclaringClass()->getFileName()
 			);
 
 			$params = $method->getParameters();
@@ -188,7 +190,7 @@ class DocumentExtractor extends ReflectionClass {
 		for ($i = 1, $count = count($tmp); $i < $count; $i++ ){
 			$line = trim($tmp[$i]);
 			if (strlen($line) > 0 && substr($line, 0, 1) !== '@' && $line !== '*') {
-				$desc .= $tmp[$i];
+				$desc .= "\n" . $tmp[$i];
 			}
 			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
 				if (isset($tags[$parsedTag[1]]) && !is_array($tags[$parsedTag[1]])) {
