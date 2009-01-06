@@ -108,7 +108,9 @@ class DocumentorComponent extends Object {
 		$docs = array();
 		foreach ($addedClasses as $class) {
 			$this->loadClass($class);
-			$docs[$class] = $this->getClassDocs();
+			if ($this->getExtractor()->getFileName() == $filePath) {
+				$docs[$class] = $this->getClassDocs();
+			}
 		}
 		return $docs;
 	}

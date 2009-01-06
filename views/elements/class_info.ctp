@@ -13,7 +13,7 @@
 		<dt>File name:</dt>
 		<dd><?php echo $doc->classInfo['fileName']; ?></dd>
 		<dt>Summary:</dt>
-		<dd><?php echo $doc->classInfo['comment']['desc']; ?></dd>
+		<dd><?php echo nl2br($doc->classInfo['comment']['desc']); ?></dd>
 	  </dl>
 	
 	  <div class="tag-block">

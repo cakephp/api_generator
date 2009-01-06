@@ -13,7 +13,7 @@
 	</div>
 
 	<div class="doc-body">
-		<p><?php echo $method['comment']['title'] . '<br />' . $method['comment']['desc']; ?></p>
+		<p><?php echo $method['comment']['title'] . '<br />' . nl2br($method['comment']['desc']); ?></p>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt>Parameters:</dt>
@@ -35,6 +35,13 @@
 			</table>
 		</dd>
 		<?php endif; ?>
+		
+		<dt>Method defined in class:</dt>
+		<dd><?php echo $method['declaredInClass']; ?></dd>
+		
+		<dt>Method defined in file:</dt>
+		<dd><?php echo $method['declaredInFile']; ?></dd>
+		
 		<dt>
 			<?php foreach ($method['comment']['tags'] as $name => $value): ?>
 				<dt><?php echo $name; ?></dt>
