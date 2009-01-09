@@ -119,8 +119,14 @@ EOD;
 			'desc' => 'This is my long description', 
 			'tags' => array (
 				'param' => array(
-					'string $foo Foo is an input',
-					'int $bar Bar is also an input' 
+					'foo' => array(
+						'type' => 'string',
+						'description' => 'Foo is an input',
+					),
+					'bar' => array(
+						'type' => 'int',
+						'description' => 'Bar is also an input',
+					)
 				),
 				'return' => 'string',
 			),
@@ -145,9 +151,18 @@ EOD;
 			'desc' => 'This is my long description', 
 			'tags' => array (
 				'param' => array(
-					'string $foo Foo is an input',
-					'int $bar Bar is also an input',
-					'int $baz Baz is also an input' 
+					'foo' => array(
+						'type' => 'string',
+						'description' => 'Foo is an input'
+					),
+					'bar' => array(
+						'type' => 'int',
+						'description' => 'Bar is also an input',
+					),
+					'baz' => array(
+						'type' => 'int',
+						'description' => 'Baz is also an input'
+					),
 				),
 				'return' => 'string',
 			),
