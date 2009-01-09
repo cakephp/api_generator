@@ -121,12 +121,17 @@ class DocumentExtractor extends ReflectionClass {
 			$params = $method->getParameters();
 			$args = array();
 			foreach ($params as $param) {
+				$type = $description = null;
+				if (isset($met['comment']['tags']['param'][$param->name])) {
+					extract($met['comment']['tags']['param'][$param->name]);
+				}
+				
 				$args[$param->name] = array(
 					'optional' => $param->isOptional(),
 					'default' => null,
 					'position' => $param->getPosition(),
-					'type' => $met['comment']['tags']['param'][$param->name]['type'],
-					'comment' => $met['comment']['tags']['param'][$param->name]['description']
+					'type' => $type,
+					'comment' => $description
 				);
 				if ($param->isDefaultValueAvailable()) {
 					$args[$param->name]['default'] = $param->getDefaultValue();
@@ -199,7 +204,7 @@ class DocumentExtractor extends ReflectionClass {
 			$params = (array)$tags['param'];
 			$tags['param'] = array();
 			foreach ($params as $param) {
-				list($type, $name, $description) = explode(' ' , $param, 3);
+				list($type, $name, $description) = explode(' ' , $param . '  ', 3);
 				$name = trim($name, '$');
 				$tags['param'][$name] = compact('type', 'description');
 			}
