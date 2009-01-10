@@ -59,7 +59,7 @@ class ApiDocHelper extends AppHelper {
  * @return boolean
  **/
 	function inBasePath($filename) {
-		$basePath = Configure::read('ApiGenerator.basePath');
+		$basePath = Configure::read('ApiGenerator.filePath');
 		return (strpos($filename, $basePath) !== false);
 	}
 /**
@@ -86,7 +86,7 @@ class ApiDocHelper extends AppHelper {
  * @return string trimmed filename
  **/
 	public function trimFileName($filename) {
-		$basePath = Configure::read('ApiGenerator.basePath');
-		return trim($filename, $basePath);
+		$basePath = Configure::read('ApiGenerator.filePath');
+		return str_replace($basePath, '', $filename);
 	}
 }

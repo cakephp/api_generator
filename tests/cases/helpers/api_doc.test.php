@@ -40,7 +40,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function startTest() {
 		$this->ApiDoc = new ApiDocHelper();
 		$this->ApiDoc->Html = new HtmlHelper();
-		Configure::write('ApiGenerator.basePath', '/cake/tests');
+		Configure::write('ApiGenerator.filePath', '/cake/tests/');
 	}
 /**
  * test inBasePath
@@ -59,6 +59,10 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testTrimFileName() {
 		$result = $this->ApiDoc->trimFileName('/cake/tests/my/path');
 		$this->assertEqual($result, 'my/path');
+		
+		Configure::write('ApiGenerator.filePath', '/Users/markstory/Sites/cake_debug_kit/');
+		$result = $this->ApiDoc->trimFileName('/Users/markstory/Sites/cake_debug_kit/controllers/posts_controller.php');
+		$this->assertEqual($result, 'controllers/posts_controller.php');
 	}
 /**
  * testFileLink

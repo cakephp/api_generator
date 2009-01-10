@@ -46,6 +46,12 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public $components = array('ApiGenerator.Documentor');
 /**
+ * undocumented class variable
+ *
+ * @var string
+ **/
+	public $helpers = array('ApiGenerator.ApiDoc', 'Html', 'Javascript');
+/**
  * Browse application files and find things you would like to generate API docs for.
  *
  * @return void
