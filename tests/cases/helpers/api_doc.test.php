@@ -61,6 +61,34 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$this->assertEqual($result, 'my/path');
 	}
 /**
+ * testFileLink
+ * 
+ * Test file link / no link based on base path of file.
+ *
+ * @return void
+ **/
+	function testFileLink() {
+		$result = $this->ApiDoc->fileLink('/foo/bar');
+		$this->assertEqual($result, '/foo/bar');
+		
+		$result = $this->ApiDoc->fileLink('/cake/tests/my/path');
+		$expected = array(
+			'a' => array('href' => '/api_generator/api_pages/view_file/my/path'),
+			'my/path',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->ApiDoc->fileLink('/cake/tests/my/path', array('controller' => 'foo', 'action' => 'bar'));
+		$expected = array(
+			'a' => array('href' => '/api_generator/foo/bar/my/path'),
+			'my/path',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+		
+	}
+/**
  * endTest
  *
  * @return void

@@ -43,10 +43,12 @@ class ApiDocHelper extends AppHelper {
 		'file' => array(
 			'controller' => 'api_pages',
 			'action' => 'view_file',
+			'plugin' => 'api_generator',
 		),
 		'class' => array(
 			'controller' => 'api_pages',
 			'action' => 'view_class',
+			'plugin' => 'api_generator',
 		),
 	);
 /**
@@ -65,14 +67,15 @@ class ApiDocHelper extends AppHelper {
  *
  * @param string $filename Name of file to make link to.
  * @param array $url Additional url params you want for some reason.
+ * @param array $attributes attributes for link if one is generated.
  * @return string either a link or plain text depending on files location relative to basepath
  **/
-	public function fileLink($filename, $url = array()) {
-		$url = array_merge($his->_defaultUrl['file'], $url);
+	public function fileLink($filename, $url = array(), $attributes = array()) {
+		$url = array_merge($this->_defaultUrl['file'], $url);
 		if ($this->inBasePath($filename)) {
 			$trimmedName = $this->trimFileName($filename);
 			$url[] = $trimmedName;
-			return $this->Html->link($trimmedName, $url);
+			return $this->Html->link($trimmedName, $url, $attributes);
 		}
 		return $filename;
 	}
