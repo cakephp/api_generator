@@ -1,15 +1,26 @@
-Api Generator.
+Api Generator
+=============
+The Api Generator gives you an easy to use file browser, that generators API documentation for your application.  It provides a file and class browser, for the files being parsed.  It also affords Markdown syntax Doc blocks to be parsed into HTML.
 
-The Api Generator gives you an easy to use file browser, that generators API documentation for your application.
 
 Requirements:
-
+-------------
 PHP5 - Requires PHP5.2.  If you are on PHP4 too bad, time to upgrade anyways.
+
+Configuration
+-------------
+Api Generator has a number of configuration points. All are stored in the Configure class. See below for an explanation of each setting.
+
+ * ApiGenerator.basePath - the base path that ApiGenerator scans for files / classes to generate docs from.  Files not in this path will not be linkable or readable. Defaults to APP
+ * ApiGenerator.excludeNonPublic - Exclude Non Public methods and variables from the generated documentation. Defaults to false.
+ * ApiGenerator.disableFileBrowser - Disable file browsing. Defaults to false.
+ * ApiGenerator.disableClassBrowser - Disable class broswing. Defaults to false.
+ * ApiGenerator.excludeClasses - Array of classes to exclude when generating class docs list. Defaults to array();
 
 
 
 Goals of project:
-
+-----------------
 * Provide a file and class browser for explorer for exploring a project and viewing the classes it contains.
 * Provide easy to read and well designed api docs.
 * Allow configuration of api generation
