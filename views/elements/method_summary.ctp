@@ -15,7 +15,7 @@
 				<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
 					<td class="access <?php echo $method['access']; ?>"><span><?php echo $method['access']; ?></span></td>
 					<td><a href="#method-<?php echo $method['name']; ?>"><?php echo $method['name']; ?></a></td>
-					<td><?php echo $method['comment']['title'] . '<br />' . $method['comment']['desc']; ?></td>
+					<td><?php echo $method['comment']['desc']; ?></td>
 				</tr>
 				<?php $i++;?>
 			<?php endforeach; ?>

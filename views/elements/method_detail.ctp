@@ -13,7 +13,7 @@
 	</div>
 
 	<div class="doc-body">
-		<p><?php echo $method['comment']['title'] . '<br />' . nl2br($method['comment']['desc']); ?></p>
+		<p><?php echo nl2br($method['comment']['desc']); ?></p>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt>Parameters:</dt>
@@ -37,10 +37,10 @@
 		<?php endif; ?>
 		
 		<dt>Method defined in class:</dt>
-		<dd><?php echo $method['declaredInClass']; ?></dd>
+		<dd><?php echo $html->link($method['declaredInClass'], array('action' => 'view_class', $method['declaredInClass'])); ?></dd>
 		
 		<dt>Method defined in file:</dt>
-		<dd><?php echo $method['declaredInFile']; ?></dd>
+		<dd><?php echo $apiDoc->fileLink($method['declaredInFile']); ?></dd>
 		
 		<dt>
 			<?php foreach ($method['comment']['tags'] as $name => $value): ?>

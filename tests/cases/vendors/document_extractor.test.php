@@ -84,8 +84,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			'fileName' => __FILE__,
 			'classDescription' => 'class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
 			'comment' => array ( 
-				'title' => 'SimpleDocumentorSubjectClass', 
-				'desc' => 'A simple class to test ClassInfo introspection', 
+				'desc' => "SimpleDocumentorSubjectClass\nA simple class to test ClassInfo introspection", 
 				'tags' => array (
 					'package' => 'this is my package', 
 					'another-tag' => 'long value'
@@ -115,8 +114,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 EOD;
 		$result = $Docs->testParseComment($comment);
 		$expected = array(
-			'title' => 'This is the title', 
-			'desc' => 'This is my long description', 
+			'desc' => "This is the title\nThis is my long description", 
 			'tags' => array (
 				'param' => array(
 					'foo' => array(
@@ -147,8 +145,7 @@ EOD;
 EOD;
 		$result = $Docs->testParseComment($comment);
 		$expected = array(
-			'title' => 'This is the title', 
-			'desc' => 'This is my long description', 
+			'desc' => "This is the title\nThis is my long description", 
 			'tags' => array (
 				'param' => array(
 					'foo' => array(
@@ -181,8 +178,7 @@ EOD;
 			array(
 				'name' => '_protectedVar', 
 				'comment' => array(
-					'title' => 'This var is protected', 
-					'desc' => '', 
+					'desc' => 'This var is protected', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -191,8 +187,7 @@ EOD;
 			array(
 				'name' => 'publicVar',
 				'comment' => array(
-					'title' => 'This var is public', 
-					'desc' => '', 
+					'desc' => 'This var is public', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -202,8 +197,7 @@ EOD;
 			array(
 				'name' => 'publicStatic', 
 				'comment' => array(
-					'title' => 'This var is public static', 
-					'desc' => '', 
+					'desc' => 'This var is public static', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -226,8 +220,7 @@ EOD;
 			array(
 				'name' => 'count', 
 				'comment' => array(
-					'title' => 'count',
-					'desc' => 'Implementation of Countable interface',
+					'desc' => "count\nImplementation of Countable interface",
 					'tags' => array(
 						'access' => 'public',
 						'return' => 'integer'
@@ -242,8 +235,7 @@ EOD;
 			array(
 				'name' => 'something', 
 				'comment' => array(
-					'title' => 'something', 
-					'desc' => 'does something', 
+					'desc' => "something\ndoes something", 
 					'tags' => array(
 						'access' => 'public', 
 						'return' => 'integer'
@@ -272,9 +264,8 @@ EOD;
 			),
 			array(
 				'name' => 'goGo', 
-				'comment' => array(
-					'title' => 'goGo', 
-					'desc' => 'does lots of cool things', 
+				'comment' => array( 
+					'desc' => "goGo\ndoes lots of cool things", 
 					'tags' => array(
 						'return' => 'void'
 					)

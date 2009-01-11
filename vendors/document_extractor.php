@@ -180,10 +180,10 @@ class DocumentExtractor extends ReflectionClass {
 		$tmp = str_replace("\r\n", "\n", $tmp);
 		$tmp = explode("\n", trim($tmp));
 
-		$com['title'] = $tmp[0];
+		//$com['title'] = $tmp[0];
 		$desc = '';	
 		$tags = array();
-		for ($i = 1, $count = count($tmp); $i < $count; $i++ ){
+		for ($i = 0, $count = count($tmp); $i < $count; $i++ ){
 			$line = trim($tmp[$i]);
 			if (strlen($line) > 0 && substr($line, 0, 1) !== '@' && $line !== '*') {
 				$desc .= "\n" . $tmp[$i];
@@ -204,7 +204,15 @@ class DocumentExtractor extends ReflectionClass {
 			$params = (array)$tags['param'];
 			$tags['param'] = array();
 			foreach ($params as $param) {
-				list($type, $name, $description) = explode(' ' , $param . '  ', 3);
+				$paramDoc = explode(' ', $param, 3);
+				switch (count($paramDoc)) {
+					case 2:
+						list($type, $name) = $paramDoc;
+						break;
+					case 3:
+						list($type, $name, $description) = $paramDoc;
+						break;
+				}
 				$name = trim($name, '$');
 				$tags['param'][$name] = compact('type', 'description');
 			}
