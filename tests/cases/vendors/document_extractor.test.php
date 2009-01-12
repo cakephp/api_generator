@@ -84,7 +84,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			'fileName' => __FILE__,
 			'classDescription' => 'class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
 			'comment' => array ( 
-				'desc' => "SimpleDocumentorSubjectClass\nA simple class to test ClassInfo introspection", 
+				'desc' => "SimpleDocumentorSubjectClass\n\nA simple class to test ClassInfo introspection", 
 				'tags' => array (
 					'package' => 'this is my package', 
 					'another-tag' => 'long value'
@@ -114,7 +114,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 EOD;
 		$result = $Docs->testParseComment($comment);
 		$expected = array(
-			'desc' => "This is the title\nThis is my long description", 
+			'desc' => "This is the title\n\nThis is my long description",
 			'tags' => array (
 				'param' => array(
 					'foo' => array(
@@ -145,7 +145,7 @@ EOD;
 EOD;
 		$result = $Docs->testParseComment($comment);
 		$expected = array(
-			'desc' => "This is the title\nThis is my long description", 
+			'desc' => "This is the title\n\nThis is my long description", 
 			'tags' => array (
 				'param' => array(
 					'foo' => array(
@@ -220,7 +220,7 @@ EOD;
 			array(
 				'name' => 'count', 
 				'comment' => array(
-					'desc' => "count\nImplementation of Countable interface",
+					'desc' => "count\n\nImplementation of Countable interface",
 					'tags' => array(
 						'access' => 'public',
 						'return' => 'integer'
@@ -235,7 +235,7 @@ EOD;
 			array(
 				'name' => 'something', 
 				'comment' => array(
-					'desc' => "something\ndoes something", 
+					'desc' => "something\n\ndoes something", 
 					'tags' => array(
 						'access' => 'public', 
 						'return' => 'integer'
@@ -265,7 +265,7 @@ EOD;
 			array(
 				'name' => 'goGo', 
 				'comment' => array( 
-					'desc' => "goGo\ndoes lots of cool things", 
+					'desc' => "goGo\n\ndoes lots of cool things", 
 					'tags' => array(
 						'return' => 'void'
 					)

@@ -178,15 +178,14 @@ class DocumentExtractor extends ReflectionClass {
 		
 		//fix new lines
 		$tmp = str_replace("\r\n", "\n", $tmp);
-		$tmp = explode("\n", trim($tmp));
+		$tmp = explode("\n", $tmp);
 
-		//$com['title'] = $tmp[0];
 		$desc = '';	
 		$tags = array();
-		for ($i = 0, $count = count($tmp); $i < $count; $i++ ){
-			$line = trim($tmp[$i]);
-			if (strlen($line) > 0 && substr($line, 0, 1) !== '@' && $line !== '*') {
-				$desc .= "\n" . $tmp[$i];
+		for ($i = 0, $count = count($tmp); $i < $count; $i++ ) {
+			$line = $tmp[$i];
+			if (substr($line, 0, 1) !== '@' && $line !== '*') {
+				$desc .= "\n" . $line;
 			}
 			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
 				if (isset($tags[$parsedTag[1]]) && !is_array($tags[$parsedTag[1]])) {

@@ -18,7 +18,7 @@
 			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
 				<td class="access <?php echo $prop['access']; ?>"><span><?php echo $prop['access']; ?></span></td>
 				<td><?php echo $prop['name']; ?></td>
-				<td><?php echo $prop['comment']['desc']; ?></td>
+				<td class="markdown-block"><?php echo $prop['comment']['desc']; ?></td>
 			</tr>
 			<?php $i++;?>
 		<?php endforeach; ?>

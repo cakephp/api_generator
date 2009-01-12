@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="doc-body">
-		<p><?php echo nl2br($method['comment']['desc']); ?></p>
+		<div class="markdown-block"><?php echo $method['comment']['desc']; ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt>Parameters:</dt>
