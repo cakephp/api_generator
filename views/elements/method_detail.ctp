@@ -8,8 +8,9 @@
 	if (isset($excludeNonPublic) && $excludeNonPublic && $method['access'] != 'public') :
 		continue;
 	endif;
+	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
 ?>
-<div class="doc-block">
+<div class="doc-block <?php echo $definedInThis ? '' : 'parent-method'; ?>">
 	<a id="method-<?php echo $method['name']; ?>"></a>
 	<div class="doc-head">
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>

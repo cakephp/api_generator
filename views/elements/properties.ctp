@@ -14,8 +14,9 @@
 			if (isset($excludeNonPublic) && $excludeNonPublic && $prop['access'] != 'public') :
 				continue;
 			endif;
+			$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
 			?>
-			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
+			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-property'; ?>">
 				<td class="access <?php echo $prop['access']; ?>"><span><?php echo $prop['access']; ?></span></td>
 				<td><?php echo $prop['name']; ?></td>
 				<td class="markdown-block"><?php echo $prop['comment']['desc']; ?></td>

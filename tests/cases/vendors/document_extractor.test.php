@@ -176,7 +176,8 @@ EOD;
 		$result = $Docs->getProperties();
 		$expected = array( 
 			array(
-				'name' => '_protectedVar', 
+				'name' => '_protectedVar',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'comment' => array(
 					'desc' => 'This var is protected', 
 					'tags' => array(
@@ -186,6 +187,7 @@ EOD;
 				'access' => 'protected'), 
 			array(
 				'name' => 'publicVar',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'comment' => array(
 					'desc' => 'This var is public', 
 					'tags' => array(
@@ -195,7 +197,8 @@ EOD;
 				'access' => 'public'
 			), 
 			array(
-				'name' => 'publicStatic', 
+				'name' => 'publicStatic',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass', 
 				'comment' => array(
 					'desc' => 'This var is public static', 
 					'tags' => array(

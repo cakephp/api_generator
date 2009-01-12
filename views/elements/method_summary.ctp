@@ -16,8 +16,9 @@
 				if (isset($excludeNonPublic) && $excludeNonPublic && $method['access'] != 'public') :
 					continue;
 				endif;
+				$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
 				?>
-				<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
+				<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-method'; ?>">
 					<td class="access <?php echo $method['access']; ?>"><span><?php echo $method['access']; ?></span></td>
 					<td><?php
 						echo $html->link($method['name'], '#method-' . $method['name'], array('class' => 'scroll-link'));

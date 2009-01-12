@@ -68,7 +68,8 @@ class DocumentExtractor extends ReflectionClass {
 
 			$prop = array(
 				'name' => $name,
-				'comment' => $doc
+				'comment' => $doc,
+				'declaredInClass' => $property->getDeclaringClass()->name
 			);
 
 			if ($property->isPublic()) {
