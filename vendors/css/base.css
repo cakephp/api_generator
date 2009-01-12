@@ -201,6 +201,26 @@ Documentation Page Styles
 	margin:0;
 }
 
+#api-doc-controls {
+	list-style:none;
+	margin:0 0 12px 0;
+	padding:0;
+}
+#api-doc-controls li {
+	margin:0;
+	display:inline;
+}
+#api-doc-controls a {
+	padding:5px;
+	background:#EDEACC;
+	font-size:12px;
+	color: #445D68;
+}
+#api-doc-controls a.active {
+	background:#445D68;
+	color: #EDEACC;
+}
+
 /* Access icon replacements */
 
 .access span {

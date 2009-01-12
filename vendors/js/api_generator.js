@@ -53,12 +53,13 @@ ApiGenerator.apiPages = {
 				var targets = $$(collection[this.get('id')]);
 				var showing = this.retrieve('showing', true)
 				if (showing) {
-					targets.fade('out')
-					var setStyle = targets.setStyle
+					targets.fade('out');
+					this.addClass('active');
+					var setStyle = targets.setStyle;
 					setStyle.delay(400, targets, ['display', 'none']);
 				} else {
-					targets.fade('in');
-					targets.setStyle('display', null);
+					targets.fade('in').setStyle('display', null);
+					this.removeClass('active');
 				}
 				this.store('showing', !showing);
 			});

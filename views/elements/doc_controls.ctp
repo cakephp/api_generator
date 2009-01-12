@@ -6,6 +6,6 @@
  */
 ?>
 <ul id="api-doc-controls">
-	<li><a href="#" id="hide-parent-methods">Hide parent methods</a></li>
-	<li><a href="#" id="hide-parent-properties">Hide parent properties</a></li>
+	<li><a href="#" id="hide-parent-methods">Show/Hide parent methods</a></li>
+	<li><a href="#" id="hide-parent-properties">Show/Hide parent properties</a></li>
 </ul>
