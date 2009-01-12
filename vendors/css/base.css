@@ -181,7 +181,7 @@ Documentation Page Styles
 
 .doc-body p,
 .doc-body dd {
-	font-size:1.2em;
+	font-size:12px;
 	line-height:1.4em;
 	margin:0 0 1.2em 0;
 }

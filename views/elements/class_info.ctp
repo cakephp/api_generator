@@ -11,7 +11,7 @@
 		<dt>Class Declaration:</dt>
 		<dd><?php echo $doc->classInfo['classDescription']; ?></dd>
 		<dt>File name:</dt>
-		<dd><?php echo $doc->classInfo['fileName']; ?></dd>
+		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		<dt>Summary:</dt>
 		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['desc']; ?></dd>
 	  </dl>

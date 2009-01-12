@@ -10,10 +10,10 @@
 	endif;
 ?>
 <div class="doc-block">
+	<a id="method-<?php echo $method['name']; ?>"></a>
 	<div class="doc-head">
-		<a id="method-<?php echo $method['name']; ?>"></a>
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
-		<a class="top-link" href="#top">top</a>
+		<a class="top-link scroll-link" href="#top">top</a>
 	</div>
 
 	<div class="doc-body">

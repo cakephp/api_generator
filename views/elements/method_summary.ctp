@@ -5,7 +5,8 @@
  */
 ?>
 <div class="doc-block">
-	<div class="doc-head"><a id="top"></a><h2>Method Summary:</h2></div>
+	<a id="top"></a>
+	<div class="doc-head"><h2>Method Summary:</h2></div>
 	<div class="doc-body">
 		<table class="summary">
 			<tbody>
@@ -18,7 +19,9 @@
 				?>
 				<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
 					<td class="access <?php echo $method['access']; ?>"><span><?php echo $method['access']; ?></span></td>
-					<td><a href="#method-<?php echo $method['name']; ?>"><?php echo $method['name']; ?></a></td>
+					<td><?php
+						echo $html->link($method['name'], '#method-' . $method['name'], array('class' => 'scroll-link'));
+					?></td>
 					<td><?php echo $method['comment']['desc']; ?></td>
 				</tr>
 				<?php $i++;?>

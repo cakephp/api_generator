@@ -35,17 +35,10 @@
 		echo $html->css('/api_generator/css/base.css');
 		echo $javascript->link('/api_generator/js/mootools');
 		echo $javascript->link('/api_generator/js/showdown');
+		echo $javascript->link('/api_generator/js/api_generator');
 
 		echo $scripts_for_layout;
 	?>
-	<script type="text/javascript">
-		var converter = new Showdown.converter("<?php echo $this->base; ?>");
-		window.addEvent('domready', function() {
-			$$('.markdown-block').each(function(item) {
-				item.set('html', converter.makeHtml(item.get('text').trim()));
-			});
-		});
-	</script>
 </head>
 <body>
 	<div id="wrapper">
