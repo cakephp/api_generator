@@ -137,7 +137,9 @@ class DocumentorComponent extends Object {
 			$newClasses = $this->_parseClassNamesInFile($filePath);
 		} else {
 			$currentClassList = get_declared_classes();
+			ob_start();
 			include_once $filePath;
+			ob_clean();
 			$newClasses = array_diff(get_declared_classes(), $currentClassList);
 		}
 		return $newClasses;

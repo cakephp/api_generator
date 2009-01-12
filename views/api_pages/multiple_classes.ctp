@@ -3,8 +3,9 @@
  * View file for multiple class files.
  * 
  */
-echo $html->link('Go up a folder', array('action' => 'browse_files', $previousPath));
-
+?>
+<h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
+<?php
 foreach ($classDocs as $class => $doc) :
 	echo $this->element('class_info', array('doc' => $doc));
 	echo $this->element('properties', array('doc' => $doc));

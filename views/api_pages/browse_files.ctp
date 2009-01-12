@@ -5,7 +5,8 @@
  *
  */
 ?>
-<h1><?php echo $currentPath; ?></h1>
+
+<h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
 <p class="folder previous-folder">
 	<?php echo $html->link('Up one folder', array('action' => 'browse_files', $previousPath)); ?>
 </p>
