@@ -17,6 +17,9 @@ Api Generator has a number of configuration points. All are stored in the Config
  * ApiGenerator.disableClassBrowser - Disable class broswing. Defaults to false.
  * ApiGenerator.excludeClasses - Array of classes to exclude when generating class docs list. Defaults to array();
 
+Known Issues:
+-------------
+ * If you are generating an api for an application that is not the application containing the ApiGenerator, classes like AppController, and AppModel will cause fatal errors, as the files have not been used before but the classnames already exist.
 
 
 Goals of project:

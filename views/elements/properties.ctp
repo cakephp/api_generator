@@ -10,6 +10,11 @@
 		<table>
 		<?php $i = 0; ?>
 		<?php foreach ($doc->properties as $prop): ?>
+			<?php 
+			if (isset($excludeNonPublic) && $excludeNonPublic && $prop['access'] != 'public') :
+				continue;
+			endif;
+			?>
 			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
 				<td class="access <?php echo $prop['access']; ?>"><span><?php echo $prop['access']; ?></span></td>
 				<td><?php echo $prop['name']; ?></td>

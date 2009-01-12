@@ -73,6 +73,16 @@ class DocumentorComponent extends Object {
 		return $this->_extractor;
 	}
 /**
+ * beforeRender Callback
+ * Set vars based on config variables
+ *
+ * @return void
+ **/
+	public function beforeRender($controller) {
+		$controller->set('excludeNonPublic', Configure::read('ApiGenerator.excludeNonPublic'));
+		$controller->set('excludeClasses', Configure::read('ApiGenerator.excludeClasses'));
+	}
+/**
  * getExtractor
  *
  * Get the documentor extractor instance
@@ -104,7 +114,7 @@ class DocumentorComponent extends Object {
 		}
 		$this->_importBaseClasses($baseClass);
 		
-		$addedClasses = $this->_getClassNamesFromFile($filePath);
+		$addedClasses = $this->_findClassesInFile($filePath);
 		$docs = array();
 		foreach ($addedClasses as $class) {
 			$this->loadClass($class);
@@ -121,11 +131,31 @@ class DocumentorComponent extends Object {
  *
  * @return array
  **/
-	protected function _getClassNamesFromFile($filePath) {
-		$currentClassList = get_declared_classes();
-		include $filePath;
-		$newClasses = array_diff(get_declared_classes(), $currentClassList);
+	protected function _findClassesInFile($filePath) {
+		$includedFiles = get_included_files();
+		if (in_array($filePath, $includedFiles)) {
+			$newClasses = $this->_parseClassNamesInFile($filePath);
+		} else {
+			$currentClassList = get_declared_classes();
+			include_once $filePath;
+			$newClasses = array_diff(get_declared_classes(), $currentClassList);
+		}
 		return $newClasses;
+	}
+/**
+ * Retrieves the classNames defined in a file.
+ * Solves issues of reading docs from files that have already been included.
+ *
+ * @return array Array of class names that exist in the file.
+ **/
+	protected function _parseClassNamesInFile($fileName) {
+		$foundClasses = array();
+		$fileContent = file_get_contents($fileName);
+		preg_match_all('/^\s*class\s([^\s]*)[^\{]+/mi', $fileContent, $matches, PREG_SET_ORDER);
+		foreach ($matches as $className) {
+			$foundClasses[] = $className[1];
+		}
+		return $foundClasses;
 	}
 /**
  * Attempts to solve class dependancies by importing base CakePHP classes

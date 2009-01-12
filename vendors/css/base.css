@@ -54,14 +54,14 @@ td, th {
 	background: #fff;
 	color:#000;
 	position:relative;
-	padding:1px;
+	padding:14px;
 }
 #footer {
 	background: #fff url(../img/footer_bkg.gif) bottom left no-repeat;
 	padding:1px 0  0 10px;
 }
 
-/* children */
+/* header elements */
 #header h1 {
 	color: #771D1D;
 }
@@ -88,15 +88,31 @@ h2 {
 	height:0;
 	visibility: hidden;
 }
-/***************************
-* Documentation Page Styles
+/**
+File Browser Styles
+***************************************/
+#file-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.file, 
+.folder {
+	padding: 8px 8px 8px 40px;
+	font-size:1.4em;
+	background-color: #EFEFEF;
+	margin-bottom:4px;
+}
+
+/**
+Documentation Page Styles
 ***************************/
 #classInfo {
-	margin:1em 24px 0 ;
+	margin:1em 0 0 ;
 }
 
 .doc-block {
-	margin: 0 24px;
+	margin: 0;
 	clear:both;
 }
 
@@ -140,13 +156,12 @@ h2 {
 
 /* body styles */
 .doc-body {
-	padding:0 12px 12px;
+	padding:14px;
 }
 
 /* table styles */
 .doc-body table {
 	border-collapse:separate;
-	margin:0.8em 0;
 }
 
 .doc-body .odd td {
@@ -168,6 +183,7 @@ h2 {
 .doc-body dd {
 	font-size:1.2em;
 	line-height:1.4em;
+	margin:0 0 1.2em 0;
 }
 
 .doc-body dd {

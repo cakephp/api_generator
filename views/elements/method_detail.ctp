@@ -4,7 +4,11 @@
  *
  */
 ?>
-<?php foreach ($doc->methods as $method): ?>
+<?php foreach ($doc->methods as $method):
+	if (isset($excludeNonPublic) && $excludeNonPublic && $method['access'] != 'public') :
+		continue;
+	endif;
+?>
 <div class="doc-block">
 	<div class="doc-head">
 		<a id="method-<?php echo $method['name']; ?>"></a>
