@@ -42,6 +42,18 @@ class DocumentorComponent extends Object {
  **/
 	protected $_extractor;
 /**
+ * storage for defined classes
+ *
+ * @var array
+ **/
+	protected $_definedClasses = array();
+/**
+ * storage for defined functions
+ *
+ * @var array
+ **/
+	protected $_definedFunctions = array();
+/**
  * initialize Callback
  *
  * @return void
@@ -50,8 +62,6 @@ class DocumentorComponent extends Object {
 		$this->controller = $controller;
 	}
 /**
- * loadClass
- * 
  * Loads the documentation extractor for a given classname.
  *
  * @param string $name Name of class to load. 
@@ -62,13 +72,11 @@ class DocumentorComponent extends Object {
 		$this->_extractor = Introspector::getReflector($type, $name);
 	}
 /**
- * getClassDocs
- * 
  * Gets the parsed docs from the Extractor
  *
  * @return array Array with all the extracted docs.
  **/
-	public function getClassDocs() {
+	public function getDocs() {
 		$this->_extractor->getAll();
 		return $this->_extractor;
 	}
@@ -83,8 +91,6 @@ class DocumentorComponent extends Object {
 		$controller->set('excludeClasses', Configure::read('ApiGenerator.excludeClasses'));
 	}
 /**
- * getExtractor
- *
  * Get the documentor extractor instance
  * 
  * @access public
@@ -94,8 +100,6 @@ class DocumentorComponent extends Object {
 		return $this->_extractor;
 	}
 /**
- * loadFile
- * 
  * Load A File and extract docs for all classes contained in that file
  *
  * @param string $fullPath FullPath of the file you want to load.
@@ -113,17 +117,27 @@ class DocumentorComponent extends Object {
 			$baseClass['View'] = 'View';
 		}
 		$this->_importBaseClasses($baseClass);
-		
-		$addedClasses = $this->_findClassesInFile($filePath);
+		$this->_getDefinedObjects();
+		$addedClasses = $this->_findObjectsInFile($filePath);
 
 		$docs = array();
 		foreach ($addedClasses as $class) {
 			$this->loadExtractor('class', $class);
 			if ($this->getExtractor()->getFileName() == $filePath) {
-				$docs[$class] = $this->getClassDocs();
+				$docs[$class] = $this->getDocs();
 			}
 		}
 		return $docs;
+	}
+/**
+ * gets the currently defined functions and classes 
+ * so comparisons to new files can be made
+ *
+ * @return void
+ **/
+	protected function _getDefinedObjects() {
+		$this->_definedClasses = get_declared_classes();
+		$this->_definedFunctions = get_defined_functions();
 	}
 /**
  * _getClassNamesFromFile
@@ -132,16 +146,15 @@ class DocumentorComponent extends Object {
  *
  * @return array
  **/
-	protected function _findClassesInFile($filePath) {
+	protected function _findObjectsInFile($filePath) {
 		$includedFiles = get_included_files();
 		if (in_array($filePath, $includedFiles)) {
 			$newClasses = $this->_parseClassNamesInFile($filePath);
 		} else {
-			$currentClassList = get_declared_classes();
 			ob_start();
 			include_once $filePath;
 			ob_clean();
-			$newClasses = array_diff(get_declared_classes(), $currentClassList);
+			$newClasses = array_diff(get_declared_classes(), $this->_definedClasses);
 		}
 		return $newClasses;
 	}

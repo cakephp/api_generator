@@ -13,7 +13,7 @@
 		<dt>File name:</dt>
 		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		<dt>Summary:</dt>
-		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['desc']; ?></dd>
+		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['description']; ?></dd>
 	  </dl>
 	  <div class="tag-block">
 		<dl>

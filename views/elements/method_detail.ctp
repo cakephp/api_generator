@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo $method['comment']['desc']; ?></div>
+		<div class="markdown-block"><?php echo $method['comment']['description']; ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt>Parameters:</dt>

@@ -124,7 +124,7 @@ class Introspector {
 				$tags['param'][$name] = compact('type', 'description');
 			}
 		}
-		$com['desc'] = trim($desc);
+		$com['description'] = trim($desc);
 		$com['tags'] = $tags;
 		return $com;
 	}

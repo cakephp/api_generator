@@ -23,7 +23,7 @@
 					<td><?php
 						echo $html->link($method['name'], '#method-' . $method['name'], array('class' => 'scroll-link'));
 					?></td>
-					<td><?php echo $method['comment']['desc']; ?></td>
+					<td><?php echo $method['comment']['description']; ?></td>
 				</tr>
 				<?php $i++;?>
 			<?php endforeach; ?>

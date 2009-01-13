@@ -82,7 +82,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			'fileName' => __FILE__,
 			'classDescription' => 'class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
 			'comment' => array ( 
-				'desc' => "SimpleDocumentorSubjectClass\n\nA simple class to test ClassInfo introspection", 
+				'description' => "SimpleDocumentorSubjectClass\n\nA simple class to test ClassInfo introspection", 
 				'tags' => array (
 					'package' => 'this is my package', 
 					'another-tag' => 'long value'
@@ -106,7 +106,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'name' => '_protectedVar',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'comment' => array(
-					'desc' => 'This var is protected', 
+					'description' => 'This var is protected', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -116,7 +116,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'name' => 'publicVar',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'comment' => array(
-					'desc' => 'This var is public', 
+					'description' => 'This var is public', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -127,7 +127,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'name' => 'publicStatic',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass', 
 				'comment' => array(
-					'desc' => 'This var is public static', 
+					'description' => 'This var is public static', 
 					'tags' => array(
 						'var' => 'string'
 					)
@@ -150,7 +150,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			array(
 				'name' => 'count', 
 				'comment' => array(
-					'desc' => "count\n\nImplementation of Countable interface",
+					'description' => "count\n\nImplementation of Countable interface",
 					'tags' => array(
 						'access' => 'public',
 						'return' => 'integer'
@@ -165,7 +165,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			array(
 				'name' => 'something', 
 				'comment' => array(
-					'desc' => "something\n\ndoes something", 
+					'description' => "something\n\ndoes something", 
 					'tags' => array(
 						'access' => 'public', 
 						'return' => 'integer'
@@ -195,7 +195,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 			array(
 				'name' => 'goGo', 
 				'comment' => array( 
-					'desc' => "goGo\n\ndoes lots of cool things", 
+					'description' => "goGo\n\ndoes lots of cool things", 
 					'tags' => array(
 						'return' => 'void'
 					)

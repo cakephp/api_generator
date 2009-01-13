@@ -39,7 +39,7 @@ class IntrospectorTestCase extends CakeTestCase {
 EOD;
 		$result = Introspector::parseDocBlock($comment);
 		$expected = array(
-			'desc' => "This is the title\n\nThis is my long description",
+			'description' => "This is the title\n\nThis is my long description",
 			'tags' => array (
 				'param' => array(
 					'foo' => array(
@@ -70,7 +70,7 @@ EOD;
 EOD;
 		$result = Introspector::parseDocBlock($comment);
 		$expected = array(
-			'desc' => "This is the title\n\nThis is my long description", 
+			'description' => "This is the title\n\nThis is my long description", 
 			'tags' => array (
 				'param' => array(
 					'foo' => array(

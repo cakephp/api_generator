@@ -10,6 +10,24 @@ App::import('Vendor', 'ApiGenerator.Introspector');
  */
 class ClassDocumentor extends ReflectionClass {
 /**
+ * class Information
+ *
+ * @var array
+ **/
+	public $classInfo;
+/**
+ * properties
+ *
+ * @var array
+ **/
+	public $properties;
+/**
+ * methods in consumed class
+ *
+ * @var array
+ **/
+	public $methods;
+/**
  * getClassInfo
  *
  * Get Basic classInfo about the current class
