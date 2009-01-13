@@ -26,7 +26,7 @@
  * @lastmodified    
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::import('Vendor', 'ApiGenerator.DocumentExtractor');
+App::import('Vendor', 'ApiGenerator.Introspector');
 
 class DocumentorComponent extends Object {
 /**
@@ -58,8 +58,8 @@ class DocumentorComponent extends Object {
  * @access public
  * @return void
  */
-	public function loadClass($name) {
-		$this->_extractor = new DocumentExtractor($name);
+	public function loadExtractor($type, $name) {
+		$this->_extractor = Introspector::getReflector($type, $name);
 	}
 /**
  * getClassDocs
@@ -115,9 +115,10 @@ class DocumentorComponent extends Object {
 		$this->_importBaseClasses($baseClass);
 		
 		$addedClasses = $this->_findClassesInFile($filePath);
+
 		$docs = array();
 		foreach ($addedClasses as $class) {
-			$this->loadClass($class);
+			$this->loadExtractor('class', $class);
 			if ($this->getExtractor()->getFileName() == $filePath) {
 				$docs[$class] = $this->getClassDocs();
 			}

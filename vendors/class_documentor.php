@@ -1,4 +1,6 @@
 <?php
+App::import('Vendor', 'ApiGenerator.Introspector');
+
 /**
  * Documentation Extractor
  *
@@ -6,7 +8,7 @@
  *
  * @package api_generator
  */
-class DocumentExtractor extends ReflectionClass {
+class ClassDocumentor extends ReflectionClass {
 /**
  * getClassInfo
  *
@@ -172,54 +174,7 @@ class DocumentExtractor extends ReflectionClass {
  * @return array Array of Filtered and separated comments
  **/
 	protected function _parseComment($comments){
-		$com = array();
-
-		//remove stars and slashes
-		$tmp = preg_replace('#^(\s*/\*\*|\s*\*+/|\s+\* ?)#m', '', $comments);
-		
-		//fix new lines
-		$tmp = str_replace("\r\n", "\n", $tmp);
-		$tmp = explode("\n", $tmp);
-
-		$desc = '';	
-		$tags = array();
-		for ($i = 0, $count = count($tmp); $i < $count; $i++ ) {
-			$line = $tmp[$i];
-			if (substr($line, 0, 1) !== '@' && $line !== '*') {
-				$desc .= "\n" . $line;
-			}
-			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
-				if (isset($tags[$parsedTag[1]]) && !is_array($tags[$parsedTag[1]])) {
-					$tags[$parsedTag[1]] = (array)$tags[$parsedTag[1]];
-					$tags[$parsedTag[1]][] = $parsedTag[2];
-				} elseif (isset($tags[$parsedTag[1]]) && is_array($tags[$parsedTag[1]])) {
-					$tags[$parsedTag[1]][] = $parsedTag[2];
-				} else {
-					$tags[$parsedTag[1]] = $parsedTag[2];
-				}
-			}
-
-		}
-		if (isset($tags['param'])) {
-			$params = (array)$tags['param'];
-			$tags['param'] = array();
-			foreach ($params as $param) {
-				$paramDoc = explode(' ', $param, 3);
-				switch (count($paramDoc)) {
-					case 2:
-						list($type, $name) = $paramDoc;
-						break;
-					case 3:
-						list($type, $name, $description) = $paramDoc;
-						break;
-				}
-				$name = trim($name, '$');
-				$tags['param'][$name] = compact('type', 'description');
-			}
-		}
-		$com['desc'] = trim($desc);
-		$com['tags'] = $tags;
-		return $com;
+		return Introspector::parseDocBlock($comments);
 	}
 /**
  * Get all docs for the reflected class

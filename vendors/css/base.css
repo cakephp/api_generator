@@ -88,6 +88,11 @@ h2 {
 	height:0;
 	visibility: hidden;
 }
+.breadcrumb,
+.breadcrumb a {
+	font-family: Monaco, Corsiva, "Courier New", Courier, monospaced;
+	font-size:14px;
+}
 /**
 File Browser Styles
 ***************************************/

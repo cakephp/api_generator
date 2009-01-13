@@ -1,5 +1,5 @@
 <?php
-App::import('Vendor', 'ApiGenerator.DocumentExtractor');
+App::import('Vendor', 'ApiGenerator.ClassDocumentor');
 /**
  * SimpleDocumentorSubjectClass
  *
@@ -65,10 +65,8 @@ class SimpleDocumentorSubjectClass extends StdClass implements Countable {
  *
  * @package cake.api_documentor.tests
  */
-class TestDocumentExtractor extends DocumentExtractor {
-	function testParseComment($commentBlock) {
-		return $this->_parseComment($commentBlock);
-	}
+class TestClassDocumentor extends ClassDocumentor {
+
 }
 class DocumentExtractorTestCase extends CakeTestCase {
 /**
@@ -77,7 +75,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
  * @return void
  **/
 	function testGetClassInfo() {
-		$Docs = new TestDocumentExtractor('SimpleDocumentorSubjectClass');
+		$Docs = new TestClassDocumentor('SimpleDocumentorSubjectClass');
 		$result = $Docs->getClassInfo();
 		$expected = array (
 			'name' => 'SimpleDocumentorSubjectClass', 
@@ -94,85 +92,14 @@ class DocumentExtractorTestCase extends CakeTestCase {
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->classInfo, $expected);
 	}
-/**
- * test the correct parsing of comment blocks
- *
- * @return void
- **/
-	function testCommentParsing() {
-		$Docs = new TestDocumentExtractor('SimpleDocumentorSubjectClass');
-		$comment = <<<EOD
-		/**
-		 * This is the title
-		 *
-		 * This is my long description
-		 *
-		 * @param string \$foo Foo is an input
-		 * @param int \$bar Bar is also an input
-		 * @return string
-		 */
-EOD;
-		$result = $Docs->testParseComment($comment);
-		$expected = array(
-			'desc' => "This is the title\n\nThis is my long description",
-			'tags' => array (
-				'param' => array(
-					'foo' => array(
-						'type' => 'string',
-						'description' => 'Foo is an input',
-					),
-					'bar' => array(
-						'type' => 'int',
-						'description' => 'Bar is also an input',
-					)
-				),
-				'return' => 'string',
-			),
-		);
-		$this->assertEqual($result, $expected);
-		
-		$comment = <<<EOD
-		/**
-		 * This is the title
-		 *
-		 * This is my long description
-		 *
-		 * @param string \$foo Foo is an input
-		 * @param int \$bar Bar is also an input
-		 * @param int \$baz Baz is also an input
-		 * @return string
-		 */
-EOD;
-		$result = $Docs->testParseComment($comment);
-		$expected = array(
-			'desc' => "This is the title\n\nThis is my long description", 
-			'tags' => array (
-				'param' => array(
-					'foo' => array(
-						'type' => 'string',
-						'description' => 'Foo is an input'
-					),
-					'bar' => array(
-						'type' => 'int',
-						'description' => 'Bar is also an input',
-					),
-					'baz' => array(
-						'type' => 'int',
-						'description' => 'Baz is also an input'
-					),
-				),
-				'return' => 'string',
-			),
-		);
-		$this->assertEqual($result, $expected);
-	}
+
 /**
  * Test getting properties and their info
  *
  * @return void
  **/
 	function testGetProperties() {
-		$Docs = new TestDocumentExtractor('SimpleDocumentorSubjectClass');
+		$Docs = new TestClassDocumentor('SimpleDocumentorSubjectClass');
 		$result = $Docs->getProperties();
 		$expected = array( 
 			array(
@@ -217,7 +144,7 @@ EOD;
  * @return void
  **/
 	function testGetMethods() {
-		$Docs = new TestDocumentExtractor('SimpleDocumentorSubjectClass');
+		$Docs = new TestClassDocumentor('SimpleDocumentorSubjectClass');
 		$result = $Docs->getMethods();
 		$expected = array(
 			array(
@@ -297,7 +224,7 @@ EOD;
  * @return void
  **/
 	function testGetAll() {
-		$Docs = new TestDocumentExtractor('SimpleDocumentorSubjectClass');
+		$Docs = new TestClassDocumentor('SimpleDocumentorSubjectClass');
 		$Docs->getAll();
 		$this->assertFalse(empty($Docs->classInfo));
 		$this->assertFalse(empty($Docs->properties));

@@ -83,7 +83,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		
 	}
 /**
- * View the API docs for all classes in a file.
+ * View the API docs for all interesting parts in a file.
  *
  * @return void
  **/
@@ -95,7 +95,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		if (!file_exists($fullPath)) {
 			$this->_notFound('No file exists with that name');
 		}
-		
+
 		$classDocs = $this->Documentor->loadFile($fullPath);
 		
 		if (count($classDocs) > 1) {
