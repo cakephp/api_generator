@@ -44,6 +44,8 @@
 	<div id="wrapper">
 		<div id="header">
 			<h1><?php echo $html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
+
+			<?php echo $this->element('api_menu');?>
 		</div>
 		<div id="content">
 

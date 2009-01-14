@@ -89,6 +89,19 @@ class ApiFile extends Object {
 		return $contents;
 	}
 /**
+ * Recursive Read a path and return files and folders not in the excluded Folder list
+ *
+ * @param string $path The path you wish to read.
+ * @return array
+ **/
+	public function fileList($path) {
+		$this->_Folder->cd($path);
+		$filePattern =  $this->fileRegExp . '\.' . implode('|', $this->extensionsToScan);
+		$contents = $this->_Folder->findRecursive($filePattern);
+		$this->_filterFiles($contents, false);
+		return $contents;
+	}
+/**
  * _filterFiles
  * 
  * Filter a file list and remove ignoreFolders

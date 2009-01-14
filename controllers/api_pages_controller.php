@@ -71,8 +71,10 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @access public
  * @return void
  */
-	public function all_files() {
-		//$files = $this->Documentor->getFileList($this->path);
+	public function list_files() {
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
+		$files = $this->ApiFile->fileList($this->path);
+		$this->set('files', $files);
 	}
 /**
  * Browse the classes in the application / API files.
