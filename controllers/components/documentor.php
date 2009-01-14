@@ -118,13 +118,15 @@ class DocumentorComponent extends Object {
 		}
 		$this->_importBaseClasses($baseClass);
 		$this->_getDefinedObjects();
-		$addedClasses = $this->_findObjectsInFile($filePath);
+		$newObjects = $this->_findObjectsInFile($filePath);
 
 		$docs = array();
-		foreach ($addedClasses as $class) {
-			$this->loadExtractor('class', $class);
-			if ($this->getExtractor()->getFileName() == $filePath) {
-				$docs[$class] = $this->getDocs();
+		foreach ($newObjects as $type => $objects) {
+			foreach ($objects as $element) {
+				$this->loadExtractor($type, $element);
+				if ($this->getExtractor()->getFileName() == $filePath) {
+					$docs[$type][$element] = $this->getDocs();
+				}
 			}
 		}
 		return $docs;
@@ -137,26 +139,31 @@ class DocumentorComponent extends Object {
  **/
 	protected function _getDefinedObjects() {
 		$this->_definedClasses = get_declared_classes();
-		$this->_definedFunctions = get_defined_functions();
+		$funcs = get_defined_functions();
+		$this->_definedFunctions = $funcs['user'];
 	}
 /**
- * _getClassNamesFromFile
+ * _findObjectsInFile
  * 
- * Fetches the class names contained in the target file.
+ * Fetches the class names and functions contained in the target file.
  *
  * @return array
  **/
 	protected function _findObjectsInFile($filePath) {
+		$new = array();
 		$includedFiles = get_included_files();
 		if (in_array($filePath, $includedFiles)) {
-			$newClasses = $this->_parseClassNamesInFile($filePath);
+			$new['class'] = $this->_parseClassNamesInFile($filePath);
+			$new['function'] = $this->_parseFunctionNamesInFile($filePath);
 		} else {
 			ob_start();
 			include_once $filePath;
 			ob_clean();
-			$newClasses = array_diff(get_declared_classes(), $this->_definedClasses);
+			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
+			$funcs = get_defined_functions();
+			$new['function'] = array_diff($funcs['user'], $this->_definedFunctions);
 		}
-		return $newClasses;
+		return $new;
 	}
 /**
  * Retrieves the classNames defined in a file.
@@ -172,6 +179,23 @@ class DocumentorComponent extends Object {
 			$foundClasses[] = $className[1];
 		}
 		return $foundClasses;
+	}
+/**
+ * Retrieves global function names defined in a file.
+ * Unlike the class parser which can cheat with regex.
+ * Functions are a bit trickier.
+ *
+ * @return array
+ **/
+	protected function _parseFunctionNamesInFile($fileName) {
+		$foundFuncs = array();
+		$fileContent = file_get_contents($fileName);
+		$funcNames = implode('|', $this->_definedFunctions);
+		preg_match_all('/^\s*function\s*(' . $funcNames . ')[\s|\(]+/mi', $fileContent, $matches, PREG_SET_ORDER);
+		foreach ($matches as $function) {
+			$foundFuncs[] = $function[1];
+		}
+		return $foundFuncs;
 	}
 /**
  * Attempts to solve class dependancies by importing base CakePHP classes

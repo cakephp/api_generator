@@ -4,15 +4,18 @@
  *
  */
 ?>
+<a id="class-<?php echo $doc->name; ?>"></a>
 <div id="classInfo" class="doc-block">
-	<div class="doc-head"><h2>Class Info:</h2></div>
+	<div class="doc-head"><h2><?php echo $doc->name; ?> Class Info:</h2></div>
 	<div class="doc-body">
 	  <dl>
-		<dt>Class Declaration:</dt>
+		<dt><?php __('Class Declaration:'); ?></dt>
 		<dd><?php echo $doc->classInfo['classDescription']; ?></dd>
-		<dt>File name:</dt>
+		
+		<dt><?php __('File name:'); ?></dt>
 		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
-		<dt>Summary:</dt>
+		
+		<dt><?php __('Summary:'); ?></dt>
 		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['description']; ?></dd>
 	  </dl>
 	  <div class="tag-block">

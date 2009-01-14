@@ -96,16 +96,12 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$this->_notFound('No file exists with that name');
 		}
 
-		$classDocs = $this->Documentor->loadFile($fullPath);
-		
-		if (count($classDocs) > 1) {
-			$this->set(compact('classDocs', 'previousPath', 'currentPath'));
-			$this->render('multiple_classes');
-		} elseif (count($classDocs) == 1) {
+		$docs = $this->Documentor->loadFile($fullPath);
+		if (!empty($docs)) {
 			$this->set(array(
 				'currentPath' => $currentPath, 
 				'previousPath' => $previousPath, 
-				'doc' => array_pop($classDocs)
+				'docs' => $docs,
 			));
 		} else {
 			$this->set('previousPath', $previousPath);
