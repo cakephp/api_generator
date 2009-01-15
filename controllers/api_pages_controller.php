@@ -90,6 +90,8 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function view_file() {
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
+		
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
@@ -98,7 +100,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$this->_notFound('No file exists with that name');
 		}
 
-		$docs = $this->Documentor->loadFile($fullPath);
+		$docs = $this->ApiFile->loadFile($fullPath);
 		if (!empty($docs)) {
 			$this->set(array(
 				'currentPath' => $currentPath, 
