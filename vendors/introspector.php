@@ -128,4 +128,25 @@ class Introspector {
 		$com['tags'] = $tags;
 		return $com;
 	}
+/**
+ * Create a string representation of the method signature.
+ *
+ * @param ReflectionFunctionAbstract $func The function you want a signature for.
+ * @return void
+ **/
+	public static function makeFunctionSignature(ReflectionFunctionAbstract $func ) {
+		$signature = $func->getName() . '( ';
+		foreach ($func->getParameters() as $param) {
+			$signature .= '$' . $param->getName();
+			if ($param->isDefaultValueAvailable()) {
+				$signature .= ' = ' . $param->getDefaultValue();
+			}
+			$signature .= ', ';
+		}
+		if ($func->getNumberOfParameters() > 0) {
+			$signature = substr($signature, 0, -2);
+		}
+		$signature .= ' )';
+		return $signature;
+	}
 }

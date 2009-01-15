@@ -136,7 +136,8 @@ class ClassDocumentor extends ReflectionClass {
 				'comment' => $doc,
 				'startLine' => $method->getStartLine(),
 				'declaredInClass' => $method->getDeclaringClass()->getName(),
-				'declaredInFile' => $method->getDeclaringClass()->getFileName()
+				'declaredInFile' => $method->getDeclaringClass()->getFileName(),
+				'signature' => Introspector::makeFunctionSignature($method),
 			);
 
 			$params = $method->getParameters();

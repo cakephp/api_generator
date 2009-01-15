@@ -54,7 +54,8 @@ class FunctionDocumentor extends ReflectionFunction {
 			'declaredInFile' => $this->getFileName(),
 			'startLine' => $this->getStartLine(),
 			'endLine' => $this->getEndLine(),
-			'internal' => $this->isInternal()
+			'internal' => $this->isInternal(), 
+			'signature' => Introspector::makeFunctionSignature($this)
 		);
 		$this->info = $info;
 		return $this->info;
