@@ -191,9 +191,12 @@ class ApiFile extends Object {
 /**
  * Gets the parsed docs from the Extractor
  *
- * @return array Array with all the extracted docs.
+ * @return object Extractor with all docs processed.
  **/
 	public function getDocs() {
+		if (!$this->_extractor) {
+			return array();
+		}
 		$this->_extractor->getAll();
 		return $this->_extractor;
 	}
@@ -218,7 +221,7 @@ class ApiFile extends Object {
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
 
-		$docs = array();
+		$docs = array('class' => array(), 'function' => array());
 		foreach ($newObjects as $type => $objects) {
 			foreach ($objects as $element) {
 				$this->loadExtractor($type, $element);

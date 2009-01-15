@@ -64,6 +64,9 @@ class ApiFileTestCase extends CakeTestCase {
 	}
 /**
  * testReading files from a folder
+ *  - test ignored files
+ *  - test ignored folders
+ *  - test extensions
  *
  * @return void
  **/
@@ -90,11 +93,74 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
 	}
 /**
- * test the recursive file listings and the application of the filters.
+ * test file list generation
+ *  - test folder exclusion
+ *  - test extension permission
+ *  - test file regex
  *
  * @return void
  **/
-	function testRecursiveScan() {
+	function testGetFileList() {
+		$this->ApiFile->ignoreFolders = array('config', 'webroot');
+		$result = $this->ApiFile->fileList(APP);
+		$core = CONFIGS . 'core.php';
+		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$this->assertFalse(in_array($core, $result));
+		$this->assertFalse(in_array($vendorJs, $result));
 		
+		$this->ApiFile->ignoreFolders = array();
+		$this->ApiFile->allowedExtensions = array('css');
+		$result = $this->ApiFile->fileList(APP);
+		$core = CONFIGS . 'core.php';
+		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$this->assertFalse(in_array($core, $result));
+		$this->assertFalse(in_array($vendorJs, $result));
+		
+		$this->ApiFile->ignoreFolders = array();
+		$this->ApiFile->allowedExtensions = array('css');
+		$result = $this->ApiFile->fileList(APP);
+		$core = CONFIGS . 'core.php';
+		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$this->assertFalse(in_array($core, $result));
+		$this->assertFalse(in_array($vendorJs, $result));
+		
+		$this->ApiFile->ignoreFolders = array();
+		$this->ApiFile->allowedExtensions = array('php');
+		$this->ApiFile->fileRegExp = '[a-z]+';
+		$result = $this->ApiFile->fileList(APP);
+		$core = CONFIGS . 'core.php';
+		$appController = APP . 'app_controller.php';
+		$this->assertTrue(in_array($core, $result));
+		$this->assertFalse(in_array($appController, $result));
+	}
+/**
+ * test Processed docs retrieval
+ *
+ * @return void
+ **/
+	function testGetDocs() {
+		$result = $this->ApiFile->getDocs();
+		$this->assertTrue(empty($result));
+		
+		$this->ApiFile->loadExtractor('class', 'ApiFile');
+		$result = $this->ApiFile->getDocs();
+		$this->assertTrue($result instanceof ClassDocumentor);
+		$this->assertTrue(isset($result->classInfo));
+	}
+/**
+ * test loadFile() on a file that has already been included once
+ *
+ * @return void
+ **/
+	function testLoadFileOnAlreadyIncludedFile() {
+		$result = $this->ApiFile->loadFile(__FILE__);
+		$this->assertTrue(isset($result['class']));
+		$this->assertTrue(isset($result['function']));
+		$this->assertTrue($result['class'][__CLASS__] instanceof ClassDocumentor);
+		
+		$result = $this->ApiFile->loadFile(APP . 'plugins' . DS . 'api_generator' . DS . 'models' . DS . 'api_class.php');
+		$this->assertTrue(isset($result['class']));
+		$this->assertTrue(isset($result['function']));
+		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
 	}
 }
