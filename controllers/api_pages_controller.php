@@ -102,11 +102,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 
 		$docs = $this->ApiFile->loadFile($fullPath);
 		if (!empty($docs)) {
-			$this->set(array(
-				'currentPath' => $currentPath, 
-				'previousPath' => $previousPath, 
-				'docs' => $docs,
-			));
+			$this->set(compact('currentPath', 'previousPath', 'docs'));
 		} else {
 			$this->set('previousPath', $previousPath);
 			$this->render('no_class');
