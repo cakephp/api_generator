@@ -77,9 +77,7 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function main() {
-		if (!$this->command || empty($this->args)) {
-			return $this->help();
-		}
+		return $this->help();
 	}
 /**
  * Update the Api Class index.
@@ -95,7 +93,44 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function showfiles() {
-		
+		$path = Configure::read('ApiGenerator.filePath');
+		if ($path == null) {
+			$path = $this->_showFilePathWarning();
+		}
+		$this->out('The following files will be parsed when generating the API class index:');
+		$this->hr();
+		$this->out('');
+		$files = $this->ApiFile->fileList($path);
+		if (count($files) > 20) {
+			$chunks = array_chunk($files, 10);
+			$chunkCount = count($chunks);
+			$this->out(implode("\n", array_shift($chunks)));
+			$chunkCount--;
+			while ($chunkCount && null == $this->in('Press <return> to see next 10 files')) {
+				$this->out(implode("\n", array_shift($chunks)));
+				$chunkCount--;
+			}
+		} else {
+			$this->out(implode("\n", $files));
+		}
+	}
+/**
+ * Shows a warning about default / no filePath been stored in Configure.
+ *
+ * @return void
+ **/
+	protected function _showFilePathWarning() {
+		$this->out('You have not set ApiGenertor.filePath in your bootstrap.php');
+		$this->out('The following dir will be used:');
+		$this->hr();
+		$this->out(APP);
+		$this->out('');
+		$response = $this->in('Do you wish to continue?', array('y', 'n'), 'n');
+		if ($response == 'n') {
+			$this->out("Please add Configure::write('ApiGenerator.filePath', \$path); to your bootstrap.php");
+			$this->_stop();
+		}
+		return APP;
 	}
 /**
  * Get help
