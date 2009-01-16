@@ -55,9 +55,9 @@ class FunctionDocumentor extends ReflectionFunction {
 			'startLine' => $this->getStartLine(),
 			'endLine' => $this->getEndLine(),
 			'internal' => $this->isInternal(), 
-			'signature' => Introspector::makeFunctionSignature($this)
 		);
 		$this->info = $info;
+		$this->info['signature'] = Introspector::makeFunctionSignature($this);
 		return $this->info;
 	}
 /**
@@ -65,7 +65,7 @@ class FunctionDocumentor extends ReflectionFunction {
  *
  * @return array
  **/
-	public function getParameters() {
+	public function getParams() {
 		$params = parent::getParameters();
 		if (!isset($this->info['comment']['tags']['param'])) {
 			$this->getInfo();
@@ -95,7 +95,7 @@ class FunctionDocumentor extends ReflectionFunction {
  **/
 	public function getAll() {
 		$this->getInfo();
-		$this->getParameters();
+		$this->getParams();
 	}
 /**
  * _parseComment

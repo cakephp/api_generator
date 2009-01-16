@@ -51,7 +51,8 @@ class FunctionDocumentorTestCase extends CakeTestCase {
 					)
 				)
 			),
-			'internal' => false
+			'internal' => false,
+			'signature' => 'my_random_test_function( $param, $one = foo, $two = param )',
 		);
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->info, $expected);
@@ -63,7 +64,7 @@ class FunctionDocumentorTestCase extends CakeTestCase {
  **/
 	function testGetParameters() {
 		$Docs = new FunctionDocumentor('my_random_test_function');
-		$result = $Docs->getParameters();
+		$result = $Docs->getParams();
 		$expected = array( 
 			'param' => array( 
 				'optional' => false, 
