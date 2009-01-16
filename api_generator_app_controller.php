@@ -17,8 +17,8 @@
  * @filesource
  * @copyright       Copyright 2006-2008, Cake Software Foundation, Inc.
  * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
- * @package         cake
- * @subpackage      cake.api_generator.controllers
+ * @package         api_generator
+ * @subpackage      api_generator.controllers
  * @since           
  * @version         
  * @modifiedby      
