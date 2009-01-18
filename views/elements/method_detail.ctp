@@ -14,7 +14,7 @@
 	<a id="method-<?php echo $method['name']; ?>"></a>
 	<div class="doc-head">
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
-		<a class="top-link scroll-link" href="#top">top</a>
+		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>">top</a>
 	</div>
 
 	<div class="doc-body">
