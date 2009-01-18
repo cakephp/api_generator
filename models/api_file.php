@@ -217,6 +217,9 @@ class ApiFile extends Object {
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
 		}
+		if (strpos($filePath, 'tests') !== false) {
+			$baseClass['Test'] = 'CakeTestCase';
+		}
 		$this->_importBaseClasses($baseClass);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
@@ -244,9 +247,8 @@ class ApiFile extends Object {
 		$this->_definedFunctions = $funcs['user'];
 	}
 /**
- * _findObjectsInFile
- * 
  * Fetches the class names and functions contained in the target file.
+ * If first pass misses, a forceParse pass will be run.
  *
  * @param string $filePath Absolute file path to file you want to read.
  * @param boolean $forceParse Force the manual read of a file.
@@ -260,11 +262,15 @@ class ApiFile extends Object {
 			$new['function'] = $this->_parseFunctionNamesInFile($filePath);
 		} else {
 			ob_start();
-			include_once $filePath;
+			include $filePath;
 			ob_clean();
+
 			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
 			$funcs = get_defined_functions();
 			$new['function'] = array_diff($funcs['user'], $this->_definedFunctions);
+		}
+		if (empty($new['class']) && empty($new['function']) && $forceParse === false) {
+			$new = $this->findObjectsInFile($filePath, true);
 		}
 		return $new;
 	}
@@ -307,6 +313,10 @@ class ApiFile extends Object {
  **/
 	protected function _importBaseClasses($classes = array()) {
 		App::import('Core', array('Model', 'Helper', 'View'));
+		if (isset($classes['Test'])) {
+			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');	
+			unset($classes['Test']);
+		}
 		foreach ($classes as $type => $class) {
 			App::import($type, $class);
 		}

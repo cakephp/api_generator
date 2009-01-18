@@ -101,8 +101,16 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 		$this->out('');
 		$files = $this->ApiFile->fileList($path);
-		if (count($files) > 20) {
-			$chunks = array_chunk($files, 10);
+		$this->_paginate($files);
+	}
+/**
+ * Pagiantion of long file lists
+ *
+ * @return void
+ **/
+	protected function _paginate($list) {
+		if (count($list) > 20) {
+			$chunks = array_chunk($list, 10);
 			$chunkCount = count($chunks);
 			$this->out(implode("\n", array_shift($chunks)));
 			$chunkCount--;
