@@ -11,7 +11,7 @@
 	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
 ?>
 <div class="doc-block <?php echo $definedInThis ? '' : 'parent-method'; ?>">
-	<a id="method-<?php echo $method['name']; ?>"></a>
+	<a id="method-<?php echo $doc->name . $method['name']; ?>"></a>
 	<div class="doc-head">
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
 		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>">top</a>
