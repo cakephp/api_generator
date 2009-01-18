@@ -111,7 +111,6 @@ h3 {
 
 #header {
 	background:#8BAAB2;
-	padding:2em 2em 0 2em;
 	font-size:1.5em;
 }
 #content {
@@ -142,28 +141,32 @@ h3 {
 /* header elements */
 #header h1 {
 	color: #771D1D;
+	float: left;
+	margin: 1em 0 0 5%;
+	font-size: 20px;
+}
+#navigation {
+	padding: 1em 5% 0;
+	height:36px;
+	clear: both;
+}
+#navigation li {
+	float: left;
+	margin: 0 2px;
+}
+#navigation li a {
+	padding: 10px 3em;
+	line-height: 16px;
+	font-size: 16px;
+	display: block;
+	text-decoration: none;
+}
+#header-search {
+	float: right;
+	padding: 1em 5% 0;
 }
 
-#header h2 {
-	color:#EDEACC;
-	color:#e8e7c1;
-	font-size:1.2em;
-}
 
-
-#footer p {
-	background: url(../img/footer_bkg.gif) bottom right no-repeat;
-	padding:1em 0 1em 1em;
-	text-align:center;	
-}
-
-.clear-fix:after {
-	content: '.';
-	display:block;
-	clear:both;
-	height:0;
-	visibility: hidden;
-}
 .breadcrumb,
 .breadcrumb a {
 	font-family: Monaco, Corsiva, "Courier New", Courier, monospaced;
