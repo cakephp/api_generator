@@ -24,5 +24,4 @@ if (!empty($docs['class'])):
 		echo $this->element('method_detail', array('doc' => $class));
 	endforeach;
 endif;
-
 ?>

@@ -41,18 +41,23 @@
 	?>
 </head>
 <body>
-	<div id="wrapper">
+	<?php $bodyClass = (isset($showSidebar) && $showSidebar) ? 'with-sidebar' : 'no-sidebar'; ?>
+	<div id="wrapper" class="<?php echo $bodyClass; ?>">
 		<div id="header">
 			<h1><?php echo $html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
-
+			<?php echo $this->element('header_search'); ?>
 			<?php echo $this->element('api_menu');?>
 		</div>
-		<div id="content">
-
+		<div id="content" class="clearfix">
 			<?php $session->flash(); ?>
-
-			<?php echo $content_for_layout; ?>
-
+			<div id="content-inner">
+				<?php echo $content_for_layout; ?>
+			</div>
+			<?php if (isset($showSidebar) && $showSidebar): ?>
+			<div id="sidebar">
+				<?php echo $this->element($sidebarElement)?>
+			</div>
+			<?php endif; ?>
 		</div>
 		<div id="footer">
 			<?php echo $html->link(

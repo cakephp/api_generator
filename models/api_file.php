@@ -314,7 +314,8 @@ class ApiFile extends Object {
 	protected function _importBaseClasses($classes = array()) {
 		App::import('Core', array('Model', 'Helper', 'View'));
 		if (isset($classes['Test'])) {
-			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');	
+			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');
+			App::import('Vendor', 'MockObjects');
 			unset($classes['Test']);
 		}
 		foreach ($classes as $type => $class) {

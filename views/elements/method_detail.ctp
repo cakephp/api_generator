@@ -21,7 +21,7 @@
 		<div class="markdown-block"><?php echo $method['comment']['description']; ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
-		<dt>Parameters:</dt>
+		<dt><?php __('Parameters:'); ?></dt>
 		<dd>
 			<table>
 				<tbody>
@@ -41,10 +41,10 @@
 		</dd>
 		<?php endif; ?>
 		
-		<dt>Method defined in class:</dt>
+		<dt><?php __('Method defined in class:'); ?></dt>
 		<dd><?php echo $html->link($method['declaredInClass'], array('action' => 'view_class', $method['declaredInClass'])); ?></dd>
 		
-		<dt>Method defined in file:</dt>
+		<dt><?php __('Method defined in file:'); ?></dt>
 		<dd><?php echo $apiDoc->fileLink($method['declaredInFile']); ?></dd>
 		
 		<dt>

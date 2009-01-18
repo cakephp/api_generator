@@ -6,7 +6,7 @@
 ?>
 <div class="doc-block">
 	<a id="top-<?php echo $doc->name; ?>"></a>
-	<div class="doc-head"><h2>Method Summary:</h2></div>
+	<div class="doc-head"><h2><?php __('Method Summary:'); ?></h2></div>
 	<div class="doc-body">
 		<table class="summary">
 			<tbody>
