@@ -52,6 +52,12 @@ class ApiDocHelper extends AppHelper {
 		),
 	);
 /**
+ * classList 
+ *
+ * @var array
+ **/
+	protected $_classList = array();
+/**
  * inBasePath
  * 
  * Check if a filename is within the ApiGenerator.basePath path
@@ -88,5 +94,40 @@ class ApiDocHelper extends AppHelper {
 	public function trimFileName($filename) {
 		$basePath = Configure::read('ApiGenerator.filePath');
 		return str_replace($basePath, '', $filename);
+	}
+/**
+ * Set the Class list so that linkClassName will know which classes are in the index.
+ *
+ * @param array $classList The list of classes to use when making links.
+ * @return void
+ **/
+	public function setClassList($classList) {
+		$this->_classList = $classList;
+	}
+/**
+ * Create a link to a class name if it exists in the classList
+ *
+ * @param string $className the class name you wish to make a link to
+ * @param array $url A url array to override defaults
+ * @param array $attributes Additional attributes for an html link if generated.
+ * @return string Html link or plaintext
+ **/
+	public function classLink($className, $url = array(), $attributes = array()) {
+		$url = array_merge($this->_defaultUrl['class'], $url);
+		$listFlip = array_flip($this->_classList);
+		if (array_key_exists($className, $listFlip)) {
+			$url[] = $listFlip[$className];
+			return $this->Html->link($className, $url, $attributes);
+		}
+		return $className;
+	}
+/**
+ * Slugs a classname to match the format in the database.
+ *
+ * @param string $className Name of class to sluggify.
+ * @return string
+ **/
+	public function slugClassName($className) {
+		return str_replace('_', '-', Inflector::underscore($className));
 	}
 }

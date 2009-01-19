@@ -1,34 +1,98 @@
+/* @override http://localhost/cake_api_gen/api_generator/css/base.css */
 /****************
 *
 * Base.css
-*
-* Base styles for all system pages
 * @author Mark Story
 *
 \***************/
-
-/*- Colour swatches --*
-
-light blue: #0080ac
-dark blue: #205666
-dark green: #001d1e
-bone colour: #e8e7c1
-
-*--------------------*/
-
+/***************************************
+Reset
+***************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+}
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.clearfix:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+* + html .clearfix {
+	display:inline-block;
+}
+* html .clearfix {
+	height:1%;
+}
+/**
+Basic Tags 
+**********************/
 body {
 	font:100 normal 62.5%/1.2 Tahoma, Verdana, sans-serif;
-	background: #205666;
-	padding:0;
-	margin:0;
 }
 
 h1, h2, h3, h4, h5, h6, th, dt {
-	font-family: Futura, "Trebuchet MS", trebuchet, Helvetica, Tahoma, sans-serif;
+	font-family: "Gill Sans", "Trebuchet MS", trebuchet, Helvetica, Tahoma, sans-serif;
 	font-weight:100;
 	color: #32270d;
 }
-
+h1 {
+	font-size: 24px;
+	line-height: 30px;
+}
+h2 {
+	font-size: 22px;
+	line-height: 30px;
+}
+a {
+	color: #94345A;
+}
+a:hover {
+	text-decoration: none;
+}
 table {
 	border-collapse: collapse;
 	width:100%;
@@ -36,10 +100,18 @@ table {
 td, th {
 	padding:0.4em;
 }
+h2 {
+	color: #333348;
+	font-size:1.6em;	
+}
+h3 {
+	color: #333348;
+	font-size: 1.4em;
+	margin: 1em 0;
+}
 
 /* containers */
 #wrapper {
-	width:80%;
 	min-width:600px;
 	margin:0 auto;
 	position:relative;
@@ -47,15 +119,28 @@ td, th {
 
 #header {
 	background:#8BAAB2;
-	padding:2em;
 	font-size:1.5em;
 }
 #content {
 	background: #fff;
 	color:#000;
-	position:relative;
+	width:90%;
 	padding:14px;
+	margin:0 auto;
 }
+/* with and without sidebar content regions */
+.with-sidebar #content-inner {
+	position: relative;
+	width:76%;
+	padding-left:2%;
+	float: right;
+	border-left: 1px solid #eee;
+}
+.with-sidebar #sidebar {
+	width: 20%;
+	float: left;
+}
+
 #footer {
 	background: #fff url(../img/footer_bkg.gif) bottom left no-repeat;
 	padding:1px 0  0 10px;
@@ -64,39 +149,43 @@ td, th {
 /* header elements */
 #header h1 {
 	color: #771D1D;
+	float: left;
+	margin: 1em 0 0 5%;
+	font-size: 20px;
+}
+#navigation {
+	padding: 1em 5% 0;
+	height:36px;
+	clear: both;
+}
+#navigation li {
+	float: left;
+	margin: 0 2px;
+}
+#navigation li a {
+	padding: 10px 3em;
+	line-height: 16px;
+	font-size: 16px;
+	display: block;
+	text-decoration: none;
+}
+#header-search {
+	float: right;
+	padding: 1em 5% 0;
 }
 
-#header h2 {
-	color:#EDEACC;
-	color:#e8e7c1;
-	font-size:1.2em;
-}
-h2 {
-	font-size:1.6em;	
-}
 
-#footer p {
-	background: url(../img/footer_bkg.gif) bottom right no-repeat;
-	padding:1em 0 1em 1em;
-	text-align:center;	
-}
-
-.clear-fix:after {
-	content: '.';
-	display:block;
-	clear:both;
-	height:0;
-	visibility: hidden;
-}
 .breadcrumb,
 .breadcrumb a {
 	font-family: Monaco, Corsiva, "Courier New", Courier, monospaced;
 	font-size:14px;
+	margin-bottom: 1em;
 }
 /**
 File Browser Styles
 ***************************************/
-#file-list {
+#file-list,
+#file-browser {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -104,93 +193,102 @@ File Browser Styles
 .file, 
 .folder {
 	padding: 8px 8px 8px 40px;
-	font-size:1.4em;
+	font-size:14px;
 	background-color: #EFEFEF;
 	margin-bottom:4px;
+}
+
+/* files and folders in sidebar */
+#sidebar .file,
+#sidebar .folder,
+#sidebar #classIndex li {
+	font-size: 10px;
+	line-height: 15px;
+	padding: 4px 4px 4px 24px;
 }
 
 /**
 Documentation Page Styles
 ***************************/
-#classInfo {
-	margin:1em 0 0 ;
-}
-
 .doc-block {
-	margin: 0;
+	margin: 16px 0 0;
 	clear:both;
+}
+.class-info, 
+.function-info {
+	clear: both;
+}
+.class-info {
+	margin:3em 0 0;
+}
+.class-info .doc-head h2 {
+	font-size: 28px;
+	line-height: 32px;
 }
 
 /* doc head */
-
 .doc-head {
-	background: #445D68;
 	position:relative;
-	padding: 3px 0 3px 3px;
+	border-bottom: 1px solid #bbb;
 }
 .doc-head a {
-	color: #C3DBE0;
 	position:absolute;
 	right:10px;
-	top:10px;
+	top:8px;
 }
-
 .doc-head h2 {
-	color: #EDEACC;
-	line-height:1.8em;
-	width:90%;
-	border-left:7px solid #445D68;
+	color: #333348;
+	border-left:7px solid #fff;
 	margin:0;
-	padding: 0 0 0 5px;
+	padding: 0 0 0 8px;
 }
 /* header access indicators */
 .doc-head .public, 
 .doc-head .public-static {
 	border-color: #70A280;
 }
-
 .doc-head .private, .doc-head .private-static {
 	border-color: #EAE38B;
 }
-
 .doc-head .protected,
 .doc-head .protected-static {
 	border-color: #A47878;
 }
 
-
 /* body styles */
 .doc-body {
 	padding:14px;
 }
-
 /* table styles */
 .doc-body table {
 	border-collapse:separate;
-}
-
-.doc-body .odd td {
-	background: #A5C8CE;
-}
-.doc-body > table td {
-	font-size:1.2em;
+	border-spacing: 2px;
 }
 .doc-body td {
-	background:	#C3DBE0;	
-	min-width:30px;
+	background:	#DAEBEE;	
+	vertical-align: middle;
 }
-
-.doc-body a {
-	color: #333;
+.doc-body .odd td {
+	background: #C9E2E6;
 }
-
+.doc-body > table td {
+	font-size:12px;
+}
+.doc-body td.access {
+	width: 40px;
+}
+.doc-body td p {
+	margin: 1em 0;
+}
+.doc-body td p:first-child {
+	margin: 0;
+}
 .doc-body p,
 .doc-body dd {
 	font-size:12px;
 	line-height:1.4em;
 	margin:0 0 1.2em 0;
 }
-
 .doc-body dd {
 	margin: 0 0 12px 12px;
 }
@@ -198,36 +296,51 @@ Documentation Page Styles
 .doc-body dd table {
 	margin:0;
 }
-
-.doc-body dt, .doc-body h3 {
-	color: #445D68;
-	font-size:1.4em;
+.doc-body dt,
+.doc-body h3 {
+	color: #27676E;
+	font-size:16px;
 	line-height:1.4em;
 	margin:0;
 }
 
+.markdown-block pre {
+	font-size: 12px;
+	line-height: 14px;
+	font-family: Monaco, Corsiva, "Courier New", Courier;
+	background:  #E9F6F8;
+	padding: 3px;
+	margin: 0 0 1em 0;
+	border: 1px solid #DAEBEE;
+	color: #333;
+}
+
+/* visibility controls */
 #api-doc-controls {
 	list-style:none;
 	margin:0 0 12px 0;
 	padding:0;
 }
 #api-doc-controls li {
-	margin:0;
-	display:inline;
+	margin:4px 0;
 }
 #api-doc-controls a {
 	padding:5px;
-	background:#EDEACC;
+	background:#DAEBEE;
 	font-size:12px;
-	color: #445D68;
+	color: #333348;
+	display: block;
+	border-radius:9px;
+	-webkit-border-radius:9px;
+	-moz-border-radius: 9px;
+	text-decoration: none;
 }
 #api-doc-controls a.active {
-	background:#445D68;
-	color: #EDEACC;
+	background:#333348;
+	color: #fff;
 }
 
 /* Access icon replacements */
-
 .access span {
 	width:10px;
 	padding-top:10px;
@@ -236,21 +349,40 @@ Documentation Page Styles
 	overflow:hidden;
 	margin:0 auto;
 }
-
 .protected span, 
 .protected-static span {
 	background-image: url(../img/icon_protected.gif);
 }
-
 .public span,
 .public-static span {
 	background-image: url(../img/icon_public.gif);
 }
-
 .private span, 
 .private-static span {
 	background-image: url(../img/icon_private.gif);
 }
+
+/** Element table of contents **/
+#element-toc {
+	margin-bottom: 2em;
+}
+#element-toc ul {
+	list-style: disc;
+	margin: 0 0 0 20px
+}
+#element-toc li {
+	margin: 0.5em;
+	font-size: 12px;
+}
+#element-toc .functions,
+#element-toc .classes {
+	float: left;
+}
+#element-toc .classes {
+	padding-right: 2em;
+	margin-right: 2em;
+}
+
 
 
 

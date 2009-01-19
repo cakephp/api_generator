@@ -11,17 +11,17 @@
 	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
 ?>
 <div class="doc-block <?php echo $definedInThis ? '' : 'parent-method'; ?>">
-	<a id="method-<?php echo $method['name']; ?>"></a>
+	<a id="method-<?php echo $doc->name . $method['name']; ?>"></a>
 	<div class="doc-head">
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
-		<a class="top-link scroll-link" href="#top">top</a>
+		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>">top</a>
 	</div>
 
 	<div class="doc-body">
 		<div class="markdown-block"><?php echo $method['comment']['description']; ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
-		<dt>Parameters:</dt>
+		<dt><?php __('Parameters:'); ?></dt>
 		<dd>
 			<table>
 				<tbody>
@@ -41,10 +41,10 @@
 		</dd>
 		<?php endif; ?>
 		
-		<dt>Method defined in class:</dt>
-		<dd><?php echo $html->link($method['declaredInClass'], array('action' => 'view_class', $method['declaredInClass'])); ?></dd>
+		<dt><?php __('Method defined in class:'); ?></dt>
+		<dd><?php echo $apiDoc->classLink($method['declaredInClass']); ?></dd>
 		
-		<dt>Method defined in file:</dt>
+		<dt><?php __('Method defined in file:'); ?></dt>
 		<dd><?php echo $apiDoc->fileLink($method['declaredInFile']); ?></dd>
 		
 		<dt>

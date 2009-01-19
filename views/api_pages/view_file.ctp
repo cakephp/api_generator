@@ -4,6 +4,7 @@
  * View view.  Shows generated api docs from a file.
  * 
  */
+$apiDoc->setClassList($classList);
 ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
 <?php
@@ -18,11 +19,9 @@ endif;
 if (!empty($docs['class'])):
 	foreach ($docs['class'] as $class):
 		echo $this->element('class_info', array('doc' => $class));
-		echo $this->element('doc_controls', array('doc' => $class));
 		echo $this->element('properties', array('doc' => $class));
 		echo $this->element('method_summary', array('doc' => $class));
 		echo $this->element('method_detail', array('doc' => $class));
 	endforeach;
 endif;
-
 ?>

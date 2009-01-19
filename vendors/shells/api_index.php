@@ -55,7 +55,6 @@ class ApiIndexShell extends Shell {
 			}
 
 			if (!in_array($this->command, array('initdb', 'help'))) {
-				$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 				$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 			}
 		}
@@ -85,7 +84,24 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function update() {
-		
+		$this->out('Clearing index and regenerating class index...');
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$searchPath = Configure::read('ApiGenerator.filePath');
+		if ($searchPath == null) {
+			$searchPath = $this->_showFilePathWarning();
+		}
+		$this->ApiClass->clearIndex();
+		$fileList = $this->ApiFile->fileList($searchPath);
+		foreach ($fileList as $file) {
+			$docsInFile = $this->ApiFile->loadFile($file);
+			foreach ($docsInFile['class'] as $classDocs) {
+				$this->ApiClass->create();
+				if ($this->ApiClass->saveClassDocs($classDocs)) {
+					$this->out('Added docs for ' . $classDocs->name . ' to index');
+				}
+			}
+		}
+		$this->out('Class index Regenerated.');
 	}
 /**
  * Show the list of files that will be parsed.
@@ -101,8 +117,16 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 		$this->out('');
 		$files = $this->ApiFile->fileList($path);
-		if (count($files) > 20) {
-			$chunks = array_chunk($files, 10);
+		$this->_paginate($files);
+	}
+/**
+ * Pagiantion of long file lists
+ *
+ * @return void
+ **/
+	protected function _paginate($list) {
+		if (count($list) > 20) {
+			$chunks = array_chunk($list, 10);
 			$chunkCount = count($chunks);
 			$this->out(implode("\n", array_shift($chunks)));
 			$chunkCount--;
@@ -111,7 +135,7 @@ class ApiIndexShell extends Shell {
 				$chunkCount--;
 			}
 		} else {
-			$this->out(implode("\n", $files));
+			$this->out(implode("\n", $list));
 		}
 	}
 /**
@@ -144,8 +168,10 @@ class ApiIndexShell extends Shell {
 		$this->out('  initdb');
 		$this->out('	Create the schema used for the Api Generator Plugin');
 		$this->out('  showfiles');
-		$this->out('	Show the list of files that will be parsed for classes');
-		
+		$this->out('	Show the list of files that will be parsed for classes based on your configuration.');
+		$this->out('	Use to check if your config is going to parse the files you want.');
+		$this->out('  update');
+		$this->out('	Clear the existing class index and regenerate it.');
 		
 	}
 

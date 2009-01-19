@@ -34,7 +34,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  */
 	public $name = 'ApiPages';
 /**
- * Uses arrayy
+ * Uses array
  *
  * @var array
  */
@@ -46,9 +46,9 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public $components = array('ApiGenerator.Documentor');
 /**
- * undocumented class variable
+ * Helpers
  *
- * @var string
+ * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'Html', 'Javascript');
 /**
@@ -63,6 +63,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
 		$this->set(compact('dirs', 'files', 'currentPath', 'previousPath'));
 	}
+
 /**
  * all_files
  * 
@@ -76,14 +77,18 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$files = $this->ApiFile->fileList($this->path);
 		$this->set('files', $files);
 	}
+
 /**
  * Browse the classes in the application / API files.
  *
  * @return void
  **/
 	public function browse_classes() {
-		
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$classList = $this->ApiClass->getClassIndex();
+		$this->set('classList', $classList);
 	}
+
 /**
  * View the API docs for all interesting parts in a file.
  *
@@ -91,30 +96,79 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public function view_file() {
 		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
-		
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
-		
+
 		if (!file_exists($fullPath)) {
-			$this->_notFound('No file exists with that name');
+			$this->_notFound(__('No file exists with that name', true));
+		}
+		try {
+			$docs = $this->ApiFile->loadFile($fullPath);
+		} catch(Exception $e) {
+			//do something later. Once I get missing classes == Exception.
 		}
 
-		$docs = $this->ApiFile->loadFile($fullPath);
+		$classList = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
+
+		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 		if (!empty($docs)) {
-			$this->set(compact('currentPath', 'previousPath', 'docs'));
+			$this->set('showSidebar', true);
+			$this->set('sidebarElement', 'sidebar/file_sidebar');
+			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files', 'classList'));
 		} else {
 			$this->set('previousPath', $previousPath);
 			$this->render('no_class');
 		}
 	}
+
 /**
  * View API docs for a single class used with browse_classes
  *
  * @return void
  **/
-	public function view_class($class = null) {
+	public function view_class($classSlug = null) {
+		if (!$classSlug) {
+			$this->Session->setFlash(__('No class name was given', true));
+			$this->redirect($this->referer());
+		}
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
+		$classInfo = $this->ApiClass->findBySlug($classSlug);
+
+		if (empty($classInfo['ApiClass']['file_name'])) {
+			$this->_notFound(__('No class exists in the index with that name', true));
+		}
+		try {
+			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
+			$doc = $docs['class'][$classInfo['ApiClass']['name']];
+		} catch(Exception $e) {
+			//do something later. Once I get missing classes == Exception.
+		}
 		
+		$classList = $this->ApiClass->getClassIndex();
+		if (!empty($docs)) {
+			$this->set('showSidebar', true);
+			$this->set('sidebarElement', 'sidebar/class_sidebar');
+			$this->set(compact('doc', 'classList'));
+		} else {
+			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
+		}
+	}
+/**
+ * Search through the class index.
+ *
+ * @return void
+ **/
+	public function search() {
+		$results = array();
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$classList = $this->ApiClass->getClassIndex();
+		if (isset($this->params['url']['query'])) {
+			$query = $this->params['url']['query'];
+			$results = $this->paginate('ApiClass', array('ApiClass.search_index LIKE' => '%' . $query . '%'));
+		}
+		$this->set(compact('results', 'classList'));
 	}
 }
 ?>

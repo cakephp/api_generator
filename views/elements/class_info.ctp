@@ -5,7 +5,7 @@
  */
 ?>
 <a id="class-<?php echo $doc->name; ?>"></a>
-<div id="classInfo" class="doc-block">
+<div class="doc-block class-info">
 	<div class="doc-head"><h2><?php echo $doc->name; ?> Class Info:</h2></div>
 	<div class="doc-body">
 	  <dl>

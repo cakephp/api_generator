@@ -5,17 +5,17 @@
  */
 ?>
 <a id="function-<?php echo $doc->name; ?>"></a>
-<div class="functionInfo">
+<div class="function-info">
 	<div class="doc-head">
 		<h2><?php echo $doc->name; ?></h2>
-		<a class="top-link scroll-link" href="#top">top</a>
+		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>">top</a>
 	</div>
 
 	<div class="doc-body">
 		<div class="markdown-block"><?php echo $doc->info['comment']['description']; ?></div>
 	<dl>
 		<?php if (count($doc->params)): ?>
-		<dt>Parameters:</dt>
+		<dt><?php __('Parameters:'); ?></dt>
 		<dd>
 			<table>
 				<tbody>
@@ -45,3 +45,4 @@
 			<?php endforeach; ?>
 		</dt>
 	</div>
+</div>
