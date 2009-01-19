@@ -34,7 +34,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  */
 	public $name = 'ApiPages';
 /**
- * Uses arrayy
+ * Uses array
  *
  * @var array
  */
@@ -83,7 +83,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public function browse_classes() {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		$classList = $this->ApiClass->find('list', array('fields' => array('slug', 'name')));
+		$classList = $this->ApiClass->getClassIndex();
 		$this->set('classList', $classList);
 	}
 /**
@@ -105,11 +105,14 @@ class ApiPagesController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			//do something later. Once I get missing classes == Exception.
 		}
+
+		$classList = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
+
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/file_sidebar');
-			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files'));
+			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files', 'classList'));
 		} else {
 			$this->set('previousPath', $previousPath);
 			$this->render('no_class');

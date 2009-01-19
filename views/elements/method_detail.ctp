@@ -42,7 +42,7 @@
 		<?php endif; ?>
 		
 		<dt><?php __('Method defined in class:'); ?></dt>
-		<dd><?php echo $html->link($method['declaredInClass'], array('action' => 'view_class', $method['declaredInClass'])); ?></dd>
+		<dd><?php echo $apiDoc->classLink($method['declaredInClass']); ?></dd>
 		
 		<dt><?php __('Method defined in file:'); ?></dt>
 		<dd><?php echo $apiDoc->fileLink($method['declaredInFile']); ?></dd>

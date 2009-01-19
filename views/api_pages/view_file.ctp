@@ -4,6 +4,7 @@
  * View view.  Shows generated api docs from a file.
  * 
  */
+$apiDoc->setClassList($classList);
 ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
 <?php

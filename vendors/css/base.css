@@ -200,7 +200,8 @@ File Browser Styles
 
 /* files and folders in sidebar */
 #sidebar .file,
-#sidebar .folder {
+#sidebar .folder,
+#sidebar #classIndex li {
 	font-size: 10px;
 	line-height: 15px;
 	padding: 4px 4px 4px 24px;
@@ -288,7 +289,6 @@ Documentation Page Styles
 	line-height:1.4em;
 	margin:0 0 1.2em 0;
 }
-
 .doc-body dd {
 	margin: 0 0 12px 12px;
 }
@@ -302,6 +302,17 @@ Documentation Page Styles
 	font-size:16px;
 	line-height:1.4em;
 	margin:0;
+}
+
+.markdown-block pre {
+	font-size: 12px;
+	line-height: 14px;
+	font-family: Monaco, Corsiva, "Courier New", Courier;
+	background:  #E9F6F8;
+	padding: 3px;
+	margin: 0 0 1em 0;
+	border: 1px solid #DAEBEE;
+	color: #333;
 }
 
 /* visibility controls */
@@ -350,6 +361,7 @@ Documentation Page Styles
 .private-static span {
 	background-image: url(../img/icon_private.gif);
 }
+
 /** Element table of contents **/
 #element-toc {
 	margin-bottom: 2em;

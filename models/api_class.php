@@ -80,6 +80,14 @@ class ApiClass extends ApiGeneratorAppModel {
 		return $this->save();
 	}
 /**
+ * Get the class index listing
+ *
+ * @return array
+ **/
+	public function getClassIndex() {
+		return $this->find('list', array('fields' => array('slug', 'name')));
+	}
+/**
  * Generate a search index from all the properties and methods 
  * in a ClassDocumentor Object
  *
