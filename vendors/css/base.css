@@ -79,6 +79,14 @@ h1, h2, h3, h4, h5, h6, th, dt {
 	font-weight:100;
 	color: #32270d;
 }
+h1 {
+	font-size: 24px;
+	line-height: 30px;
+}
+h2 {
+	font-size: 22px;
+	line-height: 30px;
+}
 a {
 	color: #94345A;
 }
@@ -232,8 +240,6 @@ Documentation Page Styles
 	border-left:7px solid #fff;
 	margin:0;
 	padding: 0 0 0 8px;
-	font-size: 22px;
-	line-height: 30px;
 }
 /* header access indicators */
 .doc-head .public, 

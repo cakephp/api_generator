@@ -95,6 +95,7 @@ class ApiIndexShell extends Shell {
 		foreach ($fileList as $file) {
 			$docsInFile = $this->ApiFile->loadFile($file);
 			foreach ($docsInFile['class'] as $classDocs) {
+				$this->ApiClass->create();
 				if ($this->ApiClass->saveClassDocs($classDocs)) {
 					$this->out('Added docs for ' . $classDocs->name . ' to index');
 				}

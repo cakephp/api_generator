@@ -82,7 +82,9 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function browse_classes() {
-		
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$classList = $this->ApiClass->find('list', array('fields' => array('slug', 'name')));
+		$this->set('classList', $classList);
 	}
 /**
  * View the API docs for all interesting parts in a file.
@@ -90,13 +92,13 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function view_file() {
-		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');	
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
 		
 		if (!file_exists($fullPath)) {
-			$this->_notFound('No file exists with that name');
+			$this->_notFound(__('No file exists with that name', true));
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($fullPath);
@@ -118,7 +120,30 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function view_class($class = null) {
+	public function view_class($classSlug = null) {
+		if (!$classSlug) {
+			$this->Session->setFlash(__('No class name was given', true));
+			$this->redirect($this->referer());
+		}
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
+		$classInfo = $this->ApiClass->findBySlug($classSlug);
+		if (empty($classInfo['ApiClass']['file_name'])) {
+			$this->_notFound(__('No class exists in the index with that name', true));
+		}
+		try {
+			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
+		} catch(Exception $e) {
+			//do something later. Once I get missing classes == Exception.
+		}
+		$classList = $this->ApiClass->find('list', array('fields' => array('slug', 'name')));
+		if (!empty($docs)) {
+			$this->set('showSidebar', true);
+			$this->set('sidebarElement', 'sidebar/class_sidebar');
+			$this->set(compact('docs', 'classList'));
+		} else {
+			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
+		}
 		
 	}
 }
