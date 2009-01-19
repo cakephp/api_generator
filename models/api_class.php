@@ -52,4 +52,55 @@ class ApiClass extends ApiGeneratorAppModel {
 			)
 		),
 	);
+/**
+ * Clears (truncates) the class index.
+ *
+ * @return void
+ **/
+	public function clearIndex() {
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
+		$db->truncate($this->useTable);
+	}
+/**
+ * save the entry in the index for a ClassDocumentor object
+ *
+ * @param object $classDoc Instance of ClassDocumentor to add to database.
+ * @return boolean success
+ **/
+	public function saveClassDocs(ClassDocumentor $classDoc) {
+		$classDoc->getAll();
+		$slug = str_replace('_', '-', Inflector::underscore($classDoc->name));
+		$new = array(
+			'name' => $classDoc->name,
+			'slug' => $slug,
+			'file_name' => $classDoc->classInfo['fileName'],
+			'search_index' => $this->_generateSearchIndex($classDoc),
+		);
+		$this->set($new);
+		return $this->save();
+	}
+/**
+ * Generate a search index from all the properties and methods 
+ * in a ClassDocumentor Object
+ *
+ * @return string
+ **/
+	protected function _generateSearchIndex($classDoc) {
+		$index = '';
+		$index .= $classDoc->classInfo['comment']['description'];
+		foreach ($classDoc->properties as $prop) {
+			$index .= ' ' . $prop['comment']['description'];
+			foreach ($prop['comment']['tags'] as $tag => $tagText) {
+				
+			}
+		}
+		foreach ($classDoc->methods as $method) {
+			$description = str_replace("\n", ' ', $method['comment']['description']);
+			$index .= ' ' . $description;
+			foreach ($method['args'] as $argument) {
+				$index .= ' ' . $argument['comment'];
+			}
+		}
+		return strtolower($index);
+	}
 }

@@ -41,13 +41,13 @@ class ApiFile extends Object {
  *
  * @var array
  **/
-	public $ignoreFolders = array('config', 'webroot', 'tmp', 'locale');
+	public $removeFolders = array('config', 'webroot', 'tmp', 'locale', 'tests');
 /**
  * A list of files to ignore.
  *
  * @var array
  **/
-	public $ignoreFiles = array('index.php', 'empty');
+	public $removeFiles = array('index.php', 'empty');
 /**
  * a list of extensions to scan for
  *
@@ -101,7 +101,7 @@ class ApiFile extends Object {
  **/
 	public function read($path) {
 		$this->_Folder->cd($path);
-		$ignore = $this->ignoreFiles;
+		$ignore = $this->removeFiles;
 		$ignore[] = '.';
 		$contents = $this->_Folder->read(true, $ignore);
 		$this->_filterFolders($contents[0], false);
@@ -125,14 +125,14 @@ class ApiFile extends Object {
 /**
  * _filterFiles
  * 
- * Filter a file list and remove ignoreFolders
+ * Filter a file list and remove removeFolders
  * 
  * @param array $files List of files to filter and ignore. (reference)
  * @return void
  **/
 	protected function _filterFolders(&$fileList, $recursiveList = true) {
 		$count = count($fileList);
-		foreach ($this->ignoreFolders as $blackListed) {
+		foreach ($this->removeFolders as $blackListed) {
 			if ($recursiveList) {
 				$blackListed = DS . $blackListed . DS;
 			}
@@ -146,15 +146,17 @@ class ApiFile extends Object {
 	}
 /**
  * remove files that don't match the allowedExtensions
- * or are on the ignoreFiles list
+ * or are on the removeFiles list
  *
  * @return void
  **/
 	protected function _filterFiles(&$fileList) {
-		$fileCount = count($fileList);
-		foreach ($this->ignoreFiles as $ignored) {
+		foreach ($this->removeFiles as $ignored) {
+			$fileCount = count($fileList);
+			$fileList = array_values($fileList);
 			for ($i = 0; $i < $fileCount; $i++) {
-				if ($ignored == $fileList[$i]) {
+				$basename = basename($fileList[$i]);
+				if ($ignored == $basename) {
 					unset($fileList[$i]);
 				}
 			}
@@ -208,11 +210,14 @@ class ApiFile extends Object {
  **/
 	public function loadFile($filePath) {
 		$baseClass = array();
+		if (strpos($filePath, 'controllers') !== false) {
+			$baseClass['Controller'] = 'App';
+		}
 		if (strpos($filePath, 'models') !== false) {
-			$baseClass['Model'] = 'AppModel';
+			$baseClass['Model'] = 'App';
 		}
 		if (strpos($filePath, 'helpers') !== false) {
-			$baseClass['Helper'] = 'AppHelper';
+			$baseClass['Helper'] = 'App';
 		}
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
@@ -312,7 +317,7 @@ class ApiFile extends Object {
  * @return void
  **/
 	protected function _importBaseClasses($classes = array()) {
-		App::import('Core', array('Model', 'Helper', 'View'));
+		App::import('Core', array('Model', 'Helper', 'View', 'Controller'));
 		if (isset($classes['Test'])) {
 			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');
 			App::import('Vendor', 'MockObjects');
