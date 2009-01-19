@@ -133,14 +133,16 @@ class ApiPagesController extends ApiGeneratorAppController {
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
+			$doc = $docs['class'][$classInfo['ApiClass']['name']];
 		} catch(Exception $e) {
 			//do something later. Once I get missing classes == Exception.
 		}
+		
 		$classList = $this->ApiClass->find('list', array('fields' => array('slug', 'name')));
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/class_sidebar');
-			$this->set(compact('docs', 'classList'));
+			$this->set(compact('doc', 'classList'));
 		} else {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}
