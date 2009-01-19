@@ -46,9 +46,9 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public $components = array('ApiGenerator.Documentor');
 /**
- * undocumented class variable
+ * Helpers
  *
- * @var string
+ * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'Html', 'Javascript');
 /**
@@ -63,6 +63,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
 		$this->set(compact('dirs', 'files', 'currentPath', 'previousPath'));
 	}
+
 /**
  * all_files
  * 
@@ -76,6 +77,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$files = $this->ApiFile->fileList($this->path);
 		$this->set('files', $files);
 	}
+
 /**
  * Browse the classes in the application / API files.
  *
@@ -86,6 +88,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$classList = $this->ApiClass->getClassIndex();
 		$this->set('classList', $classList);
 	}
+
 /**
  * View the API docs for all interesting parts in a file.
  *
@@ -96,7 +99,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
-		
+
 		if (!file_exists($fullPath)) {
 			$this->_notFound(__('No file exists with that name', true));
 		}
@@ -118,6 +121,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$this->render('no_class');
 		}
 	}
+
 /**
  * View API docs for a single class used with browse_classes
  *
@@ -131,6 +135,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
+
 		if (empty($classInfo['ApiClass']['file_name'])) {
 			$this->_notFound(__('No class exists in the index with that name', true));
 		}
@@ -141,7 +146,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 			//do something later. Once I get missing classes == Exception.
 		}
 		
-		$classList = $this->ApiClass->find('list', array('fields' => array('slug', 'name')));
+		$classList = $this->ApiClass->getClassIndex();
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/class_sidebar');
@@ -149,7 +154,21 @@ class ApiPagesController extends ApiGeneratorAppController {
 		} else {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}
-		
+	}
+/**
+ * Search through the class index.
+ *
+ * @return void
+ **/
+	public function search() {
+		$results = array();
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$classList = $this->ApiClass->getClassIndex();
+		if (isset($this->params['url']['query'])) {
+			$query = $this->params['url']['query'];
+			$results = $this->paginate('ApiClass', array('ApiClass.search_index LIKE' => '%' . $query . '%'));
+		}
+		$this->set(compact('results', 'classList'));
 	}
 }
 ?>

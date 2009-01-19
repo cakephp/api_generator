@@ -52,6 +52,7 @@ class ApiClass extends ApiGeneratorAppModel {
 			)
 		),
 	);
+
 /**
  * Clears (truncates) the class index.
  *
@@ -61,6 +62,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		$db->truncate($this->useTable);
 	}
+
 /**
  * save the entry in the index for a ClassDocumentor object
  *
@@ -79,6 +81,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		$this->set($new);
 		return $this->save();
 	}
+
 /**
  * Get the class index listing
  *
@@ -87,6 +90,7 @@ class ApiClass extends ApiGeneratorAppModel {
 	public function getClassIndex() {
 		return $this->find('list', array('fields' => array('slug', 'name')));
 	}
+
 /**
  * Generate a search index from all the properties and methods 
  * in a ClassDocumentor Object
@@ -98,9 +102,6 @@ class ApiClass extends ApiGeneratorAppModel {
 		$index .= $classDoc->classInfo['comment']['description'];
 		foreach ($classDoc->properties as $prop) {
 			$index .= ' ' . $prop['comment']['description'];
-			foreach ($prop['comment']['tags'] as $tag => $tagText) {
-				
-			}
 		}
 		foreach ($classDoc->methods as $method) {
 			$description = str_replace("\n", ' ', $method['comment']['description']);
