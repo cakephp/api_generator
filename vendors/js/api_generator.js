@@ -2,8 +2,60 @@
  * Api Generator JS
  *
  */
-window.addEvent('domready', function() {
-	ApiGenerator.init();
+//Add some features to Element
+Element.implement({
+	//is an element visible
+	isVisible : function () {
+		return (this.getStyle('display') == 'none') ? false : true;
+	},
+	//toggle show/hide
+	toggle: function() {
+		return this[this.isVisible() ? 'hide' : 'show']();
+	},
+	//hide
+	hide : function() {
+		var original = this.getStyle('display');
+		this.store('toggle:originalDisplay', original);
+		this.setStyle('display', 'none');
+		return this;
+	},
+	//show an element
+	show : function() {
+		var restore = this.retrieve('toggle:originalDisplay', 'block');
+		this.setStyle('display', restore);
+		return this;
+	}
+});
+
+/**
+ * Simple FileExplorer.
+ *
+ */
+var FileExplorer = new Class({
+	Implements : [Options, Events],
+	options : {
+		folderSelector : 'li.folder',
+	},
+	elements : {},
+
+	initialize : function (container, options) {
+		this.container = $(container);
+		this.setOptions(options);
+		var attachEvent = this.attachEvents.bind(this);
+		this.container.set('load', {method : 'get', onComplete: attachEvent });
+		this.attachEvents();
+	},
+	// attach events to all the elements.
+	attachEvents : function() {
+		var elements = this.container.getElements(this.options.folderSelector + ' a');
+		var container = this.container;
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].addEvent('click', function (event) {
+				event.stop();
+				container.load(this.get('href'));
+			});
+		}
+	}
 });
 
 ApiGenerator = {};
@@ -45,13 +97,16 @@ ApiGenerator.apiPages = {
 		    links: '.scroll-link',
 		    wheelStops: false
 		});
+		
+		var FileTree = new FileExplorer('file-browser');
 	},
+
 	attachVisibilityControls : function(collection) {
 		for (button in collection) {
 			$(button).addEvent('click', function(e) {
 				e.stop();
 				var targets = $$(collection[this.get('id')]);
-				var showing = this.retrieve('showing', true)
+				var showing = this.retrieve('showing', true);
 				if (showing) {
 					targets.fade('out');
 					this.addClass('active');
@@ -65,4 +120,8 @@ ApiGenerator.apiPages = {
 			});
 		}
 	}
-}
+};
+
+window.addEvent('domready', function() {
+	ApiGenerator.init();
+});

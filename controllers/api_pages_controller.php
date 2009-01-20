@@ -44,7 +44,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $components = array('ApiGenerator.Documentor');
+	public $components = array('ApiGenerator.Documentor', 'RequestHandler');
 /**
  * Helpers
  *

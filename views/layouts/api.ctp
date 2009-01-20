@@ -44,7 +44,7 @@
 	<?php $bodyClass = (isset($showSidebar) && $showSidebar) ? 'with-sidebar' : 'no-sidebar'; ?>
 	<div id="wrapper" class="<?php echo $bodyClass; ?>">
 		<div id="header" class="clearfix">
-			<h1><?php echo $html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
+			<h1><?php echo $html->link(__('CakePHP: API Generator', true), 'http://cakephp.org'); ?></h1>
 			<?php echo $this->element('header_search'); ?>
 			<?php echo $this->element('api_menu');?>
 		</div>
