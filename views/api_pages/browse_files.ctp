@@ -5,7 +5,7 @@
  * Doubles as an ajax view by omitting certain tags when params['isAjax'] is set.
  */
 ?>
-<?php if (!isset($this->params['isAjax']) && !$this->params['isAjax']): ?>
+<?php if (!$this->params['isAjax']): ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
 <ul id="file-list">
 <?php endif; ?>
@@ -30,6 +30,6 @@
 	</li>
 <?php endif; ?>
 
-<?php if (!isset($this->params['isAjax']) && !$this->params['isAjax']): ?>
+<?php if (!$this->params['isAjax']): ?>
 </ul>
 <?php endif; ?>
