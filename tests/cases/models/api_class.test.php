@@ -71,7 +71,7 @@ class ApiFileTestCase extends CakeTestCase {
 	function startTest() {
 		$this->_path = APP . 'plugins' . DS . 'api_generator';
 		Configure::write('ApiGenerator.filePath', $this->_path);
-		$this->ApiClass = new ApiClass();
+		$this->ApiClass = ClassRegistry::init('ApiClass');
 	}
 /**
  * endTest
