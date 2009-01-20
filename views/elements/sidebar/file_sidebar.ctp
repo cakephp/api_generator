@@ -5,7 +5,8 @@
  */
 ?>
 <?php echo $this->element('doc_controls'); ?>
-<h3><?php __('File browser'); ?>
+
+<h3><?php __('File browser'); ?></h3>
 <ul id="file-browser">
 	<?php foreach ($dirs as $dir): ?>
 		<li class="folder">
