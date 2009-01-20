@@ -44,7 +44,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $components = array('ApiGenerator.Documentor');
+	public $components = array('ApiGenerator.Documentor', 'RequestHandler');
 /**
  * Helpers
  *
@@ -85,8 +85,8 @@ class ApiPagesController extends ApiGeneratorAppController {
  **/
 	public function browse_classes() {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		$classList = $this->ApiClass->getClassIndex();
-		$this->set('classList', $classList);
+		$classIndex = $this->ApiClass->getClassIndex();
+		$this->set('classIndex', $classIndex);
 	}
 
 /**
@@ -109,13 +109,13 @@ class ApiPagesController extends ApiGeneratorAppController {
 			//do something later. Once I get missing classes == Exception.
 		}
 
-		$classList = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
+		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
 
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/file_sidebar');
-			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files', 'classList'));
+			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files', 'classIndex'));
 		} else {
 			$this->set('previousPath', $previousPath);
 			$this->render('no_class');
@@ -146,11 +146,11 @@ class ApiPagesController extends ApiGeneratorAppController {
 			//do something later. Once I get missing classes == Exception.
 		}
 		
-		$classList = $this->ApiClass->getClassIndex();
+		$classIndex = $this->ApiClass->getClassIndex();
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/class_sidebar');
-			$this->set(compact('doc', 'classList'));
+			$this->set(compact('doc', 'classIndex'));
 		} else {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}

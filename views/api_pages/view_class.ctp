@@ -3,7 +3,7 @@
  * View a single class
  *
  */
-$apiDoc->setClassList($classList);
+$apiDoc->setClassIndex($classIndex);
 
 echo $this->element('class_info');
 echo $this->element('properties');

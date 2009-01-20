@@ -148,10 +148,13 @@ h3 {
 
 /* header elements */
 #header h1 {
-	color: #771D1D;
+	color: #fff;
 	float: left;
 	margin: 1em 0 0 5%;
 	font-size: 20px;
+}
+#header h1 a {
+	color:#fff;
 }
 #navigation {
 	padding: 1em 5% 0;
@@ -168,6 +171,10 @@ h3 {
 	font-size: 16px;
 	display: block;
 	text-decoration: none;
+	color:#fff;
+}
+#navigation li a:hover {
+	text-decoration:underline;
 }
 #header-search {
 	float: right;
@@ -382,7 +389,12 @@ Documentation Page Styles
 	padding-right: 2em;
 	margin-right: 2em;
 }
-
+/**
+* Sidebar
+*****************************/
+#sidebar h3 {
+	margin-bottom:0.3em;
+}
 
 
 

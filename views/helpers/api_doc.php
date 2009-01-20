@@ -101,7 +101,7 @@ class ApiDocHelper extends AppHelper {
  * @param array $classList The list of classes to use when making links.
  * @return void
  **/
-	public function setClassList($classList) {
+	public function setClassIndex($classList) {
 		$this->_classList = $classList;
 	}
 /**

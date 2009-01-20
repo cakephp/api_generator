@@ -2,15 +2,17 @@
 /* SVN FILE: $Id$ */
 /**
  * Browse view.  Shows file listings and provides links to obtaining api docs from a file
- *
+ * Doubles as an ajax view by omitting certain tags when params['isAjax'] is set.
  */
 ?>
-
+<?php if (!$this->params['isAjax']): ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
-<p class="folder previous-folder">
-	<?php echo $html->link('Up one folder', array('action' => 'browse_files', $previousPath)); ?>
-</p>
 <ul id="file-list">
+<?php endif; ?>
+
+	<li class="folder previous-folder">
+		<?php echo $html->link('Up one folder', array('action' => 'browse_files', $previousPath)); ?>
+	</li>
 <?php foreach ($dirs as $dir): ?>
 	<li class="folder">
 		<?php echo $html->link($dir, array('action' => 'browse_files', $currentPath . '/' . $dir)); ?>
@@ -27,4 +29,7 @@
 		<?php __('No files'); ?>
 	</li>
 <?php endif; ?>
+
+<?php if (!$this->params['isAjax']): ?>
 </ul>
+<?php endif; ?>
