@@ -109,9 +109,9 @@ class ApiFile extends Object {
  **/
 	public function __construct() {
 		parent::__construct();
-		$this->_Folder = new Folder(Configure::read('ApiGenerator.filePath'));
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->_initConfig();
+		$this->_Folder = new Folder(APP);
 	}
 /**
  * Read a path and return files and folders not in the excluded Folder list

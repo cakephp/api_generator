@@ -38,10 +38,12 @@ class ApiGeneratorAppController extends AppController {
  * @return void
  **/
 	public function beforeFilter() {
-		$path = Configure::read('ApiGenerator.filePath');
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
+		$this->ApiConfig->read();
+		$path = $this->ApiConfig->getPath();
 		if (empty($path)) {
 			$path = APP;
-			Configure::write('ApiGenerator.filePath', $path);
+			$this->ApiConfig->data['paths'][$path] = true;
 		}
 		$this->path = $path;
 	}

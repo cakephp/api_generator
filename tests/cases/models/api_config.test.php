@@ -115,8 +115,15 @@ class ApiConfigTestCase extends CakeTestCase {
 				'/home/cake/plugins/api_generator' => true
 			)
 		));
+		
 
-
+		$data = "[paths]\n\n/Home/Cake/Plugins/Api_generator = true\n\n";
+		$result = $this->ApiConfig->read($data);
+		$this->assertEqual($result, array(
+			'paths' => array(
+				'/Home/Cake/Plugins/Api_generator' => true
+			)
+		));
 	}
 
 	function testIt() {}

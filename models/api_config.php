@@ -79,7 +79,7 @@ class ApiConfig extends Object {
 			} else {
 				$delimiter = strpos($row, '=');
 				if ($delimiter > 0) {
-					$key = strtolower(trim(substr($row, 0, $delimiter)));
+					$key = trim(substr($row, 0, $delimiter));
 					$value = trim(substr($row, $delimiter + 1));
 
 					if (substr($value, 0, 1) == '"' && substr($value, -1) == '"') {
@@ -90,11 +90,10 @@ class ApiConfig extends Object {
 					if (!isset($section)) {
 						$section = '';
 					}
-					$ini[$section][strtolower(trim($row))] = '';
+					$ini[$section][trim($row)] = '';
 				}
 			}
 		}
-
 		return $this->data = $ini;
 	}
 /**
@@ -124,6 +123,22 @@ class ApiConfig extends Object {
 		if ($File->write($string)) {
 			return true;
 		}
+	}
+/**
+ * Get the path at index
+ * 
+ * @param int $index Index of file path to get. defaults to 0
+ * @return string Absolute file path read from config.
+ **/
+	public function getPath($index = 0) {
+		if (empty($this->data)) {
+			$this->read();
+		}
+		$paths = array_keys($this->data['paths']);
+		if (!isset($paths[$index])) {
+			return false;
+		}
+		return $paths[$index];
 	}
 }
 ?>
