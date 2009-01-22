@@ -52,7 +52,7 @@ class ApiConfigTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->ApiConfig = ClassRegistry::init('ApiConfig');
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->ApiConfig->path = TMP . 'api_config.ini';
 	}
 /**
@@ -82,6 +82,23 @@ class ApiConfigTestCase extends CakeTestCase {
 		$this->assertTrue($this->ApiConfig->save(TMP . 'api_config.ini', $data));
 
 		$data = "[paths]\n\n/home/cake/plugins/api_generator = true\n\n";
+		$this->assertTrue($this->ApiConfig->save($data));
+		$this->assertTrue($this->ApiConfig->save(TMP . 'api_config.ini', $data));
+
+
+		$data = array(
+			'paths' => array(
+				'/home/cake/plugins/api_generator' => true
+			),
+			'exclude' => array(
+				'properties' => 'private',
+				'methods' => 'private'
+			),
+			'file' => array(
+				'extensions' => 'php, ctp',
+				'regex' => '[a-z]'
+			),
+		);
 		$this->assertTrue($this->ApiConfig->save($data));
 		$this->assertTrue($this->ApiConfig->save(TMP . 'api_config.ini', $data));
 	}
@@ -115,7 +132,7 @@ class ApiConfigTestCase extends CakeTestCase {
 				'/home/cake/plugins/api_generator' => true
 			)
 		));
-		
+
 
 		$data = "[paths]\n\n/Home/Cake/Plugins/Api_generator = true\n\n";
 		$result = $this->ApiConfig->read($data);
@@ -126,5 +143,43 @@ class ApiConfigTestCase extends CakeTestCase {
 		));
 	}
 
-	function testIt() {}
+	function testToString() {
+		$data = array(
+			'paths' => array(
+				'/home/cake/plugins/api_generator' => true
+			),
+			'exclude' => array(
+				'properties' => 'private',
+				'methods' => 'private'
+			),
+			'file' => array(
+				'extensions' => 'php, ctp',
+				'regex' => '[a-z]'
+			),
+		);
+		$result = $this->ApiConfig->toString($data);
+		$expected = "[paths]\n/home/cake/plugins/api_generator = true\n";
+		$expected .= "[exclude]\nproperties = private\nmethods = private\n";
+		$expected .= "[file]\nextensions = php, ctp\nregex = [a-z]";
+		$this->assertEqual($result, $expected);
+	}
+
+	function testSaveAndRead() {
+		$data = array(
+			'paths' => array(
+				'/home/cake/plugins/api_generator' => true
+			),
+			'exclude' => array(
+				'properties' => 'private',
+				'methods' => 'private'
+			),
+			'file' => array(
+				'extensions' => 'php, ctp',
+				'regex' => '[a-z]'
+			),
+		);
+		$this->assertTrue($this->ApiConfig->save($data));
+		$result = $this->ApiConfig->read();
+		$this->assertEqual($result, $data);
+	}
 }

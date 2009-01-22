@@ -60,15 +60,21 @@ class ApiConfig extends Object {
 		}
 
 		if (is_string($lines)) {
-			if ($lines[0] == '/') {
+			if ($lines[0] == '/' && file_exists($lines)) {
 				$lines = file($lines);
 			} else {
 				$lines = explode("\n", $lines);
 			}
 		}
+		if (empty($lines)) {
+			return array();
+		}
+
+		$lines = array_filter($lines);
+
 		$ini = array();
 
-		foreach (array_filter($lines) as $line) {
+		foreach ($lines as $line) {
 			$row = trim($line);
 			if (empty($row) || $row[0] == ';') {
 				continue;
@@ -116,17 +122,18 @@ class ApiConfig extends Object {
 		}
 
 		if (is_array($string)) {
-			$string = join("/n", $string);
+			$string = $this->toString($string);
 		}
 
 		$File = new File($path, true, 0755);
 		if ($File->write($string)) {
 			return true;
 		}
+		return false;
 	}
 /**
  * Get the path at index
- * 
+ *
  * @param int $index Index of file path to get. defaults to 0
  * @return string Absolute file path read from config.
  **/
@@ -134,11 +141,45 @@ class ApiConfig extends Object {
 		if (empty($this->data)) {
 			$this->read();
 		}
+		if (empty($this->data['paths'])) {
+			trigger_error(sprintf('Paths missing from %s',  'APP' . DS . 'config' . DS . 'api_config.ini'), E_USER_ERROR);
+			return false;
+		}
 		$paths = array_keys($this->data['paths']);
 		if (!isset($paths[$index])) {
 			return false;
 		}
 		return $paths[$index];
+	}
+
+/**
+ * Return data as a config string
+ *
+ * @return void
+ *
+ **/
+	public function toString($data = array()) {
+		if (empty($data)) {
+			if(empty($this->data)) {
+				return false;
+			}
+			$data = $this->data;
+		}
+		$result = array();
+		foreach ($data as $key => $value) {
+			if ($key[0] != '[') {
+				$result[] = "[$key]";
+			}
+			if (is_array($value)) {
+				foreach ($value as $key2 => $value2) {
+					$result[] = "{$key2} = " . trim(var_export($value2, true), "'");
+				}
+			}
+		}
+		if (empty($result)) {
+			$result = $data;
+		}
+		return join("\n", $result);
 	}
 }
 ?>

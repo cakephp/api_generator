@@ -20,9 +20,9 @@
  * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
  * @package         cake
  * @subpackage      cake.
- * @version         
- * @modifiedby      
- * @lastmodified    
+ * @version
+ * @modifiedby
+ * @lastmodified
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 /**
@@ -41,6 +41,13 @@ class ApiIndexShell extends Shell {
  * @var ApiClass
  **/
 	public $ApiClass;
+
+/**
+ * Holds current config
+ *
+ * @var ApiClass
+ **/
+	public $config = array();
 /**
  * startup method
  *
@@ -84,23 +91,30 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function update() {
+		$config = $this->config();
+
+		if (empty($config['paths'])) {
+			$this->err('Config could not be found');
+			return false;
+		}
+
 		$this->out('Clearing index and regenerating class index...');
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		$searchPath = Configure::read('ApiGenerator.filePath');
-		if ($searchPath == null) {
-			$searchPath = $this->_showFilePathWarning();
-		}
 		$this->ApiClass->clearIndex();
-		$fileList = $this->ApiFile->fileList($searchPath);
-		foreach ($fileList as $file) {
-			$docsInFile = $this->ApiFile->loadFile($file);
-			foreach ($docsInFile['class'] as $classDocs) {
-				$this->ApiClass->create();
-				if ($this->ApiClass->saveClassDocs($classDocs)) {
-					$this->out('Added docs for ' . $classDocs->name . ' to index');
+
+		foreach (array_keys($config['paths']) as $path) {
+			$fileList = $this->ApiFile->fileList($path);
+			foreach ($fileList as $file) {
+				$docsInFile = $this->ApiFile->loadFile($file);
+				foreach ($docsInFile['class'] as $classDocs) {
+					$this->ApiClass->create();
+					if ($this->ApiClass->saveClassDocs($classDocs)) {
+						$this->out('Added docs for ' . $classDocs->name . ' to index');
+					}
 				}
 			}
 		}
+
 		$this->out('Class index Regenerated.');
 	}
 /**
@@ -109,15 +123,20 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function showfiles() {
-		$path = Configure::read('ApiGenerator.filePath');
-		if ($path == null) {
-			$path = $this->_showFilePathWarning();
+		$config = $this->config();
+
+		if (empty($config['paths'])) {
+			$this->err('Config could not be found');
+			return false;
 		}
+
 		$this->out('The following files will be parsed when generating the API class index:');
 		$this->hr();
 		$this->out('');
-		$files = $this->ApiFile->fileList($path);
-		$this->_paginate($files);
+		foreach (array_keys($config['paths']) as $path) {
+			$files = $this->ApiFile->fileList($path);
+			$this->_paginate($files);
+		}
 	}
 /**
  * Pagiantion of long file lists
@@ -143,18 +162,176 @@ class ApiIndexShell extends Shell {
  *
  * @return void
  **/
-	protected function _showFilePathWarning() {
-		$this->out('You have not set ApiGenertor.filePath in your bootstrap.php');
-		$this->out('The following dir will be used:');
-		$this->hr();
-		$this->out(APP);
-		$this->out('');
-		$response = $this->in('Do you wish to continue?', array('y', 'n'), 'n');
-		if ($response == 'n') {
-			$this->out("Please add Configure::write('ApiGenerator.filePath', \$path); to your bootstrap.php");
-			$this->_stop();
+	protected function config() {
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
+
+		if (empty($this->config)) {
+			$config = $this->ApiConfig->read();
+			if (!empty($config)) {
+				return $config;
+			}
+		} else {
+			return $this->config;
 		}
-		return APP;
+
+		$config = array();
+
+		$this->hr();
+		$this->out('api_config.ini could not be located.');
+		$this->out('Answer some questions to build it.');
+		$this->hr();
+
+		$path = null;
+		while($path == null && $path != 'q') {
+			$path = $this->in('Enter the path to the codebase.', '', $this->params['working']);
+			if ($path[0] != '/') {
+				$path = $this->params['working'] . DS . $path;
+			}
+			if (file_exists($path)) {
+				$config['paths'][$path] = true;
+			}
+
+			$stop = $this->in('Add another path?', array('y', 'n', 'q'), 'n');
+			if ($stop == 'y') {
+				$path = null;
+			}
+		}
+		$this->hr();
+		$this->out('Setup some excludes');
+		$this->out('input a comma separated list for multiple options');
+		$this->out('to continue, just answer "n"');
+		$this->hr();
+
+		$exclude = null;
+		while($exclude == null && $exclude != 'n') {
+			$exclude = $this->in('Exclude properties (private, protected, static)', '', 'private');
+			if ($exclude != 'q') {
+				$config['exclude']['properties'] = $exclude;
+			}
+		}
+
+		$exclude = null;
+		while($exclude == null && $exclude != 'n') {
+			$exclude = $this->in('Exclude methods (private, protected, static)', '', 'private');
+			if ($exclude != 'n') {
+				$config['exclude']['methods'] = $exclude;
+			}
+		}
+
+		$exclude = null;
+		while($exclude == null && $exclude != 'n') {
+			$exclude = $this->in('Exclude a directory', '', 'n');
+			if ($exclude != 'n') {
+				$config['exclude']['directories'] = $exclude;
+				$stop = $this->in('Exclude another directory?', array('y', 'n', 'q'), 'n');
+				if ($stop == 'y') {
+					$exclude = null;
+				}
+			}
+		}
+
+		$exclude = null;
+		while($exclude == null && $exclude != 'n') {
+			$exclude = $this->in('Exclude file', '', 'n');
+			if ($exclude != 'n') {
+				$config['exclude']['files'] = $exclude;
+				$stop = $this->in('Add another file?', array('y', 'n', 'q'), 'n');
+				if ($stop == 'y') {
+					$exclude = null;
+				}
+			}
+		}
+
+		$this->hr();
+		$this->out('About the files in your codebase');
+		$this->out('input a comma separated list for multiple options');
+		$this->out('to continue, just answer "n"');
+		$this->hr();
+
+		$extensions = null;
+		while($extensions == null && $extensions != 'n') {
+			$extensions = $this->in('extensions (php, ctp, tpl)', '', 'php, ctp');
+			if ($extensions != 'n') {
+				$config['file']['extensions'] = $extensions;
+			}
+		}
+
+		$regex = null;
+		while($regex == null && $regex != 'n') {
+			$regex = $this->in('regex for matching files', '', '[a-z_\-0-9]+');
+			if ($regex != 'n') {
+				$config['file']['regex'] = $regex;
+			}
+		}
+
+		$this->hr();
+		$this->out('Do you have some classes that do not map to a filename?');
+		$this->out('to continue, just answer "n"');
+		$this->hr();
+
+		$mapping = null;
+		while($mapping == null && $mapping != 'n') {
+			$class = $this->in('Class to map', '', 'n');
+			if ($class == 'n') {
+				$mapping = 'n';
+			} else {
+				$file = null;
+				while($file == null && $file != 'n') {
+					$file = $this->in('Enter the path to the file that holds ' . $class, '', $this->params['working']);
+					if ($file[0] != '/') {
+						$file = $this->params['working'] . DS . $file;
+					}
+					if (file_exists($file)) {
+						$mapping = true;
+						$config['mappings'][$class] = $file;
+					}
+				}
+				$stop = $this->in('Add another mapping?', array('y', 'n', 'q'), 'n');
+				if ($stop == 'y') {
+					$mapping = null;
+				}
+			}
+		}
+
+		$this->hr();
+		$this->out('Usually we can find the dependencies, but ');
+		$this->out('input a comma separated list for multiple options');
+		$this->out('to continue, just answer "n"');
+		$this->hr();
+
+		$dependencies = null;
+		while($dependencies == null && $dependencies != 'n') {
+			$class = $this->in('Class', '', 'n');
+			if ($class == 'n') {
+				$dependencies = 'n';
+			} else {
+				$parent = null;
+				while($parent == null && $parent != 'n') {
+					$parent = $this->in('Enter the dependencies for ' . $class, '');
+					if ($parent != 'n') {
+						$dependencies = true;
+						$config['dependencies'][$class] = $parent;
+					}
+				}
+				$stop = $this->in('Add another dependency?', array('y', 'n', 'q'), 'n');
+				if ($stop == 'y') {
+					$dependencies = null;
+				}
+			}
+		}
+
+		$this->hr();
+		$this->out('Verify the config');
+		$this->hr();
+		$string = $this->ApiConfig->toString($config);
+		$this->out($string);
+		$this->hr();
+		$looksGood = $this->in('Does the config look correct?', array('y', 'n'), 'n');
+
+		if ($this->ApiConfig->save($string)) {
+			$this->out('the config was saved');
+		}
+		return $this->config = $config;
 	}
 /**
  * Get help
@@ -172,7 +349,7 @@ class ApiIndexShell extends Shell {
 		$this->out('	Use to check if your config is going to parse the files you want.');
 		$this->out('  update');
 		$this->out('	Clear the existing class index and regenerate it.');
-		
+
 	}
 
 }
