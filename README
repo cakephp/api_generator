@@ -33,3 +33,8 @@ Goals of project:
 	* ability to omit certain classes from the docs
 	* allow / remove protected / private members from being displayed.
 	
+Usage:
+-----------
+cake api_index initdb
+cake api_index update
+visit, http://localohst/api_generator/api_pages/browse_files
