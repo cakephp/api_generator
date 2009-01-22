@@ -41,19 +41,31 @@ class ApiFile extends Object {
  *
  * @var array
  **/
-	public $removeFolders = array('config', 'webroot', 'tmp', 'locale', 'tests');
+	public $excludeFolders = array();
 /**
  * A list of files to ignore.
  *
  * @var array
  **/
-	public $removeFiles = array('index.php', 'empty');
+	public $excludeFiles = array();
 /**
  * a list of extensions to scan for
  *
  * @var array
  **/
-	public $allowedExtensions = array('php');
+	public $allowedExtensions = array();
+/**
+ * Array of class dependancies map
+ *
+ * @var array
+ **/
+	public $dependencyMap = array();
+/**
+ * Mappings of funny named classes to files
+ *
+ * @var string
+ **/
+	public $classMap = array();
 /**
  * A regexp for file names. (will be made case insenstive)
  *
@@ -66,6 +78,12 @@ class ApiFile extends Object {
  * @var Folder
  **/
 	protected $_Folder;
+/**
+ * ApiConfig Model instance
+ *
+ * @var object
+ **/
+	public $ApiConfig;
 /**
  * Current Extractor instance
  *
@@ -92,6 +110,8 @@ class ApiFile extends Object {
 	public function __construct() {
 		parent::__construct();
 		$this->_Folder = new Folder(Configure::read('ApiGenerator.filePath'));
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
+		$this->_initConfig();
 	}
 /**
  * Read a path and return files and folders not in the excluded Folder list
@@ -101,7 +121,7 @@ class ApiFile extends Object {
  **/
 	public function read($path) {
 		$this->_Folder->cd($path);
-		$ignore = $this->removeFiles;
+		$ignore = $this->excludeFiles;
 		$ignore[] = '.';
 		$contents = $this->_Folder->read(true, $ignore);
 		$this->_filterFolders($contents[0], false);
@@ -125,14 +145,14 @@ class ApiFile extends Object {
 /**
  * _filterFiles
  * 
- * Filter a file list and remove removeFolders
+ * Filter a file list and remove excludeFolders
  * 
  * @param array $files List of files to filter and ignore. (reference)
  * @return void
  **/
 	protected function _filterFolders(&$fileList, $recursiveList = true) {
 		$count = count($fileList);
-		foreach ($this->removeFolders as $blackListed) {
+		foreach ($this->excludeFolders as $blackListed) {
 			if ($recursiveList) {
 				$blackListed = DS . $blackListed . DS;
 			}
@@ -146,12 +166,12 @@ class ApiFile extends Object {
 	}
 /**
  * remove files that don't match the allowedExtensions
- * or are on the removeFiles list
+ * or are on the excludeFiles list
  *
  * @return void
  **/
 	protected function _filterFiles(&$fileList) {
-		foreach ($this->removeFiles as $ignored) {
+		foreach ($this->excludeFiles as $ignored) {
 			$fileCount = count($fileList);
 			$fileList = array_values($fileList);
 			for ($i = 0; $i < $fileCount; $i++) {
@@ -325,6 +345,31 @@ class ApiFile extends Object {
 		}
 		foreach ($classes as $type => $class) {
 			App::import($type, $class);
+		}
+	}
+/**
+ * Initialize the configuration for ApiFile.
+ *
+ * @return void
+ **/
+	protected function _initConfig() {
+		$config = $this->ApiConfig->read();
+		if (isset($config['exclude']) && is_array($config['exclude'])) {
+			foreach ($config['exclude'] as $type => $exclusion) {
+				$var = 'exclude' . Inflector::camelize($type);
+				$this->{$var} = explode(', ', $exclusion);
+			}
+		}
+		if (isset($config['extensions']['allowed'])) {
+			$this->allowedExtensions = explode(', ', $config['extensions']['allowed']);
+		}
+		$varMap = array('dependencies' => 'dependencyMap', 'mappings' => 'classMap');
+		foreach ($varMap as $key => $var) {
+			if (isset($config[$key]) && is_array($config[$key])) {
+				foreach ($config[$key] as $name => $value) {
+					$this->{$var}[$name] = explode(', ', $value);
+				}
+			}
 		}
 	}
 }

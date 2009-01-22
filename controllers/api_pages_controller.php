@@ -38,7 +38,7 @@ class ApiPagesController extends ApiGeneratorAppController {
  *
  * @var array
  */
-	public $uses = array();
+	public $uses = array('ApiGenerator.ApiFile');
 /**
  * Components array
  *
@@ -57,7 +57,6 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function browse_files() {
-		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$currentPath = implode('/', $this->passedArgs);
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
@@ -73,7 +72,6 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  */
 	public function list_files() {
-		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$files = $this->ApiFile->fileList($this->path);
 		$this->set('files', $files);
 	}
@@ -95,11 +93,9 @@ class ApiPagesController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function view_file() {
-		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
-
 		if (!file_exists($fullPath)) {
 			$this->_notFound(__('No file exists with that name', true));
 		}
@@ -133,7 +129,6 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$this->redirect($this->referer());
 		}
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		$this->ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 
 		if (empty($classInfo['ApiClass']['file_name'])) {

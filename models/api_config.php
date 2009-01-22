@@ -1,8 +1,8 @@
 <?php
 /**
- * Api File Model
+ * Api Config Model
  *
- * For interacting with the Filesystem specified by ApiGenerator.filePath
+ * For interacting with the Config files for ApiGenerator
  *
  *
  * PHP versions 4 and 5
@@ -25,7 +25,7 @@ class ApiConfig extends Object {
 /**
  * holds data for read
  *
- * @var string
+ * @var array
  **/
 	public $data = array();
 /**

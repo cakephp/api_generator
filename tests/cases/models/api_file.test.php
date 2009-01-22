@@ -73,21 +73,21 @@ class ApiFileTestCase extends CakeTestCase {
 	function testRead() {
 		$result = $this->ApiFile->read($this->_path  . DS . 'models');
 		$this->assertTrue(empty($result[0]));
-		$expected = array('api_class.php', 'api_file.php');
-		$this->assertEqual($result[1], $expected);
+		$expected = array('api_config.php', 'api_class.php', 'api_file.php');
+		$this->assertEqual(sort($result[1]), sort($expected));
 		
-		$this->ApiFile->removeFiles[] = 'api_class.php';
+		$this->ApiFile->excludeFiles[] = 'api_class.php';
 		$result = $this->ApiFile->read($this->_path . DS . 'models');
-		$expected = array('api_file.php');
+		$expected = array('api_config.php', 'api_file.php');
 		$this->assertEqual($result[1], $expected);
 		
-		$this->ApiFile->removeFolders = array('models', 'controllers');
+		$this->ApiFile->excludeFolders = array('models', 'controllers');
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertFalse(in_array('controllers', $result[0]));
 		$this->assertFalse(in_array('models', $result[0]));
 		
 		$this->ApiFile->allowedExtensions = array('css');
-		$this->ApiFile->removeFolders = array('models');
+		$this->ApiFile->excludeFolders = array('models');
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertTrue(empty($result[1]), 'file with not allowed extension found. %s');
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
@@ -101,14 +101,14 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testGetFileList() {
-		$this->ApiFile->removeFolders = array('config', 'webroot');
+		$this->ApiFile->excludeFolders = array('config', 'webroot');
 		$result = $this->ApiFile->fileList(APP);
 		$core = CONFIGS . 'core.php';
 		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
 		
-		$this->ApiFile->removeFolders = array();
+		$this->ApiFile->excludeFolders = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
 		$core = CONFIGS . 'core.php';
@@ -116,7 +116,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
 		
-		$this->ApiFile->removeFolders = array();
+		$this->ApiFile->excludeFolders = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
 		$core = CONFIGS . 'core.php';
@@ -124,7 +124,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
 		
-		$this->ApiFile->removeFolders = array();
+		$this->ApiFile->excludeFolders = array();
 		$this->ApiFile->allowedExtensions = array('php');
 		$this->ApiFile->removeFiles = array('index.php');
 		$this->ApiFile->fileRegExp = '[a-z_0-9]+';
@@ -134,9 +134,6 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(in_array($core, $result));
 		$this->assertFalse(in_array($index, $result));
 	}
-function getTests() {
-	return array('start', 'startCase', 'testGetFileList', 'endCase', 'end');
-}
 /**
  * test Processed docs retrieval
  *
