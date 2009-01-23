@@ -244,6 +244,14 @@ class ApiFile extends Object {
 		return $docs;
 	}
 /**
+ * Import the core classes (Controller, View, Helper, Model)
+ *
+ * @return void
+ **/
+	public function importCoreClasses() {
+		App::import('Core', array('Controller', 'Model', 'View', 'Helper'));
+	}
+/**
  * gets the currently defined functions and classes 
  * so comparisons to new files can be made
  *

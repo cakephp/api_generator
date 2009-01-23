@@ -101,7 +101,8 @@ class ApiIndexShell extends Shell {
 		$this->out('Clearing index and regenerating class index...');
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$this->ApiClass->clearIndex();
-
+		$this->ApiFile->importCoreClasses();
+		
 		foreach (array_keys($config['paths']) as $path) {
 			$fileList = $this->ApiFile->fileList($path);
 			foreach ($fileList as $file) {
