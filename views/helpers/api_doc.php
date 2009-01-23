@@ -33,7 +33,12 @@ class ApiDocHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array('Html');
-	
+/**
+ * internal basePath used when browsing files. and making links to them
+ *
+ * @var string
+ **/
+	protected $_basePath;
 /**
  * default Urls
  *
@@ -58,6 +63,23 @@ class ApiDocHelper extends AppHelper {
  **/
 	protected $_classList = array();
 /**
+ * Constructor.
+ *
+ * @return void
+ **/
+	public function __construct($config = array()) {
+		$view = ClassRegistry::getObject('view');
+		$this->_basePath = $view->getVar('basePath');
+	}
+/**
+ * set the basePath
+ *
+ * @return void
+ **/
+	public function setBasePath($path) {
+		$this->_basePath = $path;
+	}
+/**
  * inBasePath
  * 
  * Check if a filename is within the ApiGenerator.basePath path
@@ -65,8 +87,7 @@ class ApiDocHelper extends AppHelper {
  * @return boolean
  **/
 	function inBasePath($filename) {
-		$basePath = Configure::read('ApiGenerator.filePath');
-		return (strpos($filename, $basePath) !== false);
+		return (strpos($filename, $this->_basePath) !== false);
 	}
 /**
  * Create a link to a filename if it is in the basePath
@@ -92,8 +113,7 @@ class ApiDocHelper extends AppHelper {
  * @return string trimmed filename
  **/
 	public function trimFileName($filename) {
-		$basePath = Configure::read('ApiGenerator.filePath');
-		return str_replace($basePath, '', $filename);
+		return str_replace($this->_basePath, '', $filename);
 	}
 /**
  * Set the Class list so that linkClassName will know which classes are in the index.
@@ -120,6 +140,22 @@ class ApiDocHelper extends AppHelper {
 			return $this->Html->link($className, $url, $attributes);
 		}
 		return $className;
+	}
+/**
+ * Check the access string against the excluded method access.
+ *
+ * @param string $accessString name of the accessString you are checking ie. public
+ * @param string $type Type of access to check, (method or property)
+ * @return boolean
+ **/
+	public function excluded($accessString, $type) {
+		$view = ClassRegistry::getObject('view');
+		$accessName = Inflector::variable('exclude_' . Inflector::pluralize($type));
+		$exclusions = $view->getVar($accessName);
+		if (in_array($accessString, $exclusions)) {
+			return true;
+		}
+		return false;
 	}
 /**
  * Slugs a classname to match the format in the database.

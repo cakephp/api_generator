@@ -11,7 +11,7 @@
 		<?php $i = 0; ?>
 		<?php foreach ($doc->properties as $prop): ?>
 			<?php 
-			if (isset($excludeNonPublic) && $excludeNonPublic && $prop['access'] != 'public') :
+			if ($apiDoc->excluded($prop['access'], 'property')) :
 				continue;
 			endif;
 			$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);

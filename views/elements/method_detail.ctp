@@ -5,7 +5,7 @@
  */
 ?>
 <?php foreach ($doc->methods as $method):
-	if (isset($excludeNonPublic) && $excludeNonPublic && $method['access'] != 'public') :
+	if ($apiDoc->excluded($method['access'], 'method')) :
 		continue;
 	endif;
 	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);

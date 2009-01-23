@@ -382,6 +382,19 @@ class ApiFile extends Object {
 		}
 	}
 /**
+ * Get the Exclusions lists.
+ * 
+ * @return array of stuff not allowed in views.
+ **/
+	public function getExclusions() {
+		$return = array();
+		$excludeProps = array('excludeMethods', 'excludeProperties');
+		foreach ($excludeProps as $var) {
+			$return[$var] = $this->{$var};
+		}
+		return $return;
+	}
+/**
  * Initialize the configuration for ApiFile.
  *
  * @return void

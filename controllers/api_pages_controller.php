@@ -167,5 +167,14 @@ class ApiPagesController extends ApiGeneratorAppController {
 		}
 		$this->set(compact('results', 'classList'));
 	}
+/**
+ * Extract all the useful config info out of the ApiConfig.
+ *
+ * @return void
+ **/
+	public function beforeRender() {
+		$this->set('basePath', $this->path);
+		$this->set($this->ApiFile->getExclusions());
+	}
 }
 ?>

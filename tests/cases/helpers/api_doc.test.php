@@ -26,6 +26,7 @@
  * @lastmodified    
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
+App::import('Core', array('View', 'Controller'));
 App::import('Helper', array('ApiGenerator.ApiDoc', 'Html'));
 
 /**
@@ -38,9 +39,11 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
+		$controller = new Controller();
+		$view = new View($controller);
+		$view->set('basePath', '/cake/tests/');
 		$this->ApiDoc = new ApiDocHelper();
 		$this->ApiDoc->Html = new HtmlHelper();
-		Configure::write('ApiGenerator.filePath', '/cake/tests/');
 	}
 /**
  * test inBasePath
@@ -60,7 +63,8 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$result = $this->ApiDoc->trimFileName('/cake/tests/my/path');
 		$this->assertEqual($result, 'my/path');
 		
-		Configure::write('ApiGenerator.filePath', '/Users/markstory/Sites/cake_debug_kit/');
+		
+		$this->ApiDoc->setBasePath('/Users/markstory/Sites/cake_debug_kit/');
 		$result = $this->ApiDoc->trimFileName('/Users/markstory/Sites/cake_debug_kit/controllers/posts_controller.php');
 		$this->assertEqual($result, 'controllers/posts_controller.php');
 	}
@@ -98,6 +102,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function endTest() {
+		ClassRegistry::flush();
 		unset($this->ApiDoc);
 	}
 }
