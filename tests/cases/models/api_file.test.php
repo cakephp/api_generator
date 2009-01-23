@@ -170,9 +170,25 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadFileWithDependancyMap() {
+		$this->assertNoErrors();
 		$testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 		$this->ApiFile->classMap['MappedRandomFile'] = $testAppPath . 'mapped_file.php';
 		$this->ApiFile->classMap['SillyTestInterface'] = $testAppPath . 'silly_interface_file.php';
 		$result = $this->ApiFile->loadFile($testAppPath . 'test_file.php');
+	}
+/**
+ * Test that ApiFile Throws down when needed.
+ *
+ * @return void
+ **/
+	function testExceptionThrowing() {
+		$testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
+		$this->ApiFile->classMap = array();
+		try {
+			$this->ApiFile->loadFile($testAppPath . 'throw_down.php');
+			$this->assertFalse(true, 'No exception was thrown, when loading a garbage file');
+		} catch (MissingClassException $e) {
+			$this->assertTrue(true);
+		}
 	}
 }

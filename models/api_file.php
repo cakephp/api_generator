@@ -373,11 +373,6 @@ class ApiFile extends Object {
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
 		}
-		// if (isset($classes['Test'])) {
-		// 			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');
-		// 			App::import('Vendor', 'MockObjects');
-		// 			unset($classes['Test']);
-		// 		}
 		foreach ($baseClass as $type => $class) {
 			App::import($type, $class);
 		}
