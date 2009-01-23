@@ -105,7 +105,12 @@ class ApiIndexShell extends Shell {
 		foreach (array_keys($config['paths']) as $path) {
 			$fileList = $this->ApiFile->fileList($path);
 			foreach ($fileList as $file) {
-				$docsInFile = $this->ApiFile->loadFile($file);
+				try {
+					$docsInFile = $this->ApiFile->loadFile($file);
+				} catch (Exception $e) {
+					$this->err($e->getMessage());
+					$this->_stop();
+				}
 				foreach ($docsInFile['class'] as $classDocs) {
 					$this->ApiClass->create();
 					if ($this->ApiClass->saveClassDocs($classDocs)) {

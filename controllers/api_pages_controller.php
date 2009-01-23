@@ -104,7 +104,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		try {
 			$docs = $this->ApiFile->loadFile($fullPath);
 		} catch(Exception $e) {
-			$this->_notFound($e->message);
+			$this->_notFound($e->getMessage());
 		}
 
 		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
@@ -140,7 +140,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
 			$doc = $docs['class'][$classInfo['ApiClass']['name']];
 		} catch(Exception $e) {
-			$this->_notFound($e->message);
+			$this->_notFound($e->getMessage());
 		}
 		
 		$classIndex = $this->ApiClass->getClassIndex();
@@ -151,6 +151,21 @@ class ApiPagesController extends ApiGeneratorAppController {
 		} else {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}
+	}
+/**
+ * View the Source for a file.
+ *
+ * @return void
+ **/
+	public function view_source($classSlug = null) {
+		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		$classInfo = $this->ApiClass->findBySlug($classSlug);
+
+		if (empty($classInfo['ApiClass']['file_name'])) {
+			$this->_notFound(__('No class exists in the index with that name', true));
+		}
+		$fileContents = file_get_contents($classInfo['ApiClass']['file_name']);
+		$this->set('contents', $fileContents);
 	}
 /**
  * Search through the class index.

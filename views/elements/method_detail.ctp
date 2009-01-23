@@ -45,7 +45,19 @@
 		<dd><?php echo $apiDoc->classLink($method['declaredInClass']); ?></dd>
 		
 		<dt><?php __('Method defined in file:'); ?></dt>
-		<dd><?php echo $apiDoc->fileLink($method['declaredInFile']); ?></dd>
+		<dd><?php 
+			echo $apiDoc->fileLink($method['declaredInFile']);
+			
+			if ($apiDoc->inClassList($method['declaredInFile'])):
+				__(' on line ');
+				echo $html->link($method['startLine'], array(
+					'controller' => 'api_pages',
+					'action' => 'view_source', 
+					$apiDoc->slugClassName($method['declaredInClass']),
+					'#line-'. $method['startLine']
+				));
+			endif;
+		?> </dd>
 		
 		<dt>
 			<?php foreach ($method['comment']['tags'] as $name => $value): ?>
