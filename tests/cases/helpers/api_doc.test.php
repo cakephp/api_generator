@@ -62,8 +62,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testTrimFileName() {
 		$result = $this->ApiDoc->trimFileName('/cake/tests/my/path');
 		$this->assertEqual($result, 'my/path');
-		
-		
+
 		$this->ApiDoc->setBasePath('/Users/markstory/Sites/cake_debug_kit/');
 		$result = $this->ApiDoc->trimFileName('/Users/markstory/Sites/cake_debug_kit/controllers/posts_controller.php');
 		$this->assertEqual($result, 'controllers/posts_controller.php');
