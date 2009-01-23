@@ -202,11 +202,9 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 
 		$exclude = null;
-		while($exclude == null && $exclude != 'n') {
-			$exclude = $this->in('Exclude properties of the following types (private, protected, static)', '', 'private');
-			if ($exclude != 'q') {
-				$config['exclude']['properties'] = $exclude;
-			}
+		$exclude = $this->in('Exclude properties of the following types (private, protected, static)', '', 'private');
+		if ($exclude != 'q') {
+			$config['exclude']['properties'] = $exclude;
 		}
 
 		$exclude = $this->in('Exclude methods of the following types (private, protected, static)', '', 'private');

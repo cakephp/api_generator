@@ -227,25 +227,11 @@ class ApiFile extends Object {
  *
  * @param string $fullPath FullPath of the file you want to load.
  * @return array Array of all the docs from all the classes that were loaded as a result of the file being loaded.
+ * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
  **/
 	public function loadFile($filePath) {
-		$baseClass = array();
-		if (strpos($filePath, 'controllers') !== false) {
-			$baseClass['Controller'] = 'App';
-		}
-		if (strpos($filePath, 'models') !== false) {
-			$baseClass['Model'] = 'App';
-		}
-		if (strpos($filePath, 'helpers') !== false) {
-			$baseClass['Helper'] = 'App';
-		}
-		if (strpos($filePath, 'view') !== false) {
-			$baseClass['View'] = 'View';
-		}
-		if (strpos($filePath, 'tests') !== false) {
-			$baseClass['Test'] = 'CakeTestCase';
-		}
-		$this->_importBaseClasses($baseClass);
+		$this->_importCakeBaseClasses($filePath);
+		$this->_resolveDependancies($filePath);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
 
@@ -303,14 +289,23 @@ class ApiFile extends Object {
  * Retrieves the classNames defined in a file.
  * Solves issues of reading docs from files that have already been included.
  *
+ * @param string $filePath Absolute file path to file you want to parse.
+ * @param boolean $getParents Get the parent classes instead.
  * @return array Array of class names that exist in the file.
  **/
-	protected function _parseClassNamesInFile($fileName) {
+	protected function _parseClassNamesInFile($fileName, $getParents = false) {
 		$foundClasses = array();
 		$fileContent = file_get_contents($fileName);
-		preg_match_all('/^\s*class\s([^\s]*)[^\{]+/mi', $fileContent, $matches, PREG_SET_ORDER);
+		$pattern = '/^\s*(?:class|interface)\s([^\s]*)[^\{]+/mi';
+		if ($getParents) {
+			$pattern = '/^\s*class\s[^\s]*\s+extends\s+([^\s]*)\s*(?:implements\s*([^\s\{]*))?[^\{]+/mi';
+		}
+		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
 		foreach ($matches as $className) {
 			$foundClasses[] = $className[1];
+			if (isset($className[2])) {
+				$foundClasses = array_merge($foundClasses, explode(', ', $className[2]));
+			}
 		}
 		return $foundClasses;
 	}
@@ -332,18 +327,58 @@ class ApiFile extends Object {
 		return $foundFuncs;
 	}
 /**
+ * Parses the file for any parent classes required by the file being loaded.
+ * Attempts to load those files.
+ *
+ * @return void
+ **/
+	protected function _resolveDependancies($filePath) {
+		$parentClasses = $this->_parseClassNamesInFile($filePath, true);
+		$solved = false;
+		$loadClasses = array();
+		while ($solved === false) {
+			$neededParent = array_pop($parentClasses);
+			$exists = (class_exists($neededParent, false) || interface_exists($neededParent, false));
+			if (!$exists && isset($this->classMap[$neededParent])) {
+				array_unshift($loadClasses, $neededParent); //$loadClasses[] = $neededParent;
+				$newNeeds = $this->_parseClassNamesInFile($this->classMap[$neededParent], true);
+				$parentClasses = array_unique(array_merge($parentClasses, $newNeeds));
+			} elseif (!$exists) {
+				throw new MissingClassException($neededParent . ' could not be found using mappings, please add it to the mappings.');
+			}
+			if (empty($parentClasses)) {
+				$solved = true;
+			}
+		}
+		foreach ($loadClasses as $className) {
+			App::import('File', $className, true, array(), $this->classMap[$className]);
+		}
+	}
+/**
  * Attempts to solve class dependancies by importing base CakePHP classes
  *
  * @return void
  **/
-	protected function _importBaseClasses($classes = array()) {
-		App::import('Core', array('Model', 'Helper', 'View', 'Controller'));
-		if (isset($classes['Test'])) {
-			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');
-			App::import('Vendor', 'MockObjects');
-			unset($classes['Test']);
+	protected function _importCakeBaseClasses($filePath) {
+		$baseClass = array();
+		if (strpos($filePath, 'controllers') !== false) {
+			$baseClass['Controller'] = 'App';
 		}
-		foreach ($classes as $type => $class) {
+		if (strpos($filePath, 'models') !== false) {
+			$baseClass['Model'] = 'App';
+		}
+		if (strpos($filePath, 'helpers') !== false) {
+			$baseClass['Helper'] = 'App';
+		}
+		if (strpos($filePath, 'view') !== false) {
+			$baseClass['View'] = 'View';
+		}
+		// if (isset($classes['Test'])) {
+		// 			App::import('File', 'CakeTestCase', true, array(CAKE_CORE_INCLUDE_PATH . DS . CAKE_TESTS_LIB), 'cake_test_case.php');
+		// 			App::import('Vendor', 'MockObjects');
+		// 			unset($classes['Test']);
+		// 		}
+		foreach ($baseClass as $type => $class) {
 			App::import($type, $class);
 		}
 	}
@@ -360,9 +395,12 @@ class ApiFile extends Object {
 				$this->{$var} = explode(', ', $exclusion);
 			}
 		}
-		if (isset($config['extensions']['allowed'])) {
-			$this->allowedExtensions = explode(', ', $config['extensions']['allowed']);
+		if (isset($config['file']['extensions'])) {
+			$this->allowedExtensions = explode(', ', $config['file']['extensions']);
 		}
+		if (isset($config['file']['regex'])) {
+			$this->fileRegExp = $config['file']['regex'];
+		}		
 		$varMap = array('dependencies' => 'dependencyMap', 'mappings' => 'classMap');
 		foreach ($varMap as $key => $var) {
 			if (isset($config[$key]) && is_array($config[$key])) {
@@ -373,4 +411,6 @@ class ApiFile extends Object {
 		}
 	}
 }
+
+class MissingClassException extends Exception { }
 ?>

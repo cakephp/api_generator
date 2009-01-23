@@ -164,4 +164,15 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
 	}
+/**
+ * test loadFile() with a dependancy map. 
+ *
+ * @return void
+ **/
+	function testLoadFileWithDependancyMap() {
+		$testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
+		$this->ApiFile->classMap['MappedRandomFile'] = $testAppPath . 'mapped_file.php';
+		$this->ApiFile->classMap['SillyTestInterface'] = $testAppPath . 'silly_interface_file.php';
+		$result = $this->ApiFile->loadFile($testAppPath . 'test_file.php');
+	}
 }
