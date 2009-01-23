@@ -310,11 +310,13 @@ class ApiFile extends Object {
 		$fileContent = file_get_contents($fileName);
 		$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s([^\s]*)[^\{]+/mi';
 		if ($getParents) {
-			$pattern = '/^\s*(?:abstract\s*)?class\s[^\s]*\s+extends\s+([^\s]*)\s*(?:implements\s*([^\s\{]*))?[^\{]+/mi';
+			$pattern = '/^\s*(?:abstract\s*)?class\s[^\s]*\s*(?:extends\s+([^\s]*))?\s*(?:implements\s*([^\s\{]*))?[^\{]+/mi';
 		}
 		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
 		foreach ($matches as $className) {
-			$foundClasses[] = $className[1];
+			if (!empty($className[1])) {
+				$foundClasses[] = $className[1];
+			}
 			if (isset($className[2])) {
 				$foundClasses = array_merge($foundClasses, explode(', ', $className[2]));
 			}
@@ -346,13 +348,20 @@ class ApiFile extends Object {
  **/
 	protected function _resolveDependancies($filePath) {
 		$parentClasses = $this->_parseClassNamesInFile($filePath, true);
+		$classNamesInFile = $this->_parseClassNamesInFile($filePath);
 		$solved = false;
 		$loadClasses = array();
-		while ($solved === false) {
+		while ($solved === false && !empty($parentClasses)) {
 			$neededParent = array_pop($parentClasses);
-			$exists = (class_exists($neededParent, false) || interface_exists($neededParent, false));
+
+			$exists = (
+				class_exists($neededParent, false) || 
+				interface_exists($neededParent, false) ||
+				in_array($neededParent, $classNamesInFile)
+			);
+			
 			if (!$exists && isset($this->classMap[$neededParent])) {
-				array_unshift($loadClasses, $neededParent); //$loadClasses[] = $neededParent;
+				array_unshift($loadClasses, $neededParent);
 				$newNeeds = $this->_parseClassNamesInFile($this->classMap[$neededParent], true);
 				$parentClasses = array_unique(array_merge($parentClasses, $newNeeds));
 			} elseif (!$exists) {

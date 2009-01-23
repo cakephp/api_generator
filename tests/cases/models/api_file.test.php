@@ -42,6 +42,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->_path = APP . 'plugins' . DS . 'api_generator';
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiFile = new ApiFile();
+		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 	}
 /**
  * endTest
@@ -171,10 +172,27 @@ class ApiFileTestCase extends CakeTestCase {
  **/
 	function testLoadFileWithDependancyMap() {
 		$this->assertNoErrors();
-		$testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
-		$this->ApiFile->classMap['MappedRandomFile'] = $testAppPath . 'mapped_file.php';
-		$this->ApiFile->classMap['SillyTestInterface'] = $testAppPath . 'silly_interface_file.php';
-		$result = $this->ApiFile->loadFile($testAppPath . 'test_file.php');
+		$this->ApiFile->classMap['MappedRandomFile'] = $this->_testAppPath . 'mapped_file.php';
+		$this->ApiFile->classMap['SillyTestInterface'] = $this->_testAppPath . 'silly_interface_file.php';
+		$this->ApiFile->loadFile($this->_testAppPath . 'test_file.php');
+	}
+/**
+ * test loading a file whose classes have no parent classes
+ *
+ * @return void
+ **/
+	function testLoadingFileWithNoParentClass() {
+		$result = $this->ApiFile->loadFile($this->_testAppPath . 'no_parents.php');
+		$this->assertEqual(count($result['class']), 2);
+	}
+/**
+ * test loading files that contain both parent and child classes.
+ *
+ * @return void
+ **/
+	function testLoadingFileParentClassInSameFile() {
+		$result = $this->ApiFile->loadFile($this->_testAppPath . 'inline_parents.php');
+		$this->assertEqual(count($result['class']), 3);
 	}
 /**
  * Test that ApiFile Throws down when needed.
@@ -182,10 +200,9 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testExceptionThrowing() {
-		$testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 		$this->ApiFile->classMap = array();
 		try {
-			$this->ApiFile->loadFile($testAppPath . 'throw_down.php');
+			$this->ApiFile->loadFile($this->_testAppPath . 'throw_down.php');
 			$this->assertFalse(true, 'No exception was thrown, when loading a garbage file');
 		} catch (MissingClassException $e) {
 			$this->assertTrue(true);
