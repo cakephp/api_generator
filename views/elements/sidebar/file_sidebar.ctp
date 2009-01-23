@@ -8,7 +8,7 @@
 
 <h3><?php __('File browser'); ?></h3>
 <ul id="file-browser">
-	<li class="up-dir folder"><?php echo $html->link(__('Up one level', true), array('action' => 'browse_files', $previousPath)); ?></li>
+	<li class="up-dir folder"><?php echo $html->link(__('Up one folder', true), array('action' => 'browse_files', $upOneFolder)); ?></li>
 	<?php foreach ($dirs as $dir): ?>
 		<li class="folder">
 			<?php echo $html->link($dir, array('action' => 'browse_files', $previousPath . '/' . $dir)); ?>

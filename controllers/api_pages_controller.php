@@ -96,22 +96,24 @@ class ApiPagesController extends ApiGeneratorAppController {
 		$currentPath = implode('/', $this->passedArgs);
 		$fullPath = $this->path . $currentPath;
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
+		$upOneFolder = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -2));
+
 		if (!file_exists($fullPath)) {
 			$this->_notFound(__('No file exists with that name', true));
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($fullPath);
 		} catch(Exception $e) {
-			//do something later. Once I get missing classes == Exception.
+			$this->_notFound($e->message);
 		}
 
 		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
-
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
+
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/file_sidebar');
-			$this->set(compact('currentPath', 'previousPath', 'docs', 'dirs', 'files', 'classIndex'));
+			$this->set(compact('currentPath', 'previousPath', 'upOneFolder', 'docs', 'dirs', 'files', 'classIndex'));
 		} else {
 			$this->set('previousPath', $previousPath);
 			$this->render('no_class');
@@ -138,7 +140,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
 			$doc = $docs['class'][$classInfo['ApiClass']['name']];
 		} catch(Exception $e) {
-			//do something later. Once I get missing classes == Exception.
+			$this->_notFound($e->message);
 		}
 		
 		$classIndex = $this->ApiClass->getClassIndex();

@@ -41,7 +41,7 @@ class ApiFile extends Object {
  *
  * @var array
  **/
-	public $excludeFolders = array();
+	public $excludeDirectories = array();
 /**
  * A list of files to ignore.
  *
@@ -145,14 +145,14 @@ class ApiFile extends Object {
 /**
  * _filterFiles
  * 
- * Filter a file list and remove excludeFolders
+ * Filter a file list and remove excludeDirectories
  * 
  * @param array $files List of files to filter and ignore. (reference)
  * @return void
  **/
 	protected function _filterFolders(&$fileList, $recursiveList = true) {
 		$count = count($fileList);
-		foreach ($this->excludeFolders as $blackListed) {
+		foreach ($this->excludeDirectories as $blackListed) {
 			if ($recursiveList) {
 				$blackListed = DS . $blackListed . DS;
 			}
@@ -234,14 +234,11 @@ class ApiFile extends Object {
 		$this->_resolveDependancies($filePath);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
-
 		$docs = array('class' => array(), 'function' => array());
 		foreach ($newObjects as $type => $objects) {
 			foreach ($objects as $element) {
 				$this->loadExtractor($type, $element);
-				if ($this->getExtractor()->getFileName() == $filePath) {
-					$docs[$type][$element] = $this->getDocs();
-				}
+				$docs[$type][$element] = $this->getDocs();
 			}
 		}
 		return $docs;
@@ -266,11 +263,18 @@ class ApiFile extends Object {
  * @return array
  **/
 	public function findObjectsInFile($filePath, $forceParse = false) {
-		$new = array();
-		$includedFiles = get_included_files();
-		if (in_array($filePath, $includedFiles) || $forceParse) {
-			$new['class'] = $this->_parseClassNamesInFile($filePath);
-			$new['function'] = $this->_parseFunctionNamesInFile($filePath);
+		$new = $tmp = array();
+		$tmp['class'] = $this->_parseClassNamesInFile($filePath);
+		$tmp['function'] = $this->_parseFunctionNamesInFile($filePath);
+		$include = false;
+		foreach ($tmp['class'] as $classInFile) {
+			if (!class_exists($classInFile, false)) {
+				$include = true;
+				break;
+			}
+		}
+		if (!$include || $forceParse) {
+			$new = $tmp;
 		} else {
 			ob_start();
 			include $filePath;
@@ -296,9 +300,9 @@ class ApiFile extends Object {
 	protected function _parseClassNamesInFile($fileName, $getParents = false) {
 		$foundClasses = array();
 		$fileContent = file_get_contents($fileName);
-		$pattern = '/^\s*(?:class|interface)\s([^\s]*)[^\{]+/mi';
+		$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s([^\s]*)[^\{]+/mi';
 		if ($getParents) {
-			$pattern = '/^\s*class\s[^\s]*\s+extends\s+([^\s]*)\s*(?:implements\s*([^\s\{]*))?[^\{]+/mi';
+			$pattern = '/^\s*(?:abstract\s*)?class\s[^\s]*\s+extends\s+([^\s]*)\s*(?:implements\s*([^\s\{]*))?[^\{]+/mi';
 		}
 		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
 		foreach ($matches as $className) {

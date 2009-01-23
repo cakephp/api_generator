@@ -45,6 +45,7 @@ class ApiGeneratorAppController extends AppController {
 			$path = APP;
 			$this->ApiConfig->data['paths'][$path] = true;
 		}
+		$path = Folder::slashTerm($path);
 		$this->path = $path;
 	}
 /**
