@@ -85,7 +85,6 @@ class ApiConfigTestCase extends CakeTestCase {
 		$this->assertTrue($this->ApiConfig->save($data));
 		$this->assertTrue($this->ApiConfig->save(TMP . 'api_config.ini', $data));
 
-
 		$data = array(
 			'paths' => array(
 				'/home/cake/plugins/api_generator' => true
@@ -104,6 +103,9 @@ class ApiConfigTestCase extends CakeTestCase {
 	}
 
 	function testRead() {
+		$result = $this->ApiConfig->read();
+		$this->assertEqual($result, array());
+		
 		$data = "[paths]\n\n/home/cake/plugins/api_generator = true\n\n";
 		$this->assertTrue($this->ApiConfig->save($data));
 

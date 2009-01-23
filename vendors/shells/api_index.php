@@ -170,8 +170,6 @@ class ApiIndexShell extends Shell {
 			if (!empty($config)) {
 				return $config;
 			}
-		} else {
-			return $this->config;
 		}
 
 		$config = array();
@@ -191,55 +189,39 @@ class ApiIndexShell extends Shell {
 				$config['paths'][$path] = true;
 			}
 
-			$stop = $this->in('Add another path?', array('y', 'n', 'q'), 'n');
+			$stop = $this->in('Would you like to add another path?', array('y', 'n', 'q'), 'n');
 			if ($stop == 'y') {
 				$path = null;
 			}
 		}
 		$this->hr();
 		$this->out('Setup some excludes');
-		$this->out('input a comma separated list for multiple options');
+		$this->out('excludes remove files, folders, properties and methods from the index.');
+		$this->out('Input a comma separated list for multiple options');
 		$this->out('to continue, just answer "n"');
 		$this->hr();
 
 		$exclude = null;
 		while($exclude == null && $exclude != 'n') {
-			$exclude = $this->in('Exclude properties (private, protected, static)', '', 'private');
+			$exclude = $this->in('Exclude properties of the following types (private, protected, static)', '', 'private');
 			if ($exclude != 'q') {
 				$config['exclude']['properties'] = $exclude;
 			}
 		}
 
-		$exclude = null;
-		while($exclude == null && $exclude != 'n') {
-			$exclude = $this->in('Exclude methods (private, protected, static)', '', 'private');
-			if ($exclude != 'n') {
-				$config['exclude']['methods'] = $exclude;
-			}
+		$exclude = $this->in('Exclude methods of the following types (private, protected, static)', '', 'private');
+		if ($exclude != 'n') {
+			$config['exclude']['methods'] = $exclude;
 		}
 
-		$exclude = null;
-		while($exclude == null && $exclude != 'n') {
-			$exclude = $this->in('Exclude a directory', '', 'n');
-			if ($exclude != 'n') {
-				$config['exclude']['directories'] = $exclude;
-				$stop = $this->in('Exclude another directory?', array('y', 'n', 'q'), 'n');
-				if ($stop == 'y') {
-					$exclude = null;
-				}
-			}
+		$exclude = $this->in('Comma separated list of directories to exclude', '', 'n');
+		if ($exclude != 'n') {
+			$config['exclude']['directories'] = $exclude;
 		}
 
-		$exclude = null;
-		while($exclude == null && $exclude != 'n') {
-			$exclude = $this->in('Exclude file', '', 'n');
-			if ($exclude != 'n') {
-				$config['exclude']['files'] = $exclude;
-				$stop = $this->in('Add another file?', array('y', 'n', 'q'), 'n');
-				if ($stop == 'y') {
-					$exclude = null;
-				}
-			}
+		$exclude = $this->in('Comma separated list of files to exclude', '', 'n');
+		if ($exclude != 'n') {
+			$config['exclude']['files'] = $exclude;
 		}
 
 		$this->hr();
@@ -250,7 +232,7 @@ class ApiIndexShell extends Shell {
 
 		$extensions = null;
 		while($extensions == null && $extensions != 'n') {
-			$extensions = $this->in('extensions (php, ctp, tpl)', '', 'php, ctp');
+			$extensions = $this->in('Extensions to parse (php, ctp, tpl)', '', 'php, ctp');
 			if ($extensions != 'n') {
 				$config['file']['extensions'] = $extensions;
 			}
@@ -258,7 +240,7 @@ class ApiIndexShell extends Shell {
 
 		$regex = null;
 		while($regex == null && $regex != 'n') {
-			$regex = $this->in('regex for matching files', '', '[a-z_\-0-9]+');
+			$regex = $this->in('Regex for matching files', '', '[a-z_\-0-9]+');
 			if ($regex != 'n') {
 				$config['file']['regex'] = $regex;
 			}
@@ -295,13 +277,14 @@ class ApiIndexShell extends Shell {
 
 		$this->hr();
 		$this->out('Usually we can find the dependencies, but ');
-		$this->out('input a comma separated list for multiple options');
+		$this->out('sometimes we miss. If you have files that are not generating properly');
+		$this->out('Input a comma separated list for multiple options');
 		$this->out('to continue, just answer "n"');
 		$this->hr();
 
 		$dependencies = null;
 		while($dependencies == null && $dependencies != 'n') {
-			$class = $this->in('Class', '', 'n');
+			$class = $this->in('Class with dependancies', '', 'n');
 			if ($class == 'n') {
 				$dependencies = 'n';
 			} else {
@@ -329,7 +312,7 @@ class ApiIndexShell extends Shell {
 		$looksGood = $this->in('Does the config look correct?', array('y', 'n'), 'n');
 
 		if ($this->ApiConfig->save($string)) {
-			$this->out('the config was saved');
+			$this->out('The config was saved');
 		}
 		return $this->config = $config;
 	}

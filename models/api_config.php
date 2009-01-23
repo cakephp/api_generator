@@ -62,6 +62,8 @@ class ApiConfig extends Object {
 		if (is_string($lines)) {
 			if ($lines[0] == '/' && file_exists($lines)) {
 				$lines = file($lines);
+			} elseif ($lines[0] == '/' && !file_exists($lines)) {
+				return array();
 			} else {
 				$lines = explode("\n", $lines);
 			}
