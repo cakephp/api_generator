@@ -88,7 +88,7 @@ class ApiClass extends ApiGeneratorAppModel {
  * @return array
  **/
 	public function getClassIndex() {
-		return $this->find('list', array('fields' => array('slug', 'name')));
+		return $this->find('list', array('fields' => array('slug', 'name'), 'order' => 'ApiClass.name ASC'));
 	}
 
 /**

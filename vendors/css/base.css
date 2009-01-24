@@ -1,10 +1,8 @@
 /* @override http://localhost/cake_api_gen/api_generator/css/base.css */
 /****************
-*
 * Base.css
 * @author Mark Story
-*
-\***************/
+/
 /***************************************
 Reset
 ***************************************/
@@ -388,6 +386,39 @@ Documentation Page Styles
 #element-toc .classes {
 	padding-right: 2em;
 	margin-right: 2em;
+}
+
+/**
+* Class Index
+*****************************/
+.letter-links {
+	margin: 3em 0;
+}
+.letter-links a,
+.letter-links span {
+	padding:2px 10px;
+	border-left: 1px solid #ccc;
+}
+.letter-links a:first-child,
+.letter-links span:first-child {
+	border: 0;
+}
+.letter-section {
+	float: left;
+	margin: 0 1%;
+	width: 29%;
+}
+.letter-section h3 {
+	border-bottom: 1px solid #ccc;
+}
+.class-index {
+	list-style: square;
+	list-style-position: inside;
+	color: #8BAAB2;	
+}
+.class-index li {
+	margin: 1em 0;
+	font-size: 14px;
 }
 /**
 * Sidebar
