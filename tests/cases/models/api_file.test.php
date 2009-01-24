@@ -195,6 +195,15 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertEqual(count($result['class']), 3);
 	}
 /**
+ * test loading files that have sloppy code conventions
+ *
+ * @return void
+ **/
+	function testLoadingSloppyFiles() {
+		$result = $this->ApiFile->loadFile($this->_testAppPath . 'sloppy_code.php');
+		$this->assertEqual(count($result['class']), 5);
+	}
+/**
  * Test that ApiFile Throws down when needed.
  *
  * @return void
