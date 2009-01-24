@@ -42,7 +42,7 @@ class ApiConfig extends Object {
  *
  **/
 	public function __construct() {
-		$this->path = CONFIGS . 'api_config.ini';
+		$this->path =  dirname(dirname(__FILE__)) . DS . 'config' . DS . 'api_config.ini';
 	}
 /**
  * Read from config file or passed array

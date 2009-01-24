@@ -102,7 +102,7 @@ class ApiIndexShell extends Shell {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$this->ApiClass->clearIndex();
 		$this->ApiFile->importCoreClasses();
-		
+
 		foreach (array_keys($config['paths']) as $path) {
 			$fileList = $this->ApiFile->fileList($path);
 			foreach ($fileList as $file) {
@@ -236,7 +236,7 @@ class ApiIndexShell extends Shell {
 
 		$extensions = null;
 		while($extensions == null && $extensions != 'n') {
-			$extensions = $this->in('Extensions to parse (php, ctp, tpl)', '', 'php, ctp');
+			$extensions = $this->in('Extensions to parse (php, ctp, tpl)', '', 'php');
 			if ($extensions != 'n') {
 				$config['file']['extensions'] = $extensions;
 			}
@@ -263,9 +263,9 @@ class ApiIndexShell extends Shell {
 			} else {
 				$file = null;
 				while($file == null && $file != 'n') {
-					$file = $this->in('Enter the path to the file that holds ' . $class, '', $this->params['working']);
+					$file = $this->in('Enter the path to the file that holds ' . $class .'. this can be relative to the default path, or add a / in front to use an absolute path', '', $path);
 					if ($file[0] != '/') {
-						$file = $this->params['working'] . DS . $file;
+						$file = $path. DS . $file;
 					}
 					if (file_exists($file)) {
 						$mapping = true;
