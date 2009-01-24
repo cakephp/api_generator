@@ -40,6 +40,9 @@ var FileExplorer = new Class({
 
 	initialize : function (container, options) {
 		this.container = $(container);
+		if (!this.container) {
+			return;
+		}
 		this.setOptions(options);
 		var attachEvent = this.attachEvents.bind(this);
 		this.container.set('load', {method : 'get', onComplete: attachEvent });
@@ -97,7 +100,6 @@ ApiGenerator.apiPages = {
 		    links: '.scroll-link',
 		    wheelStops: false
 		});
-		
 		var FileTree = new FileExplorer('file-browser');
 	},
 

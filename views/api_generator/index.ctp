@@ -6,6 +6,7 @@
 ?>
 <div class="doc-body">
 <h1>Hey you have an API now!</h1>
+
 <p>Be sure to install the schema by running <code>cake api_index initdb</code></p>
 <p>ApiGenerator provides a File and Class browser.  The file browser should be working right now! However, if you want to use the class index, and all the goodies it entails like searches and viewing source code for classes. Then you will need to generate a class index.</p>
 
