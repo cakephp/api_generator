@@ -166,6 +166,7 @@ class ApiPagesController extends ApiGeneratorAppController {
 		}
 		$fileContents = file_get_contents($classInfo['ApiClass']['file_name']);
 		$this->set('contents', $fileContents);
+		$this->set('filename', $classInfo['ApiClass']['file_name']);
 	}
 /**
  * Search through the class index.

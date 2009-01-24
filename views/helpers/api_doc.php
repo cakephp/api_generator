@@ -125,6 +125,15 @@ class ApiDocHelper extends AppHelper {
 		$this->_classList = $classList;
 	}
 /**
+ * Check if a class is in the classIndex
+ *
+ * @param string $className The class 
+ * @return boolean
+ **/
+	public function inClassIndex($className) {
+		return in_array($className, $this->_classList);
+	}
+/**
  * Create a link to a class name if it exists in the classList
  *
  * @param string $className the class name you wish to make a link to

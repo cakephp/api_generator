@@ -48,7 +48,7 @@
 		<dd><?php 
 			echo $apiDoc->fileLink($method['declaredInFile']);
 			
-			if ($apiDoc->inClassList($method['declaredInFile'])):
+			if ($apiDoc->inClassIndex($method['declaredInClass'])):
 				__(' on line ');
 				echo $html->link($method['startLine'], array(
 					'controller' => 'api_pages',
