@@ -20,10 +20,10 @@
  * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
  * @package         cake
  * @subpackage      cake.api_generator.models
- * @since           
- * @version         
- * @modifiedby      
- * @lastmodified    
+ * @since
+ * @version
+ * @modifiedby
+ * @lastmodified
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 class ApiClass extends ApiGeneratorAppModel {
@@ -92,7 +92,7 @@ class ApiClass extends ApiGeneratorAppModel {
 	}
 
 /**
- * Generate a search index from all the properties and methods 
+ * Generate a search index from all the properties and methods
  * in a ClassDocumentor Object
  *
  * @return string
@@ -100,10 +100,10 @@ class ApiClass extends ApiGeneratorAppModel {
 	protected function _generateSearchIndex($classDoc) {
 		$index = '';
 		$index .= $classDoc->classInfo['comment']['description'];
-		foreach ($classDoc->properties as $prop) {
+		foreach ((array)$classDoc->properties as $prop) {
 			$index .= ' ' . $prop['comment']['description'];
 		}
-		foreach ($classDoc->methods as $method) {
+		foreach ((array)$classDoc->methods as $method) {
 			$description = str_replace("\n", ' ', $method['comment']['description']);
 			$index .= ' ' . $description;
 			foreach ($method['args'] as $argument) {
