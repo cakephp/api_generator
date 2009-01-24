@@ -22,7 +22,7 @@
 		<dl>
 			<?php foreach ($doc->classInfo['comment']['tags'] as $name => $value): ?>
 				<dt><?php echo $name; ?></dt>
-				<dd><?php echo $value; ?></dd>
+				<dd><?php echo h($value); ?></dd>
 			<?php endforeach; ?>
 		</dl>
 	  </div>
