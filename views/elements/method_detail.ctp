@@ -30,7 +30,7 @@
 					<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
 						<td>$<?php echo $name; ?></td>
 						<td><?php echo $paramInfo['type']; ?></td>
-						<td><?php echo $paramInfo['comment']; ?></td>
+						<td><?php echo h($paramInfo['comment']); ?></td>
 						<td><?php echo ($paramInfo['optional']) ? 'optional' : 'required'; ?></td>
 						<td><?php echo ($paramInfo['default']) ? $paramInfo['default'] : '(no default)'; ?></td>
 					</tr>
@@ -62,7 +62,7 @@
 		<dt>
 			<?php foreach ($method['comment']['tags'] as $name => $value): ?>
 				<dt><?php echo $name; ?></dt>
-				<dd><?php echo $value; ?></dd>
+				<dd><?php echo h($value); ?></dd>
 			<?php endforeach; ?>
 		</dt>
 	</div>

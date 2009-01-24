@@ -1,11 +1,13 @@
 <?php
-/* SVN FILE: $Id: highlight.php 689 2008-11-05 10:30:07Z AD7six $ */
-
+/* SVN FILE: $Id$ */
 /**
  * Class to style php code as an ordered list.
  *
  * Originally from http://shiflett.org/blog/2006/oct/formatting-and-highlighting-php-code-listings
+ * 
+ * Adapted into a helper for use in ApiGenerator
  * Some minor modifications to allow it to work with php4. 
+ * 
  * Also changed:
  *  - And to add line-# anchors to each line.
  *  - Removed whitespace reductions. Caused issues with source -> highlight links
@@ -13,64 +15,16 @@
  * PHP versions 4 and 5
  *
  * @filesource
- * @package       vendors
- * @since         Noswad site version 3
- * @version       $Revision: 689 $
- * @created      26/01/2007
+ * @package       api_generator.helpers
  * @modifiedby    $LastChangedBy: AD7six $
  * @lastmodified  $Date: 2008-11-05 11:30:07 +0100 (Wed, 05 Nov 2008) $
  */
-
-/*
- * Default CSS to follow:
-  body {
-    margin: 2em;
-    padding: 0;
-    border: 0;
-    font: 1em verdana, helvetica, sans-serif;
-    color: #000;
-    background: #fff;
-    text-align: center;
-  }
-  ol.code {
-    width: 90%;
-    margin: 0 5%;
-    padding: 0;
-    font-size: 0.75em;
-    line-height: 1.8em;
-    overflow: hidden;
-    color: #939399;
-    text-align: left;
-    list-style-position: inside;
-    border: 1px solid #d3d3d0;
-  }
-  ol.code li {
-    float: left;
-    clear: both;
-    width: 99%;
-    white-space: nowrap;
-    margin: 0;
-    padding: 0 0 0 1%;
-    background: #fff;
-  }
-  ol.code li.even { background: #f3f3f0; }
-  ol.code li code {
-    font: 1.2em courier, monospace;
-    color: #c30;
-    white-space: pre;
-    padding-left: 0.5em;
-  }
-  .code .comment { color: #939399; }
-  .code .default { color: #44c; }
-  .code .keyword { color: #373; }
-  .code .string { color: #c30; }
- */
-class highlight {
-
-	function highlight () {
-		$this->__construct();
-	}
-
+class ApiUtilsHelper extends AppHelper {
+/**
+ * constructor
+ *
+ * @return void
+ **/
 	function __construct() {
 		ini_set('highlight.comment', 'comment');
 		ini_set('highlight.default', 'default');
@@ -79,7 +33,13 @@ class highlight {
 		ini_set('highlight.html', 'html');
 	}
 
-	function process($code= "") {
+/**
+ * highlights code so it can be displayed
+ *
+ * @param string $code Code to highlight.
+ * @return string
+ **/
+	function highlight($code= "") {
 		$code= highlight_string($code, TRUE);
 		/* Clean Up */
 		if (phpversion() >= 5) {
@@ -93,16 +53,11 @@ class highlight {
 		$code= str_replace('&nbsp;', ' ', $code);
 		$code= str_replace('&amp;', '&#38;', $code);
 		$code= str_replace('<br />', "\n", $code);
-		//$code= trim($code);
 
 		/* Normalize Newlines */
 		$code= str_replace("\r", "\n", $code);
 
 		$lines= explode("\n", $code);
-	/*	while(strip_tags($lines[count($lines) -1]) == '') {
-			$lines[count($lines) -2] .= $lines[count($lines) -1];
-			unset($lines[count($lines) -1]);
-		}*/
 
 		/* Previous Style */
 		$previous= FALSE;
@@ -159,4 +114,3 @@ class highlight {
 		return $return;
 	}
 }
-?>
