@@ -276,9 +276,9 @@ class ApiFile extends Object {
 		$tmp['function'] = $this->_parseFunctionNamesInFile($filePath);
 		$include = false;
 		foreach ($tmp['class'] as $classInFile) {
+			$include = false;
 			if (!class_exists($classInFile, false)) {
 				$include = true;
-				break;
 			}
 		}
 		if (!$include || $forceParse) {

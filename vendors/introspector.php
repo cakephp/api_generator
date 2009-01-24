@@ -120,7 +120,7 @@ class Introspector {
 						list($type, $name, $description) = $paramDoc;
 						break;
 				}
-				$name = trim($name, '$');
+				$name = @trim($name, '$');
 				$tags['param'][$name] = compact('type', 'description');
 			}
 		}

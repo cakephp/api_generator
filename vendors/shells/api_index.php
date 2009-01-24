@@ -110,7 +110,6 @@ class ApiIndexShell extends Shell {
 					$docsInFile = $this->ApiFile->loadFile($file);
 				} catch (Exception $e) {
 					$this->err($e->getMessage());
-					$this->_stop();
 				}
 				foreach ($docsInFile['class'] as $classDocs) {
 					$this->ApiClass->create();
