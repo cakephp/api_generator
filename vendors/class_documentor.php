@@ -94,6 +94,9 @@ class ClassDocumentor extends ReflectionClass {
 
 			if ($property->isPublic()) {
 				$prop['access'] = 'public';
+				if (isset($doc['tags']['access'])) {
+					$prop['access'] = $doc['tags']['access'];
+				}
 			}
 			if ($property->isPrivate()) {
 				$prop['access'] = 'private';
@@ -164,6 +167,9 @@ class ClassDocumentor extends ReflectionClass {
 
 			if ($method->isPublic()) {
 				$met['access'] = 'public';
+				if (isset($doc['tags']['access'])) {
+					$met['access'] = $doc['tags']['access'];
+				}
 			}
 			if ($method->isPrivate()) {
 				$met['access'] = 'private';
