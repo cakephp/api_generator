@@ -285,7 +285,7 @@ class ApiFile extends Object {
 			$new = $tmp;
 		} else {
 			ob_start();
-			include $filePath;
+			include_once $filePath;
 			ob_clean();
 
 			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
