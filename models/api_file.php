@@ -1,8 +1,8 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * Api File Model 
- * 
+ * Api File Model
+ *
  * For interacting with the Filesystem specified by ApiGenerator.filePath
  *
  *
@@ -22,9 +22,9 @@
  * @package         cake
  * @subpackage      cake.cake.libs.
  * @since           CakePHP v 1.2.0.4487
- * @version         
- * @modifiedby      
- * @lastmodified    
+ * @version
+ * @modifiedby
+ * @lastmodified
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::import('Vendor', 'ApiGenerator.Introspector');
@@ -144,9 +144,9 @@ class ApiFile extends Object {
 	}
 /**
  * _filterFiles
- * 
+ *
  * Filter a file list and remove excludeDirectories
- * 
+ *
  * @param array $files List of files to filter and ignore. (reference)
  * @return void
  **/
@@ -194,7 +194,7 @@ class ApiFile extends Object {
 /**
  * Loads the documentation extractor for a given classname.
  *
- * @param string $name Name of class to load. 
+ * @param string $name Name of class to load.
  * @access public
  * @return void
  */
@@ -203,10 +203,10 @@ class ApiFile extends Object {
 	}
 /**
  * Get the documentor extractor instance
- * 
+ *
  * @access public
  * @return object
- */	
+ */
 	public function getExtractor() {
 		return $this->_extractor;
 	}
@@ -252,7 +252,7 @@ class ApiFile extends Object {
 		App::import('Core', array('Controller', 'Model', 'View', 'Helper'));
 	}
 /**
- * gets the currently defined functions and classes 
+ * gets the currently defined functions and classes
  * so comparisons to new files can be made
  *
  * @return void
@@ -285,7 +285,7 @@ class ApiFile extends Object {
 			$new = $tmp;
 		} else {
 			ob_start();
-			include $filePath;
+			include_once $filePath;
 			ob_clean();
 
 			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
@@ -308,11 +308,12 @@ class ApiFile extends Object {
 	protected function _parseClassNamesInFile($fileName, $getParents = false) {
 		$foundClasses = array();
 		$fileContent = file_get_contents($fileName);
-		$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s*([^\s\{]+)\s*[^\{]*\{/mi';
+		$pattern = '/^\s*(?:abstract\s*)?(?:class |interface)\s*([^\s\{]+)\s*[^\{]*\{/mi';
 		if ($getParents) {
 			$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+[^\s]*\s*(?:extends\s+([^\s\{]*))?(?:\s*implements\s*([^\s\{]*))?[^\{]*/mi';
 		}
 		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
+
 		foreach ($matches as $className) {
 			if (!empty($className[1])) {
 				$foundClasses[] = $className[1];
@@ -355,11 +356,11 @@ class ApiFile extends Object {
 			$neededParent = array_pop($parentClasses);
 
 			$exists = (
-				class_exists($neededParent, false) || 
+				class_exists($neededParent, false) ||
 				interface_exists($neededParent, false) ||
 				in_array($neededParent, $classNamesInFile)
 			);
-			
+
 			if (!$exists && isset($this->classMap[$neededParent])) {
 				array_unshift($loadClasses, $neededParent);
 				$newNeeds = $this->_parseClassNamesInFile($this->classMap[$neededParent], true);
@@ -400,7 +401,7 @@ class ApiFile extends Object {
 	}
 /**
  * Get the Exclusions lists.
- * 
+ *
  * @return array of stuff not allowed in views.
  **/
 	public function getExclusions() {
@@ -429,12 +430,16 @@ class ApiFile extends Object {
 		}
 		if (isset($config['file']['regex'])) {
 			$this->fileRegExp = $config['file']['regex'];
-		}		
+		}
 		$varMap = array('dependencies' => 'dependencyMap', 'mappings' => 'classMap');
 		foreach ($varMap as $key => $var) {
 			if (isset($config[$key]) && is_array($config[$key])) {
 				foreach ($config[$key] as $name => $value) {
-					$this->{$var}[$name] = explode(', ', $value);
+					if ($var == 'classMap') {
+						$this->{$var}[$name] = $value;
+					} else {
+						$this->{$var}[$name] = explode(', ', $value);
+					}
 				}
 			}
 		}
