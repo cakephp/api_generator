@@ -141,6 +141,7 @@ class ClassDocumentor extends ReflectionClass {
 				'declaredInClass' => $method->getDeclaringClass()->getName(),
 				'declaredInFile' => $method->getDeclaringClass()->getFileName(),
 				'signature' => Introspector::makeFunctionSignature($method),
+				'isStatic' => $method->isStatic()
 			);
 
 			$params = $method->getParameters();
@@ -176,9 +177,6 @@ class ClassDocumentor extends ReflectionClass {
 			}
 			if ($method->isProtected()) {
 				$met['access'] = 'protected';
-			}
-			if ($method->isStatic()) {
-				$met['access'] .= ' static';
 			}
 			$this->methods[] = $met;
 		}

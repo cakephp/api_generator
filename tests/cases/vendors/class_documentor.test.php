@@ -163,6 +163,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'args' => array( ), 
 				'access' => 'public',
 				'signature' => 'count(  )',
+				'isStatic' => false,
 			), 
 			array(
 				'name' => 'something', 
@@ -193,7 +194,8 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'access' => 'protected',
-				'signature' => 'something( $arg1, $arg2 = file )'
+				'signature' => 'something( $arg1, $arg2 = file )',
+				'isStatic' => false,
 			),
 			array(
 				'name' => 'goGo', 
@@ -215,8 +217,9 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'startLine' => '58',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__, 
-				'access' => 'public static',
+				'access' => 'public',
 				'signature' => 'goGo( $param )',
+				'isStatic' => true,
 			)
 		);
 		$this->assertEqual($result, $expected);

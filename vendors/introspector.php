@@ -34,11 +34,11 @@
  */
 class Introspector {
 /**
- * relflector classMappings
+ * reflector classMappings
  *
  * @var array
  **/
-	static protected $_reflectorMap = array(
+	protected static $_reflectorMap = array(
 		'class' => 'ClassDocumentor',
 		'function' => 'FunctionDocumentor',
 	);
