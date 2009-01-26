@@ -328,6 +328,7 @@ Documentation Page Styles
 }
 #api-doc-controls li {
 	margin:4px 0;
+	list-style: none;
 }
 #api-doc-controls a {
 	padding:5px;
