@@ -308,9 +308,9 @@ class ApiFile extends Object {
 	protected function _parseClassNamesInFile($fileName, $getParents = false) {
 		$foundClasses = array();
 		$fileContent = file_get_contents($fileName);
-		$pattern = '/^\s*(?:abstract\s*)?(?:class |interface)\s*([^\s\{]+)\s*[^\{]*\{/mi';
+		$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+([^\s\{\:]+)\s*[^\{]*\{/mi';
 		if ($getParents) {
-			$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+[^\s]*\s*(?:extends\s+([^\s\{]*))?(?:\s*implements\s*([^\s\{]*))?[^\{]*/mi';
+			$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+[^\s]*\s*(?:extends\s+([^\s\{\:]*))?(?:\s*implements\s*([^\s\{]*))?[^\{]*/mi';
 		}
 		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
 
