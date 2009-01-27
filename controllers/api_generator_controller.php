@@ -186,13 +186,16 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function search() {
-		$results = array();
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		$classIndex = $this->ApiClass->getClassIndex();
 		if (isset($this->params['url']['query'])) {
 			$query = $this->params['url']['query'];
-			$results = $this->paginate('ApiClass', array('ApiClass.search_index LIKE' => '%' . $query . '%'));
+			$conditions = array('ApiClass.search_index LIKE' => '%' . $query . '%');
 		}
+		$this->paginate['fields'] = 'DISTINCT ApiClass.name';
+		$this->paginate['order'] = 'ApiClass.name ASC';
+		$results = $this->paginate($this->ApiClass, $conditions);
+		$classIndex = $this->ApiClass->getClassIndex();
+
 		$this->set(compact('results', 'classIndex'));
 	}
 /**
