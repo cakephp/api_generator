@@ -18,6 +18,7 @@
 	
 	<?php if (!empty($docs['function'])): ?>
 	<div class="functions">
+		<a id="top-functions"></a>
 		<h3><?php __('Declared Functions'); ?></h3>
 		<ul class="element-list">
 		<?php foreach (array_keys($docs['function']) as $function): ?>
