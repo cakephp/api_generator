@@ -75,7 +75,7 @@ ApiGenerator.init = function() {
  */
 ApiGenerator.docBlocks = {
 	init : function() {
-		var converter = new Showdown.converter("<?php echo $this->base; ?>");
+		var converter = new Showdown.converter(window.basePath);
 		$$('.markdown-block').each(function(item) {
 			item.set('html', converter.makeHtml(item.get('text').trim()));
 		});
