@@ -29,10 +29,12 @@
 		<?php __('CakePHP: API Generator'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
-	<?php
+	<?php 
 		echo $html->meta('icon');
-
 		echo $html->css('/api_generator/css/base.css');
+	?>
+	<script type="text/javascript">var basePath = "<?php echo $this->base; ?>"; </script>
+	<?php
 		echo $javascript->link('/api_generator/js/mootools');
 		echo $javascript->link('/api_generator/js/showdown');
 		echo $javascript->link('/api_generator/js/api_generator');
