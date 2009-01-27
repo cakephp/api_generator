@@ -129,7 +129,7 @@ h3 {
 /* with and without sidebar content regions */
 .with-sidebar #content-inner {
 	position: relative;
-	width:76%;
+	width:68%;
 	padding-left:2%;
 	float: right;
 	border-left: 1px solid #eee;
