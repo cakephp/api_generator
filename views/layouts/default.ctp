@@ -40,7 +40,7 @@
 		echo $scripts_for_layout;
 	?>
 </head>
-<body>
+<body class="api">
 	<?php $bodyClass = (isset($showSidebar) && $showSidebar) ? 'with-sidebar' : 'no-sidebar'; ?>
 	<div id="wrapper" class="<?php echo $bodyClass; ?>">
 		<div id="header" class="clearfix">

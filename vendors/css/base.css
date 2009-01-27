@@ -154,16 +154,16 @@ h3 {
 #header h1 a {
 	color:#fff;
 }
-#navigation {
+.api .navigation {
 	padding: 1em 5% 0;
 	height:36px;
 	clear: both;
 }
-#navigation li {
+.api .navigation li {
 	float: left;
 	margin: 0 2px;
 }
-#navigation li a {
+.api .navigation li a {
 	padding: 10px 3em;
 	line-height: 16px;
 	font-size: 16px;
@@ -171,7 +171,7 @@ h3 {
 	text-decoration: none;
 	color:#fff;
 }
-#navigation li a:hover {
+.api .navigation li a:hover {
 	text-decoration:underline;
 }
 #header-search {
@@ -478,6 +478,15 @@ ol.code li code {
 	color: #c30; 
 }
 
-
-
+/**
+* Search results
+****************************/
+#search-results {
+	margin: 10px;
+	padding: 4px 0;
+}
+#search-results li {
+	margin: 20px 10px;
+	font-size: 140%;
+}
 

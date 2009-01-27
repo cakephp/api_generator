@@ -13,17 +13,17 @@ foreach ($classIndex as $slug => $name):
 	$letterIndex[$firstLetter][$slug] = $name;
 endforeach;
 ?>
-<h1><?php __('Class Index'); ?></h1>
+<h1><?php __('Index'); ?></h1>
 
 <div class="letter-links">
-<?php 
+<?php
 foreach (array_keys($letterIndex) as $letter):
 	if (!is_array($letterIndex[$letter])) {
 		echo '<span>' . $letter . '</span>';
 	} else {
 		echo $html->link($letter, '#letter-' . $letter);
 	}
-endforeach; 
+endforeach;
 ?>
 </div>
 <?php $letterChunks = array_chunk($letterIndex, floor(count($letterIndex)/3), true); ?>
@@ -34,7 +34,11 @@ endforeach;
 			<h3><a id="letter-<?php echo $letter; ?>"></a><?php echo $letter; ?></h3>
 			<ul class="class-index">
 			<?php foreach ($classes as $slug => $name): ?>
-				<li><?php echo $html->link($name, array('plugin' => 'api_generator', 'controller' => 'api_pages', 'action' => 'view_class', $slug)); ?></li>
+				<li><?php
+					echo $html->link($name, array(
+						'plugin' => 'api_generator', 'controller' => 'api_generator',
+						'action' => 'view_class', $slug));
+				?></li>
 			<?php endforeach; ?>
 			</ul>
 		<?php endif; ?>

@@ -4,16 +4,20 @@
  *
  */
 ?>
+<div id="header-search">
 <?php echo $form->create('ApiClass', array(
-	'url' => array('controller' => 'api_pages', 'action' => 'search'), 
+	'url' => array(
+		'plugin' => 'api_generator', 'controller' => 'api_generator', 
+		'action' => 'search'
+	), 
 	'type' => 'get',
-	'id' => 'header-search'
 )); ?>
 <fieldset id="search-bar">
-	<?php echo $form->input('Search.query', array(
-		'label' => false,
-		'div' => false
+	<?php 
+	echo $form->text('Search.query', array(
+		'class' => 'query'
 	)); ?>
-<?php echo $form->submit(__('Search', true), array('div' => false)); ?>
+<?php echo $form->submit(__('Search', true), array('div' => false, 'class' => 'submit')); ?>
 </fieldset>
 <?php echo $form->end(null); ?>
+</div>

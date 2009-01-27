@@ -80,7 +80,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		
 		$result = $this->ApiDoc->fileLink('/cake/tests/my/path');
 		$expected = array(
-			'a' => array('href' => '/api_generator/api_pages/view_file/my/path'),
+			'a' => array('href' => '/api_generator/view_file/my/path'),
 			'my/path',
 			'/a'
 		);

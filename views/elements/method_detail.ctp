@@ -51,7 +51,7 @@
 			if ($apiDoc->inClassIndex($method['declaredInClass'])):
 				__(' on line ');
 				echo $html->link($method['startLine'], array(
-					'controller' => 'api_pages',
+					'controller' => 'api_generator',
 					'action' => 'view_source', 
 					$apiDoc->slugClassName($method['declaredInClass']),
 					'#line-'. $method['startLine']

@@ -37,4 +37,4 @@ Usage:
 -----------
 cake api_index initdb
 cake api_index update
-visit, http://localohst/api_generator/api_pages/browse_files
+visit, http://localohst/api_generator/classes

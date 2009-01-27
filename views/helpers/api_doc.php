@@ -46,12 +46,12 @@ class ApiDocHelper extends AppHelper {
  **/
 	protected $_defaultUrl = array(
 		'file' => array(
-			'controller' => 'api_pages',
+			'controller' => 'api_generator',
 			'action' => 'view_file',
 			'plugin' => 'api_generator',
 		),
 		'class' => array(
-			'controller' => 'api_pages',
+			'controller' => 'api_generator',
 			'action' => 'view_class',
 			'plugin' => 'api_generator',
 		),

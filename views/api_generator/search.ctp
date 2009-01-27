@@ -3,7 +3,9 @@
  * Api Search results
  *
  */
+
 $apiDoc->setClassIndex($classIndex);
+
 ?>
 <h1><?php __('Search Results'); ?></h1>
 <?php if (empty($results)): ?>

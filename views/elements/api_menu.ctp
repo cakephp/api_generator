@@ -1,14 +1,23 @@
-<ul id="navigation">
-	<li><?php echo $html->link(__('Api Home', true),
-		array('plugin' => 'api_generator', 'controller' => 'api_generator', 'action' => 'index')); ?>
+<ul class="navigation">
+	<li><?php
+		$class = ($this->action == 'classes') ? array('class' => 'on') : null;
+		echo $html->link(__('Classes', true), array(
+			'plugin' => 'api_generator',
+			'controller' => 'api_generator', 'action' => 'classes'
+			), $class);?>
 	</li>
-	<li><?php echo $html->link(__('Browse Files', true),
-		array('controller' => 'api_pages', 'action' => 'browse_files')); ?>
+	<li><?php
+		$class = ($this->action == 'source') ? array('class' => 'on') : null;
+		echo $html->link(__('Source', true), array(
+			'plugin' => 'api_generator',
+			'controller' => 'api_generator', 'action' => 'source'
+			), $class);?>
 	</li>
-	<li><?php echo $html->link(__('File List', true),
-		array('controller' => 'api_pages', 'action' => 'list_files')); ?>
-	</li>
-	<li><?php echo $html->link(__('Browse Classes', true),
-		array('controller' => 'api_pages', 'action' => 'browse_classes')); ?>
+	<li><?php
+		$class = ($this->action == 'files') ? array('class' => 'on') : null;
+		echo $html->link(__('Files', true), array(
+			'plugin' => 'api_generator',
+			'controller' => 'api_generator', 'action' => 'files'
+			), $class);?>
 	</li>
 </ul>

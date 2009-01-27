@@ -27,11 +27,15 @@
  */
 class ApiGeneratorAppController extends AppController {
 /**
- * Use Api Layout
+ * theme
  *
- * @var string
- **/
-	public $layout = 'api';
+ **/	
+	public $theme = 'api';
+/**
+ * view
+ *
+ **/	
+	public $view = 'Theme';
 /**
  * beforeFilter callback
  *
@@ -46,7 +50,7 @@ class ApiGeneratorAppController extends AppController {
 			$this->ApiConfig->data['paths'][$path] = true;
 		}
 		$path = Folder::slashTerm($path);
-		$this->path = $path;
+		$this->path = realpath($path);
 	}
 /**
  * Error Generating Page.
