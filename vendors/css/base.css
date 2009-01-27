@@ -446,6 +446,8 @@ ol.code {
 	list-style:decimal;
 	list-style-position: inside;
 	border: 1px solid #d3d3d0;
+	clear:both;
+	overflow-x:scroll;
 }
 ol.code li {
 	white-space: nowrap;
