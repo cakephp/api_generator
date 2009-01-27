@@ -187,6 +187,8 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  **/
 	public function search() {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+		
+		$conditions = array();
 		if (isset($this->params['url']['query'])) {
 			$query = $this->params['url']['query'];
 			$conditions = array('ApiClass.search_index LIKE' => '%' . $query . '%');
