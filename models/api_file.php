@@ -395,6 +395,9 @@ class ApiFile extends Object {
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
 		}
+		if (strpos($filePath, 'socket') !== false) {
+			$baseClass['Core'] = 'Socket';
+		}
 		foreach ($baseClass as $type => $class) {
 			App::import($type, $class);
 		}
