@@ -371,6 +371,7 @@ Documentation Page Styles
 /** Element table of contents **/
 #element-toc {
 	margin-bottom: 2em;
+	clear:both;
 }
 #element-toc ul {
 	list-style: disc;
