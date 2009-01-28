@@ -147,7 +147,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
-
 		if (empty($classInfo['ApiClass']['file_name'])) {
 			$this->_notFound(__('No class exists in the index with that name', true));
 		}

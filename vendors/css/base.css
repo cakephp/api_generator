@@ -371,6 +371,7 @@ Documentation Page Styles
 /** Element table of contents **/
 #element-toc {
 	margin-bottom: 2em;
+	clear:both;
 }
 #element-toc ul {
 	list-style: disc;
@@ -418,7 +419,7 @@ Documentation Page Styles
 	color: #8BAAB2;	
 }
 .class-index li {
-	margin: 1em 0;
+	margin: 0.6em 0;
 	font-size: 14px;
 }
 /**

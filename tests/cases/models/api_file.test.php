@@ -68,6 +68,7 @@ class ApiFileTestCase extends CakeTestCase {
  *  - test ignored files
  *  - test ignored folders
  *  - test extensions
+ *  - test reading evil paths
  *
  * @return void
  **/
@@ -92,6 +93,11 @@ class ApiFileTestCase extends CakeTestCase {
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertTrue(empty($result[1]), 'file with not allowed extension found. %s');
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
+		
+		$this->ApiFile->allowedExtensions = array('php');
+		$this->ApiFile->excludeDirectories = array();
+		$result = $this->ApiFile->read($this->_path . '../../../../../../');
+		$this->assertEqual($result, array(array(), array()), 'Evil file path read.');
 	}
 /**
  * test file list generation
@@ -164,6 +170,15 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
+	}
+/**
+ * test loading an evil path that leads to a secured location
+ *
+ * @return void
+ **/
+	function testLoadingEvilPath() {
+		$result = $this->ApiFile->loadFile($this->_path . '../../../config/database.php');
+		$this->assertEqual($result, array('class' => array(), 'function' => array()));
 	}
 /**
  * test loadFile() with a dependancy map. 

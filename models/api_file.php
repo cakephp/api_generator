@@ -120,6 +120,9 @@ class ApiFile extends Object {
  * @return array
  **/
 	public function read($path) {
+		if (preg_match('|\.\.|', $path)) {
+			return array(array(), array());
+		}
 		$this->_Folder->cd($path);
 		$ignore = $this->excludeFiles;
 		$ignore[] = '.';
@@ -230,11 +233,14 @@ class ApiFile extends Object {
  * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
  **/
 	public function loadFile($filePath) {
+		$docs = array('class' => array(), 'function' => array());
+		if (preg_match('|\.\.|', $filePath)) {
+			return $docs;
+		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
-		$docs = array('class' => array(), 'function' => array());
 		foreach ($newObjects as $type => $objects) {
 			foreach ($objects as $element) {
 				$this->loadExtractor($type, $element);

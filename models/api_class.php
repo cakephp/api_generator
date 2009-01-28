@@ -101,9 +101,15 @@ class ApiClass extends ApiGeneratorAppModel {
 		$index = '';
 		$index .= $classDoc->classInfo['comment']['description'];
 		foreach ((array)$classDoc->properties as $prop) {
+			if ($prop['declaredInClass'] != $classDoc->classInfo['name']) {
+				continue;
+			}
 			$index .= ' ' . $prop['comment']['description'];
 		}
 		foreach ((array)$classDoc->methods as $method) {
+			if ($method['declaredInClass'] != $classDoc->classInfo['name']) {
+				continue;
+			}
 			$description = str_replace("\n", ' ', $method['comment']['description']);
 			$index .= ' ' . $description;
 			foreach ($method['args'] as $argument) {
