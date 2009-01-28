@@ -26,7 +26,7 @@
 						<td><?php echo $paramInfo['type']; ?></td>
 						<td><?php echo $paramInfo['comment']; ?></td>
 						<td><?php echo ($paramInfo['optional']) ? 'optional' : 'required'; ?></td>
-						<td><?php echo ($paramInfo['default']) ? $paramInfo['default'] : '(no default)'; ?></td>
+						<td><?php echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __('(no default)', true); ?></td>
 					</tr>
 					<?php $i++;?>
 				<?php endforeach; ?>

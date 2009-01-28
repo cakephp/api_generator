@@ -167,12 +167,14 @@ class ClassDocumentor extends ReflectionClass {
 				$args[$param->name] = array(
 					'optional' => $param->isOptional(),
 					'default' => null,
+					'hasDefault' => false,
 					'position' => $param->getPosition(),
 					'type' => $type,
 					'comment' => $description
 				);
 				if ($param->isDefaultValueAvailable()) {
 					$args[$param->name]['default'] = $param->getDefaultValue();
+					$args[$param->name]['hasDefault'] = true;
 				}
 			}
 			unset($met['comment']['tags']['param']);

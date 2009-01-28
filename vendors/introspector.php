@@ -139,7 +139,7 @@ class Introspector {
 		foreach ($func->getParameters() as $param) {
 			$signature .= '$' . $param->getName();
 			if ($param->isDefaultValueAvailable()) {
-				$signature .= ' = ' . $param->getDefaultValue();
+				$signature .= ' = ' . var_export($param->getDefaultValue(), true);
 			}
 			$signature .= ', ';
 		}

@@ -178,7 +178,8 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				), 
 				'args' => array(
 					'arg1' => array( 
-						'optional' => false, 
+						'optional' => false,
+						'hasDefault' => false,
 						'default' => NULL, 
 						'position' => 0,
 						'type' => 'string',
@@ -187,6 +188,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 					'arg2' => array(
 						'optional' => true,
 						'default' => 'file',
+						'hasDefault' => true,
 						'position' => 1,
 						'type' => 'string',
 						'comment' => 'Second arg'
@@ -196,7 +198,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'access' => 'protected',
-				'signature' => 'something( $arg1, $arg2 = file )',
+				'signature' => 'something( $arg1, $arg2 = \'file\' )',
 				'isStatic' => false,
 			),
 			array(
@@ -213,6 +215,7 @@ class DocumentExtractorTestCase extends CakeTestCase {
 						'default' => NULL, 
 						'position' => 0,
 						'type' => 'string',
+						'hasDefault' => false,
 						'comment' => 'a parameter'
 					)
 				),
