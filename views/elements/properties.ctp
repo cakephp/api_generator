@@ -8,6 +8,9 @@
 	<div class="doc-head"><h2>Properties:</h2></div>
 	<div class="doc-body">
 	<?php if (!empty($doc->properties)): ?>
+		<span class="doc-controls">
+			<a href="#" id="hide-parent-properties"><?php __('Show/Hide parent properties'); ?></a>
+		</span>
 		<table>
 		<?php $i = 0; ?>
 		<?php foreach ($doc->properties as $prop): ?>

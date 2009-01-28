@@ -88,14 +88,11 @@ ApiGenerator.docBlocks = {
  */
 ApiGenerator.apiPages = {
 	init : function() {
-		var visibilityControls = null;
-		if (visibilityControls = $('api-doc-controls')) {
-			var targets = {
-				'hide-parent-methods' : '.parent-method',
-				'hide-parent-properties' : '.parent-property'
-			}
-			this.attachVisibilityControls(targets);
+		var targets = {
+			'hide-parent-methods' : '.parent-method',
+			'hide-parent-properties' : '.parent-property'
 		}
+		this.attachVisibilityControls(targets);
 		var mySmoothScroll = new SmoothScroll({
 		    links: '.scroll-link',
 		    wheelStops: false
@@ -105,6 +102,9 @@ ApiGenerator.apiPages = {
 
 	attachVisibilityControls : function(collection) {
 		for (button in collection) {
+			if (!$(button)) {
+				continue;
+			}
 			$(button).addEvent('click', function(e) {
 				e.stop();
 				var targets = $$(collection[this.get('id')]);

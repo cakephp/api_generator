@@ -4,8 +4,6 @@
  *
  */
 ?>
-<?php echo $this->element('doc_controls'); ?>
-
 <h3><?php __('File browser'); ?></h3>
 <ul id="file-browser">
 	<li class="up-dir folder">

@@ -14,7 +14,7 @@ $apiDoc->setClassIndex($classIndex);
 <ul id="search-results">
 	<?php foreach ($results as $result): ?>
 		<li><h4><?php echo $apiDoc->classLink($result['ApiClass']['name']); ?></h4>
-			<?php $excerpt = $text->excerpt($result['ApiClass']['search_index'], $this->params['url']['query']); ?>
+			<?php $excerpt = $text->excerpt(strip_tags($result['ApiClass']['search_index']), $this->params['url']['query']); ?>
 			<p><?php echo $text->highlight($excerpt, strtolower($this->params['url']['query'])); ?></p>
 		</li>
 	<?php endforeach;?>
