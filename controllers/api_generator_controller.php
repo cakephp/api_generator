@@ -69,6 +69,9 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function source() {
+		if (count($this->passedArgs) == 1 && $this->passedArgs[0] == 'index') {
+			array_shift($this->passedArgs);
+		}
 		$currentPath = implode('/', $this->passedArgs);
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
@@ -187,7 +190,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  **/
 	public function search() {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
-		
 		$conditions = array();
 		if (isset($this->params['url']['query'])) {
 			$query = $this->params['url']['query'];

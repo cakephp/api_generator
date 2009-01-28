@@ -11,11 +11,11 @@
 <?php endif; ?>
 
 	<li class="folder previous-folder">
-		<?php echo $html->link('Up one folder', array('action' => 'browse_files', $previousPath)); ?>
+		<?php echo $html->link('Up one folder', array('action' => 'source', $previousPath)); ?>
 	</li>
 <?php foreach ($dirs as $dir): ?>
 	<li class="folder">
-		<?php echo $html->link($dir, array('action' => 'browse_files', $currentPath . '/' . $dir)); ?>
+		<?php echo $html->link($dir, array('action' => 'source', $currentPath . '/' . $dir)); ?>
 	</li>
 <?php endforeach; ?>
 <?php if (!empty($files)): ?>
