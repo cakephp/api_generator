@@ -87,7 +87,9 @@ class DocumentExtractorTestCase extends CakeTestCase {
 					'package' => 'this is my package', 
 					'another-tag' => 'long value'
 				), 
-			), 
+			),
+			'parents' => array('stdClass'),
+			'interfaces' => array('Countable')
 		);
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->classInfo, $expected);

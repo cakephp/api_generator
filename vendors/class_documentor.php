@@ -51,20 +51,32 @@ class ClassDocumentor extends ReflectionClass {
 			$desc .= 'class ';
 		}
 		$desc .= $this->getName() . ' ';
+		
+		$parents = array();
 		if ($this->getParentClass()) {
 			$desc .= 'extends ' . $this->getParentClass()->getName();
+			$object = $this->getParentClass();
+			$parents[] = $object->getName();
+			while ($parent = $object->getParentClass()) {
+				$parents[] = $parent->getName();
+				$object = $parent;
+			}
 		}
 
 		$interfaces = $this->getInterfaces();
+		$interfaceNames = array();
 		$number = count($interfaces);
 		if ($number > 0){
 			$desc .= ' implements ';
 			foreach ($interfaces as $int) {
 				$desc .= $int->getName() . ' ';
+				$interfaceNames[] = $int->getName();
 			}
 		}	
 
 		$this->classInfo['classDescription'] = $desc;
+		$this->classInfo['parents'] = $parents;
+		$this->classInfo['interfaces'] = $interfaceNames;
 		$this->classInfo['comment'] = $this->_parseComment($this->getDocComment());
 
 		return $this->classInfo;

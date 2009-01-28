@@ -129,7 +129,7 @@ h3 {
 /* with and without sidebar content regions */
 .with-sidebar #content-inner {
 	position: relative;
-	width:62%;
+	width:65%;
 	padding-left:2%;
 	float: right;
 	border-left: 1px solid #eee;
@@ -322,6 +322,7 @@ Documentation Page Styles
 	margin: 0 0 1em 0;
 	border: 1px solid #DAEBEE;
 	color: #333;
+	overflow-x:auto;
 }
 
 /* visibility controls */
