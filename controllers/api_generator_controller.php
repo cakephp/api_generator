@@ -118,7 +118,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
-
 		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 
@@ -192,11 +191,11 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$query = $this->params['url']['query'];
 			$conditions = array('ApiClass.search_index LIKE' => '%' . $query . '%');
 		}
-		$this->paginate['fields'] = 'DISTINCT ApiClass.name';
+		$this->paginate['fields'] = array('DISTINCT ApiClass.name', 'ApiClass.search_index');
 		$this->paginate['order'] = 'ApiClass.name ASC';
 		$results = $this->paginate($this->ApiClass, $conditions);
 		$classIndex = $this->ApiClass->getClassIndex();
-
+		$this->helpers[] = 'Text';
 		$this->set(compact('results', 'classIndex'));
 	}
 /**

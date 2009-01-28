@@ -490,4 +490,6 @@ ol.code li code {
 	margin: 20px 10px;
 	font-size: 140%;
 }
-
+#search-results .highlight {
+	background: #C9E2E6;
+}
