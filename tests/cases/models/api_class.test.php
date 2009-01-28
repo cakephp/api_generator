@@ -49,6 +49,43 @@ class ApiClassSampleClass {
 	public function testFunct($one, $two) {
 
 	}
+/**
+ * non-extended method
+ * 
+ * @return boolean
+ **/
+	public function extended() {
+
+	}
+}
+/**
+ * ApiClassSampleClass doc block
+ *
+ * @package default
+ */
+class ApiClassSampleClassChild extends ApiClassSampleClass {
+/**
+ * onlyMe
+ *
+ * @var string
+ **/
+	public $onlyMe;
+/**
+ * primary function
+ *
+ * @return void
+ **/
+	public function primary() {
+		
+	}
+/**
+ * extended-method this time
+ * 
+ * @return void
+ **/
+	public function extended() {
+
+	}
 }
 
 /**
@@ -92,6 +129,25 @@ class ApiFileTestCase extends CakeTestCase {
 		$result = $this->ApiClass->saveClassDocs($docs);
 		$this->assertTrue($result);
 		
+		$result = $this->ApiClass->read();
+		$now = date('Y-m-d H:i:s');
+		$expected = array(
+			'ApiClass' => array(
+				'id' => $this->ApiClass->id,
+				'name' => 'ApiClassSampleClass',
+				'slug' => 'api-class-sample-class',
+				'file_name' => __FILE__,
+				'search_index' => 'apiclasssampleclass doc block onlyme primary function extended-method this time',
+				'flags' => 0,
+				'created' => $now,
+				'modified' => $now,
+			)	
+		);
+		$this->assertEqual($result, $expected);
+		
+		$docs = new ClassDocumentor('ApiClassSampleClassChild');
+		$result = $this->ApiClass->saveClassDocs($docs);
+		$this->assertTrue($result);
 		$result = $this->ApiClass->read();
 		$now = date('Y-m-d H:i:s');
 		$expected = array(
