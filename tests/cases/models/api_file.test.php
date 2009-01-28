@@ -172,6 +172,15 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
 	}
 /**
+ * test loading an evil path that leads to a secured location
+ *
+ * @return void
+ **/
+	function testLoadingEvilPath() {
+		$result = $this->ApiFile->loadFile($this->_path . '../../../config/database.php');
+		$this->assertEqual($result, array('class' => array(), 'function' => array()));
+	}
+/**
  * test loadFile() with a dependancy map. 
  *
  * @return void

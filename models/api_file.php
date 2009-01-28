@@ -233,11 +233,14 @@ class ApiFile extends Object {
  * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
  **/
 	public function loadFile($filePath) {
+		$docs = array('class' => array(), 'function' => array());
+		if (preg_match('|\.\.|', $filePath)) {
+			return $docs;
+		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
-		$docs = array('class' => array(), 'function' => array());
 		foreach ($newObjects as $type => $objects) {
 			foreach ($objects as $element) {
 				$this->loadExtractor($type, $element);
