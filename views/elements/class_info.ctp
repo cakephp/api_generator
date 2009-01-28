@@ -17,6 +17,21 @@
 		
 		<dt><?php __('Summary:'); ?></dt>
 		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['description']; ?></dd>
+		
+		<?php if (!empty($doc->classInfo['parents'])): ?>
+		<dt><?php __('Class Inheritance'); ?></dt>
+		<dd><?php echo $apiDoc->inheritanceTree($doc->classInfo['parents']); ?></dd>
+		<?php endif;?>
+		
+		<?php if (!empty($doc->classInfo['interfaces'])): ?>
+		<dt><?php __('Interfaces Implemented'); ?></dt>
+		<dd>
+			<?php foreach ($doc->classInfo['interfaces'] as $interfaces): ?>
+		        <?php echo $apiDoc->classLink($interfaces); ?>
+			<?php endforeach; ?>
+		</dd>
+		<?php endif;?>
+		
 	  </dl>
 	  <div class="tag-block">
 		<dl>

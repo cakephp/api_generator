@@ -312,6 +312,7 @@ Documentation Page Styles
 	font-size:16px;
 	line-height:1.4em;
 	margin:0;
+	clear:both;
 }
 .markdown-block pre {
 	font-size: 12px;
@@ -323,6 +324,27 @@ Documentation Page Styles
 	border: 1px solid #DAEBEE;
 	color: #333;
 	overflow-x:auto;
+}
+/** inheritance trees **/
+.inheritance-tree .parent-class {
+	display:block;
+	float:left;
+	clear:left;
+}
+.inheritance-tree a {
+	min-width:100px;
+	padding:5px 15px;
+	border:1px solid #eee;
+	display:block;
+	float:left;
+	margin-bottom:15px;
+	text-align:center;
+}
+.inheritance-tree .last {
+	background:none;
+}
+.inheritance-tree .last a {
+	margin-bottom:0;
 }
 
 /* visibility controls */

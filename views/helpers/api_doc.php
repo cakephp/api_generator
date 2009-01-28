@@ -175,4 +175,29 @@ class ApiDocHelper extends AppHelper {
 	public function slugClassName($className) {
 		return str_replace('_', '-', Inflector::underscore($className));
 	}
+/**
+ * Create a nested inheritance tree from an array.
+ * Uses an array stack like a tree. So
+ *     array('foo', 'bar', 'baz')
+ * will create a tree like
+ *  * foo
+ *  ** bar
+ *  *** baz
+ *
+ * @param array $parents Array of parents you want to make into a tree
+ * @return string
+ **/
+	public function inheritanceTree($parents) {
+		$out = $endTags = '';
+		$totalParents = count($parents);
+		foreach ($parents as $i => $class) {
+			$htmlClass = 'parent-class';
+			if ($i == $totalParents - 1) {
+				$htmlClass .= ' last';
+			}
+			$out .= '<span class="' . $htmlClass . '">' . $this->classLink($class);
+			$endTags .= "</span>\n";
+		}
+		return '<p class="inheritance-tree">' . $out . '</p>';
+	}
 }
