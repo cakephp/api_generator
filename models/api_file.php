@@ -120,6 +120,9 @@ class ApiFile extends Object {
  * @return array
  **/
 	public function read($path) {
+		if (preg_match('|\.\.|', $path)) {
+			return array(array(), array());
+		}
 		$this->_Folder->cd($path);
 		$ignore = $this->excludeFiles;
 		$ignore[] = '.';

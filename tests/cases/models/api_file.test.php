@@ -68,6 +68,7 @@ class ApiFileTestCase extends CakeTestCase {
  *  - test ignored files
  *  - test ignored folders
  *  - test extensions
+ *  - test reading evil paths
  *
  * @return void
  **/
@@ -92,6 +93,11 @@ class ApiFileTestCase extends CakeTestCase {
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertTrue(empty($result[1]), 'file with not allowed extension found. %s');
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
+		
+		$this->ApiFile->allowedExtensions = array('php');
+		$this->ApiFile->excludeDirectories = array();
+		$result = $this->ApiFile->read($this->_path . '../../../../../../');
+		$this->assertEqual($result, array(array(), array()), 'Evil file path read.');
 	}
 /**
  * test file list generation
