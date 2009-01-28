@@ -78,6 +78,27 @@ class ApiIndexShell extends Shell {
 		$this->Dispatch->dispatch();
 	}
 /**
+ * Initialize the database and insert the schema.
+ *
+ * @return void
+ **/
+	public function set_routes() {
+		$Routes = new File(CONFIGS . 'routes.php');
+		$new = array(
+			"Router::connect('/class/*', array('plugin' => 'api_generator', 'controller' => 'api_generator', 'action' => 'view_class'));",
+			"Router::connect('/file/*', array('plugin' => 'api_generator', 'controller' => 'api_generator','action' => 'view_file'));",
+			"Router::connect('/:action/*', array('plugin' => 'api_generator', 'controller' => 'api_generator'), array('action' => 'classes|source|files'));",
+		);
+
+		$data = rtrim(trim($Routes->read()), "?>") . "\n\n\t" . join("\n\n\t", $new);
+		if ($Routes->write($data)) {
+			$this->out(__('Routes file updated'));
+			return;
+		}
+		$this->out(__('Routes file NOT updated'));
+		return;
+	}
+/**
  * Main method
  *
  * @return void
