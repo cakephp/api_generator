@@ -330,11 +330,12 @@ Documentation Page Styles
 	display:block;
 	float:left;
 	clear:left;
+	background: url(../img/inheritance_arrow.png) center bottom no-repeat;
 }
 .inheritance-tree a {
 	min-width:100px;
 	padding:5px 15px;
-	border:1px solid #eee;
+	border:1px solid #666;
 	display:block;
 	float:left;
 	margin-bottom:15px;
@@ -342,9 +343,6 @@ Documentation Page Styles
 }
 .inheritance-tree .last {
 	background:none;
-}
-.inheritance-tree .last a {
-	margin-bottom:0;
 }
 
 /* visibility controls */

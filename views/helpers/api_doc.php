@@ -195,8 +195,7 @@ class ApiDocHelper extends AppHelper {
 			if ($i == $totalParents - 1) {
 				$htmlClass .= ' last';
 			}
-			$out .= '<span class="' . $htmlClass . '">' . $this->classLink($class);
-			$endTags .= "</span>\n";
+			$out .= '<span class="' . $htmlClass . '">' . $this->classLink($class) . "</span>\n";
 		}
 		return '<p class="inheritance-tree">' . $out . '</p>';
 	}
