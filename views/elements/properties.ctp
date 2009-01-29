@@ -24,7 +24,7 @@ $apiUtils->sortByName($doc->properties); ?>
 			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-property'; ?>">
 				<td class="access <?php echo $prop['access']; ?>"><span><?php echo $prop['access']; ?></span></td>
 				<td><?php echo $prop['name']; ?></td>
-				<td class="markdown-block"><?php echo $prop['comment']['description']; ?></td>
+				<td class="markdown-block"><?php echo h($prop['comment']['description']); ?></td>
 			</tr>
 			<?php $i++;?>
 		<?php endforeach; ?>

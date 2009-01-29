@@ -16,7 +16,7 @@
 		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		
 		<dt><?php __('Summary:'); ?></dt>
-		<dd class="markdown-block"><?php echo $doc->classInfo['comment']['description']; ?></dd>
+		<dd class="markdown-block"><?php echo h($doc->classInfo['comment']['description']); ?></dd>
 		
 		<?php if (!empty($doc->classInfo['parents'])): ?>
 		<dt><?php __('Class Inheritance'); ?></dt>
