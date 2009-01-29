@@ -229,16 +229,19 @@ class ApiFile extends Object {
  * Load A File and extract docs for all classes contained in that file
  *
  * @param string $fullPath FullPath of the file you want to load.
+ * @param array $options Options to use
+ *   - 'useIndex' boolean whether or not a search should be done on the ApiClass index for any missing classes 
+ * defaults to false.
  * @return array Array of all the docs from all the classes that were loaded as a result of the file being loaded.
  * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
  **/
-	public function loadFile($filePath) {
+	public function loadFile($filePath, $options = array()) {
 		$docs = array('class' => array(), 'function' => array());
 		if (preg_match('|\.\.|', $filePath)) {
 			return $docs;
 		}
 		$this->_importCakeBaseClasses($filePath);
-		$this->_resolveDependancies($filePath);
+		$this->_resolveDependancies($filePath, $options);
 		$this->_getDefinedObjects();
 		$newObjects = $this->findObjectsInFile($filePath);
 		foreach ($newObjects as $type => $objects) {
@@ -351,9 +354,14 @@ class ApiFile extends Object {
  * Parses the file for any parent classes required by the file being loaded.
  * Attempts to load those files.
  *
+ * @param string $filePath absolute filepath to look in
+ * @param array $options Options to use.
  * @return void
  **/
-	protected function _resolveDependancies($filePath) {
+	protected function _resolveDependancies($filePath, $options = array()) {
+		$defaults = array('useIndex' => false);
+		$options = array_merge($defaults, $options);
+
 		$parentClasses = $this->_parseClassNamesInFile($filePath, true);
 		$classNamesInFile = $this->_parseClassNamesInFile($filePath);
 		$solved = false;
@@ -366,6 +374,13 @@ class ApiFile extends Object {
 				interface_exists($neededParent, false) ||
 				in_array($neededParent, $classNamesInFile)
 			);
+			if (!$exists && $options['useIndex']) {
+				$ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+				$result = $ApiClass->findByName($neededParent);
+				if (!empty($result['ApiClass']['file_name'])) {
+					$this->classMap[$neededParent] = $result['ApiClass']['file_name'];
+				}
+			}
 
 			if (!$exists && isset($this->classMap[$neededParent])) {
 				array_unshift($loadClasses, $neededParent);

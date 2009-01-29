@@ -117,7 +117,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->_notFound(__('No file exists with that name', true));
 		}
 		try {
-			$docs = $this->ApiFile->loadFile($fullPath);
+			$docs = $this->ApiFile->loadFile($fullPath, array('useIndex' => true));
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
@@ -150,7 +150,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->_notFound(__('No class exists in the index with that name', true));
 		}
 		try {
-			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name']);
+			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name'], array('useIndex' => true));
 			$doc = $docs['class'][$classInfo['ApiClass']['name']];
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());

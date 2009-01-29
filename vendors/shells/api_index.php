@@ -41,7 +41,12 @@ class ApiIndexShell extends Shell {
  * @var ApiClass
  **/
 	public $ApiClass;
-
+/**
+ * instance of ApiFile
+ *
+ * @var ApiFile
+ **/
+	public $ApiFile;
 /**
  * Holds current config
  *
@@ -87,7 +92,7 @@ class ApiIndexShell extends Shell {
 		$new = array(
 			"Router::connect('/class/*', array('plugin' => 'api_generator', 'controller' => 'api_generator', 'action' => 'view_class'));",
 			"Router::connect('/file/*', array('plugin' => 'api_generator', 'controller' => 'api_generator','action' => 'view_file'));",
-			"Router::connect('/:action/*', array('plugin' => 'api_generator', 'controller' => 'api_generator'), array('action' => 'classes|source|files'));",
+			"Router::connect('/:action/*', array('plugin' => 'api_generator', 'controller' => 'api_generator'), array('action' => 'classes|source|files|view_source'));",
 		);
 
 		$data = rtrim(trim($Routes->read()), "?>") . "\n\n\t" . join("\n\n\t", $new);
@@ -356,6 +361,8 @@ class ApiIndexShell extends Shell {
 		$this->out('	Use to check if your config is going to parse the files you want.');
 		$this->out('  update');
 		$this->out('	Clear the existing class index and regenerate it.');
+		$this->out('  set_routes');
+		$this->out('	Add routes for Api generator to your routes file.');
 
 	}
 
