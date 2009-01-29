@@ -195,21 +195,23 @@ File Browser Styles
 	margin: 0;
 	padding: 0;
 }
-.file, 
-.folder {
+.file a, 
+.folder a {
 	padding: 8px 8px 8px 40px;
 	font-size:14px;
 	background-color: #EFEFEF;
 	margin-bottom:4px;
+	display: block;
 }
 
 /* files and folders in sidebar */
-#sidebar .file,
-#sidebar .folder,
-#sidebar #classIndex li {
+#sidebar .file a,
+#sidebar .folder a,
+#sidebar #classIndex li a {
 	font-size: 10px;
 	line-height: 15px;
 	padding: 4px 4px 4px 24px;
+	display: block;
 }
 
 /**
