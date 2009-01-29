@@ -113,4 +113,23 @@ class ApiUtilsHelper extends AppHelper {
 		$return .= "  </ol>\n";
 		return $return;
 	}
+/**
+ * Sort a collection of arrays by the key 'name'
+ *
+ * @param array $collection Reference to the array needing sorting.
+ * @return void works by reference
+ **/
+	public function sortByName(&$collection) {
+		return usort($collection, array($this, '_sorter'));
+	}
+/**
+ * sortByName helper function
+ *
+ * @return integer
+ **/
+	protected function _sorter($one, $two) {
+		$cleanOne = str_replace('_', '', $one['name']);
+		$cleanTwo = str_replace('_', '', $two['name']);
+		return strnatcasecmp($cleanOne, $cleanTwo);
+	}
 }

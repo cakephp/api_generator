@@ -3,9 +3,10 @@
  * Properties Element
  *
  */
-?>
+
+$apiUtils->sortByName($doc->properties); ?>
 <div class="doc-block">
-	<div class="doc-head"><h2>Properties:</h2></div>
+	<div class="doc-head"><h2><?php __('Properties:'); ?></h2></div>
 	<div class="doc-body">
 	<?php if (!empty($doc->properties)): ?>
 		<span class="doc-controls">

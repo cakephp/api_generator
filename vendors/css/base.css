@@ -258,12 +258,13 @@ Documentation Page Styles
 .doc-head .public-static {
 	border-color: #70A280;
 }
-.doc-head .private, .doc-head .private-static {
-	border-color: #EAE38B;
+.doc-head .private, 
+.doc-head .private-static {
+	border-color: #A47878;
 }
 .doc-head .protected,
 .doc-head .protected-static {
-	border-color: #A47878;
+	border-color: #EAE38B;
 }
 
 /* body styles */
@@ -365,12 +366,14 @@ Documentation Page Styles
 
 /* Access icon replacements */
 .access span {
-	width:10px;
-	padding-top:10px;
+	width:14px;
+	padding-top:14px;
 	height:0px;
 	display:block;
 	overflow:hidden;
 	margin:0 auto;
+	background-repeat:none;
+	background-position:center center;
 }
 .protected span, 
 .protected-static span {
@@ -383,6 +386,18 @@ Documentation Page Styles
 .private span, 
 .private-static span {
 	background-image: url(../img/icon_private.gif);
+}
+.parent-method .private span,
+.parent-property .private span {
+	background-image: url(../img/icon_private_parent.gif);
+}
+.parent-method .protected span,
+.parent-property .protected span {
+	background-image: url(../img/icon_protected_parent.gif);
+}
+.parent-method .public span,
+.parent-property .public span {
+	background-image: url(../img/icon_public_parent.gif);
 }
 
 /** Element table of contents **/

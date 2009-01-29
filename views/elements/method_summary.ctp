@@ -3,7 +3,8 @@
  * Method Summary Element
  *
  */
-?>
+
+$apiUtils->sortByName($doc->methods); ?>
 <div class="doc-block">
 	<a id="top-<?php echo $doc->name; ?>"></a>
 	<div class="doc-head"><h2><?php __('Method Summary:'); ?></h2></div>
