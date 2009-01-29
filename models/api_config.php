@@ -60,22 +60,22 @@ class ApiConfig extends Object {
 		}
 
 		if (is_string($lines)) {
-			if ($lines[0] == '/' && file_exists($lines)) {
-				$lines = file($lines);
-			} elseif ($lines[0] == '/' && !file_exists($lines)) {
+			$isPath = $lines[0] === '/' || $lines[1] === ':';
+			if ($isPath && file_exists($lines)) {
+				$lines = file_get_contents($lines);
+			} elseif ($isPath && !file_exists($lines)) {
 				return array();
-			} else {
-				$lines = explode("\n", $lines);
 			}
+
+			$lines = str_replace(array("\r\n", "\r"), "\n", $lines);
+			$lines = explode("\n", $lines);
 		}
 		if (empty($lines)) {
 			return array();
 		}
-
-		$lines = array_filter($lines);
-
 		$ini = array();
 
+		$lines = array_filter($lines);
 		foreach ($lines as $line) {
 			$row = trim($line);
 			if (empty($row) || $row[0] == ';') {

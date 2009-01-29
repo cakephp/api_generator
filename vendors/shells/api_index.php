@@ -213,7 +213,7 @@ class ApiIndexShell extends Shell {
 		$path = null;
 		while($path == null && $path != 'q') {
 			$path = $this->in('Enter the path to the codebase.', '', $this->params['working']);
-			if ($path[0] != '/') {
+			if ($path[0] != '/' && $path[1] != ':') {
 				$path = $this->params['working'] . DS . $path;
 			}
 			if (file_exists($path)) {

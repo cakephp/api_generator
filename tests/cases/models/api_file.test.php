@@ -3,7 +3,7 @@
 /**
  * ApiFile test case
  *
- * 
+ *
  *
  * PHP versions 4 and 5
  *
@@ -20,9 +20,9 @@
  * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
  * @package         cake.api_generator
  * @subpackage      cake.api_generator.tests.
- * @version         
- * @modifiedby      
- * @lastmodified    
+ * @version
+ * @modifiedby
+ * @lastmodified
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 App::import('Model', 'ApiGenerator.ApiFile');
@@ -77,23 +77,23 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(empty($result[0]));
 		$expected = array('api_config.php', 'api_class.php', 'api_file.php');
 		$this->assertEqual(sort($result[1]), sort($expected));
-		
+
 		$this->ApiFile->excludeFiles[] = 'api_class.php';
 		$result = $this->ApiFile->read($this->_path . DS . 'models');
 		$expected = array('api_config.php', 'api_file.php');
 		$this->assertEqual($result[1], $expected);
-		
+
 		$this->ApiFile->excludeDirectories = array('models', 'controllers');
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertFalse(in_array('controllers', $result[0]));
 		$this->assertFalse(in_array('models', $result[0]));
-		
+
 		$this->ApiFile->allowedExtensions = array('css');
 		$this->ApiFile->excludeDirectories = array('models');
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertTrue(empty($result[1]), 'file with not allowed extension found. %s');
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
-		
+
 		$this->ApiFile->allowedExtensions = array('php');
 		$this->ApiFile->excludeDirectories = array();
 		$result = $this->ApiFile->read($this->_path . '../../../../../../');
@@ -114,7 +114,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
-		
+
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
@@ -122,7 +122,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
-		
+
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
@@ -130,10 +130,10 @@ class ApiFileTestCase extends CakeTestCase {
 		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
 		$this->assertFalse(in_array($core, $result));
 		$this->assertFalse(in_array($vendorJs, $result));
-		
+
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('php');
-		$this->ApiFile->removeFiles = array('index.php');
+		$this->ApiFile->excludeFiles = array('index.php');
 		$this->ApiFile->fileRegExp = '[a-z_0-9]+';
 		$result = $this->ApiFile->fileList(APP);
 		$core = CONFIGS . 'core.php';
@@ -149,7 +149,7 @@ class ApiFileTestCase extends CakeTestCase {
 	function testGetDocs() {
 		$result = $this->ApiFile->getDocs();
 		$this->assertTrue(empty($result));
-		
+
 		$this->ApiFile->loadExtractor('class', 'ApiFile');
 		$result = $this->ApiFile->getDocs();
 		$this->assertTrue($result instanceof ClassDocumentor);
@@ -165,7 +165,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class'][__CLASS__] instanceof ClassDocumentor);
-		
+
 		$result = $this->ApiFile->loadFile(APP . 'plugins' . DS . 'api_generator' . DS . 'models' . DS . 'api_class.php');
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
@@ -181,7 +181,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertEqual($result, array('class' => array(), 'function' => array()));
 	}
 /**
- * test loadFile() with a dependancy map. 
+ * test loadFile() with a dependancy map.
  *
  * @return void
  **/

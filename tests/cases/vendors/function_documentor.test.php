@@ -9,7 +9,7 @@ App::import('Vendor', 'ApiGenerator.FunctionDocumentor');
  * @return void
  */
 function my_random_test_function($param, $one = 'foo', $two = 'param') {
-	
+
 }
 /**
  * FunctionDocumentor Test Case
@@ -42,17 +42,17 @@ class FunctionDocumentorTestCase extends CakeTestCase {
 						),
 						'one' => array(
 							'type' => 'string',
-							'description' => 'this is one',	
+							'description' => 'this is one',
 						),
 						'two' => array(
 							'type' => 'string',
-							'description' => 'this is two',	
+							'description' => 'this is two',
 						)
 					)
 				)
 			),
 			'internal' => false,
-			'signature' => 'my_random_test_function( $param, $one = foo, $two = param )',
+			'signature' => 'my_random_test_function( $param, $one = \'foo\', $two = \'param\' )',
 		);
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->info, $expected);
@@ -65,26 +65,26 @@ class FunctionDocumentorTestCase extends CakeTestCase {
 	function testGetParameters() {
 		$Docs = new FunctionDocumentor('my_random_test_function');
 		$result = $Docs->getParams();
-		$expected = array( 
-			'param' => array( 
-				'optional' => false, 
-				'default' => NULL, 
-				'position' => 0, 
-				'type' => 'string', 
+		$expected = array(
+			'param' => array(
+				'optional' => false,
+				'default' => NULL,
+				'position' => 0,
+				'type' => 'string',
 				'comment' => 'this is a param'
-			), 
+			),
 			'one' => array(
-				'optional' => true, 
-				'default' => 'foo', 
-				'position' => 1, 
-				'type' => 'string', 
+				'optional' => true,
+				'default' => 'foo',
+				'position' => 1,
+				'type' => 'string',
 				'comment' => 'this is one'
-			), 
-			'two' => array( 
-				'optional' => true, 
-				'default' => 'param', 
-				'position' => 2, 
-				'type' => 'string', 
+			),
+			'two' => array(
+				'optional' => true,
+				'default' => 'param',
+				'position' => 2,
+				'type' => 'string',
 				'comment' => 'this is two'
 			)
 		);
