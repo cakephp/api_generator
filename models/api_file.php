@@ -43,6 +43,18 @@ class ApiFile extends Object {
  **/
 	public $excludeDirectories = array();
 /**
+ * excludeMethods property
+ *
+ * @var array
+ */
+	public $excludeMethods = array();
+/**
+ * excludeProperties property
+ *
+ * @var array
+ */
+	public $excludeProperties = array();
+/**
  * A list of files to ignore.
  *
  * @var array
@@ -230,7 +242,7 @@ class ApiFile extends Object {
  *
  * @param string $fullPath FullPath of the file you want to load.
  * @param array $options Options to use
- *   - 'useIndex' boolean whether or not a search should be done on the ApiClass index for any missing classes 
+ *   - 'useIndex' boolean whether or not a search should be done on the ApiClass index for any missing classes
  * defaults to false.
  * @return array Array of all the docs from all the classes that were loaded as a result of the file being loaded.
  * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
