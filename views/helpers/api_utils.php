@@ -120,6 +120,9 @@ class ApiUtilsHelper extends AppHelper {
  * @return void works by reference
  **/
 	public function sortByName(&$collection) {
+		if (!is_array($collection)) {
+			return;
+		}
 		return usort($collection, array($this, '_sorter'));
 	}
 /**
