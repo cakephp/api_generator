@@ -3,22 +3,60 @@
  * Browse Classes View file
  *
  */
-$letterIndex = array_flip(range('A', 'Z'));
 
+/**
+ * Tittle height to class name height ratio
+ */
+$titleWeight = 2;
+
+/**
+ * Number of columns to print
+ */
+$columns = 3;
+
+$letterIndex = array_combine(range('A', 'Z'), array_fill(0, 26, null));
+$maxWeight = 0;
 foreach ($classIndex as $slug => $name):
 	$firstLetter = strtoupper(substr($name, 0, 1));
-	if (!is_array($letterIndex[$firstLetter])):
-		$letterIndex[$firstLetter] = array();
+	if (empty($letterIndex[$firstLetter])):
+		$letterIndex[$firstLetter] = true;
+		$maxWeight += $titleWeight;
 	endif;
-	$letterIndex[$firstLetter][$slug] = $name;
+	$maxWeight += 1;
 endforeach;
+
+$maxWeight = floor($maxWeight / $columns);
+
+$classChunks = array();
+
+$chunk = 0;
+$weight = 0;
+$letter = '';
+foreach ($classIndex as $slug => $name) {
+	$firstLetter = strtoupper(substr($name, 0, 1));
+	if ($firstLetter != $letter) {
+		$weight += $titleWeight;
+		$letter = $firstLetter;
+	}
+
+	if ($weight > $maxWeight) {
+		$weight -= $maxWeight;
+		if ($chunk < 2) {
+			$chunk++;
+		}
+	}
+
+	$classChunks[$chunk][$firstLetter][$slug] = $name;
+	$weight ++;
+}
 ?>
 <h1><?php __('Index'); ?></h1>
 
 <div class="letter-links">
 <?php
+
 foreach (array_keys($letterIndex) as $letter):
-	if (!is_array($letterIndex[$letter])) {
+	if (!$letterIndex[$letter]) {
 		echo '<span>' . $letter . '</span>';
 	} else {
 		echo $html->link($letter, '#letter-' . $letter);
@@ -26,22 +64,26 @@ foreach (array_keys($letterIndex) as $letter):
 endforeach;
 ?>
 </div>
-<?php $letterChunks = array_chunk($letterIndex, floor(count($letterIndex)/3), true); ?>
-<?php foreach ($letterChunks as $column => $letterList): ?>
-	<div class="letter-section">
-	<?php foreach ($letterList as $letter => $classes): ?>
-		<?php if (is_array($classes)): ?>
+
+<?php $current = null; ?>
+<?php foreach ($classChunks as $column): ?>
+<div class="letter-section">
+	<?php foreach ($column as $letter => $classes): ?>
+		<?php if ($current != $letter): ?>
 			<h3><a id="letter-<?php echo $letter; ?>"></a><?php echo $letter; ?></h3>
-			<ul class="class-index">
-			<?php foreach ($classes as $slug => $name): ?>
-				<li><?php
-					echo $html->link($name, array(
-						'plugin' => 'api_generator', 'controller' => 'api_generator',
-						'action' => 'view_class', $slug));
-				?></li>
-			<?php endforeach; ?>
-			</ul>
+		<?php else: ?>
+			<h3><a id="letter-<?php echo $letter; ?>-cont"></a><?php echo $letter; ?> <?php __('(cont.)') ?></h3>
 		<?php endif; ?>
+		<?php $current = $letter; ?>
+		<ul class="class-index">
+		<?php foreach ($classes as $slug => $name): ?>
+			<li><?php
+				echo $html->link($name, array(
+					'plugin' => 'api_generator', 'controller' => 'api_generator',
+					'action' => 'view_class', $slug));
+			?></li>
+		<?php endforeach; ?>
+		</ul>
 	<?php endforeach; ?>
-	</div>
+</div>
 <?php endforeach; ?>
