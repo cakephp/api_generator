@@ -80,7 +80,9 @@ class FunctionDocumentor extends ReflectionFunction {
 				'default' => null,
 				'position' => $param->getPosition(),
 				'type' => $type,
-				'comment' => $description
+				'comment' => $description,
+				'hasDefault' => $param->isDefaultValueAvailable(),
+				'default' => null
 			);
 			if ($param->isDefaultValueAvailable()) {
 				$this->params[$param->name]['default'] = $param->getDefaultValue();
