@@ -121,20 +121,23 @@ h3 {
 #content {
 	background: #fff;
 	color:#000;
-	width:90%;
-	padding:14px;
+	width:95%;
+	padding:14px 2.5%;
 	margin:0 auto;
 }
 /* with and without sidebar content regions */
 .with-sidebar #content-inner {
 	position: relative;
-	width:65%;
+	width:75%;
 	padding-left:2%;
+	margin-left:1%;
 	float: right;
 	border-left: 1px solid #eee;
 }
 .with-sidebar #sidebar {
 	width: 20%;
+	padding: 0;
+	margin: 0;
 	float: left;
 }
 #footer {
@@ -283,7 +286,7 @@ Documentation Page Styles
 .doc-body .odd td {
 	background: #C9E2E6;
 }
-.doc-body > table td {
+.doc-body table td {
 	font-size:12px;
 }
 .doc-body td.access {
@@ -345,6 +348,10 @@ Documentation Page Styles
 .inheritance-tree .last {
 	background:none;
 }
+/* IE 6 collapsing margin bug */
+* html .inheritance-tree .parent-class {
+	padding-bottom: 15px;
+}
 
 /* visibility controls */
 .doc-controls a {
@@ -374,6 +381,10 @@ Documentation Page Styles
 	margin:0 auto;
 	background-repeat:none;
 	background-position:center center;
+}
+* html .access span {
+	background-position: top left;
+	background-repeat:none;
 }
 .protected span, 
 .protected-static span {

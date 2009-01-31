@@ -27,6 +27,7 @@ Element.implement({
 	}
 });
 
+
 /**
  * Simple FileExplorer.
  *
@@ -34,9 +35,8 @@ Element.implement({
 var FileExplorer = new Class({
 	Implements : [Options, Events],
 	options : {
-		folderSelector : 'li.folder',
+		folderSelector : 'li.folder'
 	},
-	elements : {},
 
 	initialize : function (container, options) {
 		this.container = $(container);
@@ -61,7 +61,7 @@ var FileExplorer = new Class({
 	}
 });
 
-ApiGenerator = {};
+var ApiGenerator = {};
 
 ApiGenerator.init = function() {
 	for (prop in this) {
@@ -73,6 +73,7 @@ ApiGenerator.init = function() {
 /**
  * Enable markdown conversion for .markdown-block
  */
+
 ApiGenerator.docBlocks = {
 	init : function() {
 		var converter = new Showdown.converter(window.basePath);
@@ -82,10 +83,12 @@ ApiGenerator.docBlocks = {
 	}
 }
 
+
 /**
  * Javascript used on Api doc Pages
  *
  */
+
 ApiGenerator.apiPages = {
 	init : function() {
 		var targets = {
@@ -123,6 +126,7 @@ ApiGenerator.apiPages = {
 		}
 	}
 };
+
 
 window.addEvent('domready', function() {
 	ApiGenerator.init();

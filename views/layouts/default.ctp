@@ -33,7 +33,9 @@
 		echo $html->meta('icon');
 		echo $html->css('/api_generator/css/base.css');
 	?>
-	<script type="text/javascript">var basePath = "<?php echo $this->base; ?>"; </script>
+	<script type="text/javascript">
+		var basePath = "<?php echo $this->base; ?>";
+	</script>
 	<?php
 		echo $javascript->link('/api_generator/js/mootools');
 		echo $javascript->link('/api_generator/js/showdown');
@@ -70,6 +72,5 @@
 			?>
 		</div>
 	</div>
-	<?php echo $cakeDebug; ?>
 </body>
 </html>

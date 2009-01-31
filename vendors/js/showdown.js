@@ -1,4 +1,3 @@
-<!--
 var Showdown={};Showdown.converter=function(baseUrl){var g_urls;var g_titles;var g_html_blocks;var g_list_level=0;this.makeHtml=function(text){g_urls=new Array();g_titles=new Array();g_html_blocks=new Array();text=text.replace(/~/g,"~T");text=text.replace(/\$/g,"~D");text=text.replace(/\r\n/g,"\n");text=text.replace(/\r/g,"\n");text="\n\n"+text+"\n\n";text=_Detab(text);text=text.replace(/^[ \t]+$/mg,"");text=_HashHTMLBlocks(text);text=_StripLinkDefinitions(text);text=_RunBlockGamut(text);text=_UnescapeSpecialChars(text);text=text.replace(/~D/g,"$$");text=text.replace(/~T/g,"~");return text;}
 var _StripLinkDefinitions=function(text){var text=text.replace(/^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+|\Z)/gm,function(wholeMatch,m1,m2,m3,m4){m1=m1.toLowerCase();g_urls[m1]=_EncodeAmpsAndAngles(m2);if(m3){return m3+m4;}else if(m4){g_titles[m1]=m4.replace(/"/g,"&quot;");}
 return"";});return text;}
@@ -51,4 +50,3 @@ var _Detab=function(text){text=text.replace(/\t(?=\t)/g,"    ");text=text.replac
 var escapeCharacters=function(text,charsToEscape,afterBackslash){var regexString="(["+charsToEscape.replace(/([\[\]\\])/g,"\\$1")+"])";if(afterBackslash){regexString="\\\\"+regexString;}
 var regex=new RegExp(regexString,"g");text=text.replace(regex,escapeCharacters_callback);return text;}
 var escapeCharacters_callback=function(wholeMatch,m1){var charCodeToEscape=m1.charCodeAt(0);return"~E"+charCodeToEscape+"E";}}
--->
