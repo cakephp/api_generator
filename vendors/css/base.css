@@ -382,6 +382,7 @@ Documentation Page Styles
 	background-repeat:none;
 	background-position:center center;
 }
+/* IE6 fix */
 * html .access span {
 	background-position: top left;
 	background-repeat:none;
