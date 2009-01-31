@@ -95,7 +95,7 @@ ApiGenerator.apiPages = {
 			'hide-parent-methods' : '.parent-method',
 			'hide-parent-properties' : '.parent-property'
 		}
-		this.attachVisibilityControls(targets);
+		this.attachVisibilityControls(targets, true);
 		var mySmoothScroll = new SmoothScroll({
 		    links: '.scroll-link',
 		    wheelStops: false
@@ -103,12 +103,13 @@ ApiGenerator.apiPages = {
 		var FileTree = new FileExplorer('file-browser');
 	},
 
-	attachVisibilityControls : function(collection) {
-		for (button in collection) {
-			if (!$(button)) {
+	attachVisibilityControls : function(collection, hideNow) {
+		for (var button in collection) {
+			button = $(button);
+			if (!button) {
 				continue;
 			}
-			$(button).addEvent('click', function(e) {
+			button.addEvent('click', function(e) {
 				e.stop();
 				var targets = $$(collection[this.get('id')]);
 				var showing = this.retrieve('showing', true);
@@ -123,6 +124,10 @@ ApiGenerator.apiPages = {
 				}
 				this.store('showing', !showing);
 			});
+			if (hideNow) {
+				$$(collection[button.get('id')]).hide();
+				button.addClass('active').store('showing', false);
+			}
 		}
 	}
 };
