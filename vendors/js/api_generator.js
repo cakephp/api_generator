@@ -73,7 +73,6 @@ ApiGenerator.init = function() {
 /**
  * Enable markdown conversion for .markdown-block
  */
-
 ApiGenerator.docBlocks = {
 	init : function() {
 		var converter = new Showdown.converter(window.basePath);
@@ -88,7 +87,6 @@ ApiGenerator.docBlocks = {
  * Javascript used on Api doc Pages
  *
  */
-
 ApiGenerator.apiPages = {
 	init : function() {
 		var targets = {

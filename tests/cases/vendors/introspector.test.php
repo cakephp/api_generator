@@ -90,6 +90,38 @@ EOD;
 			),
 		);
 		$this->assertEqual($result, $expected);
+		
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
+		 * @param string \$foo Foo is an input
+		 * @param int \$bar Bar is also an input
+		 * @param int \$baz Baz is also an input
+		 * @return string This is a longer doc string for the
+		 *   return string.
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.');
+		
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
+		 * @param string \$foo Foo is an input
+		 * @param int \$bar Bar is also an input
+		 * @param int \$baz Baz is also an input
+		 * @return string This is a longer doc string for the
+		 * 		return string.
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the');
 	}
 }
 ?>

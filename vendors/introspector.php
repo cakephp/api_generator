@@ -90,12 +90,19 @@ class Introspector {
 
 		$desc = '';	
 		$tags = array();
+		$preprocessed = array();
 		for ($i = 0, $count = count($tmp); $i < $count; $i++ ) {
 			$line = $tmp[$i];
-			if (substr($line, 0, 1) !== '@' && $line !== '*') {
+			if (substr($line, 0, 1) !== '@' && $line !== '*' && !isset($preprocessed[$i])) {
 				$desc .= "\n" . $line;
 			}
+
 			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
+				// capture continued lines. (indented with 3 spaces or 1 tab)
+				if (isset($tmp[$i + 1]) && preg_match('/^(?: {1,3}|\t{,1})(.*)$/i', $tmp[$i + 1], $nextLine)) {
+					$parsedTag[2] .= ' ' . trim($nextLine[1]);
+					$preprocessed[$i + 1] = true;
+				}
 				if (isset($tags[$parsedTag[1]]) && !is_array($tags[$parsedTag[1]])) {
 					$tags[$parsedTag[1]] = (array)$tags[$parsedTag[1]];
 					$tags[$parsedTag[1]][] = $parsedTag[2];
