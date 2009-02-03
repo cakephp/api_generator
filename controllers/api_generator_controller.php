@@ -204,23 +204,35 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		foreach ($terms as $i => $class) {
 			$slug = str_replace('_', '-', Inflector::slug(Inflector::underscore($class)));
-			if ($this->ApiClass->find('count', array('conditions' => array('slug like ' => $slug . '%')))) {
+			if ($this->ApiClass->find('count', array('conditions' => array('slug like' => $slug . '%')))) {
 				$match = $class;
 				break;
 			}
 		}
+		$fields = array('DISTINCT ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
+		$order = 'ApiClass.name';
 		if ($match) {
-			$conditions['OR']['ApiClass.slug like '] = $slug . '%';
+			$conditions['ApiClass.slug like'] = $slug . '%';
+			$results = $this->ApiClass->find('all', compact('conditions', 'order', 'fields'));
+		} else {
+			$results = array();
 		}
+		$conditions = array();
 		foreach ($terms as $term) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
 			$conditions['OR'][] = array('OR' => array(
 				'ApiClass.method_index LIKE' => '% ' . $term . '%',
+			));
+		}
+		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
+		$conditions = array();
+		foreach ($terms as $term) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
+			$conditions['OR'][] = array('OR' => array(
 				'ApiClass.property_index LIKE' => '% ' . $term . '%',
 			));
 		}
-		$this->paginate['fields'] = array('DISTINCT ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
-		$this->paginate['order'] = 'ApiClass.name ASC';
-		$results = $this->paginate($this->ApiClass, $conditions);
+		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
 		$docs = array();
 		foreach ($results as $i => $result) {
 			$docs[$i] = $this->ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
