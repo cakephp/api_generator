@@ -105,7 +105,21 @@ EOD;
 		 */
 EOD;
 		$result = Introspector::parseDocBlock($comment);
-		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.');
+		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.', 'parsing spaces failed %s');
+		
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
+		 * @return string This is a longer doc string for the
+		 *	return string.
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.', 'parsing single tab failed %s');
+		
 		
 		$comment = <<<EOD
 		/**
@@ -121,7 +135,7 @@ EOD;
 		 */
 EOD;
 		$result = Introspector::parseDocBlock($comment);
-		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the');
+		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the', 'multiple tabs should not be allowed %s');
 	}
 }
 ?>

@@ -99,7 +99,7 @@ class Introspector {
 
 			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
 				// capture continued lines. (indented with 3 spaces or 1 tab)
-				if (isset($tmp[$i + 1]) && preg_match('/^(?: {1,3}|\t{,1})(.*)$/i', $tmp[$i + 1], $nextLine)) {
+				if (isset($tmp[$i + 1]) && preg_match('/^(?: {1,3}|\t)([^\t]*)$/i', $tmp[$i + 1], $nextLine)) {
 					$parsedTag[2] .= ' ' . trim($nextLine[1]);
 					$preprocessed[$i + 1] = true;
 				}
