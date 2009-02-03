@@ -186,19 +186,77 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function search() {
+	public function search($term = null) {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$conditions = array();
-		if (isset($this->params['url']['query'])) {
-			$query = $this->params['url']['query'];
-			$conditions = array('ApiClass.search_index LIKE' => '%' . $query . '%');
+		if (!empty($this->params['url']['query'])) {
+			$term = $this->params['url']['query'];
+			return $this->redirect(array($term));
 		}
-		$this->paginate['fields'] = array('DISTINCT ApiClass.name', 'ApiClass.search_index');
+		$term = trim($term);
+		$terms = explode(' ', $term);
+		$conditions = array();
+		$match = false;
+		foreach ($terms as $i => $j) {
+			if (trim($j) === '') {
+				unset ($terms[$i]);
+			}
+		}
+		foreach ($terms as $i => $class) {
+			$slug = str_replace('_', '-', Inflector::slug(Inflector::underscore($class)));
+			if ($this->ApiClass->find('count', array('conditions' => array('slug like ' => $slug . '%')))) {
+				unset ($terms[$i]);
+				$match = $class;
+				break;
+			}
+		}
+		if ($match) {
+			$conditions['ApiClass.slug like '] = $slug . '%';
+		}
+		foreach ($terms as $term) {
+			$conditions['OR'][] = array('OR' => array(
+				'ApiClass.method_index LIKE' => '% ' . $term . '%',
+				'ApiClass.property_index LIKE' => '% ' . $term . '%',
+			));
+		}
+		$this->paginate['fields'] = array('DISTINCT ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
 		$this->paginate['order'] = 'ApiClass.name ASC';
 		$results = $this->paginate($this->ApiClass, $conditions);
+		$docs = array();
+		foreach ($results as $i => $result) {
+			$docs[$i] = $this->ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+			if ($match) {
+				foreach ($docs[$i]['class'] as $name => $_) {
+					if (strpos(low($name), low($class)) === false) {
+						unset ($docs[$i]['class'][$name]);
+					}
+				}
+			}
+			foreach ($docs[$i]['class'] as $name => &$obj) {
+				foreach ($obj->properties as $j => $prop) {
+					if (!in_array($prop['name'], $terms)) {
+						unset ($obj->properties[$j]);
+					}
+				}
+				foreach ($obj->methods as $j => $method) {
+					if (!in_array($method['name'], $terms)) {
+						unset ($obj->methods[$j]);
+					}
+				}
+				if (!$match && !$obj->methods && !$obj->properties) {
+					unset($docs[$i]['class']);
+				}
+			}
+			if (!$docs[$i]['function']) {
+				unset ($docs[$i]['function']);
+			}
+			if (!$docs[$i]) {
+				unset ($docs[$i]);
+			}
+		}
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->helpers[] = 'Text';
-		$this->set(compact('results', 'classIndex'));
+		$this->set(compact('classIndex', 'terms', 'class', 'docs'));
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.

@@ -6,19 +6,25 @@
 
 $apiUtils->sortByName($doc->properties); ?>
 <div class="doc-block">
+<?php if (!empty($isSearch)) { ?>
+	<div class="doc-head"><h3><?php __('Properties:'); ?></h3></div>
+<?php } else { ?>
 	<div class="doc-head"><h2><?php __('Properties:'); ?></h2></div>
+<?php } ?>
 	<div class="doc-body">
 	<?php if (!empty($doc->properties)): ?>
+<?php if (empty($isSearch)) { ?>
 		<span class="doc-controls">
 			<a href="#" id="hide-parent-properties"><?php __('Show/Hide parent properties'); ?></a>
 		</span>
+<?php } ?>
 		<table>
 		<?php $i = 0; ?>
 		<?php foreach ($doc->properties as $prop): ?>
-			<?php 
+			<?php
 			if ($apiDoc->excluded($prop['access'], 'property')) :
 				continue;
-			endif;
+endif;
 			$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
 			?>
 			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-property'; ?>">

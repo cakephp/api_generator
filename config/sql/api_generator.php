@@ -20,8 +20,8 @@
  * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
  * @package         cake
  * @subpackage      cake.api_generator.config
- * @since           
- * @version         
+ * @since
+ * @version
  * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 /**
@@ -40,7 +40,8 @@ class ApiGeneratorSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'file_name' => array('type' => 'text'),
-		'search_index' => array('type' => 'text'),
+		'method_index' => array('type' => 'text'),
+		'property_index' => array('type' => 'text'),
 		'flags' => array('type' => 'integer', 'default' => 0, 'length' => 5),
 		'created' => array('type' => 'datetime'),
 		'modified' => array('type' => 'datetime'),

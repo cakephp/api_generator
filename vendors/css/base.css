@@ -66,7 +66,7 @@ table {
 	height:1%;
 }
 /**
-Basic Tags 
+Basic Tags
 **********************/
 body {
 	font:100 normal 62.5%/1.2 Tahoma, Verdana, sans-serif;
@@ -100,7 +100,7 @@ td, th {
 }
 h2 {
 	color: #333348;
-	font-size:1.6em;	
+	font-size:1.6em;
 }
 h3 {
 	color: #333348;
@@ -195,7 +195,7 @@ File Browser Styles
 	margin: 0;
 	padding: 0;
 }
-.file a, 
+.file a,
 .folder a {
 	padding: 8px 8px 8px 40px;
 	font-size:14px;
@@ -221,20 +221,20 @@ Documentation Page Styles
 	margin: 16px 0 0;
 	clear:both;
 }
-.class-info, 
+.class-info,
 .function-info {
 	clear: both;
 }
 .class-info {
 	margin:3em 0 0;
 }
-.class-info .doc-head h2 {
+.class-info .doc-head h2, #search-results h2 {
 	font-size: 28px;
 	line-height: 32px;
 }
 
 /* doc head */
-.doc-head {
+.doc-head #search-results h2 {
 	position:relative;
 	border-bottom: 1px solid #bbb;
 }
@@ -243,7 +243,7 @@ Documentation Page Styles
 	right:10px;
 	top:8px;
 }
-.doc-head h2 {
+.doc-head h2, #search-results h2 {
 	color: #333348;
 	border-left:7px solid #fff;
 	margin:0;
@@ -256,11 +256,11 @@ Documentation Page Styles
 	color:#3E4153;
 }
 /* header access indicators */
-.doc-head .public, 
+.doc-head .public,
 .doc-head .public-static {
 	border-color: #70A280;
 }
-.doc-head .private, 
+.doc-head .private,
 .doc-head .private-static {
 	border-color: #A47878;
 }
@@ -279,7 +279,7 @@ Documentation Page Styles
 	border-spacing: 2px;
 }
 .doc-body td {
-	background:	#DAEBEE;	
+	background:	#DAEBEE;
 	vertical-align: middle;
 }
 .doc-body .odd td {
@@ -377,7 +377,7 @@ Documentation Page Styles
 	background-repeat:none;
 	background-position:center center;
 }
-.protected span, 
+.protected span,
 .protected-static span {
 	background-image: url(../img/icon_protected.gif);
 }
@@ -385,7 +385,7 @@ Documentation Page Styles
 .public-static span {
 	background-image: url(../img/icon_public.gif);
 }
-.private span, 
+.private span,
 .private-static span {
 	background-image: url(../img/icon_private.gif);
 }
@@ -450,7 +450,7 @@ Documentation Page Styles
 .class-index {
 	list-style: square;
 	list-style-position: inside;
-	color: #8BAAB2;	
+	color: #8BAAB2;
 }
 .class-index li {
 	margin: 0.6em 0;
@@ -490,8 +490,8 @@ ol.code li {
 	padding: 0 0 0 1%;
 	background: #fff;
 }
-ol.code li.even { 
-	background: #f3f3f0; 
+ol.code li.even {
+	background: #f3f3f0;
 }
 
 ol.code li code {
@@ -500,17 +500,17 @@ ol.code li code {
 	white-space: pre;
 	padding-left: 0.5em;
 }
-.code .comment { 
-	color: #939399; 
+.code .comment {
+	color: #939399;
 }
-.code .default { 
-	color: #44c; 
+.code .default {
+	color: #44c;
 }
-.code .keyword { 
-	color: #373; 
+.code .keyword {
+	color: #373;
 }
-.code .string { 
-	color: #c30; 
+.code .string {
+	color: #c30;
 }
 
 /**
