@@ -3,28 +3,24 @@
  * Api Search results
  *
  */
-
+$paginator->options(array('url' => $this->passedArgs));
 $apiDoc->setClassIndex($classIndex);
-
 ?>
-<h1><?php __('Search Results'); ?></h1>
-<?php if (empty($results)): ?>
+<h1><?php echo sprintf(__('Search Results for "%s"', true), $this->passedArgs[0]); ?></h1>
+<?php if (empty($docs)): ?>
 	<p class="error"><?php __('Your search returned no results'); ?></p>
-<?php else: ?>
-<ul id="search-results">
-	<?php foreach ($results as $result): ?>
-		<li><h4><?php echo $apiDoc->classLink($result['ApiClass']['name']); ?></h4>
-			<?php $excerpt = $text->excerpt(strip_tags($result['ApiClass']['search_index']), $this->params['url']['query']); ?>
-			<p><?php echo $text->highlight($excerpt, strtolower($this->params['url']['query'])); ?></p>
-		</li>
-	<?php endforeach;?>
-</ul>
-<?php endif; ?>
-<?php 
-$paginator->options(array(
-	'url' => array(
-		'?' => array('query' => $this->params['url']['query'])
-	)
-));
-?>
-<?php echo $this->element('paging'); ?>
+<?php return; endif;
+foreach ($docs as $result) {
+	foreach ($result['class'] as $name => $doc) { ?>
+<div id="search-results" class="doc-block class-info">
+<h2><?php echo $apiDoc->classLink($doc->name, array(), array('class' => false)); ?></h2><?php
+		if ($doc->properties) {
+			echo $this->element('properties', array('doc' => $doc, 'isSearch' => true));
+		}
+		if ($doc->methods) {
+			echo $this->element('method_summary', array('doc' => $doc, 'isSearch' => true));
+		}
+		echo '</div>';
+	}
+}
+echo $this->element('paging'); ?>
