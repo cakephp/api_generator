@@ -205,13 +205,12 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		foreach ($terms as $i => $class) {
 			$slug = str_replace('_', '-', Inflector::slug(Inflector::underscore($class)));
 			if ($this->ApiClass->find('count', array('conditions' => array('slug like ' => $slug . '%')))) {
-				unset ($terms[$i]);
 				$match = $class;
 				break;
 			}
 		}
 		if ($match) {
-			$conditions['ApiClass.slug like '] = $slug . '%';
+			$conditions['OR']['ApiClass.slug like '] = $slug . '%';
 		}
 		foreach ($terms as $term) {
 			$conditions['OR'][] = array('OR' => array(
@@ -225,21 +224,28 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$docs = array();
 		foreach ($results as $i => $result) {
 			$docs[$i] = $this->ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
-			if ($match) {
-				foreach ($docs[$i]['class'] as $name => $_) {
-					if (strpos(low($name), low($class)) === false) {
-						unset ($docs[$i]['class'][$name]);
-					}
-				}
-			}
 			foreach ($docs[$i]['class'] as $name => &$obj) {
 				foreach ($obj->properties as $j => $prop) {
-					if (!in_array($prop['name'], $terms)) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($prop['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
 						unset ($obj->properties[$j]);
 					}
 				}
 				foreach ($obj->methods as $j => $method) {
-					if (!in_array($method['name'], $terms)) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($method['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
 						unset ($obj->methods[$j]);
 					}
 				}
