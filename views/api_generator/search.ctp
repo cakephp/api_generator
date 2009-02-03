@@ -3,7 +3,6 @@
  * Api Search results
  *
  */
-$paginator->options(array('url' => $this->passedArgs));
 $apiDoc->setClassIndex($classIndex);
 ?>
 <h1><?php echo sprintf(__('Search Results for "%s"', true), $this->passedArgs[0]); ?></h1>
@@ -23,4 +22,3 @@ foreach ($docs as $result) {
 		echo '</div>';
 	}
 }
-echo $this->element('paging'); ?>
