@@ -153,26 +153,47 @@ class ApiClass extends ApiGeneratorAppModel {
 		foreach ($results as $i => $result) {
 			$result = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
 			foreach ($result['class'] as $name => $obj) {
-				$relevance = 7;
+				$relevance = 0;
 				$this->_unsetUnmatching($obj, $terms, 'properties');
 				$this->_unsetUnmatching($obj, $terms, 'methods');
 				foreach($terms as $term) {
-					if (strpos(low($name), $term) === 0) {
-						$relevance -= 5;
+					if (low($name) ===  $term) {
+						$relevance += 6;
+					} elseif (strpos(low($name), $term) === 0) {
+						$relevance += 3;
 					}
 				}
 				if ($obj->methods) {
-					$relevance--;
+					foreach ($obj->methods as $method) {
+						$_name = $method['name'];
+						foreach($terms as $term) {
+							if (low($_name) === $term) {
+								$relevance += 4;
+							} elseif (strpos(low($_name), $term) === 0) {
+								$relevance += 2;
+							}
+						}
+					}
 				}
 				if ($obj->properties) {
-					$relevance--;
+					foreach ($obj->properties as $property) {
+						$_name = $property['name'];
+						foreach($terms as $term) {
+							if (low($_name) === $term) {
+								$relevance += 4;
+							} elseif (strpos(low($_name), $term) === 0) {
+								$relevance += 2;
+							}
+						}
+					}
 				}
-				if ($relevance < 7) {
+				if ($relevance > 0) {
 					$_return[$relevance][$name]['class'][$name] = $obj;
 				}
 			}
 		}
 		ksort($_return);
+		$_return = array_reverse($_return);
 		foreach ($_return as $result) {
 			ksort($result);
 			$return = am($return, $result);
@@ -189,6 +210,9 @@ class ApiClass extends ApiGeneratorAppModel {
  * @access protected
  */
 	function _unsetUnmatching(&$obj, $terms = array(), $field = 'properties') {
+		if (empty($obj->$field)) {
+			return;
+		}
 		foreach ($obj->$field as $j => $prop) {
 			$delete = true;
 			foreach($terms as $term) {
