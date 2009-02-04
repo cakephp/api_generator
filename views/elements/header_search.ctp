@@ -1,21 +1,27 @@
 <?php
 /**
- * Header search form 
+ * Header search form
  *
  */
 ?>
 <div id="header-search">
 <?php echo $form->create('ApiClass', array(
 	'url' => array(
-		'plugin' => 'api_generator', 'controller' => 'api_generator', 
+		'plugin' => 'api_generator', 'controller' => 'api_generator',
 		'action' => 'search'
-	), 
+	),
 	'type' => 'get',
 )); ?>
 <fieldset id="search-bar">
-	<?php 
+<?php
+	if ($this->action === 'search' && !empty($this->passedArgs[0])) {
+		$value = $this->passedArgs[0];
+	} else {
+		$value = '';
+	}
 	echo $form->text('Search.query', array(
-		'class' => 'query'
+		'class' => 'query',
+		'value' => $value
 	)); ?>
 <?php echo $form->submit(__('Search', true), array('div' => false, 'class' => 'submit')); ?>
 </fieldset>
