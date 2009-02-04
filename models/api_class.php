@@ -90,18 +90,18 @@ class ApiClass extends ApiGeneratorAppModel {
  *
  * @TODO optimize search to use one query?
  * @param mixed $terms array of terms or search term
- * @return void
+ * @return array of matching ApiFile objects
  * @access public
  */
 	function search($terms = array()) {
 		$terms = (array)$terms;
-		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
+		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
+			'ApiClass.property_index', 'file_name');
 		$order = 'ApiClass.name';
+
 		$conditions = array();
 		foreach ($terms as $term) {
-			$conditions['OR'][] = array(
-				'ApiClass.slug LIKE' => $term . '%',
-			);
+			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term . '%');
 		}
 		$results = $this->find('all', compact('conditions', 'order', 'fields'));
 
@@ -110,11 +110,8 @@ class ApiClass extends ApiGeneratorAppModel {
 		} else {
 			$conditions = array();
 		}
-
 		foreach ($terms as $term) {
-			$conditions['OR'][] = array(
-				'ApiClass.method_index LIKE' => '% ' . $term . '%',
-			);
+			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '% ' . $term . '%');
 		}
 		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
 
@@ -123,13 +120,11 @@ class ApiClass extends ApiGeneratorAppModel {
 		} else {
 			$conditions = array();
 		}
-
 		foreach ($terms as $term) {
-			$conditions['OR'][] = array(
-				'ApiClass.property_index LIKE' => '% ' . $term . '%',
-			);
+			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '% ' . $term . '%');
 		}
 		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
+
 		return $this->_filterSearchResults($results, $terms);
 	}
 
@@ -185,7 +180,9 @@ class ApiClass extends ApiGeneratorAppModel {
 							break;
 						}
 					}
-					unset($return[$i]['class']);
+					if ($delete) {
+						unset($return[$i]['class']);
+					}
 				}
 			}
 			if (!$return[$i]['function']) {
