@@ -88,12 +88,14 @@ class ApiClass extends ApiGeneratorAppModel {
  * Find matching records for the given term or terms
  * Find results ordered by those matching in order: class names, method names, properties
  *
- * @TODO optimize search to use one query?
  * @param mixed $terms array of terms or search term
  * @return array of matching ApiFile objects
  * @access public
  */
 	function search($terms = array()) {
+		if (!$terms) {
+			return array();
+		}
 		$terms = (array)$terms;
 		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
 			'ApiClass.property_index', 'file_name');
@@ -102,30 +104,11 @@ class ApiClass extends ApiGeneratorAppModel {
 		$conditions = array();
 		foreach ($terms as $term) {
 			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term . '%');
-		}
-		$results = $this->find('all', compact('conditions', 'order', 'fields'));
-
-		if ($results) {
-			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
-		} else {
-			$conditions = array();
-		}
-		foreach ($terms as $term) {
 			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '% ' . $term . '%');
-		}
-		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
-
-		if ($results) {
-			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
-		} else {
-			$conditions = array();
-		}
-		foreach ($terms as $term) {
 			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '% ' . $term . '%');
 		}
-		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
-
-		return $this->_filterSearchResults($results, $terms);
+		$results = $this->find('all', compact('conditions', 'order', 'fields'));
+		return $this->_queryFiles($results, $terms);
 	}
 
 /**
@@ -164,33 +147,35 @@ class ApiClass extends ApiGeneratorAppModel {
  * @return array filtered results
  * @access protected
  */
-	protected function _filterSearchResults($results, $terms) {
-		$return = array();
+	protected function _queryFiles($results, $terms) {
+		$return = $_return = array();
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $result) {
-			$return[$i] = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
-			foreach ($return[$i]['class'] as $name => &$obj) {
+			$result = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+			foreach ($result['class'] as $name => $obj) {
+				$relevance = 7;
 				$this->_unsetUnmatching($obj, $terms, 'properties');
 				$this->_unsetUnmatching($obj, $terms, 'methods');
-				if (!$obj->methods && !$obj->properties) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos(low($obj->classInfo['name']), $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					if ($delete) {
-						unset($return[$i]['class']);
+				foreach($terms as $term) {
+					if (strpos(low($name), $term) === 0) {
+						$relevance -= 5;
 					}
 				}
+				if ($obj->methods) {
+					$relevance--;
+				}
+				if ($obj->properties) {
+					$relevance--;
+				}
+				if ($relevance < 7) {
+					$_return[$relevance][$name]['class'][$name] = $obj;
+				}
 			}
-			if (!$return[$i]['function']) {
-				unset ($return[$i]['function']);
-			}
-			if (!$return[$i]) {
-				unset ($return[$i]);
-			}
+		}
+		ksort($_return);
+		foreach ($_return as $result) {
+			ksort($result);
+			$return = am($return, $result);
 		}
 		return $return;
 	}
@@ -207,7 +192,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		foreach ($obj->$field as $j => $prop) {
 			$delete = true;
 			foreach($terms as $term) {
-				if (strpos($prop['name'], $term) !== false) {
+				if (strpos($prop['name'], $term) === 0) {
 					$delete = false;
 					break;
 				}
