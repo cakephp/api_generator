@@ -97,15 +97,22 @@ class ApiClass extends ApiGeneratorAppModel {
 			return array();
 		}
 		$terms = (array)$terms;
+		foreach ($terms as &$term) {
+			if (strpos($term, '()')) {
+				$term = str_replace('()', ' %', $term);
+			} else {
+				$term .= '%';
+			}
+		}
 		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
-			'ApiClass.property_index', 'file_name');
+			'ApiClass.slug', 'ApiClass.property_index', 'file_name');
 		$order = 'ApiClass.name';
 
 		$conditions = array();
 		foreach ($terms as $term) {
-			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term . '%');
-			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '% ' . $term . '%');
-			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '% ' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term);
+			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '% ' . $term);
+			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '% ' . $term);
 		}
 		$results = $this->find('all', compact('conditions', 'order', 'fields'));
 		return $this->_queryFiles($results, $terms);
@@ -148,6 +155,9 @@ class ApiClass extends ApiGeneratorAppModel {
  * @access protected
  */
 	protected function _queryFiles($results, $terms) {
+		foreach ($terms as &$term) {
+			$term = trim(str_replace('%', '', $term));
+		}
 		$return = $_return = array();
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $result) {
@@ -180,9 +190,9 @@ class ApiClass extends ApiGeneratorAppModel {
 						$_name = $property['name'];
 						foreach($terms as $term) {
 							if (low($_name) === $term) {
-								$relevance += 4;
-							} elseif (strpos(low($_name), $term) === 0) {
 								$relevance += 2;
+							} elseif (strpos(low($_name), $term) === 0) {
+								$relevance += 1;
 							}
 						}
 					}
