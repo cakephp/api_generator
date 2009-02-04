@@ -82,14 +82,26 @@ class ApiClass extends ApiGeneratorAppModel {
 		$this->set($new);
 		return $this->save();
 	}
+/**
+ * search method
+ *
+ * Find matching records for the given term or terms
+ * Find results ordered by those matching in order: class names, method names, properties
+ *
+ * @TODO optimize search to use one query?
+ * @param mixed $terms array of terms or search term
+ * @return void
+ * @access public
+ */
 	function search($terms = array()) {
+		$terms = (array)$terms;
 		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
 		$order = 'ApiClass.name';
 		$conditions = array();
 		foreach ($terms as $term) {
-			$conditions['OR'][] = array('OR' => array(
+			$conditions['OR'][] = array(
 				'ApiClass.slug LIKE' => $term . '%',
-			));
+			);
 		}
 		$results = $this->find('all', compact('conditions', 'order', 'fields'));
 
@@ -118,55 +130,7 @@ class ApiClass extends ApiGeneratorAppModel {
 			);
 		}
 		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
-
-		$return = array();
-		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
-		foreach ($results as $i => $result) {
-			$return[$i] = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
-			foreach ($return[$i]['class'] as $name => &$obj) {
-				foreach ($obj->properties as $j => $prop) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos($prop['name'], $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					if ($delete) {
-						unset ($obj->properties[$j]);
-					}
-				}
-				foreach ($obj->methods as $j => $method) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos($method['name'], $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					if ($delete) {
-						unset ($obj->methods[$j]);
-					}
-				}
-				if (!$obj->methods && !$obj->properties) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos(low($obj->classInfo['name']), $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					unset($return[$i]['class']);
-				}
-			}
-			if (!$return[$i]['function']) {
-				unset ($return[$i]['function']);
-			}
-			if (!$return[$i]) {
-				unset ($return[$i]);
-			}
-		}
-		return $return;
+		return $this->_filterSearchResults($results, $terms);
 	}
 
 /**
@@ -194,6 +158,67 @@ class ApiClass extends ApiGeneratorAppModel {
 			$index[] = $result['name'];
 		}
 		return strtolower(implode($index, ' '));
+	}
+/**
+ * filterSearchResults method
+ *
+ * Purge results that don't match the search terms
+ *
+ * @param array $results
+ * @param array $terms
+ * @return array filtered results
+ * @access protected
+ */
+	protected function _filterSearchResults($results, $terms) {
+		$return = array();
+		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
+		foreach ($results as $i => $result) {
+			$return[$i] = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+			foreach ($return[$i]['class'] as $name => &$obj) {
+				$this->_unsetUnmatching($obj, $terms, 'properties');
+				$this->_unsetUnmatching($obj, $terms, 'methods');
+				if (!$obj->methods && !$obj->properties) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos(low($obj->classInfo['name']), $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					unset($return[$i]['class']);
+				}
+			}
+			if (!$return[$i]['function']) {
+				unset ($return[$i]['function']);
+			}
+			if (!$return[$i]) {
+				unset ($return[$i]);
+			}
+		}
+		return $return;
+	}
+/**
+ * unsetUnmatching method
+ *
+ * @param mixed $obj
+ * @param array $terms
+ * @param string $field
+ * @return void
+ * @access protected
+ */
+	function _unsetUnmatching(&$obj, $terms = array(), $field = 'properties') {
+		foreach ($obj->$field as $j => $prop) {
+			$delete = true;
+			foreach($terms as $term) {
+				if (strpos($prop['name'], $term) !== false) {
+					$delete = false;
+					break;
+				}
+			}
+			if ($delete) {
+				unset ($obj->{$field}[$j]);
+			}
+		}
 	}
 }
 ?>
