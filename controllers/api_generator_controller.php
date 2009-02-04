@@ -37,7 +37,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var array
  */
-	public $uses = array('ApiGenerator.ApiFile');
+	public $uses = array('ApiGenerator.ApiFile', 'ApiGenerator.ApiClass');
 /**
  * Components array
  *
@@ -97,7 +97,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function classes() {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set('classIndex', $classIndex);
 	}
@@ -121,7 +120,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
-		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
+		$classIndex = $this->ApiClass->getClassIndex();
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 
 		if (!empty($docs)) {
@@ -144,7 +143,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->Session->setFlash(__('No class name was given', true));
 			$this->redirect($this->referer());
 		}
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 		if (empty($classInfo['ApiClass']['file_name'])) {
 			$this->_notFound(__('No class exists in the index with that name', true));
@@ -171,7 +169,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function view_source($classSlug = null) {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 
 		if (empty($classInfo['ApiClass']['file_name'])) {
@@ -187,7 +184,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function search($term = null) {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$conditions = array();
 		if (!empty($this->params['url']['query'])) {
 			$term = $this->params['url']['query'];
