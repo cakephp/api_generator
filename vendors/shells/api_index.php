@@ -305,34 +305,6 @@ class ApiIndexShell extends Shell {
 		}
 
 		$this->hr();
-		$this->out('Usually we can find the dependencies, but ');
-		$this->out('sometimes we miss. If you have files that are not generating properly');
-		$this->out('Input a comma separated list for multiple options');
-		$this->out('to continue, just answer "n"');
-		$this->hr();
-
-		$dependencies = null;
-		while($dependencies == null && $dependencies != 'n') {
-			$class = $this->in('Class with dependancies', '', 'n');
-			if ($class == 'n') {
-				$dependencies = 'n';
-			} else {
-				$parent = null;
-				while($parent == null && $parent != 'n') {
-					$parent = $this->in('Enter the dependencies for ' . $class, '');
-					if ($parent != 'n') {
-						$dependencies = true;
-						$config['dependencies'][$class] = $parent;
-					}
-				}
-				$stop = $this->in('Add another dependency?', array('y', 'n', 'q'), 'n');
-				if ($stop == 'y') {
-					$dependencies = null;
-				}
-			}
-		}
-
-		$this->hr();
 		$this->out('Verify the config');
 		$this->hr();
 		$string = $this->ApiConfig->toString($config);
@@ -363,7 +335,6 @@ class ApiIndexShell extends Shell {
 		$this->out('	Clear the existing class index and regenerate it.');
 		$this->out('  set_routes');
 		$this->out('	Add routes for Api generator to your routes file.');
-
 	}
 
 }
