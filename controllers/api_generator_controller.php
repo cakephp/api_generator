@@ -209,7 +209,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 				break;
 			}
 		}
-		$fields = array('DISTINCT ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
+		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
 		$order = 'ApiClass.name';
 		$conditions['ApiClass.slug like'] = $slug . '%';
 		$results = $this->ApiClass->find('all', compact('conditions', 'order', 'fields'));
