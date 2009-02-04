@@ -229,7 +229,8 @@ Documentation Page Styles
 .class-info {
 	margin:3em 0 0;
 }
-.class-info .doc-head h2 {
+.class-info .doc-head h2,
+.class-info .doc-head h3 {
 	font-size: 28px;
 	line-height: 32px;
 }
@@ -244,7 +245,8 @@ Documentation Page Styles
 	right:10px;
 	top:8px;
 }
-.doc-head h2 {
+.doc-head h2,
+.doc-head h3 {
 	color: #333348;
 	border-left:7px solid #fff;
 	margin:0;
