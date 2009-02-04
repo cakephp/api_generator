@@ -82,6 +82,92 @@ class ApiClass extends ApiGeneratorAppModel {
 		$this->set($new);
 		return $this->save();
 	}
+	function search($terms = array()) {
+		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
+		$order = 'ApiClass.name';
+		$conditions = array();
+		foreach ($terms as $term) {
+			$conditions['OR'][] = array('OR' => array(
+				'ApiClass.slug LIKE' => $term . '%',
+			));
+		}
+		$results = $this->find('all', compact('conditions', 'order', 'fields'));
+
+		if ($results) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
+		} else {
+			$conditions = array();
+		}
+
+		foreach ($terms as $term) {
+			$conditions['OR'][] = array(
+				'ApiClass.method_index LIKE' => '% ' . $term . '%',
+			);
+		}
+		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
+
+		if ($results) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
+		} else {
+			$conditions = array();
+		}
+
+		foreach ($terms as $term) {
+			$conditions['OR'][] = array(
+				'ApiClass.property_index LIKE' => '% ' . $term . '%',
+			);
+		}
+		$results = am($results, $this->find('all', compact('conditions', 'order', 'fields')));
+
+		$return = array();
+		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
+		foreach ($results as $i => $result) {
+			$return[$i] = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+			foreach ($return[$i]['class'] as $name => &$obj) {
+				foreach ($obj->properties as $j => $prop) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($prop['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
+						unset ($obj->properties[$j]);
+					}
+				}
+				foreach ($obj->methods as $j => $method) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($method['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
+						unset ($obj->methods[$j]);
+					}
+				}
+				if (!$obj->methods && !$obj->properties) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos(low($obj->classInfo['name']), $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					unset($return[$i]['class']);
+				}
+			}
+			if (!$return[$i]['function']) {
+				unset ($return[$i]['function']);
+			}
+			if (!$return[$i]) {
+				unset ($return[$i]);
+			}
+		}
+		return $return;
+	}
 
 /**
  * Get the class index listing

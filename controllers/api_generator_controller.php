@@ -195,83 +195,15 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		$term = trim($term);
 		$terms = explode(' ', $term);
-		$conditions = array();
-		$match = false;
 		foreach ($terms as $i => $j) {
 			if (trim($j) === '') {
 				unset ($terms[$i]);
 			}
 		}
-		foreach ($terms as $i => $class) {
-			$slug = str_replace('_', '-', Inflector::slug(Inflector::underscore($class)));
-			if ($this->ApiClass->find('count', array('conditions' => array('slug like' => $slug . '%')))) {
-				$match = $class;
-				break;
-			}
-		}
-		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
-		$order = 'ApiClass.name';
-		$conditions['ApiClass.slug like'] = $slug . '%';
-		$results = $this->ApiClass->find('all', compact('conditions', 'order', 'fields'));
-
-		$conditions = array();
-		foreach ($terms as $term) {
-			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
-			$conditions['OR'][] = array('OR' => array(
-				'ApiClass.method_index LIKE' => '% ' . $term . '%',
-			));
-		}
-		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
-		$conditions = array();
-		foreach ($terms as $term) {
-			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
-			$conditions['OR'][] = array('OR' => array(
-				'ApiClass.property_index LIKE' => '% ' . $term . '%',
-			));
-		}
-		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
-		$docs = array();
-		foreach ($results as $i => $result) {
-			$docs[$i] = $this->ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
-			foreach ($docs[$i]['class'] as $name => &$obj) {
-				foreach ($obj->properties as $j => $prop) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos($prop['name'], $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					if ($delete) {
-						unset ($obj->properties[$j]);
-					}
-				}
-				foreach ($obj->methods as $j => $method) {
-					$delete = true;
-					foreach($terms as $term) {
-						if (strpos($method['name'], $term) !== false) {
-							$delete = false;
-							break;
-						}
-					}
-					if ($delete) {
-						unset ($obj->methods[$j]);
-					}
-				}
-				if (!$match && !$obj->methods && !$obj->properties) {
-					unset($docs[$i]['class']);
-				}
-			}
-			if (!$docs[$i]['function']) {
-				unset ($docs[$i]['function']);
-			}
-			if (!$docs[$i]) {
-				unset ($docs[$i]);
-			}
-		}
+		$docs = $this->ApiClass->search($terms);
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->helpers[] = 'Text';
-		$this->set(compact('classIndex', 'terms', 'class', 'docs'));
+		$this->set(compact('classIndex', 'terms', 'docs'));
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.
