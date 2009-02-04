@@ -127,6 +127,23 @@ EOD;
 		 *
 		 * This is my long description
 		 *
+		 * @return string This is a longer doc string
+		 *	for the return string
+		 *	more lines
+		 *  more lines.
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$expected = 'string This is a longer doc string for the return string more lines more lines.';
+		$this->assertEqual($result['tags']['return'], $expected, 'parsing n-line tags failed %s');
+		
+		
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
 		 * @param string \$foo Foo is an input
 		 * @param int \$bar Bar is also an input
 		 * @param int \$baz Baz is also an input
