@@ -49,7 +49,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript');
+	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
 /**
  * Browse application files and find things you would like to generate API docs for.
  *
@@ -269,7 +269,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			}
 		}
 		$classIndex = $this->ApiClass->getClassIndex();
-		$this->helpers[] = 'Text';
 		$this->set(compact('classIndex', 'terms', 'class', 'docs'));
 	}
 /**
