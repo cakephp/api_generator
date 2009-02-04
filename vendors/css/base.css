@@ -533,8 +533,21 @@ ol.code li code {
 	padding: 4px 0;
 }
 #search-results li {
-	margin: 20px 10px;
+	margin: 30px 10px;
 	font-size: 140%;
+}
+#search-results .doc-head {
+	border: 0;
+}
+#search-results h3 {
+	font-size: 18px;
+}
+#search-results .doc-body {
+	padding-bottom: 0;
+	padding-top: 5px;
+}
+#search-results .doc-body table {
+	margin: 0;
 }
 #search-results .highlight {
 	background: #C9E2E6;
