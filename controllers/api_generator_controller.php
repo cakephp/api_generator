@@ -120,7 +120,11 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
+<<<<<<< HEAD:controllers/api_generator_controller.php
 		$classIndex = $this->ApiClass->getClassIndex();
+=======
+		$classIndex = $this->ApiClass->getClassIndex(true);
+>>>>>>> f8f31dc4a4af2f47f38261e3371aaafae3fc1e4d:controllers/api_generator_controller.php
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 
 		if (!empty($docs)) {
@@ -184,6 +188,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function search($term = null) {
+<<<<<<< HEAD:controllers/api_generator_controller.php
 		$conditions = array();
 		if (!empty($this->params['url']['query'])) {
 			$term = $this->params['url']['query'];
@@ -270,6 +275,23 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set(compact('classIndex', 'terms', 'class', 'docs'));
+=======
+		$conditions = array();
+		if (!empty($this->params['url']['query'])) {
+			$term = $this->params['url']['query'];
+			return $this->redirect(array($term));
+		}
+		$term = trim($term);
+		$terms = explode(' ', $term);
+		foreach ($terms as $i => $j) {
+			if (trim($j) === '') {
+				unset ($terms[$i]);
+			}
+		}
+		$docs = $this->ApiClass->search($terms);
+		$classIndex = $this->ApiClass->getClassIndex();
+		$this->set(compact('classIndex', 'terms', 'docs'));
+>>>>>>> f8f31dc4a4af2f47f38261e3371aaafae3fc1e4d:controllers/api_generator_controller.php
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.

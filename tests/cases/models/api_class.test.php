@@ -137,8 +137,8 @@ class ApiFileTestCase extends CakeTestCase {
 				'name' => 'ApiClassSampleClass',
 				'slug' => 'api-class-sample-class',
 				'file_name' => __FILE__,
-				'search_index' => 'apiclasssampleclass doc block foo property test function in sample class first parameter second parameter non-extended method',
-		
+				'property_index' => 'foo',
+				'method_index' => 'testfunct extended',
 				'flags' => 0,
 				'created' => $now,
 				'modified' => $now,
@@ -157,12 +157,26 @@ class ApiFileTestCase extends CakeTestCase {
 				'name' => 'ApiClassSampleClassChild',
 				'slug' => 'api-class-sample-class-child',
 				'file_name' => __FILE__,
-				'search_index' => 'apiclasssampleclass doc block onlyme primary function extended-method this time',
+				'property_index' => 'onlyme',
+				'method_index' => 'primary extended',
 				'flags' => 0,
 				'created' => $now,
 				'modified' => $now,
 			)	
 		);
 		$this->assertEqual($result, $expected);
+	}
+/**
+ * test Saving of pseudo classes
+ *
+ * @return void
+ **/
+	function testSavePseudoClassDocs() {
+		$file = CAKE_CORE_INCLUDE_PATH . DS . CAKE . 'basics.php';
+		$ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
+		$docs = $ApiFile->loadFile($file);
+
+		$result = $this->ApiClass->savePseudoClassDocs($docs['function'], $file);
+		$this->assertTrue($result);
 	}
 }
