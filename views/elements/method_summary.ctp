@@ -4,19 +4,23 @@
  *
  */
 
-$apiUtils->sortByName($doc->methods); ?>
+$apiUtils->sortByName($doc->methods); 
+$title = (empty($isSearch)) ? __('Method Summary:', true) : __('Methods:', true);
+?>
 <div class="doc-block">
 	<a id="top-<?php echo $doc->name; ?>"></a>
-	<div class="doc-head"><h2><?php __('Method Summary:'); ?></h2></div>
+	<div class="doc-head"><h3><?php echo $title; ?></h3></div>
 	<div class="doc-body">
+<?php if (empty($isSearch)): ?>
 		<span class="doc-controls">
 			<a href="#" id="hide-parent-methods"><?php __('Show/Hide parent methods'); ?></a>
 		</span>
+<?php endif; ?>
 		<table class="summary">
 			<tbody>
 			<?php $i = 0; ?>
 			<?php foreach ($doc->methods as $method): ?>
-				<?php 
+				<?php
 				if ($apiDoc->excluded($method['access'], 'method')) :
 					continue;
 				endif;
@@ -26,10 +30,18 @@ $apiUtils->sortByName($doc->methods); ?>
 					<td class="access <?php echo $method['access']; ?>"><span><?php echo $method['access']; ?></span></td>
 					<td>
 					<?php
-						echo $html->link($method['signature'], 
-							'#method-' . $doc->name . $method['name'], 
-							array('class' => 'scroll-link')
-						);
+						if (empty($isSearch)):
+							echo $html->link($method['signature'],
+								'#method-' . $doc->name . $method['name'],
+								array('class' => 'scroll-link')
+							);
+						else:
+							echo $html->link($method['signature'],
+								array('action' => 'view_class', $apiDoc->slugClassName($doc->name),
+								'#' => 'method-' . $doc->name . $method['name']),
+								array('class' => 'scroll-link')
+							);
+						endif;
 					?>
 					</td>
 				</tr>

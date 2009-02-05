@@ -76,7 +76,8 @@ class ApiClass extends ApiGeneratorAppModel {
 			'name' => $classDoc->name,
 			'slug' => $slug,
 			'file_name' => $classDoc->classInfo['fileName'],
-			'search_index' => $this->_generateSearchIndex($classDoc),
+			'method_index' => $this->_generateIndex($classDoc, 'methods'),
+			'property_index' => $this->_generateIndex($classDoc, 'properties'),
 		);
 		$this->set($new);
 		return $this->save();
@@ -90,32 +91,23 @@ class ApiClass extends ApiGeneratorAppModel {
 	public function getClassIndex() {
 		return $this->find('list', array('fields' => array('slug', 'name'), 'order' => 'ApiClass.name ASC'));
 	}
-
 /**
- * Generate a search index from all the properties and methods
- * in a ClassDocumentor Object
+ * Generate a search index of methods or properties for the ClassDocumentor Object
  *
- * @return string
- **/
-	protected function _generateSearchIndex($classDoc) {
-		$index = '';
-		$index .= $classDoc->classInfo['comment']['description'];
-		foreach ((array)$classDoc->properties as $prop) {
-			if ($prop['declaredInClass'] != $classDoc->classInfo['name']) {
+ * @param mixed $classDoc
+ * @param string $what
+ * @return void
+ * @access protected
+ */
+	protected function _generateIndex(&$classDoc, $what = 'methods') {
+		$index = array();
+		foreach ((array)$classDoc->$what as $result) {
+			if ($result['declaredInClass'] != $classDoc->classInfo['name']) {
 				continue;
 			}
-			$index .= ' ' . $prop['comment']['description'];
+			$index[] = $result['name'];
 		}
-		foreach ((array)$classDoc->methods as $method) {
-			if ($method['declaredInClass'] != $classDoc->classInfo['name']) {
-				continue;
-			}
-			$description = str_replace("\n", ' ', $method['comment']['description']);
-			$index .= ' ' . $description;
-			foreach ($method['args'] as $argument) {
-				$index .= ' ' . $argument['comment'];
-			}
-		}
-		return strtolower($index);
+		return strtolower(implode($index, ' '));
 	}
 }
+?>

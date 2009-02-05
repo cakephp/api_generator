@@ -37,7 +37,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var array
  */
-	public $uses = array('ApiGenerator.ApiFile');
+	public $uses = array('ApiGenerator.ApiFile', 'ApiGenerator.ApiClass');
 /**
  * Components array
  *
@@ -49,7 +49,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript');
+	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
 /**
  * Browse application files and find things you would like to generate API docs for.
  *
@@ -97,7 +97,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function classes() {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set('classIndex', $classIndex);
 	}
@@ -121,7 +120,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
-		$classIndex = ClassRegistry::init('ApiGenerator.ApiClass')->getClassIndex();
+		$classIndex = $this->ApiClass->getClassIndex();
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 
 		if (!empty($docs)) {
@@ -144,7 +143,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->Session->setFlash(__('No class name was given', true));
 			$this->redirect($this->referer());
 		}
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 		if (empty($classInfo['ApiClass']['file_name'])) {
 			$this->_notFound(__('No class exists in the index with that name', true));
@@ -171,7 +169,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function view_source($classSlug = null) {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 
 		if (empty($classInfo['ApiClass']['file_name'])) {
@@ -186,19 +183,93 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function search() {
-		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
+	public function search($term = null) {
 		$conditions = array();
-		if (isset($this->params['url']['query'])) {
-			$query = $this->params['url']['query'];
-			$conditions = array('ApiClass.search_index LIKE' => '%' . $query . '%');
+		if (!empty($this->params['url']['query'])) {
+			$term = $this->params['url']['query'];
+			return $this->redirect(array($term));
 		}
-		$this->paginate['fields'] = array('DISTINCT ApiClass.name', 'ApiClass.search_index');
-		$this->paginate['order'] = 'ApiClass.name ASC';
-		$results = $this->paginate($this->ApiClass, $conditions);
+		$term = trim($term);
+		$terms = explode(' ', $term);
+		$conditions = array();
+		$match = false;
+		foreach ($terms as $i => $j) {
+			if (trim($j) === '') {
+				unset ($terms[$i]);
+			}
+		}
+		foreach ($terms as $i => $class) {
+			$slug = str_replace('_', '-', Inflector::slug(Inflector::underscore($class)));
+			if ($this->ApiClass->find('count', array('conditions' => array('slug like' => $slug . '%')))) {
+				$match = $class;
+				break;
+			}
+		}
+		$fields = array('DISTINCT ApiClass.name', 'ApiClass.method_index', 'ApiClass.property_index', 'file_name');
+		$order = 'ApiClass.name';
+		if ($match) {
+			$conditions['ApiClass.slug like'] = $slug . '%';
+			$results = $this->ApiClass->find('all', compact('conditions', 'order', 'fields'));
+		} else {
+			$results = array();
+		}
+		$conditions = array();
+		foreach ($terms as $term) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
+			$conditions['OR'][] = array('OR' => array(
+				'ApiClass.method_index LIKE' => '% ' . $term . '%',
+			));
+		}
+		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
+		$conditions = array();
+		foreach ($terms as $term) {
+			$conditions['NOT']['ApiClass.id'] = Set::extract($results, '/ApiClass/id');
+			$conditions['OR'][] = array('OR' => array(
+				'ApiClass.property_index LIKE' => '% ' . $term . '%',
+			));
+		}
+		$results = am($results, $this->ApiClass->find('all', compact('conditions', 'order', 'fields')));
+		$docs = array();
+		foreach ($results as $i => $result) {
+			$docs[$i] = $this->ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+			foreach ($docs[$i]['class'] as $name => &$obj) {
+				foreach ($obj->properties as $j => $prop) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($prop['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
+						unset ($obj->properties[$j]);
+					}
+				}
+				foreach ($obj->methods as $j => $method) {
+					$delete = true;
+					foreach($terms as $term) {
+						if (strpos($method['name'], $term) !== false) {
+							$delete = false;
+							break;
+						}
+					}
+					if ($delete) {
+						unset ($obj->methods[$j]);
+					}
+				}
+				if (!$match && !$obj->methods && !$obj->properties) {
+					unset($docs[$i]['class']);
+				}
+			}
+			if (!$docs[$i]['function']) {
+				unset ($docs[$i]['function']);
+			}
+			if (!$docs[$i]) {
+				unset ($docs[$i]);
+			}
+		}
 		$classIndex = $this->ApiClass->getClassIndex();
-		$this->helpers[] = 'Text';
-		$this->set(compact('results', 'classIndex'));
+		$this->set(compact('classIndex', 'terms', 'class', 'docs'));
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.
