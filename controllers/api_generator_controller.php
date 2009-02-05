@@ -120,7 +120,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
-		$classIndex = $this->ApiClass->getClassIndex();
+		$classIndex = $this->ApiClass->getClassIndex(true);
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
 
 		if (!empty($docs)) {

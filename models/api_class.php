@@ -52,7 +52,19 @@ class ApiClass extends ApiGeneratorAppModel {
 			)
 		),
 	);
-
+/**
+ * Flag bitmask for Pseudo classes (files with global functions)
+ * get a pseudo class assigned to them
+ *
+ * @var int
+ **/
+	const PSEUDO_CLASS = 1;
+/**
+ * Concrete class bitmask;
+ *
+ * @var string
+ **/
+	const CONCRETE_CLASS = 0;
 /**
  * Clears (truncates) the class index.
  *
@@ -80,6 +92,33 @@ class ApiClass extends ApiGeneratorAppModel {
 			'property_index' => $this->_generateIndex($classDoc, 'properties'),
 		);
 		$this->set($new);
+		return $this->save();
+	}
+/**
+ * Save a set of global functions to the ApiClass index.
+ * Will make one record with a 'class name' derived from the filename.
+ *
+ * @param array $functions Array of FunctionDocumentor objects to index.
+ * @param string $filename Name of file these things are found in.
+ * @return boolean
+ **/
+	public function savePseudoClassDocs($functions, $filename) {
+		$methodList = array();
+		$name = basename($filename);
+		$slug = str_replace('_', '-', Inflector::underscore($name));
+		foreach ($functions as $func) {
+			if ($func instanceof FunctionDocumentor) {
+				$methodList[] = $func->getName();
+			}
+		}
+		$data = array(
+			'name' => $name,
+			'slug' => $slug,
+			'file_name' => $filename,
+			'method_index' => implode($methodList, ' '),
+			'flags' => ApiClass::PSEUDO_CLASS,
+		);
+		$this->set($data);
 		return $this->save();
 	}
 /**
@@ -113,11 +152,20 @@ class ApiClass extends ApiGeneratorAppModel {
 
 /**
  * Get the class index listing
- *
+ * 
+ * @param boolean $includePseudoClass Whether you want to include 'pseudo' classes (no actual class)
  * @return array
  **/
-	public function getClassIndex() {
-		return $this->find('list', array('fields' => array('slug', 'name'), 'order' => 'ApiClass.name ASC'));
+	public function getClassIndex($includePseudoClass = false) {
+		$conditions = array();
+		if (!$includePseudoClass) {
+			$conditions['ApiClass.flags'] = ApiClass::CONCRETE_CLASS;
+		}
+		return $this->find('list', array(
+			'fields' => array('slug', 'name'), 
+			'order' => 'ApiClass.name ASC',
+			'conditions' => $conditions
+		));
 	}
 /**
  * Generate a search index of methods or properties for the ClassDocumentor Object
@@ -156,7 +204,7 @@ class ApiClass extends ApiGeneratorAppModel {
 				$relevance = 0;
 				$this->_unsetUnmatching($obj, $terms, 'properties');
 				$this->_unsetUnmatching($obj, $terms, 'methods');
-				foreach($terms as $term) {
+				foreach ($terms as $term) {
 					if (low($name) ===  $term) {
 						$relevance += 6;
 					} elseif (strpos(low($name), $term) === 0) {
@@ -166,7 +214,7 @@ class ApiClass extends ApiGeneratorAppModel {
 				if ($obj->methods) {
 					foreach ($obj->methods as $method) {
 						$_name = $method['name'];
-						foreach($terms as $term) {
+						foreach ($terms as $term) {
 							if (low($_name) === $term) {
 								$relevance += 4;
 							} elseif (strpos(low($_name), $term) === 0) {

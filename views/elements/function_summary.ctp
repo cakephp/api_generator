@@ -36,7 +36,19 @@
 		<?php endif; ?>
 		
 		<dt><?php __('Function defined in file:'); ?></dt>
-		<dd><?php echo $apiDoc->fileLink($doc->info['declaredInFile']); ?></dd>
+		<dd><?php 
+			echo $apiDoc->fileLink($doc->info['declaredInFile']);
+			$pseudoClass = basename($doc->info['declaredInFile']);
+			if ($apiDoc->inClassIndex($pseudoClass)):
+				__(' on line ');
+				echo $html->link($doc->info['startLine'], array(
+					'controller' => 'api_generator',
+					'action' => 'view_source', 
+					$pseudoClass,
+					'#line-'. $doc->info['startLine']
+				));
+			endif;
+		?> </dd>
 		
 		<dt>
 			<?php foreach ($doc->info['comment']['tags'] as $name => $value): ?>

@@ -143,6 +143,12 @@ class ApiIndexShell extends Shell {
 						$this->out('Added docs for ' . $classDocs->name . ' to index');
 					}
 				}
+				if (!empty($docsInFile['function'])) {
+					$this->ApiClass->create();
+					if ($this->ApiClass->savePseudoClassDocs($docsInFile['function'], $file)) {
+						$this->out('Added docs for global functions in ' . $file);
+					}
+				}
 			}
 		}
 
