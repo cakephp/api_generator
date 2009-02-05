@@ -198,7 +198,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		$docs = $this->ApiClass->search($terms);
 		$classIndex = $this->ApiClass->getClassIndex();
-		$this->helpers[] = 'Text';
 		$this->set(compact('classIndex', 'terms', 'docs'));
 	}
 /**
