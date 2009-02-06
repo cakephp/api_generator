@@ -396,6 +396,15 @@ class ApiFile extends Object {
 
 			if (!$exists && isset($this->classMap[$neededParent])) {
 				array_unshift($loadClasses, $neededParent);
+				if (!file_exists($this->classMap[$neededParent])) {
+					foreach($this->ApiConfig->data['paths'] as $path) {
+						$path = rtrim($path, DS) . DS . $this->classMap[$neededParent];
+						if (file_exists($path)) {
+							$this->classMap[$neededParent] = $path;
+							break;
+						}
+					}
+				}
 				$newNeeds = $this->_parseClassNamesInFile($this->classMap[$neededParent], true);
 				$parentClasses = array_unique(array_merge($parentClasses, $newNeeds));
 			} elseif (!$exists) {
