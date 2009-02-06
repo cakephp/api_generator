@@ -259,6 +259,9 @@ class ApiFile extends Object {
 		foreach ($newObjects as $type => $objects) {
 			foreach ($objects as $element) {
 				$this->loadExtractor($type, $element);
+				if ($type == 'function' && basename($this->_extractor->getFileName()) != basename($filePath)) {
+					continue;
+				}
 				$docs[$type][$element] = $this->getDocs();
 			}
 		}
@@ -291,10 +294,11 @@ class ApiFile extends Object {
  * @param boolean $forceParse Force the manual read of a file.
  * @return array
  **/
-	public function findObjectsInFile($filePath, $forceParse = false) {
+	public function findObjectsInFile($filePath) {
 		$new = $tmp = array();
 		$tmp['class'] = $this->_parseClassNamesInFile($filePath);
 		$tmp['function'] = $this->_parseFunctionNamesInFile($filePath);
+		
 		$include = false;
 		foreach ($tmp['class'] as $classInFile) {
 			$include = false;
@@ -302,7 +306,13 @@ class ApiFile extends Object {
 				$include = true;
 			}
 		}
-		if (!$include || $forceParse) {
+		foreach ($tmp['function'] as $funcInFile) {
+			if (!function_exists($funcInFile)) {
+				$include = true;
+			}
+		}
+
+		if (!$include) {
 			$new = $tmp;
 		} else {
 			ob_start();
@@ -312,9 +322,6 @@ class ApiFile extends Object {
 			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
 			$funcs = get_defined_functions();
 			$new['function'] = array_diff($funcs['user'], $this->_definedFunctions);
-		}
-		if (empty($new['class']) && empty($new['function']) && $forceParse === false) {
-			$new = $this->findObjectsInFile($filePath, true);
 		}
 		return $new;
 	}
@@ -356,7 +363,7 @@ class ApiFile extends Object {
 		$foundFuncs = array();
 		$fileContent = file_get_contents($fileName);
 		$funcNames = implode('|', $this->_definedFunctions);
-		preg_match_all('/^\s*function\s*(' . $funcNames . ')[\s|\(]+/mi', $fileContent, $matches, PREG_SET_ORDER);
+		preg_match_all('/^\tfunction\s*(' . $funcNames . ')[\s|\(]+/mi', $fileContent, $matches, PREG_SET_ORDER);
 		foreach ($matches as $function) {
 			$foundFuncs[] = $function[1];
 		}

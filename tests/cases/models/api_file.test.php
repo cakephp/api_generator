@@ -232,4 +232,15 @@ class ApiFileTestCase extends CakeTestCase {
 			$this->assertTrue(true);
 		}
 	}
+/**
+ * Test Loading files, that have method config() and having global config() from core included
+ *
+ * @return void
+ **/
+	function testLoadingFileWithAmbiguousFunction() {
+		$cacheFile = CAKE_CORE_INCLUDE_PATH . DS . LIBS . 'cache.php';
+		$this->assertTrue(function_exists('config'));
+		$results = $this->ApiFile->loadFile($cacheFile);
+		$this->assertEqual($results['function'], array());
+	}
 }

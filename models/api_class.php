@@ -239,6 +239,19 @@ class ApiClass extends ApiGeneratorAppModel {
 					$_return[$relevance][$name]['class'][$name] = $obj;
 				}
 			}
+			foreach ($result['function'] as $name => $obj) {
+				$relevance = 0;
+				foreach ($terms as $term) {
+					if (low($name) ===  $term) {
+						$relevance += 6;
+					} elseif (strpos(low($name), $term) === 0) {
+						$relevance += 3;
+					}
+					if ($relevance > 0) {
+						$_return[$relevance][$name]['function'][$name] = $obj;
+					}
+				}
+			}
 		}
 		ksort($_return);
 		$_return = array_reverse($_return);
