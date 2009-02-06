@@ -282,11 +282,11 @@ Documentation Page Styles
 	border-spacing: 2px;
 }
 .doc-body td {
-	background:	#DAEBEE;	
+	background:	#e9f3f5;	
 	vertical-align: middle;
 }
 .doc-body .odd td {
-	background: #C9E2E6;
+	background: #daeaed;
 }
 .doc-body table td {
 	font-size:12px;
