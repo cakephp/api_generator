@@ -122,7 +122,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		}
 		$classIndex = $this->ApiClass->getClassIndex(true);
 		list($dirs, $files) = $this->ApiFile->read($this->path . $previousPath);
-
 		if (!empty($docs)) {
 			$this->set('showSidebar', true);
 			$this->set('sidebarElement', 'sidebar/file_sidebar');
