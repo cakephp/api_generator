@@ -143,8 +143,8 @@ class ApiClass extends ApiGeneratorAppModel {
 		$conditions = array();
 		foreach ($terms as $term) {
 			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term . '%');
-			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '% ' . $term . '%');
-			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '% ' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '%' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '%' . $term . '%');
 		}
 		$results = $this->find('all', compact('conditions', 'order', 'fields'));
 		return $this->_queryFiles($results, $terms);
