@@ -94,10 +94,6 @@ ApiGenerator.apiPages = {
 			'hide-parent-properties' : '.parent-property'
 		}
 		this.attachVisibilityControls(targets, true);
-		var mySmoothScroll = new SmoothScroll({
-		    links: '.scroll-link',
-		    wheelStops: false
-		});
 		var FileTree = new FileExplorer('file-browser');
 	},
 
