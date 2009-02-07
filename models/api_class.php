@@ -135,7 +135,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		if (!$terms) {
 			return array();
 		}
-		$terms = (array)$terms;
+		$terms = array_map('strtolower', (array)$terms);
 		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
 			'ApiClass.property_index', 'file_name');
 		$order = 'ApiClass.name';
