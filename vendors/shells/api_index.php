@@ -128,7 +128,8 @@ class ApiIndexShell extends Shell {
 		$this->ApiClass = ClassRegistry::init('ApiGenerator.ApiClass');
 		$this->ApiClass->clearIndex();
 		$this->ApiFile->importCoreClasses();
-
+		
+		$foundClasses = array();
 		foreach (array_keys($config['paths']) as $path) {
 			$fileList = $this->ApiFile->fileList($path);
 			foreach ($fileList as $file) {
@@ -138,9 +139,11 @@ class ApiIndexShell extends Shell {
 					$this->err($e->getMessage());
 				}
 				foreach ($docsInFile['class'] as $classDocs) {
+					$className = $classDocs->getName();
 					$this->ApiClass->create();
-					if ($this->ApiClass->saveClassDocs($classDocs)) {
+					if (!isset($foundClasses[$className]) && $this->ApiClass->saveClassDocs($classDocs)) {
 						$this->out('Added docs for ' . $classDocs->name . ' to index');
+						$foundClasses[$className] = true;
 					}
 				}
 				if (!empty($docsInFile['function'])) {
