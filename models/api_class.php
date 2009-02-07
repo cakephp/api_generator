@@ -213,11 +213,11 @@ class ApiClass extends ApiGeneratorAppModel {
 				}
 				if ($obj->methods) {
 					foreach ($obj->methods as $method) {
-						$_name = $method['name'];
+						$_name = strtolower($method['name']);
 						foreach ($terms as $term) {
-							if (low($_name) === $term) {
+							if ($_name === $term) {
 								$relevance += 4;
-							} elseif (strpos(low($_name), $term) === 0) {
+							} elseif (strpos($_name, $term) === 0) {
 								$relevance += 2;
 							}
 						}
@@ -225,11 +225,11 @@ class ApiClass extends ApiGeneratorAppModel {
 				}
 				if ($obj->properties) {
 					foreach ($obj->properties as $property) {
-						$_name = $property['name'];
+						$_name = strtolower($property['name']);
 						foreach($terms as $term) {
-							if (low($_name) === $term) {
+							if ($_name === $term) {
 								$relevance += 4;
-							} elseif (strpos(low($_name), $term) === 0) {
+							} elseif (strpos($_name, $term) === 0) {
 								$relevance += 2;
 							}
 						}
