@@ -552,3 +552,8 @@ ol.code li code {
 #search-results .highlight {
 	background: #C9E2E6;
 }
+
+.cake-debug {
+	background:#fff;
+	color:#000;
+}

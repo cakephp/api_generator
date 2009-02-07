@@ -277,7 +277,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		foreach ($obj->$field as $j => $prop) {
 			$delete = true;
 			foreach($terms as $term) {
-				if (strpos($prop['name'], $term) === 0) {
+				if (strpos(strtolower($prop['name']), $term) !== false) {
 					$delete = false;
 					break;
 				}
