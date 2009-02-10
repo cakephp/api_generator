@@ -142,6 +142,7 @@ class ApiClass extends ApiGeneratorAppModel {
 
 		$conditions = array();
 		foreach ($terms as $term) {
+			$conditions['OR'][] = array('ApiClass.name LIKE' => $term . '%');
 			$conditions['OR'][] = array('ApiClass.slug LIKE' => $term . '%');
 			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '%' . $term . '%');
 			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '%' . $term . '%');
