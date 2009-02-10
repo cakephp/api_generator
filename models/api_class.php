@@ -197,6 +197,7 @@ class ApiClass extends ApiGeneratorAppModel {
  * @access protected
  */
 	protected function _queryFiles($results, $terms) {
+		define('DISABLE_AUTO_DISPATCH', true);
 		$return = $_return = array();
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $result) {
