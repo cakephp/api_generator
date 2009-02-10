@@ -179,4 +179,20 @@ class ApiFileTestCase extends CakeTestCase {
 		$result = $this->ApiClass->savePseudoClassDocs($docs['function'], $file);
 		$this->assertTrue($result);
 	}
+/**
+ * test the search implementation
+ *
+ * @return void
+ **/
+	function testSearch() {
+		//test match by name
+		$result = $this->ApiClass->search('Dispatcher');
+		$this->assertEqual(count($result), 2);
+		$this->assertEqual(array_keys($result), array('Dispatcher', 'ShellDispatcher'));
+		
+		//test by partial slug
+		$result = $this->ApiClass->search('acl-com');
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(array_keys($result), array('AclComponent'));
+	}
 }

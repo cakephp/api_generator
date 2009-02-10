@@ -121,35 +121,6 @@ class ApiClass extends ApiGeneratorAppModel {
 		$this->set($data);
 		return $this->save();
 	}
-/**
- * search method
- *
- * Find matching records for the given term or terms
- * Find results ordered by those matching in order: class names, method names, properties
- *
- * @param mixed $terms array of terms or search term
- * @return array of matching ApiFile objects
- * @access public
- */
-	function search($terms = array()) {
-		if (!$terms) {
-			return array();
-		}
-		$terms = array_map('strtolower', (array)$terms);
-		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
-			'ApiClass.property_index', 'file_name');
-		$order = 'ApiClass.name';
-
-		$conditions = array();
-		foreach ($terms as $term) {
-			$conditions['OR'][] = array('ApiClass.name LIKE' => '%' . $term . '%');
-			$conditions['OR'][] = array('ApiClass.slug LIKE' => '%' . $term . '%');
-			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '%' . $term . '%');
-			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '%' . $term . '%');
-		}
-		$results = $this->find('all', compact('conditions', 'order', 'fields'));
-		return $this->_queryFiles($results, $terms);
-	}
 
 /**
  * Get the class index listing
@@ -187,6 +158,35 @@ class ApiClass extends ApiGeneratorAppModel {
 		return strtolower(implode($index, ' '));
 	}
 /**
+ * search method
+ *
+ * Find matching records for the given term or terms
+ * Find results ordered by those matching in order: class names, method names, properties
+ *
+ * @param mixed $terms array of terms or search term
+ * @return array of matching ApiFile objects
+ * @access public
+ */
+	function search($terms = array()) {
+		if (!$terms) {
+			return array();
+		}
+		$terms = array_map('strtolower', (array)$terms);
+		$fields = array('DISTINCT ApiClass.id', 'ApiClass.name', 'ApiClass.method_index',
+			'ApiClass.property_index', 'file_name');
+		$order = 'ApiClass.name';
+
+		$conditions = array();
+		foreach ($terms as $term) {
+			$conditions['OR'][] = array('ApiClass.name LIKE' => '%' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.slug LIKE' => '%' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.method_index LIKE' => '%' . $term . '%');
+			$conditions['OR'][] = array('ApiClass.property_index LIKE' => '%' . $term . '%');
+		}
+		$results = $this->find('all', compact('conditions', 'order', 'fields'));
+		return $this->_queryFiles($results, $terms);
+	}
+/**
  * filterSearchResults method
  *
  * Purge results that don't match the search terms
@@ -197,7 +197,9 @@ class ApiClass extends ApiGeneratorAppModel {
  * @access protected
  */
 	protected function _queryFiles($results, $terms) {
-		define('DISABLE_AUTO_DISPATCH', true);
+		if (!defined('DISABLE_AUTO_DISPATCH')) {
+			define('DISABLE_AUTO_DISPATCH', true);
+		}
 		$return = $_return = array();
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $result) {
