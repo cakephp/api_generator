@@ -208,7 +208,7 @@ class ApiClass extends ApiGeneratorAppModel {
 				foreach ($terms as $term) {
 					if (low($name) ===  $term) {
 						$relevance += 6;
-					} elseif (strpos(low($name), $term) === 0) {
+					} elseif (strpos(low($name), $term) !== 0) {
 						$relevance += 3;
 					}
 				}
