@@ -201,59 +201,32 @@ class ApiClass extends ApiGeneratorAppModel {
 			define('DISABLE_AUTO_DISPATCH', true);
 		}
 		$return = $_return = array();
+		$searchedClasses = Set::extract('/ApiClass/name', $results);
+
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $result) {
 			$result = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
 			foreach ($result['class'] as $name => $obj) {
+				if (!in_array($name, $searchedClasses)) {
+					continue;
+				}
 				$relevance = 0;
 				$this->_unsetUnmatching($obj, $terms, 'properties');
 				$this->_unsetUnmatching($obj, $terms, 'methods');
-				foreach ($terms as $term) {
-					if (low($name) ===  $term) {
-						$relevance += 6;
-					} elseif (strpos(low($name), $term) !== 0) {
-						$relevance += 3;
-					}
-				}
+				$relevance += $this->_calculateRelevance(array(compact('name')), $terms, array('high' => 6, 'low' => 3));
 				if ($obj->methods) {
-					foreach ($obj->methods as $method) {
-						$_name = strtolower($method['name']);
-						foreach ($terms as $term) {
-							if ($_name === $term) {
-								$relevance += 4;
-							} elseif (strpos($_name, $term) === 0) {
-								$relevance += 2;
-							}
-						}
-					}
+					$relevance += $this->_calculateRelevance($obj->methods, $terms);
 				}
 				if ($obj->properties) {
-					foreach ($obj->properties as $property) {
-						$_name = strtolower($property['name']);
-						foreach($terms as $term) {
-							if ($_name === $term) {
-								$relevance += 4;
-							} elseif (strpos($_name, $term) === 0) {
-								$relevance += 2;
-							}
-						}
-					}
+					$relevance += $this->_calculateRelevance($obj->properties, $terms);
 				}
-				if ($relevance > 0) {
-					$_return[$relevance][$name]['class'][$name] = $obj;
-				}
+				$_return[$relevance][$name]['class'][$name] = $obj;
 			}
 			foreach ($result['function'] as $name => $obj) {
 				$relevance = 0;
-				foreach ($terms as $term) {
-					if (low($name) ===  $term) {
-						$relevance += 6;
-					} elseif (strpos(low($name), $term) === 0) {
-						$relevance += 3;
-					}
-					if ($relevance > 0) {
-						$_return[$relevance][$name]['function'][$name] = $obj;
-					}
+				$relevance += $this->_calculateRelevance(array(compact('name')), $terms, array('high' => 6, 'low' => 3));
+				if ($relevance > 0) {
+					$_return[$relevance][$name]['function'][$name] = $obj;
 				}
 			}
 		}
@@ -264,6 +237,28 @@ class ApiClass extends ApiGeneratorAppModel {
 			$return = am($return, $result);
 		}
 		return $return;
+	}
+/**
+ * calculate the relevance of a match.
+ *
+ * @param array $subjects Things to calculate relevance for.
+ * @param array $terms Terms that were searched for.
+ * @param array $spread array of 'high' and 'low' relevance amounts
+ * @return int
+ **/
+	protected function _calculateRelevance($subjects, $terms, $spread = array('high' => 4, 'low' => 2)) {
+		$relevance = 0;
+		foreach ($subjects as $subject) {
+			$low = strtolower($subject['name']);
+			foreach ($terms as $term) {
+				if ($low === $term) {
+					$relevance += $spread['high'];
+				} elseif (strpos($low, $term) !== false) {
+					$relevance += $spread['low'];
+				}
+			}
+		}
+		return $relevance;
 	}
 /**
  * unsetUnmatching method

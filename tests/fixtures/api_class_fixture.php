@@ -71,17 +71,6 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-0e54-4a9a-82e4-80ed87460ad7', 
-		'name' => 'AclShell', 
-		'slug' => 'acl-shell', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/libs/acl.php', 
-		'method_index' => 'startup main create delete setparent getpath check grant deny inherit view initdb help checknodetype nodeexists __getparams __datavars startup main create delete setparent getpath check grant deny inherit view initdb help checknodetype nodeexists __getparams __datavars', 
-		'property_index' => 'acl datasource acl datasource', 
-		'flags' => '0', 
-		'created' => '2009-02-06 21:14:15', 
-		'modified' => '2009-02-06 21:14:15'
-	),
-	array(
 		'id' => '498cee77-0360-4c44-8dcd-80ed87460ad7', 
 		'name' => 'AclComponent', 
 		'slug' => 'acl-component', 

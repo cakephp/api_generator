@@ -93,7 +93,7 @@ class ApiClassSampleClassChild extends ApiClassSampleClass {
  *
  * @package api_generator.tests
  **/
-class ApiFileTestCase extends CakeTestCase {
+class ApiClassTestCase extends CakeTestCase {
 /**
  * undocumented class variable
  *
@@ -194,5 +194,27 @@ class ApiFileTestCase extends CakeTestCase {
 		$result = $this->ApiClass->search('acl-com');
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual(array_keys($result), array('AclComponent'));
+		
+		//test by partial property match
+		$result = $this->ApiClass->search('lidexten');
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(array_keys($result), array('Router'));
+		
+		//test by partial method match
+		$result = $this->ApiClass->search('missing');
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(array_keys($result), array('ErrorHandler'));
+		
+		//test relevance in find
+		$result = $this->ApiClass->search('acl');
+		$this->assertEqual(count($result), 4);
+		$this->assertEqual(array_keys($result), array('AclComponent', 'DbAcl', 'AclBase', 'IniAcl'));
+		
+		//test searching of global functions 
+		$result = $this->ApiClass->search('debug');
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(array_keys($result), array('debug'));
+
+		$this->assertTrue($result['debug']['function']['debug'] instanceof FunctionDocumentor);
 	}
 }
