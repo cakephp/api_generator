@@ -153,6 +153,36 @@ EOD;
 EOD;
 		$result = Introspector::parseDocBlock($comment);
 		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the', 'multiple tabs should not be allowed %s');
+		
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
+		 * @deprecated
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$this->assertTrue(isset($result['tags']['deprecated']), 'parsing deprecated tags failed %s');
+	}
+/**
+ * test parsing singular tags. like deprecated
+ *
+ * @return void
+ **/
+	function testParsingDeprecatedTags() {
+		$comment = <<<EOD
+		/**
+		 * This is the title
+		 *
+		 * This is my long description
+		 *
+		 * @deprecated
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$this->assertTrue(isset($result['tags']['deprecated']), 'parsing deprecated tags failed %s');
 	}
 }
 ?>

@@ -97,7 +97,7 @@ class Introspector {
 				$desc .= "\n" . $line;
 			}
 
-			if (preg_match('/@([a-z0-9_-]+)\s(.*)$/i', $tmp[$i], $parsedTag)) {
+			if (preg_match('/@([a-z0-9_-]+)\s?(.*)$/i', $tmp[$i], $parsedTag)) {
 				// capture continued lines. (indented with 3 spaces or 1 tab)
 				$done = false;
 				$next = $i + 1;
