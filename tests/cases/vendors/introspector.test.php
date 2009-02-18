@@ -184,5 +184,49 @@ EOD;
 		$result = Introspector::parseDocBlock($comment);
 		$this->assertTrue(isset($result['tags']['deprecated']), 'parsing deprecated tags failed %s');
 	}
+/**
+ * Ensure that tag parsing is a bit more flexible.
+ *
+ * @return void
+ **/
+	function getTests() {
+		return array('start', 'startCase', 'testRelaxedTagParsing', 'endCase', 'end');
+	}
+
+	function testRelaxedTagParsing() {
+		$comment = <<<EOD
+		/**
+		 * @param int \$normal normal is a good param
+		 * @param				string		\$tabs			tabs is a good param
+		 * @param        string         \$spaces    spaces is a good param
+		 * @param  string    \$spacestwo  spacestwo is a good param
+		 *   it also has a newline
+		 */
+EOD;
+		$result = Introspector::parseDocBlock($comment);
+		$expected = array(
+			'normal' => array(
+				'type' => 'int',
+				'description' => 'normal is a good param'
+			),
+			'tabs' => array(
+				'type' => 'string',
+				'description' => 'tabs is a good param',
+			),
+			'spaces' => array(
+				'type' => 'string',
+				'description' => 'spaces is a good param'
+			),
+			'spacestwo' => array(
+				'type' => 'string',
+				'description' => 'spacestwo is a good param it also has a newline'
+			),
+		);
+		$this->assertEqual(array_keys($result['tags']['param']), array_keys($expected), 'tag Keys do not match %s');
+		$this->assertEqual($result['tags']['param']['normal'], $expected['normal']);
+		$this->assertEqual($result['tags']['param']['tabs'], $expected['tabs']);
+		$this->assertEqual($result['tags']['param']['spaces'], $expected['spaces']);
+		$this->assertEqual($result['tags']['param']['spacestwo'], $expected['spacestwo']);
+	}
 }
 ?>

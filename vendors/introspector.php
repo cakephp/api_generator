@@ -125,7 +125,7 @@ class Introspector {
 			$params = (array)$tags['param'];
 			$tags['param'] = array();
 			foreach ($params as $param) {
-				$paramDoc = explode(' ', $param, 3);
+				$paramDoc = preg_split('/\s+/', trim($param), 3);
 				switch (count($paramDoc)) {
 					case 2:
 						list($type, $name) = $paramDoc;
