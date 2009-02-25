@@ -252,6 +252,9 @@ class ApiFile extends Object {
 		if (preg_match('|\.\.|', $filePath)) {
 			return $docs;
 		}
+		if (!defined('DISABLE_AUTO_DISPATCH')) {
+			define('DISABLE_AUTO_DISPATCH', true);
+		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath, $options);
 		$this->_getDefinedObjects();
