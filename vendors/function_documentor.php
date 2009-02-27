@@ -87,7 +87,7 @@ class FunctionDocumentor extends ReflectionFunction {
 			if ($param->isDefaultValueAvailable()) {
 				$this->params[$param->name]['default'] = $param->getDefaultValue();
 			}
-		}		
+		}
 		return $this->params;
 	}
 /**

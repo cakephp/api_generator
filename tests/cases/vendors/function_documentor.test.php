@@ -71,21 +71,24 @@ class FunctionDocumentorTestCase extends CakeTestCase {
 				'default' => NULL,
 				'position' => 0,
 				'type' => 'string',
-				'comment' => 'this is a param'
+				'comment' => 'this is a param',
+				'hasDefault' => false,
 			),
 			'one' => array(
 				'optional' => true,
 				'default' => 'foo',
 				'position' => 1,
 				'type' => 'string',
-				'comment' => 'this is one'
+				'comment' => 'this is one',
+				'hasDefault' => true,
 			),
 			'two' => array(
 				'optional' => true,
 				'default' => 'param',
 				'position' => 2,
 				'type' => 'string',
-				'comment' => 'this is two'
+				'comment' => 'this is two',
+				'hasDefault' => true,
 			)
 		);
 		$this->assertEqual($result, $expected);

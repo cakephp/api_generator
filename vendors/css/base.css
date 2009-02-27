@@ -141,7 +141,7 @@ h3 {
 	float: left;
 }
 #footer {
-	background: #fff url(../img/footer_bkg.gif) bottom left no-repeat;
+	background: #fff;
 	padding:1px 0  0 10px;
 }
 
