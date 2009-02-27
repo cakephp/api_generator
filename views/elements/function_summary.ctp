@@ -49,16 +49,10 @@
 				));
 			endif;
 		?> </dd>
-		
-		<dt>
-			<?php foreach ($doc->info['comment']['tags'] as $name => $value): ?>
-				<dt><?php echo $name; ?></dt>
-				<?php if (strtolower($name) == 'link'):
-					echo '<dd>' . $text->autoLink(h($value)) . '</dd>';
-				else:
-					echo '<dd>' . h($value) . '</dd>';
-				endif; ?>
-			<?php endforeach; ?>
-		</dt>
+	</dl>
+	<?php 
+		unset($doc->info['comment']['tags']['param']);
+		echo $this->element('tag_block', array('tags' => $doc->info['comment']['tags'])); 
+	?>
 	</div>
 </div>

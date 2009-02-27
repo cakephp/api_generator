@@ -33,17 +33,6 @@
 		<?php endif;?>
 		
 	  </dl>
-	  <div class="tag-block">
-		<dl>
-			<?php foreach ($doc->classInfo['comment']['tags'] as $name => $value): ?>
-				<dt><?php echo $name; ?></dt>
-				<?php if (strtolower($name) == 'link'):
-					echo '<dd>' . $text->autoLink(h($value)) . '</dd>';
-				else:
-					echo '<dd>' . h($value) . '</dd>';
-				endif; ?>
-			<?php endforeach; ?>
-		</dl>
-	  </div>
+	  <?php echo $this->element('tag_block', array('tags' => $doc->classInfo['comment']['tags'])); ?>
 	</div>
 </div>

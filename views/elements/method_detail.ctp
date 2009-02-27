@@ -58,17 +58,8 @@
 				));
 			endif;
 		?> </dd>
-		
-		<dt>
-			<?php foreach ($method['comment']['tags'] as $name => $value): ?>
-				<dt><?php echo $name; ?></dt>
-				<?php if (strtolower($name) == 'link'):
-					echo '<dd>' . $text->autoLink(h($value)) . '</dd>';
-				else:
-					echo '<dd>' . h($value) . '</dd>';
-				endif; ?>
-			<?php endforeach; ?>
-		</dt>
+		</dl>
+		<?php echo $this->element('tag_block', array('tags' => $method['comment']['tags'])); ?>
 	</div>
 </div>
 <?php endforeach; ?>
