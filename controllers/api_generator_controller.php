@@ -43,13 +43,39 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $components = array('RequestHandler');
+	public $components = array('RequestHandler', 'Security');
 /**
  * Helpers
  *
  * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
+
+/**
+ * beforeFilter callback
+ *
+ * @return void
+ **/
+	public function beforeFilter() {
+		parent::beforeFilter();
+		
+		//@todo incorporate into config.
+		$this->Security->loginUsers = array(
+			'mark' => 'password'
+		);
+		$this->Security->loginOptions = array('type' => 'basic');
+		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage');
+	}
+/**
+ * Extract all the useful config info out of the ApiConfig.
+ *
+ * @return void
+ **/
+	public function beforeRender() {
+		$this->set('basePath', $this->path);
+		$this->set($this->ApiFile->getExclusions());
+	}
+
 /**
  * Browse application files and find things you would like to generate API docs for.
  *
@@ -162,6 +188,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}
 	}
+
 /**
  * View the Source for a file.
  *
@@ -177,6 +204,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$this->set('contents', $fileContents);
 		$this->set('filename', $classInfo['ApiClass']['file_name']);
 	}
+
 /**
  * Search through the class index.
  *
@@ -199,13 +227,27 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set(compact('classIndex', 'terms', 'docs'));
 	}
+
+///////////// Admin methods 
 /**
- * Extract all the useful config info out of the ApiConfig.
+ * Admin Class index. View a list of classes in the index and get admin actions for
+ * them.
  *
  * @return void
  **/
-	public function beforeRender() {
-		$this->set('basePath', $this->path);
-		$this->set($this->ApiFile->getExclusions());
+	public function admin_class_index() {
+		$this->set('apiClasses', $this->paginate('ApiClass'));
+	}
+/**
+ * Get docs coverage for a class
+ *
+ * @return void
+ **/
+	public function admin_docs_coverage($className = null) {
+		$apiClass = $this->ApiClass->findBySlug($className);
+		if (empty($apiClass)) {
+			$this->_notFound(__('No class exists with that name', true));
+		}
+		$this->set(compact('apiClass'));
 	}
 }
