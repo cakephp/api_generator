@@ -217,4 +217,12 @@ class ApiClassTestCase extends CakeTestCase {
 
 		$this->assertTrue($result['debug']['function']['debug'] instanceof FunctionDocumentor);
 	}
+/**
+ * Test Docs Analyzation
+ *
+ * @return void
+ **/
+	function testAnalyzeCoverage() {
+		
+	}
 }
