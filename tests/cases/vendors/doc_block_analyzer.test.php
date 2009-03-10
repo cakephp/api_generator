@@ -59,7 +59,7 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 	function testConstruction() {
 		$analyze = new DocBlockAnalyzer(array('MissingLink', 'IncompleteTags'));
 		$rules = $analyze->getRules();
-		$this->assertEqual(array_keys($rules), array('MissingLinkDocBlockRule', 'IncompleteTagsDocBlockRule'));
+		$this->assertEqual(array_keys($rules), array('MissingLink', 'IncompleteTags'));
 	}
 /**
  * test that the source setting only allows Documentors.
@@ -76,6 +76,21 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$fail = new StdClass();
 		$result = $analyze->setSource($fail);
 		$this->assertFalse($result);
+	}
+/**
+ * test analyze method
+ *
+ * @return void
+ **/
+	function testAnalyze() {
+		//test that rules get called properly
+		$analyze = new DocBlockAnalyzer(array('Mock'));
+		$analyze->rules['Mock']->expectOnce('setSubject');
+		$analyze->rules['Mock']->expectCallCount('score', 7);
+
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->setSource($reflection);
+		$this->assertTrue($result);
 	}
 }
 ?>

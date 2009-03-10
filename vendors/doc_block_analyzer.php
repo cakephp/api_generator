@@ -27,7 +27,7 @@ class DocBlockAnalyzer {
  *
  * @var array
  **/
-	protected $_rules = array();
+	public $rules = array();
 /**
  * Rules classes that are going to be used
  *
@@ -73,9 +73,9 @@ class DocBlockAnalyzer {
 				trigger_error('Missing Rule Class ' . $className, E_USER_WARNING);
 				continue;
 			}
-			$rule = new $className();
-			if ($rule instanceof DocBlockRule) {
-				$this->_rules[] = $rule;
+			$ruleObj = new $className();
+			if ($ruleObj instanceof DocBlockRule) {
+				$this->rules[$rule] = $ruleObj;
 			}
 		}
 	}
@@ -86,8 +86,7 @@ class DocBlockAnalyzer {
  **/
 	public function getRules() {
 		$out = array();
-		foreach ($this->_rules as $rule) {
-			$name = get_class($rule);
+		foreach ($this->rules as $name => $rule) {
 			$out[$name] = $rule->description;
 		}
 		return $out;
