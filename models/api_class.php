@@ -286,5 +286,27 @@ class ApiClass extends ApiGeneratorAppModel {
 			}
 		}
 	}
+/**
+ * Analyzes Documentation coverage.
+ * Use this method if you are unsure of the contents of an apiClass record, or
+ * don't already have the reflection objects.
+ * 
+ * @param array $apiClass An ApiClass record to be loaded/parsed and analyzed.s
+ * @return array Array of warnings / info / % complete
+ **/
+	public function analyzeCoverage($apiClass) {
+		App::import('Vendor', 'ApiGenerator.DocBlockAnalyzer');
+		$className = $apiClass['ApiClass']['name'];
+		
+		$ApiFile = ClassRegistry::init('ApiFile');
+		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name']);
+		if ($apiClass['ApiClass']['flags'] & ApiClass::PSEUDO_CLASS) {
+			//skipped!
+		} else {
+			$Analyzer = new DocBlockAnalyzer();
+			$Analyzer->setSource($docsObjects['class'][$className]);
+			return $Analyzer->analyze();
+		}
+	}
 }
 ?>
