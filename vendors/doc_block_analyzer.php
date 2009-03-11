@@ -148,7 +148,7 @@ class DocBlockAnalyzer {
 				$scores = $this->_runRules($content);
 				$contentObjects++;
 				$contentScore += $scores['totalScore'];
-				$results[$property]	 = array(
+				$results[$property] = array(
 					'subject' => $property,
 					'scores' => $scores,
 				);
@@ -156,6 +156,7 @@ class DocBlockAnalyzer {
 			$results['sectionTotals'][$property] = array(
 				'elementCount' => $contentObjects,
 				'score' => $contentScore,
+				'average' => $contentScore / $contentObjects,
 			);
 			$totalElements += $contentObjects;
 			$finalScore += $contentScore;
