@@ -85,12 +85,36 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 	function testAnalyze() {
 		//test that rules get called properly
 		$analyze = new DocBlockAnalyzer(array('Mock'));
-		$analyze->rules['Mock']->expectOnce('setSubject');
+		$analyze->rules['Mock']->expectCallCount('setSubject', 7);
 		$analyze->rules['Mock']->expectCallCount('score', 7);
 
 		$reflection = new ClassDocumentor('TestSubjectOne');
-		$result = $analyze->setSource($reflection);
-		$this->assertTrue($result);
+		$result = $analyze->analyze($reflection);
+		
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+
+		$this->assertEqual(count($result['properties']), 2);
+		$this->assertEqual(count($result['methods']), 4);
+		$this->assertTrue(isset($result['finalScore']));
 	}
+/**
+ * test the link tag rule
+ *
+ * @return void
+ **/
+	function testLinkTagRule() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+
+		$links = Set::extract($result['properties'], '{n}.scores.{n}.rule');
+		$this->assertEqual(count($links), count($result['properties']));
+		
+		$rules = Set::extract($result['methods'], '{n}.scores.{n}.rule');
+		$this->assertNotEqual(count($rules[1]), count($rules[3]));
+	}
+
 }
 ?>

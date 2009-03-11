@@ -122,7 +122,60 @@ class DocBlockAnalyzer {
 				return array();
 			}
 		}
-		
+		$lookAt = get_object_vars($this->_reflection);
+		$results = array();
+		$totalElements = $finalScore = 0;
+		foreach ($lookAt as $property => $content) {
+			if (!is_array($content)) {
+				continue;
+			}
+			$objCount = $totalScore = 0;
+			$results[$property] = array();
+
+			$contentKeys = array_keys($content);
+			if (Set::numeric($contentKeys)) {
+				foreach ($content as $element) {
+					$scores = $this->_runRules($element);
+					$result = array(
+						'subject' => $element['name'],
+						'scores' => $scores,
+					);
+					$totalElements++;
+					$finalScore += $scores['totalScore'];
+					$results[$property][] = $result;
+				}
+			} else {
+				$result = $this->_runRules($content);
+				$totalElements++;
+				$finalScore += $result['totalScore'];
+				$results[$property][] = $result;
+			}
+		}
+		$results['finalScore'] = ($finalScore / $totalElements);
+		return $results;
+	}
+/**
+ * _runRules against an element set
+ *
+ * @return array
+ **/
+	protected function _runRules($subject) {
+		$results = array();
+		$totalScore = 0;
+		foreach ($this->rules as $name => $rule) {
+			$rule->setSubject($subject);
+			$score = $rule->score();
+			if ($score < 1) {
+				$results[] = array(
+					'rule' => $name,
+					'score' => $score,
+					'description' => $rule->description
+				);
+			}
+			$totalScore += $score;
+		}
+		$results['totalScore'] = $totalScore;
+		return $results;
 	}
 }
 
@@ -171,11 +224,23 @@ class MissingLinkDocBlockRule extends DocBlockRule {
  * @return float
  **/
 	public function score() {
-
+		if (empty($this->_subject['comment']['tags']['link'])) {
+			return 0;
+		}
+		return 1;
 	}
 }
 
+/**
+ * Check that the doc block has a description string.
+ *
+ **/
 class EmptyDocBlockRule extends DocBlockRule {
+/**
+ * description
+ *
+ * @var string
+ **/
 	public $description = 'Check for empty doc string';
 /**
  * score method
@@ -183,11 +248,26 @@ class EmptyDocBlockRule extends DocBlockRule {
  * @return float
  **/
 	public function score() {
-		
+		if (empty($this->_subject['description'])) {
+			return 0;
+		}
+		if (strlen($this->_subject['description']) > (2 * $this->_subject['name'])) {
+			return 1;
+		}
+		return 0.5;
 	}
 }
 
+/**
+ * Check that every argument has all the param tags filled out.
+ *
+ **/
 class MissingParamsDocBlockRule extends DocBlockRule {
+/**
+ * description
+ *
+ * @var string
+ **/
 	public $description = 'Check for any empty @param tags';
 /**
  * score method
@@ -195,18 +275,59 @@ class MissingParamsDocBlockRule extends DocBlockRule {
  * @return float
  **/
 	public function score() {
-		
+		if (empty($this->_subject['args'])) {
+			return 1;
+		}
+		$good = 0;
+		$totalArgs = count($this->_subject['args']);
+		foreach ($this->_subject['args'] as $arg) {
+			if (!empty($arg['comment'])) {
+				$good += 0.5;
+			}
+			if (!empty($arg['type'])) {
+				$good += 0.5;
+			}
+		}
+		return $good / $totalArgs;
 	}
 }
 
+/**
+ * Check that tags requiring a value have them.
+ * 
+ **/
 class IncompleteTagsDocBlockRule extends DocBlockRule {
+/**
+ * description
+ *
+ * @var string
+ **/
 	public $description = 'Check for Incomplete Tag strigs.';
+	
+/**
+ * tags that don't require text
+ *
+ * @var array
+ **/
+	protected $_singleTags = array(
+		'deprecated', 'abstract', 'ignore', 'final',
+	);
 /**
  * score method
  *
  * @return float
  **/
 	public function score() {
-		
+		if (empty($this->_subject['comment']['tags'])) {
+			return 0;
+		}
+		$total = count($this->_subject['comment']['tags']);
+		$good = 0;
+		foreach ($this->_subject['comment']['tags'] as $tag => $value) {
+			if (!empty($value) || !in_array($tag, $this->_singleTags)) {
+				$good++;
+			}
+		}
+		return $good / $total;
 	}
 }
