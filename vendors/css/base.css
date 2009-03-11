@@ -553,6 +553,41 @@ ol.code li code {
 	background: #C9E2E6;
 }
 
+/**
+* Docs coverage
+****************************/
+.score-box {
+	border: 1px solid #333;
+	padding: 2px;
+	height: 30px;
+	font-size: 26px;
+	line-height: 30px;
+	background: #efefef;
+}
+.scorebar {
+	background: green;
+}
+.scorebar span {
+	display: block;
+	margin-left: 10px;
+	color: #fff;
+}
+.doc-issue {
+	clear: both;
+	margin-bottom: 1em;
+}
+.doc-issue dt {
+	float: left;
+	clear: both;
+	margin: 0 1em 0 0;
+}
+.doc-issue dd {
+	margin: 0;
+}
+
+
+
+
 .cake-debug {
 	background:#fff;
 	color:#000;

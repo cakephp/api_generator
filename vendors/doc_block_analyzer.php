@@ -174,7 +174,7 @@ class DocBlockAnalyzer {
 			}
 			$totalScore += $score;
 		}
-		$results['totalScore'] = $totalScore;
+		$results['totalScore'] = ($totalScore  / count($this->rules));
 		return $results;
 	}
 }
@@ -248,10 +248,10 @@ class EmptyDocBlockRule extends DocBlockRule {
  * @return float
  **/
 	public function score() {
-		if (empty($this->_subject['description'])) {
+		if (empty($this->_subject['comment']['description'])) {
 			return 0;
 		}
-		if (strlen($this->_subject['description']) > (2 * $this->_subject['name'])) {
+		if (strlen($this->_subject['comment']['description']) > (2 * $this->_subject['name'])) {
 			return 1;
 		}
 		return 0.5;
@@ -303,7 +303,6 @@ class IncompleteTagsDocBlockRule extends DocBlockRule {
  * @var string
  **/
 	public $description = 'Check for Incomplete Tag strigs.';
-	
 /**
  * tags that don't require text
  *
