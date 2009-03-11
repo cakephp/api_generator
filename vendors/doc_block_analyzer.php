@@ -129,7 +129,7 @@ class DocBlockAnalyzer {
 			if (!is_array($content)) {
 				continue;
 			}
-			$objCount = $totalScore = 0;
+			$contentObjects = $contentScore = 0;
 			$results[$property] = array();
 
 			$contentKeys = array_keys($content);
@@ -140,16 +140,25 @@ class DocBlockAnalyzer {
 						'subject' => $element['name'],
 						'scores' => $scores,
 					);
-					$totalElements++;
-					$finalScore += $scores['totalScore'];
+					$contentObjects++;
+					$contentScore += $scores['totalScore'];
 					$results[$property][] = $result;
 				}
 			} else {
-				$result = $this->_runRules($content);
-				$totalElements++;
-				$finalScore += $result['totalScore'];
-				$results[$property][] = $result;
+				$scores = $this->_runRules($content);
+				$contentObjects++;
+				$contentScore += $scores['totalScore'];
+				$results[$property]	 = array(
+					'subject' => $property,
+					'scores' => $scores,
+				);
 			}
+			$results['sectionTotals'][$property] = array(
+				'elementCount' => $contentObjects,
+				'score' => $contentScore,
+			);
+			$totalElements += $contentObjects;
+			$finalScore += $contentScore;
 		}
 		$results['finalScore'] = ($finalScore / $totalElements);
 		return $results;
@@ -217,7 +226,7 @@ abstract class DocBlockRule {
  * @package default
  **/
 class MissingLinkDocBlockRule extends DocBlockRule {
-	public $description = 'Missing @link tags';
+	public $description = 'Check for a missing @link tag';
 /**
  * Check for a @link tag in the tags array.
  *
@@ -302,7 +311,7 @@ class IncompleteTagsDocBlockRule extends DocBlockRule {
  *
  * @var string
  **/
-	public $description = 'Check for Incomplete Tag strigs.';
+	public $description = 'Check for incomplete tag strings.';
 /**
  * tags that don't require text
  *

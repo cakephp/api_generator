@@ -5,10 +5,12 @@
 	</div>
 </div>
 <h2><?php __('Docs analysis:')?></h2>
+<h3><?php __('Class info:'); ?></h3>
+<?php echo $this->element('docs_issue', array('issue' => $analysis['classInfo']));?>
 <?php 
 foreach (array('methods', 'properties') as $key): 
 	echo '<h3>' . $key . '</h3>';
 	foreach ($analysis[$key] as $issue)  {
-		echo $this->renderElement('docs_issue', array('issue' => $issue));
+		echo $this->element('docs_issue', array('issue' => $issue));
 	}
 endforeach; ?>
