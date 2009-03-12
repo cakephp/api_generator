@@ -59,10 +59,11 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
-		//@todo incorporate into config.
-		$this->Security->loginUsers = array(
-			'mark' => 'password'
-		);
+		$this->ApiFile->ApiConfig->read();
+		
+		if (isset($this->ApiFile->ApiConfig->data['users'])) {
+			$this->Security->loginUsers = $this->ApiFile->ApiConfig->data['users'];
+		}
 		$this->Security->loginOptions = array('type' => 'basic');
 		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage');
 	}
