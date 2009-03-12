@@ -314,6 +314,20 @@ class ApiIndexShell extends Shell {
 		}
 
 		$this->hr();
+		$this->out('Create a username/password for accessing the admin areas');
+
+		$continue = true;
+		$config['users'] = array();
+		while ($continue === true) {
+			$user = $this->in('Enter a username for the admin areas');
+			$password = $this->in('Enter a password for ' . $user);
+			$config['users'][$user] = $password;
+			$again = $this->in('Add another user?', array('y', 'n'), 'n');
+			if ($again == 'n') {
+				$continue = false;
+			}
+		}
+
 		$this->out('Verify the config');
 		$this->hr();
 		$string = $this->ApiConfig->toString($config);
