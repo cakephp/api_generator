@@ -139,9 +139,11 @@ class DocBlockAnalyzer {
 					$result = array(
 						'subject' => $element['name'],
 						'scores' => $scores,
+						'totalScore' => $scores['totalScore'],
 					);
+					unset($result['scores']['totalScore']);
 					$contentObjects++;
-					$contentScore += $scores['totalScore'];
+					$contentScore += $result['totalScore'];
 					$results[$property][] = $result;
 				}
 			} else {
@@ -151,7 +153,9 @@ class DocBlockAnalyzer {
 				$results[$property] = array(
 					'subject' => $property,
 					'scores' => $scores,
+					'totalScore' => $scores['totalScore']
 				);
+				unset($results[$property]['scores']['totalScore']);
 			}
 			$results['sectionTotals'][$property] = array(
 				'elementCount' => $contentObjects,
