@@ -39,7 +39,7 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->_path = APP . 'plugins' . DS . 'api_generator';
+		$this->_path = dirname(dirname(dirname(dirname(__FILE__))));
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiFile = new ApiFile();
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
@@ -166,7 +166,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class'][__CLASS__] instanceof ClassDocumentor);
 
-		$result = $this->ApiFile->loadFile(APP . 'plugins' . DS . 'api_generator' . DS . 'models' . DS . 'api_class.php');
+		$result = $this->ApiFile->loadFile($this->_path . DS . 'models' . DS . 'api_class.php');
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
