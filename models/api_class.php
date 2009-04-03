@@ -204,8 +204,8 @@ class ApiClass extends ApiGeneratorAppModel {
 		$searchedClasses = Set::extract('/ApiClass/name', $results);
 
 		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
-		foreach ($results as $i => $result) {
-			$result = $ApiFile->loadFile($result['ApiClass']['file_name'], array('useIndex' => true));
+		foreach ($results as $i => $record) {
+			$result = $ApiFile->loadFile($record['ApiClass']['file_name'], array('useIndex' => true));
 			foreach ($result['class'] as $name => $obj) {
 				if (!in_array($name, $searchedClasses)) {
 					continue;
@@ -223,6 +223,7 @@ class ApiClass extends ApiGeneratorAppModel {
 				$_return[$relevance][$name]['class'][$name] = $obj;
 			}
 			foreach ($result['function'] as $name => $obj) {
+				$obj->info['declaredInFile'] = $record['ApiClass']['file_name'];
 				$relevance = 0;
 				$relevance += $this->_calculateRelevance(array(compact('name')), $terms, array('high' => 6, 'low' => 3));
 				if ($relevance > 0) {
