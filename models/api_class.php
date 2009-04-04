@@ -300,7 +300,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		$className = $apiClass['ApiClass']['name'];
 		
 		$ApiFile = ClassRegistry::init('ApiFile');
-		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name']);
+		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name'], array('useIndex' => true));
 		if ($apiClass['ApiClass']['flags'] & ApiClass::PSEUDO_CLASS) {
 			//skipped!
 		} else {

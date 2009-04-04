@@ -240,10 +240,12 @@ class ApiFile extends Object {
 /**
  * Load A File and extract docs for all classes contained in that file
  *
+ * Options:
+ * - 'useIndex' boolean whether or not a search should be done on the ApiClass index for any missing classes
+ *   defaults to false.
+ *
  * @param string $fullPath FullPath of the file you want to load.
- * @param array $options Options to use
- *   - 'useIndex' boolean whether or not a search should be done on the ApiClass index for any missing classes
- * defaults to false.
+ * @param array $options Options to use see above
  * @return array Array of all the docs from all the classes that were loaded as a result of the file being loaded.
  * @throws MissingClassException If a dependancy cannot be solved, an exception will be thrown.
  **/

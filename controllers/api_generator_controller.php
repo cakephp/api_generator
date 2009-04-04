@@ -249,7 +249,11 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		if (empty($apiClass)) {
 			$this->_notFound(__('No class exists with that name', true));
 		}
-		$analysis = $this->ApiClass->analyzeCoverage($apiClass);
+		try {
+			$analysis = $this->ApiClass->analyzeCoverage($apiClass);
+		} catch(Exception $e) {
+			$this->_notFound($e->getMessage());
+		}
 		$this->helpers[] = 'Number';
 		$this->set(compact('apiClass', 'analysis'));
 	}
