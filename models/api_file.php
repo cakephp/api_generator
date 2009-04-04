@@ -301,7 +301,7 @@ class ApiFile extends Object {
 		$new = $tmp = array();
 		$tmp['class'] = $this->_parseClassNamesInFile($filePath);
 		$tmp['function'] = $this->_parseFunctionNamesInFile($filePath);
-		
+
 		$include = false;
 		foreach ($tmp['class'] as $classInFile) {
 			$include = false;
@@ -366,7 +366,7 @@ class ApiFile extends Object {
 		$foundFuncs = array();
 		$fileContent = file_get_contents($fileName);
 		$funcNames = implode('|', $this->_definedFunctions);
-		preg_match_all('/^\tfunction\s*(' . $funcNames . ')[\s|\(]+/mi', $fileContent, $matches, PREG_SET_ORDER);
+		preg_match_all('/^\t*function\s*(' . $funcNames . ')[\s|\(]+/mi', $fileContent, $matches, PREG_SET_ORDER);
 		foreach ($matches as $function) {
 			$foundFuncs[] = $function[1];
 		}
@@ -440,6 +440,9 @@ class ApiFile extends Object {
 		}
 		if (strpos($filePath, 'socket') !== false) {
 			$baseClass['Core'] = 'Socket';
+		}
+		if (strpos($filePath, 'schema') !== false) {
+			$baseClass['Model'] = 'Schema';
 		}
 		foreach ($baseClass as $type => $class) {
 			App::import($type, $class);

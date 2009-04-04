@@ -107,6 +107,8 @@ class ApiClassTestCase extends CakeTestCase {
  **/
 	function startTest() {
 		$this->_path = APP . 'plugins' . DS . 'api_generator';
+		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
+		
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiClass = ClassRegistry::init('ApiClass');
 	}
@@ -218,11 +220,16 @@ class ApiClassTestCase extends CakeTestCase {
 		$this->assertTrue($result['debug']['function']['debug'] instanceof FunctionDocumentor);
 	}
 /**
- * Test Docs Analyzation
+ * Test that files containing global functions always have the declaredInFile set to the file_name
+ * in the index
  *
  * @return void
  **/
-	function testAnalyzeCoverage() {
-		
+	function testSearchingForGlobalFilesInIndex() {
+		$this->ApiClass->id = '498cee77-97c8-441a-99c3-80ed87460ad7';
+		$this->ApiClass->saveField('file_name', $this->_testAppPath . 'basics.php');
+		$result = $this->ApiClass->search('debug');
+		$filename = $result['debug']['function']['debug']->info['declaredInFile'];
+		$this->assertNoPattern('/test_basics/', $filename);
 	}
 }
