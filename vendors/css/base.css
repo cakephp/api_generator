@@ -572,6 +572,11 @@ ol.code li code {
 	margin-left: 10px;
 	color: #fff;
 }
+.methods-coverage,
+.properties-coverage {
+	float:left;
+	width:49%;
+}
 .doc-issue {
 	clear: both;
 	margin-bottom: 1em;
