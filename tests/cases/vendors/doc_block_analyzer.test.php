@@ -115,6 +115,35 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$rules = Set::extract($result['methods'], '{n}.scores.{n}.rule');
 		$this->assertNotEqual(count($rules[1]), count($rules[3]));
 	}
+/**
+ * test the missing param tag rule
+ *
+ * @return void
+ **/
+	function testParamTagRule() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+		$result = $result['methods'][2];
+		
+		$this->assertEqual($result['scores'][1]['rule'], 'MissingParams');
+		$this->assertEqual($result['scores'][1]['score'], 0);
+	}
+/**
+ * test the empty doc block rule
+ *
+ * @return void
+ **/
+	function testEmptyDocblockRule() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+		$result = $result['methods'][0];
+
+		$this->assertEqual($result['subject'], 'iHazNoDocz');
+		$this->assertEqual($result['scores'][1]['rule'], 'Empty');
+		$this->assertEqual($result['scores'][1]['score'], '0');
+	}
 
 }
 ?>
