@@ -112,20 +112,26 @@ class DocBlockAnalyzer {
 /**
  * Analyze a Reflection object.
  * 
+ * Options
+ * - includeParent Whether or not you want to include parent methods/properties. (default to false)
+ *
  * @param object $reflector Reflection Object to be inspected (optional)
+ * @param array $options Array of options to use.
  * @return array Array of scoring information
  **/
-	public function analyze($reflector = null) {
+	public function analyze($reflector = null, $options = array()) {
+		$options = array_merge(array('includeParent' => false), $options);
 		if ($reflector !== null) {
 			$valid = $this->setSource($reflector);
 			if (!$valid) {
 				return array();
 			}
 		}
-		$lookAt = get_object_vars($this->_reflection);
+		$lookAt = array('classInfo', 'properties', 'methods');
 		$results = array();
 		$totalElements = $finalScore = 0;
-		foreach ($lookAt as $property => $content) {
+		foreach ($lookAt as $property) {
+			$content = $this->_reflection->{$property};
 			if (!is_array($content)) {
 				continue;
 			}
@@ -134,7 +140,17 @@ class DocBlockAnalyzer {
 
 			$contentKeys = array_keys($content);
 			if (Set::numeric($contentKeys)) {
+
 				foreach ($content as $element) {
+					if ($property !== 'classInfo') {
+						$isParent = (isset($element['declaredInClass']) && 
+							$element['declaredInClass'] != $this->_reflection->getName()
+						);
+						if (!$options['includeParent'] && $isParent) {
+							continue;
+						}
+					}
+
 					$scores = $this->_runRules($element);
 					$result = array(
 						'subject' => $element['name'],
