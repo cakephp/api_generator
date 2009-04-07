@@ -254,7 +254,8 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
+		$backwards = $this->referer();
 		$this->helpers[] = 'Number';
-		$this->set(compact('apiClass', 'analysis'));
+		$this->set(compact('apiClass', 'analysis', 'backwards'));
 	}
 }

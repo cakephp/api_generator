@@ -1,3 +1,4 @@
+<?php echo $html->link(__('go back', true), $backwards); ?>
 <h1><?php __('Docs Coverage for '); echo $apiClass['ApiClass']['name']; ?></h1>
 <div class="score-box">
 	<div class="scorebar" style="width:<?php echo $number->toPercentage($analysis['finalScore'] * 100); ?>;">

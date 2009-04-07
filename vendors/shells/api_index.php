@@ -316,17 +316,7 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 		$this->out('Create a username/password for accessing the admin areas');
 
-		$continue = true;
-		$config['users'] = array();
-		while ($continue === true) {
-			$user = $this->in('Enter a username for the admin areas');
-			$password = $this->in('Enter a password for ' . $user);
-			$config['users'][$user] = $password;
-			$again = $this->in('Add another user?', array('y', 'n'), 'n');
-			if ($again == 'n') {
-				$continue = false;
-			}
-		}
+		$config = $this->_addUsers($config);
 
 		$this->out('Verify the config');
 		$this->hr();
@@ -339,6 +329,62 @@ class ApiIndexShell extends Shell {
 			$this->out('The config was saved');
 		}
 		return $this->config = $config;
+	}
+	
+/**
+ * Add Users to your config file
+ *
+ * @return void
+ **/
+	public function users() {
+		$config = $this->config();
+		if (empty($config['users']) || isset($this->args[0]) && low($this->args[0]) == 'add') {
+			$this->_addUsers($config);
+		}
+		$add = $this->_listUsers($config);
+		if ($add == 'y') {
+			$config = $this->_addUsers($config);
+			$string = $this->ApiConfig->toString($config);
+			if ($this->ApiConfig->save($string)) {
+				$this->out('The config was saved');
+			}
+		}
+	}
+/**
+ * List users in the config file.
+ *
+ * @param array $config Config values to display
+ * @return void
+ **/
+	protected function _listUsers($config) {
+		$this->out('Current Users:');
+		$this->hr();
+		if (empty($config['users'])) {
+			$this->out(__('You have no users :(', true));
+		}
+		foreach ($config['users'] as $user => $pass) {
+			$this->out($user . ' : ' . $pass);
+		}
+		return $this->in('Create new users?', array('y', 'n'), 'n');
+	}
+/**
+ * Add users to Api list
+ *
+ * @param array $config Config values to mess with
+ * @return void
+ **/
+	protected function _addUsers($config) {
+		$continue = true;
+		while ($continue === true) {
+			$user = $this->in('Enter a username for the admin areas');
+			$password = $this->in('Enter a password for ' . $user);
+			$config['users'][$user] = $password;
+			$again = $this->in('Add another user?', array('y', 'n'), 'n');
+			if ($again == 'n') {
+				$continue = false;
+			}
+		}
+		return $config;
 	}
 /**
  * Get help
@@ -358,6 +404,8 @@ class ApiIndexShell extends Shell {
 		$this->out('	Clear the existing class index and regenerate it.');
 		$this->out('  set_routes');
 		$this->out('	Add routes for Api generator to your routes file.');
+		$this->out('  users');
+		$this->out('	View list of users, and create new ones.');
 	}
 
 }
