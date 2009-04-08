@@ -43,6 +43,7 @@ class ApiGeneratorSchema extends CakeSchema {
 		'method_index' => array('type' => 'text'),
 		'property_index' => array('type' => 'text'),
 		'flags' => array('type' => 'integer', 'default' => 0, 'length' => 5),
+		'coverage_cache' => array('type' => 'float', 'length' => '2,2'),
 		'created' => array('type' => 'datetime'),
 		'modified' => array('type' => 'datetime'),
 	);
