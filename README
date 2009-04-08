@@ -9,32 +9,6 @@ PHP5 - Requires PHP5.2.  If you are on PHP4 too bad, time to upgrade anyways.
 
 Configuration
 -------------
-Api Generator has a number of configuration points. All are stored in the Configure class. See below for an explanation of each setting.
+Please See the wiki guide at
 
- * ApiGenerator.basePath - the base path that ApiGenerator scans for files / classes to generate docs from.  Files not in this path will not be linkable or readable. Defaults to APP
- * ApiGenerator.excludeNonPublic - Exclude Non Public methods and variables from the generated documentation. Defaults to false.
- * ApiGenerator.disableFileBrowser - Disable file browsing. Defaults to false.
- * ApiGenerator.disableClassBrowser - Disable class broswing. Defaults to false.
- * ApiGenerator.excludeClasses - Array of classes to exclude when generating class docs list. Defaults to array();
-
-Known Issues:
--------------
- * If you are generating an api for an application that is not the application containing the ApiGenerator, classes like AppController, and AppModel will cause fatal errors, as the files have not been used before but the classnames already exist.
-
-
-Goals of project:
------------------
-* Provide a file and class browser for explorer for exploring a project and viewing the classes it contains.
-* Provide easy to read and well designed api docs.
-* Allow configuration of api generation
-	* what path is used.
-	* what directories / files are not included.
-	* ability to disable either file or class browser.
-	* ability to omit certain classes from the docs
-	* allow / remove protected / private members from being displayed.
-	
-Usage:
------------
-cake api_index initdb
-cake api_index update
-visit, http://localohst/api_generator/classes
+http://thechaw.com/api_generator/wiki/home/docs/Installation_and_configuration
