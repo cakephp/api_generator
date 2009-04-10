@@ -13,7 +13,7 @@
 			<td><?php echo $apiClass['ApiClass']['name']; ?></td>
 			<td><?php 
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
-					echo $apiClass['ApiClass']['coverage_cache'];
+					echo $number->toPercentage($apiClass['ApiClass']['coverage_cache'] * 100);
 				else:
 					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">Loading..</span>';
 				endif;
@@ -50,7 +50,16 @@ ApiGenerator.classIndex = {
 
 	updateCoverage : function (responseText, responseXml) {
 		var object = JSON.decode(responseText);
-		$(object.id).set('text', Math.round(object.coverage, 2) + '%');
+		var value = Math.round(object.coverage * 100) / 100;
+		$(object.id).set('text', value + '%');
+		value = Math.round(value);
+		if (value >= 75) {
+			$(object.id).setStyle('color', 'green');
+		} else if (value < 75 && value > 50) {
+			$(object.id).setStyle('color', 'GoldenRod');
+		} else {
+			$(object.id).setStyle('color', 'DarkRed');
+		}
 	}
 };
 </script>

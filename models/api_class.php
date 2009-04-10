@@ -306,7 +306,10 @@ class ApiClass extends ApiGeneratorAppModel {
 		} else {
 			$Analyzer = new DocBlockAnalyzer();
 			$Analyzer->setSource($docsObjects['class'][$className]);
-			return $Analyzer->analyze();
+			$coverage = $Analyzer->analyze();
+			$this->id = $apiClass['ApiClass']['id'];
+			$this->saveField('coverage_cache', $coverage['finalScore']);
+			return $coverage;
 		}
 	}
 }
