@@ -30,7 +30,6 @@ Element.implement({
 
 /**
  * Simple FileExplorer.
- *
  */
 var FileExplorer = new Class({
 	Implements : [Options, Events],
@@ -85,7 +84,6 @@ ApiGenerator.docBlocks = {
 
 /**
  * Javascript used on Api doc Pages
- *
  */
 ApiGenerator.apiPages = {
 	init : function() {

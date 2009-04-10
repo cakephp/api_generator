@@ -65,7 +65,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->Security->loginUsers = $this->ApiFile->ApiConfig->data['users'];
 		}
 		$this->Security->loginOptions = array('type' => 'basic');
-		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage');
+		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage', 'admin_calculate_coverage');
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.
@@ -264,7 +264,8 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function calculate_coverage($id = null) {
+	public function admin_calculate_coverage($id = null) {
+		$this->Toolbar->enabled = false;
 		$apiClass = $this->ApiClass->findById($id);
 		if (empty($apiClass)) {
 			$this->_notFound(__('No class exists with that name', true));
@@ -274,6 +275,6 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		} catch(Exception $e) {
 			$this->_notFound($e->getMessage());
 		}
-		$this->set(compact('analysis'));
+		$this->set(compact('analysis', 'id'));
 	}
 }

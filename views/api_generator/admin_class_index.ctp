@@ -1,3 +1,4 @@
+<?php $javascript->link('/api_generator/js/request_manager.js', false); ?>
 <h1><?php __('Admin Class Index'); ?></h1>
 <table class="listing" cellspacing="0" cellpadding="0">
 	<thead>
@@ -12,7 +13,7 @@
 			<td><?php echo $apiClass['ApiClass']['name']; ?></td>
 			<td><?php 
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
-					echo $apiClass['ApiClass']['coverage_cache']; 
+					echo $apiClass['ApiClass']['coverage_cache'];
 				else:
 					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">Loading..</span>';
 				endif;
@@ -26,3 +27,30 @@
 	<?php endforeach ?>
 </table>
 <?php echo $this->element('paging'); ?>
+
+<script type="text/javascript">
+if (window.basePath === undefined) {
+	window.basePath = '<?php $this->webroot; ?>';
+}
+ApiGenerator.classIndex = {
+	coverageUrl : window.basePath + 'admin/api_generator/calculate_coverage/',
+
+	init : function () {
+		var self = this;
+
+		$$('table.listing .coverage-indicator').each(function (item, i) {
+			var requestOpts = {
+				url : self.coverageUrl + item.get('id'),
+				onSuccess : self.updateCoverage,
+				method : 'get'
+			};
+			RequestManager.prefetch(requestOpts);
+		});
+	},
+
+	updateCoverage : function (responseText, responseXml) {
+		var object = JSON.decode(responseText);
+		$(object.id).set('text', Math.round(object.coverage, 2) + '%');
+	}
+};
+</script>
