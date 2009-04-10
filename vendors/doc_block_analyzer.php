@@ -140,7 +140,6 @@ class DocBlockAnalyzer {
 
 			$contentKeys = array_keys($content);
 			if (Set::numeric($contentKeys)) {
-
 				foreach ($content as $element) {
 					if ($property !== 'classInfo') {
 						$isParent = (isset($element['declaredInClass']) && 
@@ -173,11 +172,20 @@ class DocBlockAnalyzer {
 				);
 				unset($results[$property]['scores']['totalScore']);
 			}
+
 			$results['sectionTotals'][$property] = array(
-				'elementCount' => $contentObjects,
-				'score' => $contentScore,
-				'average' => $contentScore / $contentObjects,
+				'elementCount' => 0,
+				'score' => 0,
+				'average' => 0,
 			);
+			if ($contentObjects != 0) {
+				$results['sectionTotals'][$property] = array(
+					'elementCount' => $contentObjects,
+					'score' => $contentScore,
+					'average' => $contentScore / $contentObjects,
+				);
+			}
+
 			$totalElements += $contentObjects;
 			$finalScore += $contentScore;
 		}
