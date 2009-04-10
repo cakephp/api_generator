@@ -258,4 +258,22 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$this->helpers[] = 'Number';
 		$this->set(compact('apiClass', 'analysis', 'backwards'));
 	}
+/**
+ * Calculates the coverage for a class, Used via XHR to get coverage as user
+ * looks at index page.
+ *
+ * @return void
+ **/
+	public function calculate_coverage($id = null) {
+		$apiClass = $this->ApiClass->findById($id);
+		if (empty($apiClass)) {
+			$this->_notFound(__('No class exists with that name', true));
+		}
+		try {
+			$analysis = $this->ApiClass->analyzeCoverage($apiClass);
+		} catch(Exception $e) {
+			$this->_notFound($e->getMessage());
+		}
+		$this->set(compact('analysis'));
+	}
 }
