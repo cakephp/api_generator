@@ -229,7 +229,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$this->set(compact('classIndex', 'terms', 'docs'));
 	}
 
-///////////// Admin methods 
+///////////// Admin methods
 /**
  * Admin Class index. View a list of classes in the index and get admin actions for
  * them.
