@@ -3,6 +3,8 @@
  * View a single class
  *
  */
+$this->pageTitle = $doc->classInfo['name'];
+
 $apiDoc->setClassIndex($classIndex);
 
 echo $this->element('class_info');

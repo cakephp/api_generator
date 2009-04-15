@@ -3,6 +3,7 @@
  * Browse Classes View file
  *
  */
+$this->pageTitle = __('Api Class index', true);
 
 /**
  * Tittle height to class name height ratio

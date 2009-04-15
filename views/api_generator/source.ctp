@@ -4,6 +4,7 @@
  * Browse view.  Shows file listings and provides links to obtaining api docs from a file
  * Doubles as an ajax view by omitting certain tags when params['isAjax'] is set.
  */
+$this->pageTitle = $currentPath;
 ?>
 <?php if (!$this->params['isAjax']): ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
