@@ -42,6 +42,7 @@ class ApiGeneratorAppController extends AppController {
  * @return void
  **/
 	public function beforeFilter() {
+		parent::beforeFilter();
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->ApiConfig->read();
 		$path = $this->ApiConfig->getPath();
