@@ -326,7 +326,8 @@ class ApiIndexShell extends Shell {
 		if ($this->ApiConfig->save($string)) {
 			$this->out('The config was saved');
 		}
-		return $this->config = $config;
+		$this->config = $config;
+		return $config;
 	}
 /**
  * Get help
