@@ -290,20 +290,22 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 
 		$mapping = null;
-		while($mapping == null && $mapping != 'n') {
+		while ($mapping == null && $mapping != 'n') {
 			$class = $this->in('Class to map', '', 'n');
 			if ($class == 'n') {
 				$mapping = 'n';
 			} else {
 				$file = null;
-				while($file == null && $file != 'n') {
+				while ($file == null && $file != 'n') {
 					$file = $this->in('Enter the path to the file that holds ' . $class .'. this can be relative to the default path, or add a / in front to use an absolute path', '', $path);
 					if ($file[0] != '/') {
-						$file = $path. DS . $file;
+						$file = $path . DS . $file;
 					}
 					if (file_exists($file)) {
 						$mapping = true;
 						$config['mappings'][$class] = $file;
+					} else {
+						$this->out('File could not be found');
 					}
 				}
 				$stop = $this->in('Add another mapping?', array('y', 'n', 'q'), 'n');
