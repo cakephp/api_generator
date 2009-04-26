@@ -1,6 +1,6 @@
 <?php $javascript->link('/api_generator/js/request_manager.js', false); ?>
 <h1><?php __('Admin Class Index'); ?></h1>
-<table class="listing" cellspacing="0" cellpadding="0">
+<table class="listing coverage" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
 			<th><?php __('Classname'); ?> </th>
@@ -13,7 +13,7 @@
 			<td><?php echo $apiClass['ApiClass']['name']; ?></td>
 			<td><?php 
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
-					echo $number->toPercentage($apiClass['ApiClass']['coverage_cache'] * 100);
+					echo $apiUtils->colourPercent($apiClass['ApiClass']['coverage_cache']);
 				else:
 					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">Loading..</span>';
 				endif;

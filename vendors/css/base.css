@@ -76,6 +76,7 @@ h1, h2, h3, h4, h5, h6, th, dt {
 	font-family: "Gill Sans", "Trebuchet MS", trebuchet, Helvetica, Tahoma, sans-serif;
 	font-weight:100;
 	color: #32270d;
+	margin:1em 0 0;
 }
 h1 {
 	font-size: 24px;
@@ -592,7 +593,15 @@ ol.code li code {
 	margin: 0;
 }
 
-
+.coverage .yellow {
+	color:GoldenRod;
+}
+.coverage .green {
+	color:green;
+}
+.coverage .red {
+	color:DarkRed;
+}
 
 
 .cake-debug {

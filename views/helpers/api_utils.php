@@ -21,6 +21,12 @@
  */
 class ApiUtilsHelper extends AppHelper {
 /**
+ * Helpers
+ *
+ * @var array
+ **/
+	public $helpers = array('Number');
+/**
  * constructor
  *
  * @return void
@@ -31,6 +37,24 @@ class ApiUtilsHelper extends AppHelper {
 		ini_set('highlight.keyword', 'keyword');
 		ini_set('highlight.string', 'string');
 		ini_set('highlight.html', 'html');
+	}
+
+/**
+ * Genereates a coloured percentage number
+ * @param float $value Value to display
+ * @return string Html with colour class name
+ **/
+	public function colourPercent($value) {
+		$value = $float = $this->Number->toPercentage($value * 100);
+		$class = '';
+		if ($value >= 75) {
+			$class = 'green';
+		} else if ($value < 75 && $value > 50) {
+			$class = 'yellow';
+		} else {
+			$class = 'red';
+		}
+		return $this->output(sprintf('<span class="%s">%s</span>', $class, $float));
 	}
 
 /**
@@ -113,6 +137,7 @@ class ApiUtilsHelper extends AppHelper {
 		$return .= "  </ol>\n";
 		return $return;
 	}
+
 /**
  * Sort a collection of arrays by the key 'name'
  *
