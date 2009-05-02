@@ -34,6 +34,7 @@ class ApiGeneratorAppController extends AppController {
  * @return void
  **/
 	public function beforeFilter() {
+		parent::beforeFilter();
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->ApiConfig->read();
 		$path = $this->ApiConfig->getPath();
@@ -44,7 +45,7 @@ class ApiGeneratorAppController extends AppController {
 		$this->path = Folder::slashTerm(realpath($path));
 		$localePaths = Configure::read('localePaths');
 		$localePaths[] = dirname(__FILE__) . DS . 'locale';
-		Configure::write('localePaths',$localePaths);
+		Configure::write('localePaths', $localePaths);
 	}
 /**
  * Error Generating Page.
