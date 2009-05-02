@@ -1,31 +1,22 @@
 <?php
-/* SVN FILE: $Id$ */
 /**
- * 
+ * ApiGenerator AppModel test
  *
- * 
+ * PHP 5.2+
  *
- * PHP versions 4 and 5
- *
- * CakePHP :  Rapid Development Framework <http://www.cakephp.org/>
- * Copyright 2006-2008, Cake Software Foundation, Inc.
- *								1785 E. Sahara Avenue, Suite 490-204
- *								Las Vegas, Nevada 89104
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright       Copyright 2006-2008, Cake Software Foundation, Inc.
- * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
- * @package         cake
- * @subpackage      cake.cake.libs.
- * @since           CakePHP v 1.2.0.4487
- * @version         
- * @modifiedby      
- * @lastmodified    
- * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
- */
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org
+ * @package       api_generator
+ * @subpackage    api_generator.tests.models
+ * @since         ApiGenerator 0.1
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ **/
 App::import('Model', 'ApiGenerator.AppModel');
 
 class ApiGeneratorAppTestModel extends ApiGeneratorAppModel {

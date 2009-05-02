@@ -1,5 +1,25 @@
 <?php
+/**
+ * ClassDocumentor test case
+ *
+ * PHP 5.2+
+ *
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org
+ * @package       api_generator
+ * @subpackage    api_generator.tests.models
+ * @since         ApiGenerator 0.1
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ **/
+
 App::import('Vendor', 'ApiGenerator.ClassDocumentor');
+
 /**
  * SimpleDocumentorSubjectClass
  *
@@ -68,7 +88,13 @@ class SimpleDocumentorSubjectClass extends StdClass implements Countable {
 class TestClassDocumentor extends ClassDocumentor {
 
 }
-class DocumentExtractorTestCase extends CakeTestCase {
+/**
+ * ClassDocumentor Test Case
+ *
+ * @package default
+ * @author Mark Story
+ **/
+class ClassDocumentorTestCase extends CakeTestCase {
 /**
  * test the ClassInfo introspection
  *

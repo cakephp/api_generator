@@ -1,5 +1,4 @@
 <?php
-/* SVN FILE: $Id$ */
 /**
  * Class to style php code as an ordered list.
  *
@@ -12,13 +11,21 @@
  *  - And to add line-# anchors to each line.
  *  - Removed whitespace reductions. Caused issues with source -> highlight links
  *
- * PHP versions 4 and 5
+ * PHP 5.2+
  *
- * @filesource
- * @package       api_generator.helpers
- * @modifiedby    $LastChangedBy: AD7six $
- * @lastmodified  $Date: 2008-11-05 11:30:07 +0100 (Wed, 05 Nov 2008) $
- */
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org
+ * @package       api_generator
+ * @subpackage    api_generator.vendors
+ * @since         ApiGenerator 0.1
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ **/
 class ApiUtilsHelper extends AppHelper {
 /**
  * constructor
