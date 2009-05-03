@@ -28,12 +28,42 @@ class DocBlockAnalyzer {
  * @var array
  **/
 	public $rules = array();
+
 /**
  * Rules classes that are going to be used
  *
  * @var array
  **/
 	protected $_ruleNames = array();
+
+/**
+ * Final score for analyzation
+ *
+ * @var int
+ **/
+	public $_finalScore = 0;
+
+/**
+ * Total elements counted this run
+ *
+ * @var int
+ **/
+	protected $_totalElements = 0;
+
+/**
+ * Running score for the current property
+ *
+ * @var int
+ **/
+	protected $_contentScore = 0;
+	
+/**
+ * Running total of all objects in the current property
+ *
+ * @var int
+ **/
+	protected $_contentObjectCount = 0;
+
 /**
  * Default rules
  *
@@ -42,12 +72,14 @@ class DocBlockAnalyzer {
 	protected $_defaultRules = array(
 		'MissingLink', 'Empty', 'MissingParams', 'IncompleteTags'
 	);
+
 /**
  * Current reflection objects being inspected.
  *
  * @var object
  **/
 	protected $_reflection;
+
 /**
  * Constructor
  *
@@ -121,6 +153,7 @@ class DocBlockAnalyzer {
  * @return array Array of scoring information
  **/
 	public function analyze($reflector = null, $options = array()) {
+		$this->reset();
 		$options = array_merge(array('includeParent' => false), $options);
 		if ($reflector !== null) {
 			$valid = $this->setSource($reflector);
@@ -136,63 +169,101 @@ class DocBlockAnalyzer {
 			if (!is_array($content)) {
 				continue;
 			}
-			$contentObjects = $contentScore = 0;
+			$this->resetCounts();
 			$results[$property] = array();
 
-			$contentKeys = array_keys($content);
-			if (Set::numeric($contentKeys)) {
-				foreach ($content as $element) {
-					if ($property !== 'classInfo') {
-						$isParent = (isset($element['declaredInClass']) && 
-							$element['declaredInClass'] != $this->_reflection->getName()
-						);
-						if (!$options['includeParent'] && $isParent) {
-							continue;
-						}
-					}
-
-					$scores = $this->_runRules($element);
-					$result = array(
-						'subject' => $element['name'],
-						'scores' => $scores,
-						'totalScore' => $scores['totalScore'],
-					);
-					unset($result['scores']['totalScore']);
-					$contentObjects++;
-					$contentScore += $result['totalScore'];
-					$results[$property][] = $result;
-				}
-			} else {
-				$scores = $this->_runRules($content);
-				$contentObjects++;
-				$contentScore += $scores['totalScore'];
+			if ($property == 'classInfo') {
+				$result = $this->_scoreElement($content);
 				$results[$property] = array(
 					'subject' => $property,
-					'scores' => $scores,
-					'totalScore' => $scores['totalScore']
+					'scores' => $result['scores'],
+					'totalScore' => $result['totalScore']
 				);
-				unset($results[$property]['scores']['totalScore']);
+			} else {
+				foreach ($content as $element) {
+					$isParent = (isset($element['declaredInClass']) && 
+						$element['declaredInClass'] != $this->_reflection->getName()
+					);
+					if (!$options['includeParent'] && $isParent) {
+						continue;
+					}
+					$results[$property][] = $this->_scoreElement($element);
+				}
 			}
-
-			$results['sectionTotals'][$property] = array(
-				'elementCount' => 0,
-				'score' => 0,
-				'average' => 0,
-			);
-			if ($contentObjects != 0) {
-				$results['sectionTotals'][$property] = array(
-					'elementCount' => $contentObjects,
-					'score' => $contentScore,
-					'average' => $contentScore / $contentObjects,
-				);
-			}
-
-			$totalElements += $contentObjects;
-			$finalScore += $contentScore;
+			$this->_calculateSectionTotals($results, $property);
 		}
-		$results['finalScore'] = ($finalScore / $totalElements);
+		$results['finalScore'] = ($this->_finalScore / $this->_totalElements);
 		return $results;
 	}
+
+/**
+ * Reset the docblock analyzer
+ *
+ * @return boolean true;
+ **/
+	public function reset() {
+		$this->_finalScore = 0;
+		$this->_totalElements = 0;
+		$this->resetCounts();
+		return true;
+	}
+
+/**
+ * Reset the internal counters.
+ *
+ * @return boolean true
+ **/
+	public function resetCounts() {
+		$this->_contentScore = 0;
+		$this->_contentObjectCount = 0;
+		return true;
+	}
+
+/**
+ * Calculate the section totals for a specific property.
+ * Modify the results array and return via reference
+ *
+ * @param array $results Array of inprogress results
+ * @param string $property Name of property being looked at
+ * @access public
+ * @return array
+ **/
+	protected function _calculateSectionTotals(&$results, $property) {
+		$results['sectionTotals'][$property] = array(
+			'elementCount' => 0,
+			'score' => 0,
+			'average' => 0,
+		);
+		if ($this->_contentObjectCount != 0) {
+			$results['sectionTotals'][$property] = array(
+				'elementCount' => $this->_contentObjectCount,
+				'score' => $this->_contentScore,
+				'average' => $this->_contentScore / $this->_contentObjectCount,
+			);
+		}
+		$this->_totalElements += $this->_contentObjectCount;
+		$this->_finalScore += $this->_contentScore;
+	}
+
+/**
+ * Score an element and generate results.
+ *
+ * @return array
+ **/
+	protected function _scoreElement($element) {
+		$scores = $this->_runRules($element);
+		$result = array(
+			'subject' => $element['name'],
+			'scores' => $scores,
+			'totalScore' => $scores['totalScore'],
+		);
+		unset($result['scores']['totalScore']);
+
+		$this->_contentObjectCount++;
+		$this->_contentScore += $result['totalScore'];
+		return $result;
+	}
+
 /**
  * _runRules against an element set
  *
