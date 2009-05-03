@@ -96,13 +96,14 @@ class DocBlockAnalyzer {
  *
  * @param object $reflector Reflection Object to be inspected.
  * @return boolean Success of setting source.
+ * @throws Exception
  **/
 	public function setSource($reflector) {
 		if (!($reflector instanceof ClassDocumentor) && !($reflector instanceof FunctionDocumentor)) {
-			trigger_error(sprintf(
-				'Expects an instance of ClassDocumentor or FunctionDocumentor, %s was given', 
+			throw new Exception(sprintf(
+				'DocBlockAnalyzer::setSource() - Expects an instance of ClassDocumentor or FunctionDocumentor, %s was given', 
 				get_class($reflector)
-			), E_USER_WARNING);
+			));
 			return false;
 		}
 		$reflector->getAll();

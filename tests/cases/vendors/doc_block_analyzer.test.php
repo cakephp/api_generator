@@ -72,7 +72,7 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$result = $analyze->setSource($reflection);
 		$this->assertTrue($result);
 		
-		$this->expectError();
+		$this->expectException();
 		$fail = new StdClass();
 		$result = $analyze->setSource($fail);
 		$this->assertFalse($result);
