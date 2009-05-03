@@ -57,7 +57,7 @@ class ApiClass extends ApiGeneratorAppModel {
  *
  * @var string
  **/
-	const CONCRETE_CLASS = 0;
+	const CONCRETE_CLASS = 2;
 /**
  * Clears (truncates) the class index.
  *
@@ -83,6 +83,7 @@ class ApiClass extends ApiGeneratorAppModel {
 			'file_name' => $classDoc->classInfo['fileName'],
 			'method_index' => $this->_generateIndex($classDoc, 'methods'),
 			'property_index' => $this->_generateIndex($classDoc, 'properties'),
+			'flags' => ApiClass::CONCRETE_CLASS,
 		);
 		$this->set($new);
 		return $this->save();
@@ -294,9 +295,7 @@ class ApiClass extends ApiGeneratorAppModel {
 
 		$ApiFile = ClassRegistry::init('ApiFile');
 		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name'], array('useIndex' => true));
-		if ($apiClass['ApiClass']['flags'] & ApiClass::PSEUDO_CLASS) {
-			//skipped!
-		} else {
+		if ($apiClass['ApiClass']['flags'] & ApiClass::CONCRETE_CLASS) {
 			$Analyzer = new DocBlockAnalyzer();
 			$Analyzer->setSource($docsObjects['class'][$className]);
 			$coverage = $Analyzer->analyze();
@@ -304,6 +303,7 @@ class ApiClass extends ApiGeneratorAppModel {
 			$this->saveField('coverage_cache', $coverage['finalScore']);
 			return $coverage;
 		}
+		return false;
 	}
 }
 ?>

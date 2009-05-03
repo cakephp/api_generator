@@ -50,7 +50,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/dispatcher.php', 
 		'method_index' => '__construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached __construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached', 
 		'property_index' => 'base webroot here admin plugin params base webroot here admin plugin params', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -61,7 +61,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/router.php', 
 		'method_index' => 'getinstance getnamedexpressions connect connectnamed mapresources writeroute prefixes parse __matchroute compile __parseextension __connectdefaultroutes setrequestinfo getparams getparam getpaths reload promote url maprouteelements __maproute getnamedelements matchnamed querystring normalize requestroute currentroute stripplugin stripescape parseextensions getargs getinstance getnamedexpressions connect connectnamed mapresources writeroute prefixes parse __matchroute compile __parseextension __connectdefaultroutes setrequestinfo getparams getparam getpaths reload promote url maprouteelements __maproute getnamedelements matchnamed querystring normalize requestroute currentroute stripplugin stripescape parseextensions getargs', 
 		'property_index' => 'routes __admin __prefixes __parseextensions __validextensions __named named __currentroute __headermap __resourcemap __resourcemapped __params __paths __defaultsmapped routes __admin __prefixes __parseextensions __validextensions __named named __currentroute __headermap __resourcemap __resourcemapped __params __paths __defaultsmapped', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -72,7 +72,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/cake.php', 
 		'method_index' => 'shelldispatcher __construct __initconstants _initenvironment __buildpaths __bootstrap dispatch getinput stdout stderr parseparams __parseparams shiftargs help _stop shelldispatcher __construct __initconstants _initenvironment __buildpaths __bootstrap dispatch getinput stdout stderr parseparams __parseparams shiftargs help _stop', 
 		'property_index' => 'stdin stdout stderr params args shell shellclass shellcommand shellpaths shellpath shellname stdin stdout stderr params args shell shellclass shellcommand shellpaths shellpath shellname', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -83,7 +83,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/error.php', 
 		'method_index' => '__construct error error404 missingcontroller missingaction privateaction missingtable missingdatabase missingview missinglayout missingconnection missinghelperfile missinghelperclass missingcomponentfile missingcomponentclass missingmodel stdout stderr __construct error error404 missingcontroller missingaction privateaction missingtable missingdatabase missingview missinglayout missingconnection missinghelperfile missinghelperclass missingcomponentfile missingcomponentclass missingmodel stdout stderr', 
 		'property_index' => 'stdout stderr stdout stderr', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -94,7 +94,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
 		'method_index' => '__construct startup _initacl check allow deny inherit grant revoke __construct startup _initacl check allow deny inherit grant revoke', 
 		'property_index' => '_instance _instance', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -105,7 +105,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
 		'method_index' => '__construct check initialize __construct check initialize', 
 		'property_index' => '', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -116,7 +116,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
 		'method_index' => '__construct initialize check allow deny inherit grant revoke getacllink _getacokeys __construct initialize check allow deny inherit grant revoke getacllink _getacokeys', 
 		'property_index' => '', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	),
@@ -127,7 +127,7 @@ var $records = array(
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
 		'method_index' => '__construct check readconfigfile arraytrim __construct check readconfigfile arraytrim', 
 		'property_index' => 'config config', 
-		'flags' => '0', 
+		'flags' => '2', 
 		'created' => '2009-02-06 21:14:15', 
 		'modified' => '2009-02-06 21:14:15'
 	)

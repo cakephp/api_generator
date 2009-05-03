@@ -133,7 +133,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'file_name' => __FILE__,
 				'property_index' => 'foo',
 				'method_index' => 'testfunct extended',
-				'flags' => 0,
+				'flags' => ApiClass::CONCRETE_CLASS,
 				'created' => $now,
 				'modified' => $now,
 			)	
@@ -153,7 +153,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'file_name' => __FILE__,
 				'property_index' => 'onlyme',
 				'method_index' => 'primary extended',
-				'flags' => 0,
+				'flags' => ApiClass::CONCRETE_CLASS,
 				'created' => $now,
 				'modified' => $now,
 			)	
