@@ -19,7 +19,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Vendor', 'ApiGenerator.Introspector');
+App::import('Vendor', 'ApiGenerator.DocumentorFactory');
 
 class ApiFile extends Object {
 /**
@@ -28,84 +28,98 @@ class ApiFile extends Object {
  * @var string
  */
 	public $name = 'ApiFile';
+
 /**
  * A list of folders to ignore.
  *
  * @var array
  **/
 	public $excludeDirectories = array();
+
 /**
  * excludeMethods property
  *
  * @var array
  */
 	public $excludeMethods = array();
+
 /**
  * excludeProperties property
  *
  * @var array
  */
 	public $excludeProperties = array();
+
 /**
  * A list of files to ignore.
  *
  * @var array
  **/
 	public $excludeFiles = array();
+
 /**
  * a list of extensions to scan for
  *
  * @var array
  **/
 	public $allowedExtensions = array();
+
 /**
  * Array of class dependancies map
  *
  * @var array
  **/
 	public $dependencyMap = array();
+
 /**
  * Mappings of funny named classes to files
  *
  * @var string
  **/
 	public $classMap = array();
+
 /**
  * A regexp for file names. (will be made case insenstive)
  *
  * @var string
  **/
 	public $fileRegExp = '[a-z_\-0-9]+';
+
 /**
  * Folder instance
  *
  * @var Folder
  **/
 	protected $_Folder;
+
 /**
  * ApiConfig Model instance
  *
  * @var object
  **/
 	public $ApiConfig;
+
 /**
  * Current Extractor instance
  *
  * @var object
  **/
 	protected $_extractor;
+
 /**
  * storage for defined classes
  *
  * @var array
  **/
 	protected $_definedClasses = array();
+
 /**
  * storage for defined functions
  *
  * @var array
  **/
 	protected $_definedFunctions = array();
+
 /**
  * Constructor
  *
@@ -117,6 +131,7 @@ class ApiFile extends Object {
 		$this->_initConfig();
 		$this->_Folder = new Folder(APP);
 	}
+
 /**
  * Read a path and return files and folders not in the excluded Folder list
  *
@@ -135,6 +150,7 @@ class ApiFile extends Object {
 		$this->_filterFiles($contents[1]);
 		return $contents;
 	}
+
 /**
  * Recursive Read a path and return files and folders not in the excluded Folder list
  *
@@ -149,6 +165,7 @@ class ApiFile extends Object {
 		$this->_filterFiles($contents);
 		return $contents;
 	}
+
 /**
  * _filterFiles
  *
@@ -171,6 +188,7 @@ class ApiFile extends Object {
 		}
 		$fileList = array_values($fileList);
 	}
+
 /**
  * remove files that don't match the allowedExtensions
  * or are on the excludeFiles list
@@ -198,6 +216,7 @@ class ApiFile extends Object {
 		}
 		$fileList = array_values($fileList);
 	}
+
 /**
  * Loads the documentation extractor for a given classname.
  *
@@ -206,7 +225,7 @@ class ApiFile extends Object {
  * @return void
  */
 	public function loadExtractor($type, $name) {
-		$this->_extractor = Introspector::getReflector($type, $name);
+		$this->_extractor = DocumentorFactory::getReflector($type, $name);
 	}
 /**
  * Get the documentor extractor instance
@@ -217,6 +236,7 @@ class ApiFile extends Object {
 	public function getExtractor() {
 		return $this->_extractor;
 	}
+
 /**
  * Gets the parsed docs from the Extractor
  *
@@ -229,6 +249,7 @@ class ApiFile extends Object {
 		$this->_extractor->getAll();
 		return $this->_extractor;
 	}
+
 /**
  * Load A File and extract docs for all classes contained in that file
  *
@@ -264,6 +285,7 @@ class ApiFile extends Object {
 		}
 		return $docs;
 	}
+
 /**
  * Import the core classes (Controller, View, Helper, Model)
  *
@@ -283,6 +305,7 @@ class ApiFile extends Object {
 		$funcs = get_defined_functions();
 		$this->_definedFunctions = $funcs['user'];
 	}
+
 /**
  * Fetches the class names and functions contained in the target file.
  * If first pass misses, a forceParse pass will be run.
@@ -322,6 +345,7 @@ class ApiFile extends Object {
 		}
 		return $new;
 	}
+
 /**
  * Retrieves the classNames defined in a file.
  * Solves issues of reading docs from files that have already been included.
@@ -349,6 +373,7 @@ class ApiFile extends Object {
 		}
 		return $foundClasses;
 	}
+
 /**
  * Retrieves global function names defined in a file.
  * Unlike the class parser which can cheat with regex.
@@ -366,6 +391,7 @@ class ApiFile extends Object {
 		}
 		return $foundFuncs;
 	}
+
 /**
  * Parses the file for any parent classes required by the file being loaded.
  * Attempts to load those files.
@@ -413,6 +439,7 @@ class ApiFile extends Object {
 			App::import('File', $className, true, array(), $this->classMap[$className]);
 		}
 	}
+
 /**
  * Attempts to solve class dependancies by importing base CakePHP classes
  *
@@ -442,6 +469,7 @@ class ApiFile extends Object {
 			App::import($type, $class);
 		}
 	}
+
 /**
  * Get the Exclusions lists.
  *
@@ -455,6 +483,7 @@ class ApiFile extends Object {
 		}
 		return $return;
 	}
+
 /**
  * Initialize the configuration for ApiFile.
  *
