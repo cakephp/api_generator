@@ -1,30 +1,14 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.Introspector');
+App::import('Vendor', 'ApiGenerator.DocblockTools');
 
-class IntrospectorTestCase extends CakeTestCase {
+class DocblockToolsTestCase extends CakeTestCase {
+
 /**
- * testGetReflector
+ * test the correct parsing of comment blocks
  *
- * @access public
  * @return void
- */	
-	function testGetReflector() {
-		$result = Introspector::getReflector('function', 'substr');
-		$this->assertTrue($result instanceof FunctionDocumentor);
-		
-		$result = Introspector::getReflector('class', 'Introspector');
-		$this->assertTrue($result instanceof ClassDocumentor);
-		
-		$result = Introspector::getReflector('Introspector');
-		$this->assertTrue($result instanceof ClassDocumentor);
-	}
-	
-	/**
-	 * test the correct parsing of comment blocks
-	 *
-	 * @return void
-	 **/
+ **/
 	function testCommentParsing() {
 		$comment = <<<EOD
 		/**
@@ -37,7 +21,7 @@ class IntrospectorTestCase extends CakeTestCase {
 		 * @return string
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$expected = array(
 			'description' => "This is the title\n\nThis is my long description",
 			'tags' => array (
@@ -68,7 +52,7 @@ EOD;
 		 * @return string
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$expected = array(
 			'description' => "This is the title\n\nThis is my long description", 
 			'tags' => array (
@@ -104,7 +88,7 @@ EOD;
 		 *   return string.
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.', 'parsing spaces failed %s');
 		
 		$comment = <<<EOD
@@ -117,7 +101,7 @@ EOD;
 		 *	return string.
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the return string.', 'parsing single tab failed %s');
 		
 		
@@ -133,7 +117,7 @@ EOD;
 		 *  more lines.
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$expected = 'string This is a longer doc string for the return string more lines more lines.';
 		$this->assertEqual($result['tags']['return'], $expected, 'parsing n-line tags failed %s');
 		
@@ -151,7 +135,7 @@ EOD;
 		 * 		return string.
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$this->assertEqual($result['tags']['return'], 'string This is a longer doc string for the', 'multiple tabs should not be allowed %s');
 		
 		$comment = <<<EOD
@@ -163,7 +147,7 @@ EOD;
 		 * @deprecated
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$this->assertTrue(isset($result['tags']['deprecated']), 'parsing deprecated tags failed %s');
 	}
 /**
@@ -181,18 +165,15 @@ EOD;
 		 * @deprecated
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$this->assertTrue(isset($result['tags']['deprecated']), 'parsing deprecated tags failed %s');
 	}
 /**
- * Ensure that tag parsing is a bit more flexible.
+ * test that tag parsing is more forgiving of whitespace.
  *
+ * @access public
  * @return void
  **/
-	function getTests() {
-		return array('start', 'startCase', 'testRelaxedTagParsing', 'endCase', 'end');
-	}
-
 	function testRelaxedTagParsing() {
 		$comment = <<<EOD
 		/**
@@ -203,7 +184,7 @@ EOD;
 		 *   it also has a newline
 		 */
 EOD;
-		$result = Introspector::parseDocBlock($comment);
+		$result = DocblockTools::parseDocBlock($comment);
 		$expected = array(
 			'normal' => array(
 				'type' => 'int',
@@ -227,6 +208,24 @@ EOD;
 		$this->assertEqual($result['tags']['param']['tabs'], $expected['tabs']);
 		$this->assertEqual($result['tags']['param']['spaces'], $expected['spaces']);
 		$this->assertEqual($result['tags']['param']['spacestwo'], $expected['spacestwo']);
+	}
+/**
+ * test function signature making
+ *
+ * @return void
+ **/
+	function testMakeFunctionSignature() {
+		App::import('Vendor', array('ApiGenerator.FunctionDocumentor', 'ApiGenerator.ClassDocumentor'));
+		$Func = new FunctionDocumentor('count');
+		$result = DocblockTools::makeFunctionSignature($Func);
+		$expected = 'count( $var, $mode )';
+		$this->assertEqual($result, $expected);
+		
+		$Class = new ClassDocumentor('ClassDocumentor');
+		$function = $Class->getMethod('_parseComment');
+		$result = DocblockTools::makeFunctionSignature($function);
+		$expected = '_parseComment( $comments )';
+		$this->assertEqual($result, $expected);
 	}
 }
 ?>

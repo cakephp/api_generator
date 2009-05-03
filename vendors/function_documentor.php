@@ -1,6 +1,6 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.Introspector');
+App::import('Vendor', 'ApiGenerator.DocblockTools');
 
 /**
  * Function Documentor Class
@@ -51,7 +51,7 @@ class FunctionDocumentor extends ReflectionFunction {
 			'internal' => $this->isInternal(), 
 		);
 		$this->info = $info;
-		$this->info['signature'] = Introspector::makeFunctionSignature($this);
+		$this->info['signature'] = DocblockTools::makeFunctionSignature($this);
 		return $this->info;
 	}
 /**
@@ -100,6 +100,6 @@ class FunctionDocumentor extends ReflectionFunction {
  * @return string
  **/
 	protected function _parseComment($comment) {
-		return Introspector::parseDocBlock($comment);
+		return DocblockTools::parseDocBlock($comment);
 	}
 }

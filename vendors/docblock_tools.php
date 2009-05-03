@@ -1,6 +1,6 @@
 <?php
 /**
- * Introspector Introspect stuff
+ * DocblockTools - Contains helper methods for Documentator classes
  *
  * PHP 5.2+
  *
@@ -17,44 +17,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-/**
- * Introspector provides factory methods and common methods for
- * reflection parsing
- *
- * @package cake.api_generator.vendors
- */
-class Introspector {
-/**
- * reflector classMappings
- *
- * @var array
- **/
-	protected static $_reflectorMap = array(
-		'class' => 'ClassDocumentor',
-		'function' => 'FunctionDocumentor',
-	);
-/**
- * Get the correct reflector type for the requested object
- *
- * @param string $type The type of reflector needed
- * @param string $name The name of the function/class being reflected
- * @return object constructed reflector type.
- * @throws Exception
- */
-	public static function getReflector($type, $name = null) {
-		if ($name === null) {
-			$name = $type;
-			$type = 'class';
-		}
-		if (!isset(self::$_reflectorMap[$type])) {
-			throw new Exception('Missing reflector mapping type');
-		}
-		if (!class_exists(self::$_reflectorMap[$type])) {
-			$reflectorName = 'ApiGenerator.' . self::$_reflectorMap[$type];
-			App::import('Vendor', $reflectorName);
-		}
-		return new self::$_reflectorMap[$type]($name);
-	}
+class DocblockTools {
 /**
  * parseDocBlock
  *
@@ -133,6 +96,7 @@ class Introspector {
 		$com['tags'] = $tags;
 		return $com;
 	}
+
 /**
  * Create a string representation of the method signature.
  *

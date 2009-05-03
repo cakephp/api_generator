@@ -185,7 +185,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'return' => 'integer'
 					)
 				),
-				'startLine' => '39',
+				'startLine' => '59',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'args' => array( ), 
@@ -220,7 +220,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'comment' => 'Second arg'
 					)
 				),
-				'startLine' => '50',
+				'startLine' => '70',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'access' => 'protected',
@@ -245,7 +245,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'comment' => 'a parameter'
 					)
 				),
-				'startLine' => '58',
+				'startLine' => '78',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__, 
 				'access' => 'public',

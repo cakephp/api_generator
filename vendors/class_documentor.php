@@ -1,6 +1,6 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.Introspector');
+App::import('Vendor', 'ApiGenerator.DocblockTools');
 
 /**
  * ClassDocumentor
@@ -166,7 +166,7 @@ class ClassDocumentor extends ReflectionClass {
 				'startLine' => $method->getStartLine(),
 				'declaredInClass' => $method->getDeclaringClass()->getName(),
 				'declaredInFile' => $method->getDeclaringClass()->getFileName(),
-				'signature' => Introspector::makeFunctionSignature($method),
+				'signature' => DocblockTools::makeFunctionSignature($method),
 				'isStatic' => $method->isStatic()
 			);
 
@@ -225,7 +225,7 @@ class ClassDocumentor extends ReflectionClass {
  * @return array Array of Filtered and separated comments
  **/
 	protected function _parseComment($comments){
-		return Introspector::parseDocBlock($comments);
+		return DocblockTools::parseDocBlock($comments);
 	}
 /**
  * Get all docs for the reflected class
