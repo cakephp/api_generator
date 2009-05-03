@@ -144,6 +144,36 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$this->assertEqual($result['scores'][1]['rule'], 'Empty');
 		$this->assertEqual($result['scores'][1]['score'], '0');
 	}
-
+/**
+ * test that the classInfo scoring works as intended.
+ *
+ * @return void
+ **/
+	function testClassInfoScoring() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+		
+		$this->assertEqual($result['classInfo']['subject'], 'classInfo');
+		$this->assertEqual($result['classInfo']['scores'][0]['rule'], 'MissingLink');
+		$this->assertEqual($result['classInfo']['scores'][1]['rule'], 'IncompleteTags');
+		$this->assertEqual($result['classInfo']['totalScore'], 0.5);
+	}
+/**
+ * test method scoring results.
+ *
+ * @return void
+ **/
+	function testMethodScoring() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+		
+		$this->assertEqual($result['methods'][0]['subject'], 'iHazNoDocz');
+		$this->assertEqual($result['methods'][0]['scores'][0]['rule'], 'MissingLink');
+		$this->assertEqual($result['methods'][0]['scores'][1]['rule'], 'Empty');
+		$this->assertEqual($result['methods'][0]['scores'][2]['rule'], 'IncompleteTags');
+		$this->assertEqual($result['methods'][0]['totalScore'], 0.25);
+	}
 }
 ?>
