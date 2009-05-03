@@ -15,15 +15,15 @@ class TestSubjectOne {
  **/
 	public $hasDoc;
 
-	public function iHazNoDocz() {
+	public function hasNoDocs() {
 
 	}
 /**
- * This func haz docz
+ * This func has docs
  *
  * @return void
  **/
-	public function iCanHazDocz() {
+	public function hasDocs() {
 
 	}
 /**
@@ -31,7 +31,7 @@ class TestSubjectOne {
  *
  * @return void
  **/
-	public function iHazNoParams($one, $two, $three) {
+	public function hasNoParams($one, $two, $three) {
 		
 	}
 /**
@@ -43,7 +43,7 @@ class TestSubjectOne {
  * @link http://mark-story.com
  * @return void
  **/
-	public function bestestFunc($one, $two, $three) {
+	public function bestFunction($one, $two, $three) {
 
 	}
 }
@@ -140,7 +140,7 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$result = $analyze->analyze($reflection);
 		$result = $result['methods'][0];
 
-		$this->assertEqual($result['subject'], 'iHazNoDocz');
+		$this->assertEqual($result['subject'], 'hasNoDocs');
 		$this->assertEqual($result['scores'][1]['rule'], 'Empty');
 		$this->assertEqual($result['scores'][1]['score'], '0');
 	}
@@ -169,11 +169,25 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$reflection = new ClassDocumentor('TestSubjectOne');
 		$result = $analyze->analyze($reflection);
 		
-		$this->assertEqual($result['methods'][0]['subject'], 'iHazNoDocz');
+		$this->assertEqual($result['methods'][0]['subject'], 'hasNoDocs');
 		$this->assertEqual($result['methods'][0]['scores'][0]['rule'], 'MissingLink');
 		$this->assertEqual($result['methods'][0]['scores'][1]['rule'], 'Empty');
 		$this->assertEqual($result['methods'][0]['scores'][2]['rule'], 'IncompleteTags');
 		$this->assertEqual($result['methods'][0]['totalScore'], 0.25);
+	}
+/**
+ * test property scoring results.
+ *
+ * @return void
+ **/
+	function testPropertyScoring() {
+		$analyze = new DocBlockAnalyzer();
+		$reflection = new ClassDocumentor('TestSubjectOne');
+		$result = $analyze->analyze($reflection);
+
+		$this->assertEqual($result['properties'][1]['subject'], 'hasDoc');
+		$this->assertEqual($result['properties'][1]['scores'][0]['rule'], 'MissingLink');
+		$this->assertEqual($result['properties'][1]['totalScore'], 0.75);
 	}
 }
 ?>
