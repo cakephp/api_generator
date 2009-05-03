@@ -173,6 +173,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$result = $this->ApiClass->savePseudoClassDocs($docs['function'], $file);
 		$this->assertTrue($result);
 	}
+
 /**
  * test the search implementation
  *
@@ -211,6 +212,7 @@ class ApiClassTestCase extends CakeTestCase {
 
 		$this->assertTrue($result['debug']['function']['debug'] instanceof FunctionDocumentor);
 	}
+
 /**
  * Test that files containing global functions always have the declaredInFile set to the file_name
  * in the index
@@ -223,5 +225,29 @@ class ApiClassTestCase extends CakeTestCase {
 		$result = $this->ApiClass->search('debug');
 		$filename = $result['debug']['function']['debug']->info['declaredInFile'];
 		$this->assertNoPattern('/test_basics/', $filename);
+	}
+/**
+ * test that after clearing index there are no entries left
+ *
+ * @return void
+ **/
+	function testClearIndex() {
+		$this->ApiClass->clearIndex();
+		$result = $this->ApiClass->find('all');
+		$this->assertFalse($result);
+	}
+/**
+ * Test that getting the class index works as expected and that the PSEUDO_CLASS flag works
+ *
+ * @return void
+ **/
+	function testGetClassIndex() {
+		$results = $this->ApiClass->getClassIndex();
+		$this->assertEqual(count($results), 8);
+		$this->assertFalse(in_array('basics.php', $results));
+		
+		$results = $this->ApiClass->getClassIndex(true);
+		$this->assertEqual(count($results), 9);
+		$this->assertTrue(in_array('basics.php', $results));
 	}
 }
