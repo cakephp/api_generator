@@ -1,30 +1,22 @@
 <?php
-/* SVN FILE: $Id$ */
 /**
  * Api Generator Plugin App Controller
  *
+ * PHP 5.2+
  *
- * PHP version 5
- *
- * CakePHP :  Rapid Development Framework <http://www.cakephp.org/>
- * Copyright 2006-2008, Cake Software Foundation, Inc.
- *								1785 E. Sahara Avenue, Suite 490-204
- *								Las Vegas, Nevada 89104
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright       Copyright 2006-2008, Cake Software Foundation, Inc.
- * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
- * @package         api_generator
- * @subpackage      api_generator.controllers
- * @since           
- * @version         
- * @modifiedby      
- * @lastmodified    
- * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
- */
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org
+ * @package       api_generator
+ * @subpackage    
+ * @since         ApiGenerator 0.1
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ **/
 class ApiGeneratorAppController extends AppController {
 /**
  * theme
@@ -42,6 +34,7 @@ class ApiGeneratorAppController extends AppController {
  * @return void
  **/
 	public function beforeFilter() {
+		parent::beforeFilter();
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->ApiConfig->read();
 		$path = $this->ApiConfig->getPath();

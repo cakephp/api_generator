@@ -1,30 +1,24 @@
 <?php
-/* SVN FILE: $Id$ */
 /**
  * Api Index generation shell
  *
  * Helps generate and maintain Api Class index.
  *
- * PHP versions 4 and 5
+ * PHP 5.2+
  *
- * CakePHP :  Rapid Development Framework <http://www.cakephp.org/>
- * Copyright 2006-2008, Cake Software Foundation, Inc.
- *								1785 E. Sahara Avenue, Suite 490-204
- *								Las Vegas, Nevada 89104
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright       Copyright 2006-2008, Cake Software Foundation, Inc.
- * @link            http://www.cakefoundation.org/projects/info/cakephp CakePHP Project
- * @package         cake
- * @subpackage      cake.
- * @version
- * @modifiedby
- * @lastmodified
- * @license         http://www.opensource.org/licenses/mit-license.php The MIT License
- */
+ * @copyright     Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org
+ * @package       api_generator
+ * @subpackage    api_generator.vendors.shells
+ * @since         ApiGenerator 0.1
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ **/
 /**
 * Api Index Shell
 */
@@ -290,20 +284,22 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 
 		$mapping = null;
-		while($mapping == null && $mapping != 'n') {
+		while ($mapping == null && $mapping != 'n') {
 			$class = $this->in('Class to map', '', 'n');
 			if ($class == 'n') {
 				$mapping = 'n';
 			} else {
 				$file = null;
-				while($file == null && $file != 'n') {
+				while ($file == null && $file != 'n') {
 					$file = $this->in('Enter the path to the file that holds ' . $class .'. this can be relative to the default path, or add a / in front to use an absolute path', '', $path);
 					if ($file[0] != '/') {
-						$file = $path. DS . $file;
+						$file = $path . DS . $file;
 					}
 					if (file_exists($file)) {
 						$mapping = true;
 						$config['mappings'][$class] = $file;
+					} else {
+						$this->out('File could not be found');
 					}
 				}
 				$stop = $this->in('Add another mapping?', array('y', 'n', 'q'), 'n');
@@ -328,7 +324,8 @@ class ApiIndexShell extends Shell {
 		if ($this->ApiConfig->save($string)) {
 			$this->out('The config was saved');
 		}
-		return $this->config = $config;
+		$this->config = $config;
+		return $config;
 	}
 	
 /**
