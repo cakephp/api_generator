@@ -134,6 +134,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'property_index' => 'foo',
 				'method_index' => 'testfunct extended',
 				'flags' => ApiClass::CONCRETE_CLASS,
+				'coverage_cache' => null,
 				'created' => $now,
 				'modified' => $now,
 			)	
@@ -154,6 +155,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'property_index' => 'onlyme',
 				'method_index' => 'primary extended',
 				'flags' => ApiClass::CONCRETE_CLASS,
+				'coverage_cache' => null,
 				'created' => $now,
 				'modified' => $now,
 			)	
@@ -249,5 +251,28 @@ class ApiClassTestCase extends CakeTestCase {
 		$results = $this->ApiClass->getClassIndex(true);
 		$this->assertEqual(count($results), 9);
 		$this->assertTrue(in_array('basics.php', $results));
+	}
+/**
+ * Test that DocBlockAnalyzer is correctly invoked
+ *
+ * @return void
+ **/
+	function testAnalyzeCoverage() {
+		// try with pseudo class file.
+		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
+		$result = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertFalse($result);
+		
+		//dispatcher class
+		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
+		$result = $this->ApiClass->analyzeCoverage($apiClass);
+
+		$this->assertTrue(isset($result['sectionTotals']['properties']));
+		$this->assertTrue(isset($result['sectionTotals']['methods']));
+		$this->assertTrue(isset($result['sectionTotals']['classInfo']));
+		
+		$this->ApiClass->cacheQueries = false;
+		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
+		$this->assertTrue(is_numeric($apiClass['ApiClass']['coverage_cache']));
 	}
 }
