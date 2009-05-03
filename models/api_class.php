@@ -289,6 +289,8 @@ class ApiClass extends ApiGeneratorAppModel {
  * 
  * @param array $apiClass An ApiClass record to be analyzed.
  * @return array Array of warnings / info / % complete
+ * @throws Exception  Throws exception if you are looking at a non-concrete class, of if there
+ *  was an error with analyzation.
  **/
 	public function analyzeCoverage($apiClass) {
 		App::import('Vendor', 'ApiGenerator.DocBlockAnalyzer');
@@ -304,7 +306,10 @@ class ApiClass extends ApiGeneratorAppModel {
 			$this->saveField('coverage_cache', $coverage['finalScore']);
 			return $coverage;
 		}
-		return false;
+		throw new Exception(sprintf(
+			__('%s is a pseudo class, and cannot have coverage generated', true),
+			$apiClass['ApiClass']['name']
+		));
 	}
 }
 ?>

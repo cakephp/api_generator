@@ -258,11 +258,6 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function testAnalyzeCoverage() {
-		// try with pseudo class file.
-		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
-		$result = $this->ApiClass->analyzeCoverage($apiClass);
-		$this->assertFalse($result);
-		
 		//dispatcher class
 		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
 		$result = $this->ApiClass->analyzeCoverage($apiClass);
@@ -274,5 +269,11 @@ class ApiClassTestCase extends CakeTestCase {
 		$this->ApiClass->cacheQueries = false;
 		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
 		$this->assertTrue(is_numeric($apiClass['ApiClass']['coverage_cache']));
+		
+		// try with pseudo class file.
+		$this->expectException();
+		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
+		$result = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertFalse($result);
 	}
 }
