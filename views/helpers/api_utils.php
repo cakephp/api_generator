@@ -70,19 +70,22 @@ class ApiUtilsHelper extends AppHelper {
 		$previous= FALSE;
 
 		/* Output Listing */
+		$numberLines = '';
+		$codeLines = '';
+
 		$return= "  <ol class=\"code\">\n";
 		foreach ($lines as $key => $line) {
 			if (substr($line, 0, 7) == '</span>') {
 				$previous= FALSE;
-				$line= substr($line, 7);
+				$line = substr($line, 7);
 			}
 
 			if (empty ($line)) {
-				$line= '&#160;';
+				$line = '&#160;';
 			}
 
 			if ($previous) {
-				$line= "<span class=\"$previous\">" . $line;
+				$line = "<span class=\"$previous\">" . $line;
 			}
 
 			/* Set Previous Style */
@@ -106,18 +109,28 @@ class ApiUtilsHelper extends AppHelper {
 			/* Unset Previous Style Unless Span Continues */
 			if (substr($line, -7) == '</span>') {
 				$previous= FALSE;
-			}
-			elseif ($previous) {
+			} elseif ($previous) {
 				$line .= '</span>';
 			}
 			$lineno = $key + 1;
 			if ($key % 2) {
-				$return .= "    <li class=\"even\"><a id=\"line-$lineno\"></a><code>$line</code></li>\n";
+				$codeLines .= "\t<div id=\"line-$lineno\" class=\"even\">$line</div>\n";
 			} else {
-				$return .= "    <li><a id=\"line-$lineno\"></a><code>$line</code></li>\n";
+				$codeLines .= "\t<div id=\"line-$lineno\">$line</div>\n";
 			}
+			$numberLines .= "<div id=\"l-$lineno\">$lineno</div>\n";
 		}
-		$return .= "  </ol>\n";
+		$table = <<<HTML
+<div class="code-container">
+<table class="code-block" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="line-numbers"><pre>%s</pre></td>
+		<td class="source-code"><pre>%s</pre></td>
+	</tr>
+</table>
+</div>
+HTML;
+		$return = sprintf($table, $numberLines, $codeLines);
 		return $return;
 	}
 /**
