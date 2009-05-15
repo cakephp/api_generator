@@ -354,6 +354,10 @@ Documentation Page Styles
 * html .inheritance-tree .parent-class {
 	padding-bottom: 15px;
 }
+/* IE 7 is also not so smart */
+* + html .inheritance-tree .parent-class {
+	padding-bottom: 15px;
+}
 
 /* visibility controls */
 .doc-controls a {
@@ -389,6 +393,12 @@ Documentation Page Styles
 	background-position: top left;
 	background-repeat:none;
 }
+/* IE7 is also stupid */
+* + html .access span {
+	background-position: top left;
+	background-repeat:none;
+}
+
 .protected span, 
 .protected-static span {
 	background-image: url(../img/icon_protected.gif);
