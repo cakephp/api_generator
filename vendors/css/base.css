@@ -487,17 +487,14 @@ ol.code {
 	padding: 0;
 	font-size: 10px;
 	line-height: 1.8em;
-	overflow: hidden;
 	color: #999999;
 	text-align: left;
 	list-style:decimal;
 	list-style-position: inside;
 	border: 1px solid #d3d3d0;
 	clear:both;
-	overflow-x:scroll;
 }
 ol.code li {
-	white-space: nowrap;
 	margin: 0;
 	padding: 0 0 0 1%;
 	background: #fff;
