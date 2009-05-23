@@ -514,19 +514,18 @@ Documentation Page Styles
 	text-align: right;
 	padding: 0 6px;
 	background: #f5f5f5;
-	color: #222;
+	color: #555;
 	font: 1.2em courier, monospace;
 	border:0;
 }
-
-/* Code region */
-.code-block .td {
-	padding: 0 0 0 10px;
+.code-block th a:hover {
+	background:none;
 }
 
+/* Code region */
 .code-block td {
+	padding: 0 0 0 10px;
 	margin: 0;
-	padding: 0;
 	background: #fff;
 	line-height: 1.5em;
 	height: 1.5em;
@@ -535,6 +534,11 @@ Documentation Page Styles
 }
 .code-block .even td { 
 	background: #fbfbfb; 
+}
+
+.code-block tr:hover td,
+.code-block tr:hover th {
+	background: #FFFEDA;
 }
 
 .code-block .comment { 

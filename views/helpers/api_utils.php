@@ -113,7 +113,7 @@ class ApiUtilsHelper extends AppHelper {
 			} else {
 				$htmlOut .= '<tr>';
 			}
-			$htmlOut .= "<th id=\"l-$lineno\">$lineno</th>\n";
+			$htmlOut .= "<th id=\"l-$lineno\"><a href=\"#l-$lineno\">$lineno</a></th>\n";
 			$htmlOut .= "\t<td id=\"line-$lineno\">$line</td>\n";
 		}
 		$table = <<<HTML
