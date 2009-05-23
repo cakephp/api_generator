@@ -70,10 +70,8 @@ class ApiUtilsHelper extends AppHelper {
 		$previous= FALSE;
 
 		/* Output Listing */
-		$numberLines = '';
-		$codeLines = '';
-
-		$return= "  <ol class=\"code\">\n";
+		$htmlOut = '';
+		
 		foreach ($lines as $key => $line) {
 			if (substr($line, 0, 7) == '</span>') {
 				$previous= FALSE;
@@ -84,6 +82,9 @@ class ApiUtilsHelper extends AppHelper {
 				$line = '&#160;';
 			}
 
+			if ($previous !== 'comment') {
+				//$line = str_replace('&nbsp;', ' ', $line);
+			}
 			if ($previous) {
 				$line = "<span class=\"$previous\">" . $line;
 			}
@@ -114,23 +115,21 @@ class ApiUtilsHelper extends AppHelper {
 			}
 			$lineno = $key + 1;
 			if ($key % 2) {
-				$codeLines .= "\t<div id=\"line-$lineno\" class=\"even\">$line</div>\n";
+				$htmlOut .= '<tr class="even">';
 			} else {
-				$codeLines .= "\t<div id=\"line-$lineno\">$line</div>\n";
+				$htmlOut .= '<tr>';
 			}
-			$numberLines .= "<div id=\"l-$lineno\">$lineno</div>\n";
+			$htmlOut .= "<th id=\"l-$lineno\">$lineno</th>\n";
+			$htmlOut .= "\t<td id=\"line-$lineno\">$line</td>\n";
 		}
 		$table = <<<HTML
 <div class="code-container">
 <table class="code-block" cellpadding="0" cellspacing="0">
-	<tr>
-		<td class="line-numbers"><pre>%s</pre></td>
-		<td class="source-code"><pre>%s</pre></td>
-	</tr>
+	%s
 </table>
 </div>
 HTML;
-		$return = sprintf($table, $numberLines, $codeLines);
+		$return = sprintf($table, $htmlOut);
 		return $return;
 	}
 /**
