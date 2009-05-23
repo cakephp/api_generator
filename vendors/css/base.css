@@ -181,7 +181,6 @@ h3 {
 	padding: 1em 5% 0;
 }
 
-
 .breadcrumb,
 .breadcrumb a {
 	font-family: Monaco, Corsiva, "Courier New", Courier, monospaced;
@@ -355,6 +354,10 @@ Documentation Page Styles
 * html .inheritance-tree .parent-class {
 	padding-bottom: 15px;
 }
+/* IE 7 is also not so smart */
+* + html .inheritance-tree .parent-class {
+	padding-bottom: 15px;
+}
 
 /* visibility controls */
 .doc-controls a {
@@ -390,6 +393,12 @@ Documentation Page Styles
 	background-position: top left;
 	background-repeat:none;
 }
+/* IE7 is also stupid */
+* + html .access span {
+	background-position: top left;
+	background-repeat:none;
+}
+
 .protected span, 
 .protected-static span {
 	background-image: url(../img/icon_protected.gif);
@@ -481,49 +490,73 @@ Documentation Page Styles
 #sidebar .class-index li {
 	font-size: 12px;
 }
+
 /**
 * Code highlighting
 ****************************/
-ol.code {
+.code-container {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #d3d3d0;
+}
+.code-block {
 	padding: 0;
 	font-size: 10px;
 	line-height: 1.8em;
-	overflow: hidden;
 	color: #999999;
-	text-align: left;
-	list-style:decimal;
-	list-style-position: inside;
-	border: 1px solid #d3d3d0;
-	clear:both;
-	overflow-x:scroll;
-}
-ol.code li {
-	white-space: nowrap;
 	margin: 0;
-	padding: 0 0 0 1%;
-	background: #fff;
 }
-ol.code li.even { 
+.code-block td {
+	border: 0;
+}
+
+/* Line numbers */
+.code-block th {
+	text-align: right;
+	padding: 0 6px;
+	background: #f5f5f5;
+	color: #555;
+	font: 1.2em courier, monospace;
+	border:0;
+}
+.code-block th a:hover {
+	background:none;
+}
+
+/* Code region */
+.code-block td {
+	padding: 0 0 0 10px;
+	margin: 0;
+	background: #fff;
+	line-height: 1.5em;
+	height: 1.5em;
+	font: 1.2em courier, monospace;
+	color: #c30;
+}
+.code-block .even td { 
 	background: #fbfbfb; 
 }
 
-ol.code li code {
-	font: 1.2em courier, monospace;
-	color: #c30;
-	white-space: pre;
-	padding-left: 0.5em;
+.code-block tr:hover td,
+.code-block tr:hover th {
+	background: #FFFEDA;
 }
-.code .comment { 
-	color: #838389; 
+
+.code-block .comment { 
+	color: #838389;
+	white-space:pre;
 }
-.code .default { 
-	color: #44c; 
+.code-block .default { 
+	color: #44c;
+	white-space:pre;
 }
-.code .keyword { 
+.code-block .keyword { 
 	color: #373; 
+	white-space:pre;
 }
-.code .string { 
+.code-block .string { 
 	color: #c30; 
+	white-space:pre;
 }
 
 /**

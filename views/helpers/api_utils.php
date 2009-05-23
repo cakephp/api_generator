@@ -76,11 +76,8 @@ class ApiUtilsHelper extends AppHelper {
 		if (phpversion() >= 5) {
 			$code= substr($code, 33, -15);
 			$code= str_replace('<span style="color: ', '<span class="', $code);
-		} else {
-			$code= substr($code, 25, -15);
-			$code= str_replace('<font color=', '<span class=', $code);
-			$code= str_replace('</font>', '</span>', $code);
 		}
+
 		$code= str_replace('&nbsp;', ' ', $code);
 		$code= str_replace('&amp;', '&#38;', $code);
 		$code= str_replace('<br />', "\n", $code);
@@ -94,19 +91,20 @@ class ApiUtilsHelper extends AppHelper {
 		$previous= FALSE;
 
 		/* Output Listing */
-		$return= "  <ol class=\"code\">\n";
+		$htmlOut = '';
+		
 		foreach ($lines as $key => $line) {
 			if (substr($line, 0, 7) == '</span>') {
 				$previous= FALSE;
-				$line= substr($line, 7);
+				$line = substr($line, 7);
 			}
 
 			if (empty ($line)) {
-				$line= '&#160;';
+				$line = '&#160;';
 			}
 
 			if ($previous) {
-				$line= "<span class=\"$previous\">" . $line;
+				$line = "<span class=\"$previous\">" . $line;
 			}
 
 			/* Set Previous Style */
@@ -130,18 +128,26 @@ class ApiUtilsHelper extends AppHelper {
 			/* Unset Previous Style Unless Span Continues */
 			if (substr($line, -7) == '</span>') {
 				$previous= FALSE;
-			}
-			elseif ($previous) {
+			} elseif ($previous) {
 				$line .= '</span>';
 			}
 			$lineno = $key + 1;
 			if ($key % 2) {
-				$return .= "    <li class=\"even\"><a id=\"line-$lineno\"></a><code>$line</code></li>\n";
+				$htmlOut .= '<tr class="even">';
 			} else {
-				$return .= "    <li><a id=\"line-$lineno\"></a><code>$line</code></li>\n";
+				$htmlOut .= '<tr>';
 			}
+			$htmlOut .= "<th id=\"l-$lineno\"><a href=\"#l-$lineno\">$lineno</a></th>\n";
+			$htmlOut .= "\t<td id=\"line-$lineno\">$line</td>\n";
 		}
-		$return .= "  </ol>\n";
+		$table = <<<HTML
+<div class="code-container">
+<table class="code-block" cellpadding="0" cellspacing="0">
+	%s
+</table>
+</div>
+HTML;
+		$return = sprintf($table, $htmlOut);
 		return $return;
 	}
 
