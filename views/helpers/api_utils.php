@@ -52,11 +52,8 @@ class ApiUtilsHelper extends AppHelper {
 		if (phpversion() >= 5) {
 			$code= substr($code, 33, -15);
 			$code= str_replace('<span style="color: ', '<span class="', $code);
-		} else {
-			$code= substr($code, 25, -15);
-			$code= str_replace('<font color=', '<span class=', $code);
-			$code= str_replace('</font>', '</span>', $code);
 		}
+
 		$code= str_replace('&nbsp;', ' ', $code);
 		$code= str_replace('&amp;', '&#38;', $code);
 		$code= str_replace('<br />', "\n", $code);
@@ -82,9 +79,6 @@ class ApiUtilsHelper extends AppHelper {
 				$line = '&#160;';
 			}
 
-			if ($previous !== 'comment') {
-				//$line = str_replace('&nbsp;', ' ', $line);
-			}
 			if ($previous) {
 				$line = "<span class=\"$previous\">" . $line;
 			}
