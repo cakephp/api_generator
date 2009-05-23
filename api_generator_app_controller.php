@@ -47,12 +47,14 @@ class ApiGeneratorAppController extends AppController {
 		$localePaths[] = dirname(__FILE__) . DS . 'locale';
 		Configure::write('localePaths',$localePaths);
 	}
+
 /**
  * Error Generating Page.
+ * Needs to be public for Security Blackhole.
  *
  * @return void
  **/
-	protected function _notFound($name = null, $message = null) {
+	public function _notFound($name = null, $message = null) {
 		$name = ($name) ? $name : 'Page Not Found';
 		$message = ($message) ? $message : $this->params['url']['url'];
 		$this->cakeError('error', array(

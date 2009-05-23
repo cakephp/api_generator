@@ -57,7 +57,9 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 			$this->Security->loginUsers = $this->ApiFile->ApiConfig->data['users'];
 		}
 		$this->Security->loginOptions = array('type' => 'basic');
+		$this->Security->blackHoleCallback = '_notFound';
 		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage', 'admin_calculate_coverage');
+		
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.
@@ -250,6 +252,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		$this->helpers[] = 'Number';
 		$this->set(compact('apiClass', 'analysis', 'backwards'));
 	}
+
 /**
  * Calculates the coverage for a class, Used via XHR to get coverage as user
  * looks at index page.
@@ -257,7 +260,12 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  * @return void
  **/
 	public function admin_calculate_coverage($id = null) {
-		$this->Toolbar->enabled = false;
+		if (!$this->RequestHandler->isAjax()) {
+			$this->_notFound(__('Invalid request.', true));
+		}
+		if (isset($this->Toolbar)) {
+			$this->Toolbar->enabled = false;
+		}
 		$apiClass = $this->ApiClass->findById($id);
 		if (empty($apiClass)) {
 			$this->_notFound(__('No class exists with that name', true));
@@ -265,7 +273,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
 		try {
 			$analysis = $this->ApiClass->analyzeCoverage($apiClass);
 		} catch(Exception $e) {
-			$this->_notFound($e->getMessage());
+			$analysis = $e->getMessage();
 		}
 		$this->set(compact('analysis', 'id'));
 	}
