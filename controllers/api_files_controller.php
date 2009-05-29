@@ -23,7 +23,7 @@ class ApiGeneratorController extends ApiGeneratorAppController {
  *
  * @var string
  */
-	public $name = 'ApiGenerator';
+	public $name = 'ApiFiles';
 /**
  * Uses array
  *
