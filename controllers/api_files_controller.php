@@ -35,31 +35,13 @@ class ApiFilesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $components = array('RequestHandler', 'Security');
+	public $components = array('RequestHandler');
 /**
  * Helpers
  *
  * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
-
-/**
- * beforeFilter callback
- *
- * @return void
- **/
-	public function beforeFilter() {
-		parent::beforeFilter();
-		
-		$this->ApiFile->ApiConfig->read();
-		
-		if (isset($this->ApiFile->ApiConfig->data['users'])) {
-			$this->Security->loginUsers = $this->ApiFile->ApiConfig->data['users'];
-		}
-		$this->Security->loginOptions = array('type' => 'basic');
-		$this->Security->blackHoleCallback = '_notFound';
-		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage', 'admin_calculate_coverage');
-	}
 
 /**
  * Extract all the useful config info out of the ApiConfig.
