@@ -7,7 +7,7 @@
 <div id="header-search">
 <?php echo $form->create('ApiClass', array(
 	'url' => array(
-		'plugin' => 'api_generator', 'controller' => 'api_generator',
+		'plugin' => 'api_generator', 'controller' => 'api_classes',
 		'action' => 'search'
 	),
 	'type' => 'get',

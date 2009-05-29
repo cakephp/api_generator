@@ -42,7 +42,7 @@
 			if ($apiDoc->inClassIndex($pseudoClass)):
 				__(' on line ');
 				echo $html->link($doc->info['startLine'], array(
-					'controller' => 'api_generator',
+					'controller' => 'api_classes',
 					'action' => 'view_source', 
 					$pseudoClass,
 					'#line-'. $doc->info['startLine']

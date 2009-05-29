@@ -80,7 +80,7 @@ endforeach;
 		<?php foreach ($classes as $slug => $name): ?>
 			<li><?php
 				echo $html->link($name, array(
-					'plugin' => 'api_generator', 'controller' => 'api_generator',
+					'plugin' => 'api_generator', 'controller' => 'api_classes',
 					'action' => 'view_class', $slug));
 			?></li>
 		<?php endforeach; ?>

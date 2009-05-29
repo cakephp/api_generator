@@ -10,7 +10,7 @@
 	<li class="class">
 		<?php 
 		echo $html->link($name, array(
-			'plugin' => 'api_generator', 'controller' => 'api_generator',
+			'plugin' => 'api_generator', 'controller' => 'api_classes',
 			'action' => 'view_class', $slug
 		));
 	?></li>
