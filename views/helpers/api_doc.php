@@ -62,7 +62,7 @@ class ApiDocHelper extends AppHelper {
  **/
 	public function __construct($config = array()) {
 		$view = ClassRegistry::getObject('view');
-		$this->_basePath = $view->getVar('basePath');
+		$this->setBasePath($view->getVar('basePath'));
 	}
 /**
  * set the basePath
@@ -70,7 +70,7 @@ class ApiDocHelper extends AppHelper {
  * @return void
  **/
 	public function setBasePath($path) {
-		$this->_basePath = $path;
+		$this->_basePath = realpath($path);
 	}
 /**
  * inBasePath
@@ -106,7 +106,9 @@ class ApiDocHelper extends AppHelper {
  * @return string trimmed filename
  **/
 	public function trimFileName($filename) {
-		return str_replace($this->_basePath, '', $filename);
+		if ($this->inBasePath($filename)) {
+			return str_replace($this->_basePath, '', $filename);
+		}
 	}
 /**
  * Set the Class list so that linkClassName will know which classes are in the index.
