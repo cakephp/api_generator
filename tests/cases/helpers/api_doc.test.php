@@ -53,12 +53,13 @@ class ApiDocHelperTestCase extends CakeTestCase {
  **/
 	function testTrimFileName() {
 		$result = $this->ApiDoc->trimFileName($this->_pluginPath . '/tests/cases/helpers/api_doc.test.php');
-		$this->assertEqual($result, '/tests/cases/helpers/api_doc.test.php');
+		$this->assertEqual($result, 'tests/cases/helpers/api_doc.test.php');
 
 		$result = $this->ApiDoc->trimFileName('/some/other/path/tests/cases/helpers/api_doc.test.php');
-		$expected = '/tests/cases/helpers/api_doc.test.php';
+		$expected = 'tests/cases/helpers/api_doc.test.php';
 		$this->assertEqual($result, $expected, 'Trim path with different bases is not working %s');
 	}
+
 /**
  * testFileLink
  *
@@ -75,7 +76,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$result = $this->ApiDoc->fileLink($testFile);
 		$expected = array(
 			'a' => array('href' => '/api_generator/view_file/views/helpers/api_doc.php'),
-			'preg:/\/views\/helpers\/api_doc.php/',
+			'views/helpers/api_doc.php',
 			'/a'
 		);
 		$this->assertTags($result, $expected);
@@ -83,7 +84,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$result = $this->ApiDoc->fileLink($testFile, array('controller' => 'foo', 'action' => 'bar'));
 		$expected = array(
 			'a' => array('href' => '/api_generator/foo/bar/views/helpers/api_doc.php'),
-			'preg:/\/views\/helpers\/api_doc.php/',
+			'views/helpers/api_doc.php',
 			'/a'
 		);
 		$this->assertTags($result, $expected);
