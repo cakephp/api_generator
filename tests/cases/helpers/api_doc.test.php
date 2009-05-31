@@ -54,6 +54,10 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testTrimFileName() {
 		$result = $this->ApiDoc->trimFileName($this->_pluginPath . '/tests/cases/helpers/api_doc.test.php');
 		$this->assertEqual($result, '/tests/cases/helpers/api_doc.test.php');
+
+		$result = $this->ApiDoc->trimFileName('/some/other/path/tests/cases/helpers/api_doc.test.php');
+		$expected = '/tests/cases/helpers/api_doc.test.php';
+		$this->assertEqual($result, $expected, 'Trim path with different bases is not working %s');
 	}
 /**
  * testFileLink

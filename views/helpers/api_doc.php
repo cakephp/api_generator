@@ -109,7 +109,37 @@ class ApiDocHelper extends AppHelper {
 		if ($this->inBasePath($filename)) {
 			return str_replace($this->_basePath, '', $filename);
 		}
+		$realPath = $this->_searchBasePath($filename);
+		if ($this->inBasePath($realPath)) {
+			return $this->trimFileName($realPath);
+		}
+		return $filename;
 	}
+
+/**
+ * Will break a filename up and scan through the basePath for 
+ * any possible matches.
+ *
+ * @return string Adjusted path.
+ **/
+	protected function _searchBasePath($filename) {
+		$pathBits = explode(DS, $filename);
+		$currentPath = $testPath = $this->_basePath;
+		while (!empty($pathBits)) {
+			$pathSegment = array_shift($pathBits);
+			$testPath .= $pathSegment;
+			if (count($pathBits)) {
+				$testPath .= DS;
+			}
+			if (is_dir($testPath) || file_exists($testPath)) {
+				$currentPath = $testPath;
+			} else {
+				$testPath = $currentPath;
+			}
+		}
+		return $currentPath;
+	}
+
 /**
  * Set the Class list so that linkClassName will know which classes are in the index.
  *
