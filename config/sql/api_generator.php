@@ -42,4 +42,18 @@ class ApiGeneratorSchema extends CakeSchema {
 		'created' => array('type' => 'datetime'),
 		'modified' => array('type' => 'datetime'),
 	);
+/**
+ * api_packages table definition
+ *
+ * @var array_change_key_case
+ **/
+	public $api_packages = array(
+		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
+		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
+		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
+		'lft' => array('type' => 'integer'),
+		'rght' => array('type' => 'integer'),
+		'created' => array('type' => 'datetime'),
+		'modified' => array('type' => 'datetime')
+	);
 }

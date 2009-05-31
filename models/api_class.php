@@ -43,7 +43,19 @@ class ApiClass extends ApiGeneratorAppModel {
 				'rule' => 'numeric',
 				'message' => 'Flags are numeric only',
 			)
-		),
+		)
+	);
+
+/**
+ * belongsTo assoc
+ *
+ * @var array
+ **/
+	public $belongsTo = array(
+		'ApiPackage' => array(
+			'className' => 'ApiGenerator.ApiPackage',
+			'foreign_key' => 'api_class_id',
+		)
 	);
 /**
  * Flag bitmask for Pseudo classes (files with global functions)
