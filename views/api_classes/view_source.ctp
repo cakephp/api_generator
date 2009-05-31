@@ -5,6 +5,6 @@
  */
 $this->pageTitle = $apiDoc->trimFileName($filename);
 ?>
-<h1><?php echo $filename; ?></h1>
+<h1><?php echo $apiDoc->trimFileName($filename); ?></h1>
 
 <?php echo $apiUtils->highlight($contents); ?>

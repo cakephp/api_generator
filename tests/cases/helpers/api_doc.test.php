@@ -30,9 +30,10 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
+		$this->_pluginPath = dirname(dirname(dirname(dirname(__FILE__))));
 		$controller = new Controller();
 		$view = new View($controller);
-		$view->set('basePath', '/cake/tests/');
+		$view->set('basePath', $this->_pluginPath);
 		$this->ApiDoc = new ApiDocHelper();
 		$this->ApiDoc->Html = new HtmlHelper();
 	}
@@ -42,8 +43,8 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function testInBasePath() {
-		$this->assertFalse($this->ApiDoc->inBasePath('/foo/bar/path'));
-		$this->assertTrue($this->ApiDoc->inBasePath('/cake/tests/my/path'));
+		$this->assertFalse($this->ApiDoc->inBasePath('/some/random/path'));
+		$this->assertTrue($this->ApiDoc->inBasePath(__FILE__));
 	}
 /**
  * undocumented function
@@ -51,16 +52,16 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function testTrimFileName() {
-		$result = $this->ApiDoc->trimFileName('/cake/tests/my/path');
-		$this->assertEqual($result, 'my/path');
+		$result = $this->ApiDoc->trimFileName($this->_pluginPath . '/tests/cases/helpers/api_doc.test.php');
+		$this->assertEqual($result, '/tests/cases/helpers/api_doc.test.php');
 
-		$this->ApiDoc->setBasePath('/Users/markstory/Sites/cake_debug_kit/');
-		$result = $this->ApiDoc->trimFileName('/Users/markstory/Sites/cake_debug_kit/controllers/posts_controller.php');
-		$this->assertEqual($result, 'controllers/posts_controller.php');
+		$result = $this->ApiDoc->trimFileName('/some/other/path/tests/cases/helpers/api_doc.test.php');
+		$expected = '/tests/cases/helpers/api_doc.test.php';
+		$this->assertEqual($result, $expected, 'Trim path with different bases is not working %s');
 	}
 /**
  * testFileLink
- * 
+ *
  * Test file link / no link based on base path of file.
  *
  * @return void
@@ -68,23 +69,24 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testFileLink() {
 		$result = $this->ApiDoc->fileLink('/foo/bar');
 		$this->assertEqual($result, '/foo/bar');
-		
-		$result = $this->ApiDoc->fileLink('/cake/tests/my/path');
+
+		$testFile = $this->_pluginPath . '/views/helpers/api_doc.php';
+
+		$result = $this->ApiDoc->fileLink($testFile);
 		$expected = array(
-			'a' => array('href' => '/api_generator/view_file/my/path'),
-			'my/path',
+			'a' => array('href' => '/api_generator/view_file/views/helpers/api_doc.php'),
+			'preg:/\/views\/helpers\/api_doc.php/',
 			'/a'
 		);
 		$this->assertTags($result, $expected);
 
-		$result = $this->ApiDoc->fileLink('/cake/tests/my/path', array('controller' => 'foo', 'action' => 'bar'));
+		$result = $this->ApiDoc->fileLink($testFile, array('controller' => 'foo', 'action' => 'bar'));
 		$expected = array(
-			'a' => array('href' => '/api_generator/foo/bar/my/path'),
-			'my/path',
+			'a' => array('href' => '/api_generator/foo/bar/views/helpers/api_doc.php'),
+			'preg:/\/views\/helpers\/api_doc.php/',
 			'/a'
 		);
 		$this->assertTags($result, $expected);
-		
 	}
 /**
  * endTest
