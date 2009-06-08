@@ -70,7 +70,7 @@ class ApiDocHelper extends AppHelper {
  * @return void
  **/
 	public function setBasePath($path) {
-		$this->_basePath = realpath($path);
+		$this->_basePath = Folder::slashTerm(realpath($path));
 	}
 /**
  * inBasePath
@@ -92,10 +92,10 @@ class ApiDocHelper extends AppHelper {
  **/
 	public function fileLink($filename, $url = array(), $attributes = array()) {
 		$url = array_merge($this->_defaultUrl['file'], $url);
-		if ($this->inBasePath($filename)) {
-			$trimmedName = $this->trimFileName($filename);
-			$url[] = $trimmedName;
-			return $this->Html->link($trimmedName, $url, $attributes);
+		$trimmedFile = $this->trimFileName($filename);
+		if (!empty($trimmedFile) && $trimmedFile != $filename) {
+			$url[] = $trimmedFile;
+			return $this->Html->link($trimmedFile, $url, $attributes);
 		}
 		return $filename;
 	}
@@ -127,6 +127,9 @@ class ApiDocHelper extends AppHelper {
 		$currentPath = $testPath = $this->_basePath;
 		while (!empty($pathBits)) {
 			$pathSegment = array_shift($pathBits);
+			if (empty($pathSegment)) {
+				continue;
+			}
 			$testPath .= $pathSegment;
 			if (count($pathBits)) {
 				$testPath .= DS;
