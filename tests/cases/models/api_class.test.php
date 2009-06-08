@@ -91,7 +91,7 @@ class ApiClassTestCase extends CakeTestCase {
  *
  * @var string
  **/
-	var $fixtures = array('plugin.api_generator.api_class');
+	var $fixtures = array('plugin.api_generator.api_class', 'plugin.api_generator.api_package');
 /**
  * startTest
  *

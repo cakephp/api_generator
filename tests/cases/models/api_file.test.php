@@ -72,7 +72,7 @@ class ApiFileTestCase extends CakeTestCase {
 
 		$this->ApiFile->excludeFiles[] = 'api_class.php';
 		$result = $this->ApiFile->read($this->_path . DS . 'models');
-		$expected = array('api_config.php', 'api_file.php');
+		$expected = array('api_config.php', 'api_file.php', 'api_package.php');
 		$this->assertEqual($result[1], $expected);
 
 		$this->ApiFile->excludeDirectories = array('models', 'controllers');

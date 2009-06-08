@@ -28,6 +28,15 @@ class ApiPackage extends ApiGeneratorAppModel {
 	public $name = 'ApiPackage';
 
 /**
+ * actsAs
+ *
+ * @var array
+ **/
+	public $actsAs = array(
+		'Tree'
+	);
+
+/**
  * hasMany assocs
  *
  * @var array
