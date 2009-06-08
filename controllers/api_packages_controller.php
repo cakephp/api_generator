@@ -39,4 +39,14 @@ class ApiPackagesController extends ApiGeneratorAppController {
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
 
+/**
+ * Index of Packages + subpackages.
+ *
+ * @return void
+ **/
+	public function index() {
+		$packageIndex = $this->ApiPackage->getPackageIndex();
+		$this->set('packageIndex', $packageIndex);
+	}
+
 }

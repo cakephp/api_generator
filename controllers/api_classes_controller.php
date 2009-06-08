@@ -173,7 +173,7 @@ class ApiClassesController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function admin_class_index() {
+	public function admin_index() {
 		$this->set('apiClasses', $this->paginate('ApiClass'));
 	}
 
