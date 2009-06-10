@@ -45,6 +45,22 @@ class ApiPackage extends ApiGeneratorAppModel {
 		'ApiClass' => array(
 			'className' => 'ApiGenerator.ApiClass',
 			'foreignKey' => 'api_package_id',
+		),
+		'ChildPackage' => array(
+			'className' => 'ApiGenerator.ApiPackage',
+			'foreignKey' => 'parent_id',
+		)
+	);
+
+/**
+ * belongsTo assocs
+ *
+ * @var string
+ **/
+	public $belongsTo = array(
+		'ParentPackage' => array(
+			'className' => 'ApiGenerator.ApiPackage',
+			'foreignKey' => 'parent_id',
 		)
 	);
 
