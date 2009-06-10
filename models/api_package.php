@@ -44,7 +44,18 @@ class ApiPackage extends ApiGeneratorAppModel {
 	public $hasMany = array(
 		'ApiClass' => array(
 			'className' => 'ApiGenerator.ApiClass',
-			'foreignKey' => 'api_class_id',
+			'foreignKey' => 'api_package_id',
 		)
 	);
+
+/**
+ * get the package index tree.
+ *
+ * @return array Array of nested packages.
+ **/
+	public function getPackageIndex() {
+		return $this->find('threaded', array(
+			'recursive' => -1
+		));
+	}
 }

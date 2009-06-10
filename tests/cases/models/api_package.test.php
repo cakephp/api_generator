@@ -70,6 +70,18 @@ class ApiPackageTestCase extends CakeTestCase {
  **/
 	function endTest() {
 		unset($this->ApiPackage);
+		ClassRegistry::flush();
 	}
 
+/**
+ * test getting the package index tree
+ *
+ * @return void
+ **/
+	function testPackageIndex() {
+		$result = $this->ApiPackage->getPackageIndex();
+
+		$this->assertFalse(isset($result[0]['ApiClass']), 'ApiClass has snuck in, big queries are happening %s');
+		$this->assertTrue(isset($result[0]['children']), 'No children, might not be a tree %s');
+	}
 }

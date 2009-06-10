@@ -21,6 +21,7 @@ class ApiClassFixture extends CakeTestFixture {
 	var $name = 'ApiClass';
 	var $fields = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
+		'api_package_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => true),
 		'name' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'file_name' => array('type' => 'text'),
@@ -35,8 +36,9 @@ class ApiClassFixture extends CakeTestFixture {
 var $records = array(
 	array(
 		'id' => '498cee77-97c8-441a-99c3-80ed87460ad7', 
+		'api_package_id' => null,
 		'name' => 'basics.php', 
-		'slug' => 'basics.php', 
+		'slug' => 'basics.php',
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/basics.php', 
 		'method_index' => 'config uses debug getMicrotime sortByKey h a aa e low up r pr params am env cache clearCache stripslashes_deep __ __n __d __dn __dc __dcn __c LogError fileExistsInPath convertSlash ife', 
 		'property_index' => NULL,
@@ -46,7 +48,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-ddbc-4f12-b457-80ed87460ad7', 
+		'id' => '498cee77-ddbc-4f12-b457-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'Dispatcher', 
 		'slug' => 'dispatcher', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/dispatcher.php', 
@@ -58,7 +61,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-68c4-4eb7-ba8b-80ed87460ad7', 
+		'id' => '498cee77-68c4-4eb7-ba8b-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'Router', 
 		'slug' => 'router', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/router.php', 
@@ -70,7 +74,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-a45c-4de0-a25c-80ed87460ad7', 
+		'id' => '498cee77-a45c-4de0-a25c-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'ShellDispatcher', 
 		'slug' => 'shell-dispatcher', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/cake.php', 
@@ -82,7 +87,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-9da8-48e3-b6ab-80ed87460ad7', 
+		'id' => '498cee77-9da8-48e3-b6ab-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'ErrorHandler', 
 		'slug' => 'error-handler', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/error.php', 
@@ -94,7 +100,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-0360-4c44-8dcd-80ed87460ad7', 
+		'id' => '498cee77-0360-4c44-8dcd-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'AclComponent', 
 		'slug' => 'acl-component', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
@@ -106,7 +113,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-e1c4-4819-9bcb-80ed87460ad7', 
+		'id' => '498cee77-e1c4-4819-9bcb-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'AclBase', 
 		'slug' => 'acl-base', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
@@ -118,7 +126,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-4f84-4e22-b809-80ed87460ad7', 
+		'id' => '498cee77-4f84-4e22-b809-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'DbAcl', 
 		'slug' => 'db-acl', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
@@ -130,7 +139,8 @@ var $records = array(
 		'modified' => '2009-02-06 21:14:15'
 	),
 	array(
-		'id' => '498cee77-e330-422b-bdca-80ed87460ad7', 
+		'id' => '498cee77-e330-422b-bdca-80ed87460ad7',
+		'api_package_id' => null,
 		'name' => 'IniAcl', 
 		'slug' => 'ini-acl', 
 		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 

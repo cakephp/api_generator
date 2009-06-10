@@ -32,6 +32,7 @@ class ApiGeneratorSchema extends CakeSchema {
  */
 	public $api_classes = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
+		'api_package_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => true, 'key' => 'index'),
 		'name' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 200, 'null' => false),
 		'file_name' => array('type' => 'text'),
@@ -41,6 +42,10 @@ class ApiGeneratorSchema extends CakeSchema {
 		'coverage_cache' => array('type' => 'float', 'length' => '4,4'),
 		'created' => array('type' => 'datetime'),
 		'modified' => array('type' => 'datetime'),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => true),
+			'api_package_id' => array('column' => 'api_package_id', 'unique' => false),
+		)
 	);
 /**
  * api_packages table definition
@@ -49,11 +54,16 @@ class ApiGeneratorSchema extends CakeSchema {
  **/
 	public $api_packages = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
+		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'index'),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),
 		'rght' => array('type' => 'integer'),
 		'created' => array('type' => 'datetime'),
-		'modified' => array('type' => 'datetime')
+		'modified' => array('type' => 'datetime'),
+		'indexes' => array(
+			'PRIMARY' => array('column' => 'id', 'unique' => true),
+			'parent_id' => array('column' => 'parent_id', 'unique' => false),
+		)
 	);
 }

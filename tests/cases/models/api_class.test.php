@@ -128,6 +128,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$expected = array(
 			'ApiClass' => array(
 				'id' => $this->ApiClass->id,
+				'api_package_id' => null,
 				'name' => 'ApiClassSampleClass',
 				'slug' => 'api-class-sample-class',
 				'file_name' => __FILE__,
@@ -137,9 +138,9 @@ class ApiClassTestCase extends CakeTestCase {
 				'coverage_cache' => null,
 				'created' => $now,
 				'modified' => $now,
-			)	
+			)
 		);
-		$this->assertEqual($result, $expected);
+		$this->assertEqual($result['ApiClass'], $expected['ApiClass']);
 		
 		$docs = new ClassDocumentor('ApiClassSampleClassChild');
 		$result = $this->ApiClass->saveClassDocs($docs);
@@ -149,6 +150,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$expected = array(
 			'ApiClass' => array(
 				'id' => $this->ApiClass->id,
+				'api_package_id' => null,
 				'name' => 'ApiClassSampleClassChild',
 				'slug' => 'api-class-sample-class-child',
 				'file_name' => __FILE__,
@@ -160,7 +162,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'modified' => $now,
 			)	
 		);
-		$this->assertEqual($result, $expected);
+		$this->assertEqual($result['ApiClass'], $expected['ApiClass']);
 	}
 /**
  * test Saving of pseudo classes

@@ -21,6 +21,7 @@ class ApiPackageFixture extends CakeTestFixture {
 	var $name = 'ApiPackage';
 	var $fields = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
+		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),
@@ -30,7 +31,56 @@ class ApiPackageFixture extends CakeTestFixture {
 	);
 
 var $records = array(
-
+	array(
+		'id' => 1,
+		'parent_id' => null,
+		'name' => 'cake',
+		'slug' => 'cake',
+		'lft' => 1,
+		'rght' => 10,
+		'created' => '2009-01-01 12:00:00',
+		'modified' => '2009-01-01 12:00:00'
+	),
+	array(
+		'id' => 2,
+		'parent_id' => 1,
+		'name' => 'controller',
+		'slug' => 'controller',
+		'lft' => 2,
+		'rght' => 5,
+		'created' => '2009-01-01 12:00:00',
+		'modified' => '2009-01-01 12:00:00'
+	),
+	array(
+		'id' => 3,
+		'parent_id' => 2,
+		'name' => 'component',
+		'slug' => 'component',
+		'lft' => 3,
+		'rght' => 4,
+		'created' => '2009-01-01 12:00:00',
+		'modified' => '2009-01-01 12:00:00'
+	),
+	array(
+		'id' => 4,
+		'parent_id' => 1,
+		'name' => 'model',
+		'slug' => 'model',
+		'lft' => 6,
+		'rght' => 7,
+		'created' => '2009-01-01 12:00:00',
+		'modified' => '2009-01-01 12:00:00'
+	),
+	array(
+		'id' => 5,
+		'parent_id' => 4,
+		'name' => 'behavior',
+		'slug' => 'behavior',
+		'lft' => 8,
+		'rght' => 9,
+		'created' => '2009-01-01 12:00:00',
+		'modified' => '2009-01-01 12:00:00'
+	)
 );
 }
 ?>
