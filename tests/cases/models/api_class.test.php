@@ -33,7 +33,7 @@ class ApiClassSampleClass {
 	public $foo = '';
 /**
  * Test Function in Sample class
- * 
+ *
  * @param string $one First parameter
  * @param string $two Second parameter
  * @return boolean
@@ -43,7 +43,7 @@ class ApiClassSampleClass {
 	}
 /**
  * non-extended method
- * 
+ *
  * @return boolean
  **/
 	public function extended() {
@@ -68,11 +68,11 @@ class ApiClassSampleClassChild extends ApiClassSampleClass {
  * @return void
  **/
 	public function primary() {
-		
+
 	}
 /**
  * extended-method this time
- * 
+ *
  * @return void
  **/
 	public function extended() {
@@ -100,7 +100,7 @@ class ApiClassTestCase extends CakeTestCase {
 	function startTest() {
 		$this->_path = APP . 'plugins' . DS . 'api_generator';
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
-		
+
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiClass = ClassRegistry::init('ApiClass');
 	}
@@ -119,10 +119,10 @@ class ApiClassTestCase extends CakeTestCase {
  **/
 	function testSaveClassDocs() {
 		$docs = new ClassDocumentor('ApiClassSampleClass');
-		
+
 		$result = $this->ApiClass->saveClassDocs($docs);
 		$this->assertTrue($result);
-		
+
 		$result = $this->ApiClass->read();
 		$now = date('Y-m-d H:i:s');
 		$expected = array(
@@ -141,7 +141,7 @@ class ApiClassTestCase extends CakeTestCase {
 			)
 		);
 		$this->assertEqual($result['ApiClass'], $expected['ApiClass']);
-		
+
 		$docs = new ClassDocumentor('ApiClassSampleClassChild');
 		$result = $this->ApiClass->saveClassDocs($docs);
 		$this->assertTrue($result);
@@ -160,7 +160,7 @@ class ApiClassTestCase extends CakeTestCase {
 				'coverage_cache' => null,
 				'created' => $now,
 				'modified' => $now,
-			)	
+			)
 		);
 		$this->assertEqual($result['ApiClass'], $expected['ApiClass']);
 	}
@@ -188,28 +188,28 @@ class ApiClassTestCase extends CakeTestCase {
 		$result = $this->ApiClass->search('Dispatcher');
 		$this->assertEqual(count($result), 2);
 		$this->assertEqual(array_keys($result), array('Dispatcher', 'ShellDispatcher'));
-		
+
 		//test by partial slug
 		$result = $this->ApiClass->search('acl-com');
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual(array_keys($result), array('AclComponent'));
-		
+
 		//test by partial property match
 		$result = $this->ApiClass->search('lidexten');
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual(array_keys($result), array('Router'));
-		
+
 		//test by partial method match
 		$result = $this->ApiClass->search('missing');
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual(array_keys($result), array('ErrorHandler'));
-		
+
 		//test relevance in find
 		$result = $this->ApiClass->search('acl');
 		$this->assertEqual(count($result), 4);
 		$this->assertEqual(array_keys($result), array('AclComponent', 'DbAcl', 'AclBase', 'IniAcl'));
-		
-		//test searching of global functions 
+
+		//test searching of global functions
 		$result = $this->ApiClass->search('debug');
 		$this->assertEqual(count($result), 1);
 		$this->assertEqual(array_keys($result), array('debug'));
@@ -249,7 +249,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$results = $this->ApiClass->getClassIndex();
 		$this->assertEqual(count($results), 8);
 		$this->assertFalse(in_array('basics.php', $results));
-		
+
 		$results = $this->ApiClass->getClassIndex(true);
 		$this->assertEqual(count($results), 9);
 		$this->assertTrue(in_array('basics.php', $results));
@@ -267,11 +267,11 @@ class ApiClassTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['sectionTotals']['properties']));
 		$this->assertTrue(isset($result['sectionTotals']['methods']));
 		$this->assertTrue(isset($result['sectionTotals']['classInfo']));
-		
+
 		$this->ApiClass->cacheQueries = false;
 		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
 		$this->assertTrue(is_numeric($apiClass['ApiClass']['coverage_cache']));
-		
+
 		// try with pseudo class file.
 		$this->expectException();
 		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
