@@ -84,4 +84,40 @@ class ApiPackageTestCase extends CakeTestCase {
 		$this->assertFalse(isset($result[0]['ApiClass']), 'ApiClass has snuck in, big queries are happening %s');
 		$this->assertTrue(isset($result[0]['children']), 'No children, might not be a tree %s');
 	}
+
+/**
+ * test parsing of @package / @subpackage strings in doc block arrays.
+ *
+ * @return void
+ **/
+	function testPackageStringParse() {
+		try {
+			$docBlock = array();
+			$result = $this->ApiPackage->parsePackage($docBlock);
+			$this->fail('No exception thrown');
+		} catch(InvalidArgumentException $e) {
+			$this->pass('Exception thrown');
+		}
+
+		$docBlock = array(
+			'tags' => array(
+				'package' => 'cake',
+				'subpackage' => 'model.behavior'
+			)
+		);
+		$result = $this->ApiPackage->parsePackage($docBlock);
+		$expected = array('cake', 'model', 'behavior');
+		$this->assertEqual($result, $expected);
+		
+		$docBlock = array(
+			'tags' => array(
+				'package' => 'cake',
+				'subpackage' => 'cake.model.behavior'
+			)
+		);
+		$result = $this->ApiPackage->parsePackage($docBlock);
+		$expected = array('cake', 'model', 'behavior');
+		$this->assertEqual($result, $expected, 'Duplicates not removed %s');
+	}
+
 }

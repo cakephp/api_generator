@@ -74,4 +74,24 @@ class ApiPackage extends ApiGeneratorAppModel {
 			'recursive' => -1
 		));
 	}
+
+/**
+ * Parse the Package strings out of a docBlock from a ClassDocumentor/FunctionDocumentor.
+ *
+ * @param array $docBlock Array of doc block information
+ * @return array Array of packages found in the order they were found.
+ * @throws InvalidArugmentException
+ **/
+	public function parsePackage($docBlock) {
+		if (empty($docBlock['tags']['package']) && empty($docBlock['tags']['subpackage'])) {
+			throw new InvalidArgumentException('Missing package/subpackage keys in $docBlock');
+		}
+		$packages = array();
+		foreach (array('package', 'subpackage') as $key) {
+			if (isset($docBlock['tags'][$key])) {
+				$packages = array_merge($packages, explode('.', $docBlock['tags'][$key]));
+			}
+		}
+		return array_values(array_unique($packages));
+	}
 }
