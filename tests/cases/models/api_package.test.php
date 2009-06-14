@@ -132,6 +132,13 @@ class ApiPackageTestCase extends CakeTestCase {
 
 		$result = $this->ApiPackage->findAllByParentId(4);
 		$this->assertEqual(count($result), 2);
+
+		$packages = array('cake', 'model', 'datasource', 'dbo');
+		$result = $this->ApiPackage->updatePackageTree($packages);
+		$this->assertTrue($result);
+
+		$result = $this->ApiPackage->findAllBySlug('model');
+		$this->assertEqual(count($result), 1, 'Too many model slugs');
 	}
 
 }

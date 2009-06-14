@@ -122,7 +122,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 			if (!$this->save()) {
 				return false;
 			}
-			$parent = $new;
 			$parentId = $this->id;
 		}
 		return true;
