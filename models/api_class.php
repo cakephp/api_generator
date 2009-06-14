@@ -88,7 +88,7 @@ class ApiClass extends ApiGeneratorAppModel {
  **/
 	public function saveClassDocs(ClassDocumentor $classDoc) {
 		$classDoc->getAll();
-		$slug = str_replace('_', '-', Inflector::underscore($classDoc->name));
+		$slug = $this->_makeSlug($classDoc->name);
 		$new = array(
 			'name' => $classDoc->name,
 			'slug' => $slug,
@@ -111,7 +111,7 @@ class ApiClass extends ApiGeneratorAppModel {
 	public function savePseudoClassDocs($functions, $filename) {
 		$methodList = array();
 		$name = basename($filename);
-		$slug = str_replace('_', '-', Inflector::underscore($name));
+		$slug = $this->_makeSlug($name);
 		foreach ($functions as $func) {
 			if ($func instanceof FunctionDocumentor) {
 				$methodList[] = $func->getName();

@@ -67,7 +67,7 @@ var $records = array(
 		'name' => 'model',
 		'slug' => 'model',
 		'lft' => 6,
-		'rght' => 7,
+		'rght' => 9,
 		'created' => '2009-01-01 12:00:00',
 		'modified' => '2009-01-01 12:00:00'
 	),
@@ -76,8 +76,8 @@ var $records = array(
 		'parent_id' => 4,
 		'name' => 'behavior',
 		'slug' => 'behavior',
-		'lft' => 8,
-		'rght' => 9,
+		'lft' => 7,
+		'rght' => 8,
 		'created' => '2009-01-01 12:00:00',
 		'modified' => '2009-01-01 12:00:00'
 	)

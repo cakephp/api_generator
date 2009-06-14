@@ -120,4 +120,18 @@ class ApiPackageTestCase extends CakeTestCase {
 		$this->assertEqual($result, $expected, 'Duplicates not removed %s');
 	}
 
+/**
+ * test updating the package tree and ensure that duplicate named packages do not get inserted.
+ *
+ * @return void
+ **/
+	function testUpdatePackageTree() {
+		$packages = array('cake', 'model', 'datasource', 'dbo');
+		$result = $this->ApiPackage->updatePackageTree($packages);
+		$this->assertTrue($result);
+
+		$result = $this->ApiPackage->findAllByParentId(4);
+		$this->assertEqual(count($result), 2);
+	}
+
 }

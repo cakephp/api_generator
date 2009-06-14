@@ -34,5 +34,16 @@ class ApiGeneratorAppModel extends AppModel {
 		$slugPath = strtolower(Inflector::slug($slashPath, '-'));
 		return $slugPath;
 	}
+
+/**
+ * Make a slug
+ *
+ * @param string $name Make a slug
+ * @return string
+ **/
+	protected function _makeSlug($name) {
+		return str_replace('_', '-', Inflector::underscore($name));
+	}
+
 }
 ?>

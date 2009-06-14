@@ -94,4 +94,37 @@ class ApiPackage extends ApiGeneratorAppModel {
 		}
 		return array_values(array_unique($packages));
 	}
+
+/**
+ * Updates the package tree with new entries if they exist.
+ * Requires a full package array.
+ *
+ * @param array $packages Array of packages to check / insert into the tree.
+ * @return boolean
+ **/
+	public function updatePackageTree($packages) {
+		$parentId = null;
+		foreach ($packages as $package) {
+			$slug = $this->_makeSlug($package);
+			$existing = $this->findBySlug($slug, null, null, -1);
+			if ($existing) {
+				$parentId = $existing['ApiPackage']['id'];
+				continue;
+			}
+			$new = array(
+				'ApiPackage' => array(
+					'parent_id' => $parentId,
+					'slug' => $slug,
+					'name' => $package
+				)
+			);
+			$this->create($new);
+			if (!$this->save()) {
+				return false;
+			}
+			$parent = $new;
+			$parentId = $this->id;
+		}
+		return true;
+	}
 }
