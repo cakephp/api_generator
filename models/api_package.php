@@ -126,4 +126,16 @@ class ApiPackage extends ApiGeneratorAppModel {
 		}
 		return true;
 	}
+
+/**
+ * Find The last package's id value.
+ *
+ * @return mixed Id of last package.
+ **/
+	public function findEndPackageId($packages) {
+		$lastPackage = array_pop($packages);
+		$last = $this->findBySlug($this->_makeSlug($lastPackage));
+		return $last['ApiPackage']['id'];
+	}
+
 }

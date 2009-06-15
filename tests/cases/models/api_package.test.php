@@ -108,7 +108,7 @@ class ApiPackageTestCase extends CakeTestCase {
 		$result = $this->ApiPackage->parsePackage($docBlock);
 		$expected = array('cake', 'model', 'behavior');
 		$this->assertEqual($result, $expected);
-		
+
 		$docBlock = array(
 			'tags' => array(
 				'package' => 'cake',
@@ -139,6 +139,17 @@ class ApiPackageTestCase extends CakeTestCase {
 
 		$result = $this->ApiPackage->findAllBySlug('model');
 		$this->assertEqual(count($result), 1, 'Too many model slugs');
+	}
+
+/**
+ * test that findEndPackageId finds the end package and returns its Id
+ *
+ * @return void
+ **/
+	function testFindEndPackageId() {
+		$packages = array('cake', 'model');
+		$result = $this->ApiPackage->findEndPackageId($packages);
+		$this->assertEqual($result, 4);
 	}
 
 }
