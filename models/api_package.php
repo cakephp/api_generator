@@ -89,7 +89,8 @@ class ApiPackage extends ApiGeneratorAppModel {
 		$packages = array();
 		foreach (array('package', 'subpackage') as $key) {
 			if (isset($docBlock['tags'][$key])) {
-				$packages = array_merge($packages, explode('.', $docBlock['tags'][$key]));
+				$newPackages = array_map('trim', explode('.', $docBlock['tags'][$key]));
+				$packages = array_merge($packages, $newPackages);
 			}
 		}
 		return array_values(array_unique($packages));

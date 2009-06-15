@@ -492,6 +492,16 @@ Documentation Page Styles
 }
 
 /**
+* Package Index
+*******************/
+.package-tree .package-tree {
+	margin-left:15px;
+}
+.package-tree li {
+	margin:3px 0;
+}
+
+/**
 * Code highlighting
 ****************************/
 .code-container {

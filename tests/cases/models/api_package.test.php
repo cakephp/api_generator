@@ -118,6 +118,16 @@ class ApiPackageTestCase extends CakeTestCase {
 		$result = $this->ApiPackage->parsePackage($docBlock);
 		$expected = array('cake', 'model', 'behavior');
 		$this->assertEqual($result, $expected, 'Duplicates not removed %s');
+
+		$docBlock = array(
+			'tags' => array(
+				'package' => '			cake	',
+				'subpackage' => '     cake.model.behavior'
+			)
+		);
+		$result = $this->ApiPackage->parsePackage($docBlock);
+		$expected = array('cake', 'model', 'behavior');
+		$this->assertEqual($result, $expected, 'Duplicates not removed %s');
 	}
 
 /**

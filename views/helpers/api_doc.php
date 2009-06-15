@@ -48,6 +48,11 @@ class ApiDocHelper extends AppHelper {
 			'action' => 'view_class',
 			'plugin' => 'api_generator',
 		),
+		'package' => array(
+			'controller' => 'api_packages',
+			'action' => 'view',
+			'plugin' => 'api_generator'
+		)
 	);
 /**
  * classList 
@@ -64,6 +69,7 @@ class ApiDocHelper extends AppHelper {
 		$view = ClassRegistry::getObject('view');
 		$this->setBasePath($view->getVar('basePath'));
 	}
+
 /**
  * set the basePath
  *
@@ -72,6 +78,7 @@ class ApiDocHelper extends AppHelper {
 	public function setBasePath($path) {
 		$this->_basePath = Folder::slashTerm(realpath($path));
 	}
+
 /**
  * inBasePath
  * 
@@ -82,6 +89,7 @@ class ApiDocHelper extends AppHelper {
 	function inBasePath($filename) {
 		return (strpos($filename, $this->_basePath) !== false);
 	}
+
 /**
  * Create a link to a filename if it is in the basePath
  *
@@ -152,6 +160,7 @@ class ApiDocHelper extends AppHelper {
 	public function setClassIndex($classList) {
 		$this->_classList = $classList;
 	}
+
 /**
  * Check if a class is in the classIndex
  *
@@ -161,6 +170,7 @@ class ApiDocHelper extends AppHelper {
 	public function inClassIndex($className) {
 		return in_array($className, $this->_classList);
 	}
+
 /**
  * Create a link to a class name if it exists in the classList
  *
@@ -178,6 +188,7 @@ class ApiDocHelper extends AppHelper {
 		}
 		return $className;
 	}
+
 /**
  * Check the access string against the excluded method access.
  *
@@ -194,6 +205,7 @@ class ApiDocHelper extends AppHelper {
 		}
 		return false;
 	}
+
 /**
  * Slugs a classname to match the format in the database.
  *
@@ -203,6 +215,7 @@ class ApiDocHelper extends AppHelper {
 	public function slugClassName($className) {
 		return str_replace('_', '-', Inflector::underscore($className));
 	}
+
 /**
  * Create a nested inheritance tree from an array.
  * Uses an array stack like a tree. So
@@ -227,4 +240,40 @@ class ApiDocHelper extends AppHelper {
 		}
 		return '<p class="inheritance-tree">' . $out . '</p>';
 	}
+
+/**
+ * Generate an HTML tree structure out of a package Index tree.
+ *
+ * @param array $packageTree Array of package tree from find(threaded)
+ * @return string Formatted HTML
+ **/
+	public function generatePackageTree($packageTree) {
+		$out = '<ul class="package-tree">' . "\n";
+		foreach ($packageTree as $branch) {
+			$children = null;
+			$link = $this->packageLink($branch['ApiPackage']['name']);
+			if (!empty($branch['children'])) {
+				$children = $this->generatePackageTree($branch['children']);
+			}
+			$out .= sprintf("\t<li>%s %s</li>\n", $link, $children);
+		}
+		$out .= "</ul>\n";
+		return $out;
+	}
+
+/**
+ * Create a link to a package
+ *
+ * @param string $package The package name you want to link to.
+ * @param array $url A url array to override defaults
+ * @param array $attributes Additional attributes for an html link if generated.
+ * @return string Html link
+ **/
+	public function packageLink($apiPackage, $url = array(), $attributes = array()) {
+		$url = array_merge($this->_defaultUrl['package'], $url);
+		$slug = $this->slugClassName($apiPackage);
+		$url[] = $slug;
+		return $this->Html->link($apiPackage, $url, $attributes);
+	}
+
 }
