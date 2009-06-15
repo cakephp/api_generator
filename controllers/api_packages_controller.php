@@ -49,4 +49,21 @@ class ApiPackagesController extends ApiGeneratorAppController {
 		$this->set('packageIndex', $packageIndex);
 	}
 
+/**
+ * View a package, and all contained classes.
+ *
+ * @return void
+ **/
+	public function view($slug = null) {
+		if (!$slug) {
+			$this->Session->setFlash(__('No package name was given', true));
+			$this->redirect($this->referer());
+		}
+		$apiPackage = $this->ApiPackage->findBySlug($slug);
+		if (empty($apiPackage)) {
+			$this->_notFound(__('No package exists in the index with that name', true));
+		}
+		$classIndex = $this->ApiPackage->ApiClass->getClassIndex();
+		$this->set(compact('apiPackage', 'classIndex'));
+	}
 }
