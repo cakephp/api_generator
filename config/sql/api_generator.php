@@ -54,7 +54,7 @@ class ApiGeneratorSchema extends CakeSchema {
  **/
 	public $api_packages = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
-		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'index'),
+		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => true, 'key' => 'index'),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),
