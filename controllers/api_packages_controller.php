@@ -64,6 +64,10 @@ class ApiPackagesController extends ApiGeneratorAppController {
 			$this->_notFound(__('No package exists in the index with that name', true));
 		}
 		$classIndex = $this->ApiPackage->ApiClass->getClassIndex();
-		$this->set(compact('apiPackage', 'classIndex'));
+		$packageIndex = $this->ApiPackage->getPackageIndex();
+
+		$this->set('showSidebar', true);
+		$this->set('sidebarElement', 'sidebar/package_sidebar');
+		$this->set(compact('apiPackage', 'classIndex', 'packageIndex'));
 	}
 }

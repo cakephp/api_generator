@@ -81,10 +81,13 @@ h1, h2, h3, h4, h5, h6, th, dt {
 h1 {
 	font-size: 24px;
 	line-height: 30px;
+	-webkit-text-shadow: 1px 1px #ccc;
+	text-shadow:1px 1px #ccc;
 }
 h2 {
-	font-size: 22px;
 	line-height: 30px;
+	color: #333348;
+	font-size:1.6em;
 }
 a {
 	color: #94345A;
@@ -99,14 +102,12 @@ table {
 td, th {
 	padding:0.4em;
 }
-h2 {
-	color: #333348;
-	font-size:1.6em;	
-}
 h3 {
 	color: #333348;
 	font-size: 1.4em;
 	margin: 1em 0;
+	-webkit-text-shadow: 1px 1px #ccc;
+	text-shadow:1px 1px #ccc;
 }
 
 /* containers */
@@ -196,6 +197,7 @@ File Browser Styles
 	margin: 0;
 	padding: 0;
 }
+.file span,
 .file a, 
 .folder a {
 	padding: 8px 8px 8px 40px;
@@ -251,6 +253,8 @@ Documentation Page Styles
 	border-left:7px solid #fff;
 	margin:0;
 	padding: 0 0 0 8px;
+	-webkit-text-shadow: 1px 1px #ccc;
+	text-shadow:1px 1px #ccc;
 }
 .parent-method .doc-head {
 	background:#FFFFEF;
@@ -319,6 +323,8 @@ Documentation Page Styles
 	line-height:1.4em;
 	margin:0;
 	clear:both;
+	-webkit-text-shadow:1px 0px #ddd;
+	text-shadow:0px 1px #ddd;
 }
 .markdown-block pre {
 	font-size: 12px;
@@ -469,15 +475,18 @@ Documentation Page Styles
 .letter-section h3 {
 	border-bottom: 1px solid #ccc;
 }
+.package-list,
 .class-index {
 	list-style: square;
 	list-style-position: inside;
 	color: #8BAAB2;	
 }
+.package-list li,
 .class-index li {
 	margin: 0.6em 0;
 	font-size: 14px;
 }
+
 /**
 * Sidebar
 *****************************/
@@ -494,6 +503,11 @@ Documentation Page Styles
 /**
 * Package Index
 *******************/
+.api-package h3 {
+	font-size:20px;
+	border-bottom:1px solid #ccc;
+	margin-top:1em;
+}
 .package-tree .package-tree {
 	margin-left:15px;
 }

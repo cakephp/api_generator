@@ -15,3 +15,4 @@
 		));
 	?></li>
 <?php endforeach; ?>
+</ul>

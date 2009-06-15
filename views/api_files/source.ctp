@@ -26,7 +26,7 @@ $this->pageTitle = $currentPath;
 <?php endforeach; ?>
 <?php else: ?>
 	<li class="file">
-		<?php __('No files'); ?>
+		<span><?php __('No files'); ?></span>
 	</li>
 <?php endif; ?>
 
