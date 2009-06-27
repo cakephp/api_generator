@@ -1,11 +1,12 @@
 /* @override http://localhost/cake_api_gen/api_generator/css/base.css */
-/****************
+/*
 * Base.css
 * @author Mark Story
-/
-/***************************************
+**********************/
+
+/*
 Reset
-***************************************/
+**********************/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -65,7 +66,7 @@ table {
 * html .clearfix {
 	height:1%;
 }
-/**
+/*
 Basic Tags 
 **********************/
 body {
@@ -188,7 +189,7 @@ h3 {
 	font-size:14px;
 	margin-bottom: 1em;
 }
-/**
+/*
 File Browser Styles
 ***************************************/
 #file-list,
@@ -217,7 +218,7 @@ File Browser Styles
 	display: block;
 }
 
-/**
+/*
 Documentation Page Styles
 ***************************/
 .doc-block {
@@ -433,7 +434,7 @@ Documentation Page Styles
 	background-image: url(../img/icon_public_parent.gif);
 }
 
-/** Element table of contents **/
+/* Element table of contents */
 #element-toc {
 	margin-bottom: 2em;
 	clear:both;
@@ -455,8 +456,8 @@ Documentation Page Styles
 	margin-right: 2em;
 }
 
-/**
-* Class Index
+/*
+Class Index
 *****************************/
 .letter-links {
 	margin: 3em 0;
@@ -478,7 +479,6 @@ Documentation Page Styles
 .letter-section h3 {
 	border-bottom: 1px solid #ccc;
 }
-.package-list,
 .class-index {
 	list-style: square;
 	list-style-position: inside;
@@ -490,8 +490,8 @@ Documentation Page Styles
 	font-size: 14px;
 }
 
-/**
-* Sidebar
+/*
+Sidebar
 *****************************/
 #sidebar h3 {
 	margin-bottom:0.3em;
@@ -502,24 +502,51 @@ Documentation Page Styles
 #sidebar .class-index li {
 	font-size: 12px;
 }
+#sidebar .package-tree li {
+	list-style:none;
+	margin: 5px 0px;
+	background:#efefef;
+}
+#sidebar .package-tree a {
+	display:block;
+	background:#ddd;
+	padding:2px 5px;
+}
 
-/**
-* Package Index
+
+/*
+Package Index
 *******************/
 .api-package h3 {
 	font-size:20px;
 	border-bottom:1px solid #ccc;
 	margin-top:1em;
 }
-.package-tree .package-tree {
-	margin-left:15px;
+.package-tree {
+	list-style: none;
+	
 }
 .package-tree li {
 	margin:3px 0;
+	list-style: none;
+}
+.package-tree li a{
+	padding: 8px 8px 8px 40px;
+	display: block;
+	border-top: 2px solid #fff;
+}
+.package-tree .package-tree {
+	background: #fff;
+	padding: 0 0 0 30px;
+}
+.package-tree li {
+	font-size:14px;
+	background-color: #EFEFEF;
+	margin: 0;
 }
 
-/**
-* Code highlighting
+/*
+Code highlighting
 ****************************/
 .code-container {
 	margin: 0;
@@ -563,12 +590,10 @@ Documentation Page Styles
 .code-block .even td { 
 	background: #fbfbfb; 
 }
-
 .code-block tr:hover td,
 .code-block tr:hover th {
 	background: #FFFEDA;
 }
-
 .code-block .comment { 
 	color: #838389;
 	white-space:pre;
@@ -586,8 +611,8 @@ Documentation Page Styles
 	white-space:pre;
 }
 
-/**
-* Search results
+/*
+Search results
 ****************************/
 #search-results {
 	margin: 10px;
@@ -621,8 +646,8 @@ Documentation Page Styles
 	border-bottom:1px solid #ddd;
 }
 
-/**
-* Docs coverage
+/*
+Docs coverage
 ****************************/
 .score-box {
 	border: 1px solid #333;
