@@ -81,6 +81,27 @@ ApiGenerator.docBlocks = {
 	}
 }
 
+ApiGenerator.packageTree = {
+	init: function () {
+		var trees = $$('ul.package-tree.depth-0');
+
+		trees.getElements('li').each(function (element) {
+			element.addEvent('click', function (event) {
+				event.stopPropagation();
+				if (event.target.nodeName.toUpperCase() == 'A') {
+					return;
+				}
+				var ul = this.getChildren('ul');
+				if (ul) {
+					ul.toggle();
+				}
+			});
+		});
+		trees.getElements('ul').each(function (element) {
+			element.hide();
+		})
+	}
+}
 
 /**
  * Javascript used on Api doc Pages

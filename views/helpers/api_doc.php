@@ -247,15 +247,16 @@ class ApiDocHelper extends AppHelper {
  * @param array $packageTree Array of package tree from find(threaded)
  * @return string Formatted HTML
  **/
-	public function generatePackageTree($packageTree) {
-		$out = '<ul class="package-tree">' . "\n";
+	public function generatePackageTree($packageTree, $depth = 0) {
+		$out = '<ul class="package-tree depth-'. $depth . '">' . "\n";
 		foreach ($packageTree as $branch) {
 			$children = null;
 			$link = $this->packageLink($branch['ApiPackage']['name']);
 			if (!empty($branch['children'])) {
-				$children = $this->generatePackageTree($branch['children']);
+				$depth++;
+				$children = $this->generatePackageTree($branch['children'], $depth);
 			}
-			$out .= sprintf("\t<li class=\"package\">%s %s</li>\n", $link, $children);
+			$out .= sprintf("\t<li class=\"package\"><span>%s</span> %s</li>\n", $link, $children);
 		}
 		$out .= "</ul>\n";
 		return $out;

@@ -209,7 +209,7 @@ File Browser Styles
 }
 
 /* files and folders in sidebar */
-#sidebar .package a,
+#sidebar .package span,
 #sidebar .file a,
 #sidebar .folder a,
 #sidebar #classIndex li a {
@@ -508,7 +508,7 @@ Sidebar
 	list-style:none;
 	margin: 2px 0px;
 }
-#sidebar .package-tree a {
+#sidebar .package-tree span {
 	display:block;
 }
 #sidebar .package-tree .package-tree {
@@ -532,7 +532,7 @@ Package Index
 	margin:3px 0;
 	list-style: none;
 }
-.package-tree li a{
+.package-tree li span {
 	padding: 8px 8px 8px 40px;
 	display: block;
 	border-top: 2px solid #fff;
