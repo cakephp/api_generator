@@ -209,6 +209,7 @@ File Browser Styles
 }
 
 /* files and folders in sidebar */
+#sidebar .package a,
 #sidebar .file a,
 #sidebar .folder a,
 #sidebar #classIndex li a {
@@ -488,6 +489,7 @@ Class Index
 .class-index li {
 	margin: 0.6em 0;
 	font-size: 14px;
+	list-style-position: inside;
 }
 
 /*
@@ -504,13 +506,13 @@ Sidebar
 }
 #sidebar .package-tree li {
 	list-style:none;
-	margin: 5px 0px;
-	background:#efefef;
+	margin: 2px 0px;
 }
 #sidebar .package-tree a {
 	display:block;
-	background:#ddd;
-	padding:2px 5px;
+}
+#sidebar .package-tree .package-tree {
+	padding: 0 0 0 15px;
 }
 
 
@@ -540,8 +542,6 @@ Package Index
 	padding: 0 0 0 30px;
 }
 .package-tree li {
-	font-size:14px;
-	background-color: #EFEFEF;
 	margin: 0;
 }
 

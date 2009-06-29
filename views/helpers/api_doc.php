@@ -255,7 +255,7 @@ class ApiDocHelper extends AppHelper {
 			if (!empty($branch['children'])) {
 				$children = $this->generatePackageTree($branch['children']);
 			}
-			$out .= sprintf("\t<li>%s %s</li>\n", $link, $children);
+			$out .= sprintf("\t<li class=\"package\">%s %s</li>\n", $link, $children);
 		}
 		$out .= "</ul>\n";
 		return $out;
