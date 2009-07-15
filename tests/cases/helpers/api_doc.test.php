@@ -36,6 +36,9 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$view->set('basePath', $this->_pluginPath);
 		$this->ApiDoc = new ApiDocHelper();
 		$this->ApiDoc->Html = new HtmlHelper();
+		
+		Router::reload();
+		Router::parse('/');
 	}
 /**
  * test inBasePath
@@ -75,7 +78,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 
 		$result = $this->ApiDoc->fileLink($testFile);
 		$expected = array(
-			'a' => array('href' => '/api_generator/view_file/views/helpers/api_doc.php'),
+			'a' => array('href' => '/api_generator/api_files/view_file/views/helpers/api_doc.php'),
 			'views/helpers/api_doc.php',
 			'/a'
 		);
@@ -88,6 +91,37 @@ class ApiDocHelperTestCase extends CakeTestCase {
 			'/a'
 		);
 		$this->assertTags($result, $expected);
+	}
+/**
+ * test generation of package links.
+ *
+ * @return void
+ **/
+	function testPackageLink() {
+		$result = $this->ApiDoc->packageLink('foo');
+		$expected = array(
+			'a' => array('href' => '/api_generator/api_packages/view/foo'),
+			'foo',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->ApiDoc->packageLink('some.package.deep');
+		$expected = array(
+			'a' => array('href' => '/api_generator/api_packages/view/deep'),
+			'some.package.deep',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+
+		$result = $this->ApiDoc->packageLink('  some.package.deep');
+		$expected = array(
+			'a' => array('href' => '/api_generator/api_packages/view/deep'),
+			'  some.package.deep',
+			'/a'
+		);
+		$this->assertTags($result, $expected);
+		
 	}
 /**
  * endTest

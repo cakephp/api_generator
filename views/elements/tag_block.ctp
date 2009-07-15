@@ -8,8 +8,12 @@
 <dl>
 	<?php foreach ($tags as $name => $value): ?>
 		<dt><?php echo $name; ?></dt>
-		<?php if (strtolower($name) == 'link'):
+		<?php 
+		$lower = strtolower($name);
+		if ($lower == 'link'):
 			echo '<dd>' . $text->autoLink(h($value)) . '</dd>';
+		elseif ($lower == 'package' || $lower == 'subpackage'):
+			echo '<dd>' . $apiDoc->packageLink(trim($value)) . '</dd>';
 		elseif (is_array($value)):
 			foreach ($value as $line):
 				echo '<dd>' . h($line) . '</dd>';

@@ -212,7 +212,7 @@ class ApiDocHelper extends AppHelper {
  * @param string $className Name of class to sluggify.
  * @return string
  **/
-	public function slugClassName($className) {
+	public function slug($className) {
 		return str_replace('_', '-', Inflector::underscore($className));
 	}
 
@@ -270,11 +270,24 @@ class ApiDocHelper extends AppHelper {
  * @param array $attributes Additional attributes for an html link if generated.
  * @return string Html link
  **/
-	public function packageLink($apiPackage, $url = array(), $attributes = array()) {
+	public function packageLink($package, $url = array(), $attributes = array()) {
 		$url = array_merge($this->_defaultUrl['package'], $url);
-		$slug = $this->slugClassName($apiPackage);
+		$slug = $this->slug($package);
+		if (strpos($slug, '.') !== false) {
+			$slug = $this->_parsePackageString($slug);
+		}
 		$url[] = $slug;
-		return $this->Html->link($apiPackage, $url, $attributes);
+		return $this->Html->link($package, $url, $attributes);
+	}
+/**
+ * parse a dot split package string and return the last package element.
+ *
+ * @param string $package A package string with .'s in it.
+ * @return string
+ **/
+	protected function _parsePackageString($package) {
+		$bits = explode('.', $package);
+		return $this->slug(end($bits));
 	}
 
 }
