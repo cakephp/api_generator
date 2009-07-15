@@ -545,6 +545,18 @@ Package Index
 	margin: 0;
 }
 
+.package-tree .has-child > span {
+	cursor: pointer;
+}
+.package-tree .has-child > span:after {
+	content: ' [+]';
+	font-family: monaco, courier, monospaced;
+}
+.package-tree .expanded.has-child > span:after {
+	content: ' [-]';
+	font-family: monaco, courier, monospaced;
+}
+
 /*
 Code highlighting
 ****************************/
