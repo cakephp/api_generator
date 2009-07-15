@@ -83,13 +83,22 @@ class ApiIndexShell extends Shell {
  **/
 	public function set_routes() {
 		$Routes = new File(CONFIGS . 'routes.php');
-		$new = array(
-			"Router::connect('/class/*', array('plugin' => 'api_generator', 'controller' => 'api_generator', 'action' => 'view_class'));",
-			"Router::connect('/file/*', array('plugin' => 'api_generator', 'controller' => 'api_generator','action' => 'view_file'));",
-			"Router::connect('/:action/*', array('plugin' => 'api_generator', 'controller' => 'api_generator'), array('action' => 'classes|source|files|view_source'));",
+		$add = array(
+			"Router::connect('/classes', array('plugin' => 'api_generator', 'controller' => 'api_classes', 'action' => 'index'));",
+			"Router::connect('/class/*', array('plugin' => 'api_generator', 'controller' => 'api_classes', 'action' => 'view_class'));",
+			"Router::connect('/source', array('plugin' => 'api_generator', 'controller' => 'api_files', 'action' => 'source'));",
+			"Router::connect('/files', array('plugin' => 'api_generator', 'controller' => 'api_files', 'action' => 'files'));",
+			"Router::connect('/packages', array('plugin' => 'api_generator', 'controller' => 'api_packages', 'action' => 'index'));",
+			"Router::connect('/package/*', array('plugin' => 'api_generator', 'controller' => 'api_packages', 'action' => 'view'));"
 		);
-
-		$data = rtrim(trim($Routes->read()), "?>") . "\n\n\t" . join("\n\n\t", $new);
+		$currentRoutes = trim($Routes->read());
+		$new = array();
+		foreach ($add as $newRoute) {
+			if (strpos($currentRoutes, $newRoute) === false) {
+				$new[] = $newRoute;
+			}
+		}
+		$data = rtrim($currentRoutes, "?>") . "\n\n\t" . join("\n\t", $new);
 		if ($Routes->write($data)) {
 			$this->out(__('Routes file updated'));
 			return;

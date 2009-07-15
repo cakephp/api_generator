@@ -104,7 +104,7 @@ ApiGenerator.packageTree = {
 		});
 		trees.getElements('ul').each(function (element) {
 			element.hide();
-		})
+		});
 	}
 }
 

@@ -4,7 +4,7 @@ $apiDoc->setClassIndex($classIndex);
 <div class="api-package">
 	<h1><?php printf(__('%s Package', true), $apiPackage['ApiPackage']['name']); ?></h1>
 
-	<?php if(!empty($apiPackage['ParentPackage'])): ?>
+	<?php if(!empty($apiPackage['ParentPackage']['name'])): ?>
 		<h3><?php __('Parent Package'); ?> </h3>
 		<ul class="package-list">
 			<li><?php echo $apiDoc->packageLink($apiPackage['ParentPackage']['name']); ?></li>
