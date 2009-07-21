@@ -53,7 +53,7 @@
 				echo $html->link($method['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
-					$apiDoc->slugClassName($method['declaredInClass']),
+					$apiDoc->slug($method['declaredInClass']),
 					'#line-'. $method['startLine']
 				));
 			endif;

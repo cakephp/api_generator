@@ -37,7 +37,7 @@ $title = (empty($isSearch)) ? __('Method Summary:', true) : __('Methods:', true)
 							);
 						else:
 							echo $html->link($method['signature'],
-								array('action' => 'view_class', $apiDoc->slugClassName($doc->name),
+								array('action' => 'view_class', $apiDoc->slug($doc->name),
 								'#' => 'method-' . $doc->name . $method['name']),
 								array('class' => 'scroll-link')
 							);
