@@ -3,7 +3,7 @@
 		$class = ($this->params['controller'] == 'api_classes') ? array('class' => 'on') : null;
 		echo $html->link(__('Classes', true), array(
 			'plugin' => 'api_generator',
-			'controller' => 'api_classes', 'action' => 'classes'
+			'controller' => 'api_classes', 'action' => 'index'
 			), $class);?>
 	</li>
 	<li><?php
