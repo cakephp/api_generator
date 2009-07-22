@@ -379,9 +379,10 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 		if (empty($config['users'])) {
 			$this->out(__('You have no users :(', true));
-		}
-		foreach ($config['users'] as $user => $pass) {
-			$this->out($user . ' : ' . $pass);
+		} else {
+			foreach ($config['users'] as $user => $pass) {
+				$this->out($user . ' : ' . $pass);
+			}
 		}
 		return $this->in('Create new users?', array('y', 'n'), 'n');
 	}
