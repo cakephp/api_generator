@@ -33,7 +33,7 @@ if (window.basePath === undefined) {
 	window.basePath = '<?php $this->webroot; ?>';
 }
 ApiGenerator.classIndex = {
-	coverageUrl : window.basePath + 'admin/api_generator/calculate_coverage/',
+	coverageUrl : window.basePath + 'admin/api_generator/api_classes/calculate_coverage/',
 
 	init : function () {
 		var self = this;
