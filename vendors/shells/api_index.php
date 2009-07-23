@@ -356,16 +356,17 @@ class ApiIndexShell extends Shell {
  **/
 	public function users() {
 		$config = $this->config();
-		if (empty($config['users']) || isset($this->args[0]) && low($this->args[0]) == 'add') {
-			$this->_addUsers($config);
-		}
-		$add = $this->_listUsers($config);
-		if ($add == 'y') {
+		if (empty($config['users']) || isset($this->args[0]) && strtolower($this->args[0]) == 'add') {
 			$config = $this->_addUsers($config);
-			$string = $this->ApiConfig->toString($config);
-			if ($this->ApiConfig->save($string)) {
-				$this->out('The config was saved');
+		} else {
+			$add = $this->_listUsers($config);
+			if (strtolower($add) == 'y') {
+				$config = $this->_addUsers($config);
 			}
+		}
+		$string = $this->ApiConfig->toString($config);
+		if ($this->ApiConfig->save($string)) {
+			$this->out('The config was saved');
 		}
 	}
 /**
