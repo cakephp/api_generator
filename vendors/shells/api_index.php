@@ -91,7 +91,8 @@ class ApiIndexShell extends Shell {
 			"Router::connect('/packages', array('plugin' => 'api_generator', 'controller' => 'api_packages', 'action' => 'index'));",
 			"Router::connect('/package/*', array('plugin' => 'api_generator', 'controller' => 'api_packages', 'action' => 'view'));",
 			"Router::connect('/file/*', array('plugin' => 'api_generator', 'controller' => 'api_files', 'action' => 'view_file'));",
-			"Router::connect('/view_source/*', array('plugin' => 'api_generator', 'controller' => 'api_classes', 'action' => 'view_source'));"
+			"Router::connect('/view_source/*', array('plugin' => 'api_generator', 'controller' => 'api_classes', 'action' => 'view_source'));",
+			"Router::connect('/search/*', array('plugin' => 'api_generator', 'controller' => 'api_classes', 'action' => 'search'));"
 		);
 		$currentRoutes = trim($Routes->read());
 		$new = array();
