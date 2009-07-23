@@ -24,28 +24,24 @@ class ApiClassesController extends ApiGeneratorAppController {
  * @var string
  */
 	public $name = 'ApiClasses';
-
 /**
  * Uses array
  *
  * @var array
  */
 	public $uses = array('ApiGenerator.ApiFile', 'ApiGenerator.ApiClass');
-
 /**
  * Components array
  *
  * @var array
  **/
 	public $components = array('RequestHandler', 'Security');
-
 /**
  * Helpers
  *
  * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
-
 /**
  * beforeFilter callback
  *
@@ -61,9 +57,8 @@ class ApiClassesController extends ApiGeneratorAppController {
 		}
 		$this->Security->loginOptions = array('type' => 'basic');
 		$this->Security->blackHoleCallback = '_notFound';
-		$this->Security->requireLogin('admin_class_index', 'admin_docs_coverage', 'admin_calculate_coverage');
+		$this->Security->requireLogin('admin_index', 'admin_docs_coverage', 'admin_calculate_coverage');
 	}
-
 /**
  * Extract all the useful config info out of the ApiConfig.
  *
@@ -73,7 +68,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$this->set('basePath', $this->path);
 		$this->set($this->ApiFile->getExclusions());
 	}
-
 /**
  * Browse application files and find things you would like to generate API docs for.
  *
@@ -86,7 +80,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 			return;
 		}
 	}
-
 /**
  * Browse the classes in the application / API files.
  *
@@ -96,7 +89,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set('classIndex', $classIndex);
 	}
-
 /**
  * View API docs for a single class used with browse_classes
  *
@@ -127,7 +119,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 			$this->_notFound(__("Oops, seems we couldn't get the documentation for that class.", true));
 		}
 	}
-
 /**
  * View the Source for a class identified by its slug.
  *
@@ -143,7 +134,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$this->set('contents', $fileContents);
 		$this->set('filename', $classInfo['ApiClass']['file_name']);
 	}
-
 /**
  * Search through the class index.
  *
@@ -166,7 +156,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$classIndex = $this->ApiClass->getClassIndex();
 		$this->set(compact('classIndex', 'terms', 'docs'));
 	}
-
 /**
  * Admin Class index. View a list of classes in the index and get admin actions for
  * them.
@@ -176,7 +165,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 	public function admin_index() {
 		$this->set('apiClasses', $this->paginate('ApiClass'));
 	}
-
 /**
  * Get docs coverage for a class
  *
@@ -196,7 +184,6 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$this->helpers[] = 'Number';
 		$this->set(compact('apiClass', 'analysis', 'backwards'));
 	}
-
 /**
  * Calculates the coverage for a class, Used via XHR to get coverage as user
  * looks at index page.
