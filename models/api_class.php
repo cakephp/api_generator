@@ -45,7 +45,6 @@ class ApiClass extends ApiGeneratorAppModel {
 			)
 		)
 	);
-
 /**
  * belongsTo assoc
  *
@@ -79,7 +78,6 @@ class ApiClass extends ApiGeneratorAppModel {
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		$db->truncate($this->useTable);
 	}
-
 /**
  * save the entry in the index for a ClassDocumentor object
  *
@@ -127,7 +125,6 @@ class ApiClass extends ApiGeneratorAppModel {
 		$this->set($data);
 		return $this->save();
 	}
-
 /**
  * Get the class index listing
  * 

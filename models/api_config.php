@@ -32,7 +32,6 @@ class ApiConfig extends Object {
  * @var string
  **/
 	public $path = null;
-
 /**
  * Constructor
  *
@@ -151,7 +150,6 @@ class ApiConfig extends Object {
 		}
 		return $paths[$index];
 	}
-
 /**
  * Return data as a config string
  *

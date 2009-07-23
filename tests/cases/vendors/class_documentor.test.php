@@ -29,7 +29,6 @@ App::import('Vendor', 'ApiGenerator.ClassDocumentor');
  * @another-tag long value
  */
 class SimpleDocumentorSubjectClass extends StdClass implements Countable {
-
 /**
  * This var is protected
  *
@@ -120,7 +119,6 @@ class ClassDocumentorTestCase extends CakeTestCase {
 		$this->assertEqual($result, $expected);
 		$this->assertEqual($Docs->classInfo, $expected);
 	}
-
 /**
  * Test getting properties and their info
  *

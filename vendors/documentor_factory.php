@@ -31,7 +31,6 @@ class DocumentorFactory {
 		'class' => 'ClassDocumentor',
 		'function' => 'FunctionDocumentor',
 	);
-
 /**
  * Get the correct reflector type for the requested object
  *

@@ -87,7 +87,7 @@ class ApiClassSampleClassChild extends ApiClassSampleClass {
  **/
 class ApiClassTestCase extends CakeTestCase {
 /**
- * undocumented class variable
+ * fixtures to use
  *
  * @var string
  **/
@@ -177,7 +177,6 @@ class ApiClassTestCase extends CakeTestCase {
 		$result = $this->ApiClass->savePseudoClassDocs($docs['function'], $file);
 		$this->assertTrue($result);
 	}
-
 /**
  * test the search implementation
  *
@@ -216,7 +215,6 @@ class ApiClassTestCase extends CakeTestCase {
 
 		$this->assertTrue($result['debug']['function']['debug'] instanceof FunctionDocumentor);
 	}
-
 /**
  * Test that files containing global functions always have the declaredInFile set to the file_name
  * in the index

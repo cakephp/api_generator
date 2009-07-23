@@ -26,7 +26,6 @@ class ApiPackage extends ApiGeneratorAppModel {
  * @var string
  **/
 	public $name = 'ApiPackage';
-
 /**
  * actsAs
  *
@@ -35,7 +34,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 	public $actsAs = array(
 		'Tree'
 	);
-
 /**
  * hasMany assocs
  *
@@ -51,7 +49,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 			'foreignKey' => 'parent_id',
 		)
 	);
-
 /**
  * belongsTo assocs
  *
@@ -63,7 +60,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 			'foreignKey' => 'parent_id',
 		)
 	);
-
 /**
  * get the package index tree.
  *
@@ -74,7 +70,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 			'recursive' => -1
 		));
 	}
-
 /**
  * Parse the Package strings out of a docBlock from a ClassDocumentor/FunctionDocumentor.
  *
@@ -95,7 +90,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 		}
 		return array_values(array_unique($packages));
 	}
-
 /**
  * Updates the package tree with new entries if they exist.
  * Requires a full package array.
@@ -127,7 +121,6 @@ class ApiPackage extends ApiGeneratorAppModel {
 		}
 		return true;
 	}
-
 /**
  * Find The last package's id value.
  *

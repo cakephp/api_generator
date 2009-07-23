@@ -28,42 +28,36 @@ class DocBlockAnalyzer {
  * @var array
  **/
 	public $rules = array();
-
 /**
  * Rules classes that are going to be used
  *
  * @var array
  **/
 	protected $_ruleNames = array();
-
 /**
  * Final score for analyzation
  *
  * @var int
  **/
 	public $_finalScore = 0;
-
 /**
  * Total elements counted this run
  *
  * @var int
  **/
 	protected $_totalElements = 0;
-
 /**
  * Running score for the current property
  *
  * @var int
  **/
 	protected $_contentScore = 0;
-	
 /**
  * Running total of all objects in the current property
  *
  * @var int
  **/
 	protected $_contentObjectCount = 0;
-
 /**
  * Default rules
  *
@@ -72,14 +66,12 @@ class DocBlockAnalyzer {
 	protected $_defaultRules = array(
 		'MissingLink', 'Empty', 'MissingParams', 'IncompleteTags'
 	);
-
 /**
  * Current reflection objects being inspected.
  *
  * @var object
  **/
 	protected $_reflection;
-
 /**
  * Constructor
  *
@@ -195,7 +187,6 @@ class DocBlockAnalyzer {
 		$results['finalScore'] = ($this->_finalScore / $this->_totalElements);
 		return $results;
 	}
-
 /**
  * Reset the docblock analyzer
  *
@@ -207,7 +198,6 @@ class DocBlockAnalyzer {
 		$this->resetCounts();
 		return true;
 	}
-
 /**
  * Reset the internal counters.
  *
@@ -244,7 +234,6 @@ class DocBlockAnalyzer {
 		$this->_totalElements += $this->_contentObjectCount;
 		$this->_finalScore += $this->_contentScore;
 	}
-
 /**
  * Score an element and generate results.
  *
@@ -263,7 +252,6 @@ class DocBlockAnalyzer {
 		$this->_contentScore += $result['totalScore'];
 		return $result;
 	}
-
 /**
  * _runRules against an element set
  *

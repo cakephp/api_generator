@@ -96,7 +96,6 @@ class DocblockTools {
 		$com['tags'] = $tags;
 		return $com;
 	}
-
 /**
  * Create a string representation of the method signature.
  *

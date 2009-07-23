@@ -72,7 +72,6 @@ class ApiPackageTestCase extends CakeTestCase {
 		unset($this->ApiPackage);
 		ClassRegistry::flush();
 	}
-
 /**
  * test getting the package index tree
  *
@@ -84,7 +83,6 @@ class ApiPackageTestCase extends CakeTestCase {
 		$this->assertFalse(isset($result[0]['ApiClass']), 'ApiClass has snuck in, big queries are happening %s');
 		$this->assertTrue(isset($result[0]['children']), 'No children, might not be a tree %s');
 	}
-
 /**
  * test parsing of @package / @subpackage strings in doc block arrays.
  *
@@ -129,7 +127,6 @@ class ApiPackageTestCase extends CakeTestCase {
 		$expected = array('cake', 'model', 'behavior');
 		$this->assertEqual($result, $expected, 'Duplicates not removed %s');
 	}
-
 /**
  * test updating the package tree and ensure that duplicate named packages do not get inserted.
  *
@@ -150,7 +147,6 @@ class ApiPackageTestCase extends CakeTestCase {
 		$result = $this->ApiPackage->findAllBySlug('model');
 		$this->assertEqual(count($result), 1, 'Too many model slugs');
 	}
-
 /**
  * test that findEndPackageId finds the end package and returns its Id
  *

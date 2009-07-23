@@ -21,12 +21,12 @@ class ApiGeneratorAppController extends AppController {
 /**
  * theme
  *
- **/	
+ **/
 	public $theme = 'api';
 /**
  * view
  *
- **/	
+ **/
 	public $view = 'Theme';
 /**
  * beforeFilter callback
@@ -47,7 +47,6 @@ class ApiGeneratorAppController extends AppController {
 		$localePaths[] = dirname(__FILE__) . DS . 'locale';
 		Configure::write('localePaths',$localePaths);
 	}
-
 /**
  * Error Generating Page.
  * Needs to be public for Security Blackhole.

@@ -95,7 +95,6 @@ class ClassDocumentor extends ReflectionClass {
 
 		return $this->classInfo;
 	}
-	
 /**
  * getProperties
  *

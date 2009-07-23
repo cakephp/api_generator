@@ -50,7 +50,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$this->assertTrue($this->ApiDoc->inBasePath(__FILE__));
 	}
 /**
- * undocumented function
+ * test fileNameTrimming
  *
  * @return void
  **/
@@ -62,7 +62,6 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$expected = 'tests/cases/helpers/api_doc.test.php';
 		$this->assertEqual($result, $expected, 'Trim path with different bases is not working %s');
 	}
-
 /**
  * testFileLink
  *
@@ -121,7 +120,6 @@ class ApiDocHelperTestCase extends CakeTestCase {
 			'/a'
 		);
 		$this->assertTags($result, $expected);
-		
 	}
 /**
  * endTest

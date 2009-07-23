@@ -24,21 +24,18 @@ class ApiPackagesController extends ApiGeneratorAppController {
  * @var string
  */
 	public $name = 'ApiPackages';
-
 /**
  * Components array
  *
  * @var array
  **/
 	public $components = array('RequestHandler');
-
 /**
  * Helpers
  *
  * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
-
 /**
  * Index of Packages + subpackages.
  *
@@ -48,7 +45,6 @@ class ApiPackagesController extends ApiGeneratorAppController {
 		$packageIndex = $this->ApiPackage->getPackageIndex();
 		$this->set('packageIndex', $packageIndex);
 	}
-
 /**
  * View a package, and all contained classes.
  *

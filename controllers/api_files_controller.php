@@ -42,7 +42,6 @@ class ApiFilesController extends ApiGeneratorAppController {
  * @var array
  **/
 	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
-
 /**
  * Extract all the useful config info out of the ApiConfig.
  *
@@ -52,7 +51,6 @@ class ApiFilesController extends ApiGeneratorAppController {
 		$this->set('basePath', $this->path);
 		$this->set($this->ApiFile->getExclusions());
 	}
-
 /**
  * Browse application files and find things you would like to generate API docs for.
  *
@@ -67,7 +65,6 @@ class ApiFilesController extends ApiGeneratorAppController {
 		list($dirs, $files) = $this->ApiFile->read($this->path . $currentPath);
 		$this->set(compact('dirs', 'files', 'currentPath', 'previousPath'));
 	}
-
 /**
  * all_files
  *
@@ -80,7 +77,6 @@ class ApiFilesController extends ApiGeneratorAppController {
 		$files = $this->ApiFile->fileList($this->path);
 		$this->set('files', $files);
 	}
-
 /**
  * View the API docs for all interesting parts in a file.
  *
