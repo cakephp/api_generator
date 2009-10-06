@@ -55,6 +55,12 @@ class ApiDocHelper extends AppHelper {
 		)
 	);
 /**
+ * pattern for finding Class::method() type links.
+ *
+ * @var string
+ **/
+	protected $_methodLinkPattern = '/([A-Z-_0-9]+)\:\:([A-Z-_0-9]+)\(\)/i';
+/**
  * classList 
  *
  * @var array
@@ -188,7 +194,29 @@ class ApiDocHelper extends AppHelper {
 		}
 		return $className;
 	}
-
+/**
+ * Parses the text and converts any supported markup syntax
+ *
+ * @return void
+ **/
+	public function parseText($text) {
+		$text = preg_replace_callback($this->_methodLinkPattern, array($this, '_parseMethodLink'), $text);
+		return $text;
+	}
+/**
+ * Parse out the method links
+ *
+ * @return void
+ **/
+	protected function _parseMethodLink($matches) {
+		$listFlip = array_flip($this->_classList);
+		if (array_key_exists($matches[1], $listFlip)) {
+			$link = array($this->slug($matches[1]), '#' => 'method-' . $matches[1] . $matches[2]);
+			$url = array_merge($this->_defaultUrl['class'], $link);
+			return $this->Html->link($matches[0], $url);
+		}
+		return $matches[0];
+	}
 /**
  * Check the access string against the excluded method access.
  *

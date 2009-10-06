@@ -122,6 +122,18 @@ class ApiDocHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected);
 	}
 /**
+ * test that parsing method links works.
+ *
+ * @return void
+ **/
+	function testParsingMethodLinks() {
+		$this->ApiDoc->setClassIndex(array('JsHelper', 'Model'));
+		$text = 'This is some JsHelper::method() more text here.';
+		$expected = 'This is some <a href="/api_generator/api_classes/view_class/js-helper#method-JsHelpermethod">JsHelper::method()</a> more text here.';
+		$result = $this->ApiDoc->parseText($text);
+		$this->assertEqual($result, $expected);
+	}
+/**
  * endTest
  *
  * @return void
