@@ -66,7 +66,7 @@ table {
 * html .clearfix {
 	height:1%;
 }
-/*
+/**
 Basic Tags 
 **********************/
 body {
@@ -111,7 +111,7 @@ h3 {
 	text-shadow:1px 1px #ccc;
 }
 
-/* containers */
+/** containers */
 #wrapper {
 	min-width:600px;
 	margin:0 auto;
@@ -148,7 +148,7 @@ h3 {
 	padding:1px 0  0 10px;
 }
 
-/* header elements */
+/** header elements */
 #header h1 {
 	color: #fff;
 	float: left;
@@ -189,7 +189,7 @@ h3 {
 	font-size:14px;
 	margin-bottom: 1em;
 }
-/*
+/**
 File Browser Styles
 ***************************************/
 #file-list,
@@ -219,7 +219,7 @@ File Browser Styles
 	display: block;
 }
 
-/*
+/**
 Documentation Page Styles
 ***************************/
 .doc-block {
@@ -267,7 +267,7 @@ Documentation Page Styles
 .parent-method h2 {
 	color:#3E4153;
 }
-/* header access indicators */
+/** header access indicators */
 .doc-head .public, 
 .doc-head .public-static {
 	border-color: #70A280;
@@ -281,11 +281,11 @@ Documentation Page Styles
 	border-color: #EAE38B;
 }
 
-/* body styles */
+/** body styles */
 .doc-body {
 	padding:14px;
 }
-/* table styles */
+/** table styles */
 .doc-body table {
 	border-collapse:separate;
 	border-spacing: 2px;
@@ -331,17 +331,43 @@ Documentation Page Styles
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
 }
+/** Markdown blocks **/
+.markdown-block h2,
+.markdown-block h3 {
+	font-size: 16px;
+	line-height:20px;
+}
+.markdown-block h4 {
+	font-size: 14px;
+	line-height:20px;
+}
+.markdown-block pre,
+.markdown-block code {
+	font-family: Monaco, Consolas, "Courier New", Courier;
+	font-size:12px;
+	background: #f5f5f5;
+	border: 1px solid #e4eee4;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+}
 .markdown-block pre {
-	font-size: 12px;
-	line-height: 14px;
-	font-family: Monaco, Corsiva, "Courier New", Courier;
-	background:  #E9F6F8;
 	padding: 3px;
 	margin: 0 0 1em 0;
-	border: 1px solid #DAEBEE;
 	color: #333;
 	overflow-x:auto;
 }
+.markdown-block pre code {
+	background:none;
+	border:none;
+}
+.markdown-block strong {
+	font-weight:bold;
+}
+.markdown-block ol {
+	list-style:decimal;
+}
+
+
 /** inheritance trees **/
 .inheritance-tree .parent-class {
 	display:block;
@@ -361,16 +387,16 @@ Documentation Page Styles
 .inheritance-tree .last {
 	background:none;
 }
-/* IE 6 collapsing margin bug */
+/** IE 6 collapsing margin bug */
 * html .inheritance-tree .parent-class {
 	padding-bottom: 15px;
 }
-/* IE 7 is also not so smart */
+/** IE 7 is also not so smart */
 * + html .inheritance-tree .parent-class {
 	padding-bottom: 15px;
 }
 
-/* visibility controls */
+/** visibility controls */
 .doc-controls a {
 	padding:5px;
 	border: 1px solid #DAEBEE;
@@ -388,7 +414,7 @@ Documentation Page Styles
 	background:#DAEBEE;
 }
 
-/* Access icon replacements */
+/** Access icon replacements */
 .access span {
 	width:14px;
 	padding-top:14px;
@@ -399,12 +425,12 @@ Documentation Page Styles
 	background-repeat:none;
 	background-position:center center;
 }
-/* IE6 fix */
+/** IE6 fix */
 * html .access span {
 	background-position: top left;
 	background-repeat:none;
 }
-/* IE7 is also stupid */
+/** IE7 is also stupid */
 * + html .access span {
 	background-position: top left;
 	background-repeat:none;
@@ -457,7 +483,7 @@ Documentation Page Styles
 	margin-right: 2em;
 }
 
-/*
+/**
 Class Index
 *****************************/
 .letter-links {
@@ -492,7 +518,7 @@ Class Index
 	list-style-position: inside;
 }
 
-/*
+/**
 Sidebar
 *****************************/
 #sidebar h3 {
@@ -516,7 +542,7 @@ Sidebar
 }
 
 
-/*
+/**
 Package Index
 *******************/
 .api-package h3 {
@@ -557,7 +583,7 @@ Package Index
 	font-family: monaco, courier, monospaced;
 }
 
-/*
+/**
 Code highlighting
 ****************************/
 .code-container {
@@ -576,7 +602,7 @@ Code highlighting
 	border: 0;
 }
 
-/* Line numbers */
+/** Line numbers */
 .code-block th {
 	text-align: right;
 	padding: 0 6px;
@@ -589,7 +615,7 @@ Code highlighting
 	background:none;
 }
 
-/* Code region */
+/** Code region */
 .code-block td {
 	padding: 0 0 0 10px;
 	margin: 0;
@@ -623,7 +649,7 @@ Code highlighting
 	white-space:pre;
 }
 
-/*
+/**
 Search results
 ****************************/
 #search-results {
@@ -658,7 +684,7 @@ Search results
 	border-bottom:1px solid #ddd;
 }
 
-/*
+/**
 Docs coverage
 ****************************/
 .score-box {
