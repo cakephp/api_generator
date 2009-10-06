@@ -336,10 +336,12 @@ Documentation Page Styles
 .markdown-block h3 {
 	font-size: 16px;
 	line-height:20px;
+	margin-bottom:10px;
 }
 .markdown-block h4 {
 	font-size: 14px;
 	line-height:20px;
+	margin-bottom:10px;
 }
 .markdown-block pre,
 .markdown-block code {

@@ -18,7 +18,7 @@
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo h($method['comment']['description']); ?></div>
+		<div class="markdown-block"><?php echo $apiDoc->parseText(h($method['comment']['description'])); ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt><?php __('Parameters:'); ?></dt>
