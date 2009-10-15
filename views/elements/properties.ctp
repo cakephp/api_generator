@@ -3,6 +3,7 @@
  * Properties Element
  *
  */
+echo $apiUtils->element('before_properties');
 $apiUtils->sortByName($doc->properties);
 ?>
 <div class="doc-block">
@@ -34,3 +35,4 @@ $apiUtils->sortByName($doc->properties);
 	<?php endif; ?>
 	</div>
 </div>
+<?php echo $apiUtils->element('after_properties'); ?>

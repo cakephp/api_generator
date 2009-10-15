@@ -173,4 +173,25 @@ HTML;
 		$cleanTwo = str_replace('_', '', $two['name']);
 		return strnatcasecmp($cleanOne, $cleanTwo);
 	}
+/**
+ * Element inclusion, checks for file existence first, and if exists, passes to regular view helper
+ *
+ * @param string $name 
+ * @param string $params 
+ * @param string $loadHelpers 
+ * @return string
+ * @access public
+ */	
+	public function element($name, $params = array(), $loadHelpers = false) {
+		$file = $plugin = $key = null;
+		$view = ClassRegistry::getObject('view');
+		$paths = $view->_paths($this->plugin);
+
+		foreach ($paths as $path) {
+			if (file_exists($path . 'elements' . DS . $name . $view->ext)) {
+				return $view->element($name, $params, $loadHelpers);
+			}
+		}
+		return '';
+	}
 }

@@ -3,7 +3,7 @@
  * Method Summary Element
  *
  */
-
+echo $apiUtils->element('before_method_summary');
 $apiUtils->sortByName($doc->methods); 
 $title = (empty($isSearch)) ? __('Method Summary:', true) : __('Methods:', true);
 ?>
@@ -51,3 +51,4 @@ $title = (empty($isSearch)) ? __('Method Summary:', true) : __('Methods:', true)
 		</table>
 	</div>
 </div>
+<?php echo $apiUtils->element('after_method_summary'); ?>

@@ -3,6 +3,7 @@
  * Class information element
  *
  */
+echo $apiUtils->element('before_class_info');
 ?>
 <a id="class-<?php echo $doc->name; ?>"></a>
 <div class="doc-block class-info">
@@ -36,3 +37,4 @@
 	  <?php echo $this->element('tag_block', array('tags' => $doc->classInfo['comment']['tags'])); ?>
 	</div>
 </div>
+<?php echo $apiUtils->element('after_class_info'); ?>
