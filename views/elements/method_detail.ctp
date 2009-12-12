@@ -3,6 +3,7 @@
  * Method Detail element
  *
  */
+echo $apiUtils->element('before_method_detail');
 ?>
 <?php foreach ($doc->methods as $method):
 	if ($apiDoc->excluded($method['access'], 'method')) :
@@ -62,4 +63,7 @@
 		<?php echo $this->element('tag_block', array('tags' => $method['comment']['tags'])); ?>
 	</div>
 </div>
-<?php endforeach; ?>
+<?php
+endforeach;
+echo $apiUtils->element('after_method_detail');
+?>
