@@ -1,14 +1,8 @@
-Api Generator
-=============
+## Api Generator
 The Api Generator gives you an easy to use file browser, that generators API documentation for your application.  It provides a file and class browser, for the files being parsed.  It also affords Markdown syntax Doc blocks to be parsed into HTML.
 
-
-Requirements:
--------------
+# Requirements:
 PHP5 - Requires PHP5.2.  If you are on PHP4 too bad, time to upgrade anyways.
 
-Configuration
--------------
-Please See the wiki guide at
-
-http://thechaw.com/api_generator/wiki/home/docs/installation/Installation_and_configuration
+# Configuration
+Please See the [wiki guide](http://thechaw.com/api_generator/wiki/home/docs/installation/Installation_and_configuration).
