@@ -1,6 +1,6 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.DocumentorFactory');
+App::import('Lib', 'ApiGenerator.DocumentorFactory');
 
 class DocumentorFactoryTestCase extends CakeTestCase {
 /**

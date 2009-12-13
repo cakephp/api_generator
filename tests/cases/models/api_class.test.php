@@ -18,7 +18,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 App::import('Model', 'ApiGenerator.ApiClass');
-App::import('Vendor', 'ApiGenerator.ClassDocumentor');
+App::import('Lib', 'ApiGenerator.ClassDocumentor');
 /**
  * ApiClassSampleClass doc block
  *

@@ -1,5 +1,5 @@
 <?php
-App::import('Vendor', 'ApiGenerator.FunctionDocumentor');
+App::import('Lib', 'ApiGenerator.FunctionDocumentor');
 /**
  * my_random_test_function
  *

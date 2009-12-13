@@ -1,6 +1,6 @@
 <?php
-App::import('Vendor', 'ApiGenerator.DocBlockAnalyzer');
-App::import('Vendor', 'ApiGenerator.ClassDocumentor');
+App::import('Lib', 'ApiGenerator.DocBlockAnalyzer');
+App::import('Lib', 'ApiGenerator.ClassDocumentor');
 
 /**
  * A class to run rules against

@@ -1,6 +1,6 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.DocblockTools');
+App::import('Lib', 'ApiGenerator.DocblockTools');
 
 /**
  * Function Documentor Class

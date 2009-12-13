@@ -49,7 +49,7 @@ class DocumentorFactory {
 		}
 		if (!class_exists(self::$_reflectorMap[$type])) {
 			$reflectorName = 'ApiGenerator.' . self::$_reflectorMap[$type];
-			App::import('Vendor', $reflectorName);
+			App::import('Lib', $reflectorName);
 		}
 		return new self::$_reflectorMap[$type]($name);
 	}
