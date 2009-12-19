@@ -99,6 +99,20 @@ class ApiConfig extends Object {
 				}
 			}
 		}
+		if (isset($ini['paths'])) {
+			$paths = array();
+			foreach ($ini['paths'] as $path => $value) {
+				$paths[$this->makeAbsolute($path)] = $value;
+			}
+			$ini['paths'] = $paths;
+		}
+		if (isset($ini['mappings'])) {
+			$mappings = array();
+			foreach ($ini['mappings'] as $class => $mapping) {
+				$mappings[$class] = $this->makeAbsolute(dirname($mapping)) . DS . basename($mapping);
+			}
+			$ini['mappings'] = $mappings;
+		}
 		return $this->data = $ini;
 	}
 /**
@@ -106,9 +120,7 @@ class ApiConfig extends Object {
  *
  * @param mixed $path
  * @param mixed $string
- *
  * @return boolean
- *
  **/
 	public function save($path = null, $string = null) {
 		if (empty($path) && empty($string)) {
@@ -154,7 +166,6 @@ class ApiConfig extends Object {
  * Return data as a config string
  *
  * @return void
- *
  **/
 	public function toString($data = array()) {
 		if (empty($data)) {
@@ -178,6 +189,21 @@ class ApiConfig extends Object {
 			$result = $data;
 		}
 		return join("\n", $result);
+	}
+/**
+ * If path provided is not absolute, prepends CORE_PATH, evaluates .. and
+ * corrects directory separators for the current OS
+ * 
+ * @param string $path
+ * @return string
+ */
+	public function makeAbsolute($path) {
+		if (Folder::isAbsolute($path)) {
+			return $path;
+		}
+		$path = CORE_PATH . $path;
+		$Folder = new Folder($path);
+		return $Folder->path;
 	}
 }
 ?>
