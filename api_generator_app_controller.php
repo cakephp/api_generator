@@ -44,8 +44,8 @@ class ApiGeneratorAppController extends AppController {
 		}
 		$this->path = Folder::slashTerm(realpath($path));
 		$localePaths = Configure::read('localePaths');
-		$localePaths[] = dirname(__FILE__) . DS . 'locale';
-		Configure::write('localePaths',$localePaths);
+		$localePaths[] = dirname(__FILE__) . DS . 'locale' . DS;
+		Configure::write('localePaths', $localePaths);
 	}
 /**
  * Error Generating Page.
