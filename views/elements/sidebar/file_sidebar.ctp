@@ -4,10 +4,10 @@
  *
  */
 ?>
-<h3><?php __('File browser'); ?></h3>
+<h3><?php __d('api_generator', 'File browser'); ?></h3>
 <ul id="file-browser">
 	<li class="up-dir folder">
-		<?php echo $html->link(__('Up one folder', true), array(
+		<?php echo $html->link(__d('api_generator', 'Up one folder', true), array(
 				'action' => 'source', $upOneFolder)); 
 		?>
 	</li>
@@ -25,7 +25,7 @@
 		<?php endforeach; ?>
 	<?php else: ?>
 		<li class="file">
-			<?php __('No files'); ?>
+			<?php __d('api_generator', 'No files'); ?>
 		</li>
 	<?php endif; ?>
 </ul>

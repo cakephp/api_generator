@@ -4,5 +4,5 @@
  *
  */
 ?>
-<h3><?php __('Package Index'); ?></h3>
+<h3><?php __d('api_generator', 'Package Index'); ?></h3>
 <?php echo $apiDoc->generatePackageTree($packageIndex); ?>

@@ -26,7 +26,7 @@ $this->pageTitle = $currentPath;
 <?php endforeach; ?>
 <?php else: ?>
 	<li class="file">
-		<span><?php __('No files'); ?></span>
+		<span><?php __d('api_generator', 'No files'); ?></span>
 	</li>
 <?php endif; ?>
 

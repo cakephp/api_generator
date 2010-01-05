@@ -55,7 +55,7 @@ class ApiIndexShell extends Shell {
 	public function startup() {
 		if ($this->command && !in_array($this->command, array('help'))) {
 			if (!config('database')) {
-				$this->out(__("Your database configuration was not found. Take a moment to create one.", true), true);
+				$this->out(__d('api_generator', "Your database configuration was not found. Take a moment to create one.", true), true);
 				$this->args = null;
 				return $this->DbConfig->execute();
 			}
@@ -103,10 +103,10 @@ class ApiIndexShell extends Shell {
 		}
 		$data = rtrim($currentRoutes, "?>") . "\n\n\t" . join("\n\t", $new);
 		if ($Routes->write($data)) {
-			$this->out(__('Routes file updated'));
+			$this->out(__d('api_generator', 'Routes file updated'));
 			return;
 		}
-		$this->out(__('Routes file NOT updated'));
+		$this->out(__d('api_generator', 'Routes file NOT updated'));
 		return;
 	}
 /**
@@ -380,7 +380,7 @@ class ApiIndexShell extends Shell {
 		$this->out('Current Users:');
 		$this->hr();
 		if (empty($config['users'])) {
-			$this->out(__('You have no users :(', true));
+			$this->out(__d('api_generator', 'You have no users :(', true));
 		} else {
 			foreach ($config['users'] as $user => $pass) {
 				$this->out($user . ' : ' . $pass);

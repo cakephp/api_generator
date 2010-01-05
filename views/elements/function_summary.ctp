@@ -15,7 +15,7 @@
 		<div class="markdown-block"><?php echo $doc->info['comment']['description']; ?></div>
 	<dl>
 		<?php if (count($doc->params)): ?>
-		<dt><?php __('Parameters:'); ?></dt>
+		<dt><?php __d('api_generator', 'Parameters:'); ?></dt>
 		<dd>
 			<table>
 				<tbody>
@@ -26,7 +26,7 @@
 						<td><?php echo $paramInfo['type']; ?></td>
 						<td><?php echo $paramInfo['comment']; ?></td>
 						<td><?php echo ($paramInfo['optional']) ? 'optional' : 'required'; ?></td>
-						<td><?php echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __('(no default)', true); ?></td>
+						<td><?php echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)', true); ?></td>
 					</tr>
 					<?php $i++;?>
 				<?php endforeach; ?>
@@ -35,12 +35,12 @@
 		</dd>
 		<?php endif; ?>
 		
-		<dt><?php __('Function defined in file:'); ?></dt>
+		<dt><?php __d('api_generator', 'Function defined in file:'); ?></dt>
 		<dd><?php 
 			echo $apiDoc->fileLink($doc->info['declaredInFile']);
 			$pseudoClass = basename($doc->info['declaredInFile']);
 			if ($apiDoc->inClassIndex($pseudoClass)):
-				__(' on line ');
+				__d('api_generator', ' on line ');
 				echo $html->link($doc->info['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
