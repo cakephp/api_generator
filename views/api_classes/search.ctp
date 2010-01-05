@@ -21,7 +21,7 @@ endif; ?>
 					<table class="summary">
 						<tbody>
 							<tr class="even">
-								<td class="access public"><span>public</span></td>
+								<td class="access public"><span><?php __d('api_generator', 'public'); ?></span></td>
 								<td>
 								<?php
 									echo $html->link($doc->info['signature'],

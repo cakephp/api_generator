@@ -15,7 +15,7 @@ echo $apiUtils->element('before_method_detail');
 	<a id="method-<?php echo $doc->name . $method['name']; ?>"></a>
 	<div class="doc-head">
 		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
-		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>">top</a>
+		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>"><?php __d('api_generator', 'top'); ?></a>
 	</div>
 
 	<div class="doc-body">

@@ -15,7 +15,7 @@
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
 					echo $apiUtils->colourPercent($apiClass['ApiClass']['coverage_cache']);
 				else:
-					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">Loading..</span>';
+					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">' . __d('api_generator', 'Loading..', true) . '</span>';
 				endif;
 			?></td>
 			<td>

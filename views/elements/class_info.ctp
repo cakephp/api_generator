@@ -7,7 +7,7 @@ echo $apiUtils->element('before_class_info');
 ?>
 <a id="class-<?php echo $doc->name; ?>"></a>
 <div class="doc-block class-info">
-	<div class="doc-head"><h2><?php echo $doc->name; ?> Class Info:</h2></div>
+	<div class="doc-head"><h2><?php printf(__d('api_generator', '%s Class Info:', true), $doc->name); ?></h2></div>
 	<div class="doc-body">
 	  <dl>
 		<dt><?php __d('api_generator', 'Class Declaration:'); ?></dt>

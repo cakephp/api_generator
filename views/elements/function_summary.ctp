@@ -8,7 +8,7 @@
 <div class="function-info">
 	<div class="doc-head">
 		<h2><?php echo $doc->name; ?></h2>
-		<a class="top-link scroll-link" href="#top-functions">top</a>
+		<a class="top-link scroll-link" href="#top-functions"><?php __d('api_generator', 'top'); ?></a>
 	</div>
 
 	<div class="doc-body">
