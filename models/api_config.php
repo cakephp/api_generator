@@ -99,17 +99,10 @@ class ApiConfig extends Object {
 				}
 			}
 		}
-		if (isset($ini['paths'])) {
-			$paths = array();
-			foreach ($ini['paths'] as $path => $value) {
-				$paths[$this->makeAbsolute($path)] = $value;
-			}
-			$ini['paths'] = $paths;
-		}
 		if (isset($ini['mappings'])) {
 			$mappings = array();
 			foreach ($ini['mappings'] as $class => $mapping) {
-				$mappings[$class] = $this->makeAbsolute(dirname($mapping)) . DS . basename($mapping);
+				$mappings[$class] = $this->makeAbsolute(dirname($mapping), $ini['paths']) . DS . basename($mapping);
 			}
 			$ini['mappings'] = $mappings;
 		}
@@ -191,19 +184,31 @@ class ApiConfig extends Object {
 		return join("\n", $result);
 	}
 /**
- * If path provided is not absolute, prepends CORE_PATH, evaluates .. and
- * corrects directory separators for the current OS
+ * If path provided is not absolute, attempts to make it absolute using
+ * the CAKE_CORE_INCLUDE_PATH, APP, and the any supplied $roots
  * 
- * @param string $path
+ * @param string $path The path to convert to an absolute path.
+ * @param array $roots Paths to serve as root dirs to convert paths into absolute paths.
  * @return string
  */
-	public function makeAbsolute($path) {
+	public function makeAbsolute($path, $roots = array()) {
 		if (Folder::isAbsolute($path)) {
 			return $path;
 		}
-		$path = CORE_PATH . $path;
-		$Folder = new Folder($path);
-		return $Folder->path;
+		$coreFile = CAKE_CORE_INCLUDE_PATH . DS . $path;
+		if (file_exists($coreFile)) {
+			return $coreFile;
+		}
+		$appFile = APP . $path;
+		if (file_exists($appFile)) {
+			return $appFile;
+		}
+		foreach ($roots as $rootDir) {
+			if (file_exists($rootDir . $path)) {
+				return $rootDir . $path;
+			}
+		}
+		return $path;
 	}
 }
 ?>

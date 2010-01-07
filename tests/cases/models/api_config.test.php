@@ -64,6 +64,23 @@ class ApiConfigTestCase extends CakeTestCase {
 		unset($this->ApiConfig);
 	}
 
+/**
+ * test that makeAbsolute adds on the CAKE_CORE_INCLUDE_PATH
+ *
+ * @return void
+ */
+	function testMakeAbosolute() {
+		$path = 'view/helpers/xml.php';
+		$roots = Configure::corePaths();
+		$result = $this->ApiConfig->makeAbsolute($path, $roots['libs']);
+		$this->assertEqual($result, $roots['libs'][0] . $path);
+	}
+
+/**
+ * test the saving of an ini file
+ *
+ * @return void
+ */
 	function testSave() {
 		$data = array(
 			'[paths]',
