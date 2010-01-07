@@ -71,9 +71,9 @@ class ApiIndexShell extends Shell {
  * @return void
  **/
 	public function initdb() {
-		$this->Dispatch->args = array('schema', 'run', 'create');
+		$this->Dispatch->args = array('schema', 'create');
 		$this->Dispatch->params['name'] = 'ApiGenerator';
-		$this->Dispatch->params['path'] = dirname(dirname(dirname(__FILE__))) . DS. 'config' . DS . 'sql';
+		$this->Dispatch->params['plugin'] = 'api_generator';
 		$this->Dispatch->dispatch();
 	}
 /**
