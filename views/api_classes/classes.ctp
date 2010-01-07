@@ -3,7 +3,7 @@
  * Browse Classes View file
  *
  */
-$this->pageTitle = __('Api Class index', true);
+$this->pageTitle = __d('api_generator', 'Api Class index', true);
 
 /**
  * Tittle height to class name height ratio
@@ -51,7 +51,7 @@ foreach ($classIndex as $slug => $name) {
 	$weight ++;
 }
 ?>
-<h1><?php __('Index'); ?></h1>
+<h1><?php __d('api_generator', 'Index'); ?></h1>
 
 <div class="letter-links">
 <?php
@@ -73,7 +73,7 @@ endforeach;
 		<?php if ($current != $letter): ?>
 			<h3><a id="letter-<?php echo $letter; ?>"></a><?php echo $letter; ?></h3>
 		<?php else: ?>
-			<h3><a id="letter-<?php echo $letter; ?>-cont"></a><?php echo $letter; ?> <?php __('(cont.)') ?></h3>
+			<h3><a id="letter-<?php echo $letter; ?>-cont"></a><?php echo $letter; ?> <?php __d('api_generator', '(cont.)') ?></h3>
 		<?php endif; ?>
 		<?php $current = $letter; ?>
 		<ul class="class-index">

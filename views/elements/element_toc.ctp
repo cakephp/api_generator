@@ -7,7 +7,7 @@
 <div id="element-toc" class="clearfix">
 	<?php if (!empty($docs['class'])): ?>
 	<div class="classes">
-		<h3><?php __('Defined Classes'); ?></h3>
+		<h3><?php __d('api_generator', 'Defined Classes'); ?></h3>
 		<ul class="element-list">
 		<?php foreach (array_keys($docs['class']) as $class): ?>
 			<li class="class">
@@ -21,7 +21,7 @@
 	<?php if (!empty($docs['function'])): ?>
 	<div class="functions">
 		<a id="top-functions"></a>
-		<h3><?php __('Declared Functions'); ?></h3>
+		<h3><?php __d('api_generator', 'Declared Functions'); ?></h3>
 		<ul class="element-list">
 		<?php foreach (array_keys($docs['function']) as $function): ?>
 			<li class="function">

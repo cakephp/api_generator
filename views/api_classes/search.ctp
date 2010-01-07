@@ -5,9 +5,9 @@
  */
 $apiDoc->setClassIndex($classIndex);
 ?>
-<h1><?php echo sprintf(__('Search Results for "%s"', true), $this->passedArgs[0]); ?></h1>
+<h1><?php echo sprintf(__d('api_generator', 'Search Results for "%s"', true), $this->passedArgs[0]); ?></h1>
 <?php if (empty($docs)): ?>
-	<p class="error"><?php __('Your search returned no results'); ?></p>
+	<p class="error"><?php __d('api_generator', 'Your search returned no results'); ?></p>
 <?php return; 
 endif; ?>
 
@@ -21,7 +21,7 @@ endif; ?>
 					<table class="summary">
 						<tbody>
 							<tr class="even">
-								<td class="access public"><span>public</span></td>
+								<td class="access public"><span><?php __d('api_generator', 'public'); ?></span></td>
 								<td>
 								<?php
 									echo $html->link($doc->info['signature'],

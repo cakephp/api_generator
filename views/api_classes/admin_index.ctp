@@ -1,11 +1,11 @@
 <?php $javascript->link('/api_generator/js/request_manager.js', false); ?>
-<h1><?php __('Admin Class Index'); ?></h1>
+<h1><?php __d('api_generator', 'Admin Class Index'); ?></h1>
 <table class="listing coverage" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<th><?php __('Classname'); ?> </th>
-			<th><?php __('Coverage'); ?>
-			<th><?php __('Actions'); ?> </th>
+			<th><?php __d('api_generator', 'Classname'); ?> </th>
+			<th><?php __d('api_generator', 'Coverage'); ?>
+			<th><?php __d('api_generator', 'Actions'); ?> </th>
 		</tr>
 	</thead>
 	<?php foreach ($apiClasses as $apiClass): ?>
@@ -15,12 +15,12 @@
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
 					echo $apiUtils->colourPercent($apiClass['ApiClass']['coverage_cache']);
 				else:
-					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">Loading..</span>';
+					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">' . __d('api_generator', 'Loading..', true) . '</span>';
 				endif;
 			?></td>
 			<td>
 				<?php 
-				echo $html->link(__('View Coverage', true), array('action' => 'docs_coverage', $apiClass['ApiClass']['slug'])); 
+				echo $html->link(__d('api_generator', 'View Coverage', true), array('action' => 'docs_coverage', $apiClass['ApiClass']['slug'])); 
 				?>
 			</td>
 		</tr>

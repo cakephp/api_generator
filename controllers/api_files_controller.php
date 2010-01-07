@@ -89,7 +89,7 @@ class ApiFilesController extends ApiGeneratorAppController {
 		$upOneFolder = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -2));
 
 		if (!file_exists($fullPath)) {
-			$this->_notFound(__('No file exists with that name', true));
+			$this->_notFound(__d('api_generator', 'No file exists with that name', true));
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($fullPath, array('useIndex' => true));
