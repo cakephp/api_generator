@@ -302,7 +302,7 @@ class ApiClass extends ApiGeneratorAppModel {
  *  was an error with analyzation.
  **/
 	public function analyzeCoverage($apiClass) {
-		App::import('Vendor', 'ApiGenerator.DocBlockAnalyzer');
+		App::import('Lib', 'ApiGenerator.DocBlockAnalyzer');
 		$className = $apiClass['ApiClass']['name'];
 
 		$ApiFile = ClassRegistry::init('ApiFile');
