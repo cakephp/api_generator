@@ -308,7 +308,12 @@ class ApiClass extends ApiGeneratorAppModel {
 		$ApiFile = ClassRegistry::init('ApiFile');
 		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name'], array('useIndex' => true));
 		if ($apiClass['ApiClass']['flags'] & ApiClass::CONCRETE_CLASS) {
-			$Analyzer = new DocBlockAnalyzer();
+			$config = ClassRegistry::init('ApiGenerator.ApiConfig')->read();
+			$rules = null;
+			if (isset($config['coverage']['rules'])) {
+				$rules = array_filter(preg_split('/\W/', $config['coverage']['rules']));
+			}
+			$Analyzer = new DocBlockAnalyzer($rules);
 			$Analyzer->setSource($docsObjects['class'][$className]);
 			$coverage = $Analyzer->analyze();
 			$this->id = $apiClass['ApiClass']['id'];
