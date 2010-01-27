@@ -276,4 +276,22 @@ class ApiClassTestCase extends CakeTestCase {
 		$result = $this->ApiClass->analyzeCoverage($apiClass);
 		$this->assertFalse($result);
 	}
+
+/**
+ * test that coverage options can be configured
+ *
+ * @return void
+ */
+	function testCoverageWithConfiguration() {
+		$this->ApiClass->config['coverageRules'] = array('Empty');
+		$apiClass = $this->ApiClass->read(null, '498cee77-68c4-4eb7-ba8b-80ed87460ad7');
+		$resultOne = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertTrue(isset($resultOne['sectionTotals']['methods']));
+
+ 		$this->ApiClass->config['coverageRules'] = array('Empty', 'IncompleteTags', 'MissingParams');
+		$resultTwo = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertTrue(isset($resultTwo['sectionTotals']['methods']));
+
+		$this->assertNotEqual($resultOne['finalScore'], $resultTwo['finalScore']);
+	}
 }

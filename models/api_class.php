@@ -57,6 +57,14 @@ class ApiClass extends ApiGeneratorAppModel {
 		)
 	);
 /**
+ * Configuration values for ApiClass
+ *
+ * @var string
+ */
+	public $config = array(
+		'coverageRules' => null
+	);
+/**
  * Flag bitmask for Pseudo classes (files with global functions)
  * get a pseudo class assigned to them
  *
@@ -69,6 +77,29 @@ class ApiClass extends ApiGeneratorAppModel {
  * @var string
  **/
 	const CONCRETE_CLASS = 2;
+/**
+ * Constructor, make instance of ApiConfig and initialize configration data.
+ *
+ * @param string $id 
+ * @param string $table 
+ * @param string $ds 
+ */
+	public function __construct($id = null, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
+		$this->_initConfig();
+	}
+/**
+ * Pull out the relevant information from the ApiConfig
+ *
+ * @return void
+ */
+	protected function _initConfig() {
+		$config = $this->ApiConfig->read();
+		if (isset($config['coverage']['rules'])) {
+			$this->config['coverageRules'] = array_filter(preg_split('/\W/', $config['coverage']['rules']));
+		}
+	}
 /**
  * Clears (truncates) the class index.
  *
@@ -308,12 +339,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		$ApiFile = ClassRegistry::init('ApiFile');
 		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name'], array('useIndex' => true));
 		if ($apiClass['ApiClass']['flags'] & ApiClass::CONCRETE_CLASS) {
-			$config = ClassRegistry::init('ApiGenerator.ApiConfig')->read();
-			$rules = null;
-			if (isset($config['coverage']['rules'])) {
-				$rules = array_filter(preg_split('/\W/', $config['coverage']['rules']));
-			}
-			$Analyzer = new DocBlockAnalyzer($rules);
+			$Analyzer = new DocBlockAnalyzer($this->config['coverageRules']);
 			$Analyzer->setSource($docsObjects['class'][$className]);
 			$coverage = $Analyzer->analyze();
 			$this->id = $apiClass['ApiClass']['id'];
