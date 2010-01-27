@@ -98,7 +98,7 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->_path = APP . 'plugins' . DS . 'api_generator';
+		$this->_path = App::pluginPath('api_generator');
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 
 		Configure::write('ApiGenerator.filePath', $this->_path);
@@ -170,7 +170,7 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function testSavePseudoClassDocs() {
-		$file = CAKE_CORE_INCLUDE_PATH . DS . CAKE . 'basics.php';
+		$file = TEST_CAKE_CORE_INCLUDE_PATH . 'basics.php';
 		$ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$docs = $ApiFile->loadFile($file);
 
