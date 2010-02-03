@@ -109,7 +109,7 @@ class DocMarkdown {
  * @return string Transformed text.
  */
 	protected function _doItalicAndBold($text) {
-		$boldPattern = '/(\*\*|__)(?=\S)(.+?)(?<=\S)\1/';
+		$boldPattern = '/(\*\*|__)(?=\S)(.+?[\*_]*)(?<=\S)\1/';
 		$italicPattern = '/(\*|_)(?=\S)(.+?)(?<=\S)\1/';
 		$text = preg_replace($boldPattern, '<strong>\2</strong>', $text);
 		$text = preg_replace($italicPattern, '<em>\2</em>', $text);

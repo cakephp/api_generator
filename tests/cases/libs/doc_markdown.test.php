@@ -28,6 +28,26 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <strong>bold</strong> normal <em>emphasis</em> normal.</p>';
 		$this->assertEqual($result, $expected);
+		
+		$text = 'Normal text ***bold*** normal *emphasis* normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <strong><em>bold</em></strong> normal <em>emphasis</em> normal.</p>';
+		$this->assertEqual($result, $expected);
+		
+		$text = 'Normal text _emphasis text_ normal _emphasis_ normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <em>emphasis text</em> normal <em>emphasis</em> normal.</p>';
+		$this->assertEqual($result, $expected);
+
+		$text = 'Normal text __bold__ normal _emphasis_ normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <strong>bold</strong> normal <em>emphasis</em> normal.</p>';
+		$this->assertEqual($result, $expected);
+		
+		$text = 'Normal text ___bold___ normal _emphasis_ normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <strong><em>bold</em></strong> normal <em>emphasis</em> normal.</p>';
+		$this->assertEqual($result, $expected);
 	}
 /**
  * end test
