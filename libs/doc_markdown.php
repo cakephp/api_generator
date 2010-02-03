@@ -33,9 +33,8 @@ class DocMarkdown {
 			$text = strip_tags($text);
 		}
 		$text = str_replace("\r\n", "\n", $text);
-		$this->_text = $text;
-		$out = $this->_runBlocks();
-		return $out;
+		$text = $this->_runBlocks($text);
+		return $text;
 	}
 
 /**
@@ -47,10 +46,36 @@ class DocMarkdown {
  * - lists
  * - paragraph
  *
+ * @param string $text Text to transform
  * @return string Transformed text.
  */
-	protected function _runBlocks() {
-		
+	protected function _runBlocks($text) {
+		$text = $this->_doHeaders($text);
+		$text = $this->_doParagraphs($text);
+		return $text;
+	}
+
+/**
+ * Run the header elements
+ *
+ * @param string $text Text to be transformed
+ * @return string Transformed text
+ */
+	protected function _doHeaders($text) {
+		return $text;
+	}
+
+/**
+ * Create paragraphs
+ *
+ * @return void
+ */
+	protected function _doParagraphs($text) {
+		$blocks = preg_split('/\n\n/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		for ($i = 0, $len = count($blocks); $i < $len; $i++) {
+			$blocks[$i] = '<p>' . $this->_runInline($blocks[$i]) . '</p>';
+		}
+		return implode("\n\n", $blocks);
 	}
 
 /**
@@ -73,7 +98,22 @@ class DocMarkdown {
  * @return string Transformed text.
  */
 	protected function _runInline($text) {
-		
+		$text = $this->_doItalicAndBold($text);
+		return $text;
+	}
+
+/**
+ * Transform `*italic* and **bold**` into `<em>italic</em> and <strong>bold</strong>`
+ *
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	protected function _doItalicAndBold($text) {
+		$boldPattern = '/(\*\*|__)(?=\S)(.+?)(?<=\S)\1/';
+		$italicPattern = '/(\*|_)(?=\S)(.+?)(?<=\S)\1/';
+		$text = preg_replace($boldPattern, '<strong>\2</strong>', $text);
+		$text = preg_replace($italicPattern, '<em>\2</em>', $text);
+		return $text;
 	}
 
 /**
