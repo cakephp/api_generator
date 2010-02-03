@@ -49,6 +49,23 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$expected = '<p>Normal text <strong><em>bold</em></strong> normal <em>emphasis</em> normal.</p>';
 		$this->assertEqual($result, $expected);
 	}
+
+/**
+ * test inline code elements.
+ *
+ * @return void
+ */
+	function testInlineCode() {
+		$text = 'Normal text `code text` normal `code` normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <code>code text</code> normal <code>code</code> normal.</p>';
+		$this->assertEqual($result, $expected);
+
+		$text = 'Normal text ``code text` normal `code`` normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <code>code text` normal `code</code> normal.</p>';
+		$this->assertEqual($result, $expected);
+	}
 /**
  * end test
  *

@@ -99,6 +99,7 @@ class DocMarkdown {
  */
 	protected function _runInline($text) {
 		$text = $this->_doItalicAndBold($text);
+		$text = $this->_doInlineCode($text);
 		return $text;
 	}
 
@@ -114,6 +115,17 @@ class DocMarkdown {
 		$text = preg_replace($boldPattern, '<strong>\2</strong>', $text);
 		$text = preg_replace($italicPattern, '<em>\2</em>', $text);
 		return $text;
+	}
+
+/**
+ * Transform `text` into <code>text</code>
+ *
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	function _doInlineCode($text) {
+		$codePattern = '/(`+)(?=\S)(.+?[`]*)(?=\S)\1/';
+		return preg_replace($codePattern, '<code>\2</code>', $text);
 	}
 
 /**
