@@ -100,6 +100,7 @@ class DocMarkdown {
 	protected function _runInline($text) {
 		$text = $this->_doItalicAndBold($text);
 		$text = $this->_doInlineCode($text);
+		$text = $this->_doAutoLink($text);
 		return $text;
 	}
 
@@ -123,9 +124,34 @@ class DocMarkdown {
  * @param string $text Text to transform
  * @return string Transformed text.
  */
-	function _doInlineCode($text) {
+	protected function _doInlineCode($text) {
 		$codePattern = '/(`+)(?=\S)(.+?[`]*)(?=\S)\1/';
 		return preg_replace($codePattern, '<code>\2</code>', $text);
+	}
+
+/**
+ * Convert url into anchor elements.  Converts both
+ * http://www.foo.com  and www.foo.com
+ * 
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	protected function _doAutoLink($text) {
+		$wwwPattern = '/((https?:\/\/|www\.)[^\s]+)\s/';
+		$text = preg_replace_callback($wwwPattern, array($this, '_autoLinkHelper'), $text);
+		return $text;
+	}
+
+/**
+ * Helper callback method for autoLink replacement.
+ *
+ * @return void
+ */
+	protected function _autoLinkHelper($matches) {
+		if ($matches[2] == 'www.') {
+			return sprintf('<a href="http://%s">%s</a> ', $matches[1], $matches[1]);
+		}
+		return sprintf('<a href="%s">%s</a> ', $matches[1], $matches[1]);
 	}
 
 /**
