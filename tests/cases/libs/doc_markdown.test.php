@@ -82,7 +82,7 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <a href="http://www.foo.com/page/foo:bar">www.foo.com/page/foo:bar</a> normal code normal.</p>';
 		$this->assertEqual($result, $expected);
-		
+
 		$text = 'Normal text http://www.foo.com normal code normal.';
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <a href="http://www.foo.com">http://www.foo.com</a> normal code normal.</p>';
@@ -99,10 +99,22 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <a href="http://www.foo.com">test link</a> normal code normal.</p>';
 		$this->assertEqual($result, $expected);
-		
+
 		$text = 'Normal text [test link](http://www.foo.com "some title") normal code normal.';
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <a href="http://www.foo.com" title="some title">test link</a> normal code normal.</p>';
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * test entity conversion
+ *
+ * @return void
+ */
+	function testEntityConversion() {
+		$text = 'Normal < text [test link](http://www.foo.com) normal & code normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal &lt; text <a href="http://www.foo.com">test link</a> normal &amp; code normal.</p>';
 		$this->assertEqual($result, $expected);
 	}
 

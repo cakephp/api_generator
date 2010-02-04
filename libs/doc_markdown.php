@@ -98,6 +98,7 @@ class DocMarkdown {
  * @return string Transformed text.
  */
 	protected function _runInline($text) {
+		$text = $this->_encodeEntities($text);
 		$text = $this->_doItalicAndBold($text);
 		$text = $this->_doInlineCode($text);
 		$text = $this->_doInlineLink($text);
@@ -106,6 +107,16 @@ class DocMarkdown {
 
 		$text = $this->_replacePlaceHolders($text);
 		return $text;
+	}
+
+/**
+ * Converts < and & as they are the most dangerous characters to leave behind.
+ *
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	protected function _encodeEntities($text) {
+		return str_replace(array('&', '<'), array('&amp;', '&lt;'), $text);
 	}
 
 /**
