@@ -119,6 +119,32 @@ class DocMarkdownTestCase extends CakeTestCase {
 	}
 
 /**
+ * Test Headings
+ *
+ * @return void
+ */
+	function testHeadings() {
+		$text = <<<TEXT
+# H1
+## H2 ##
+### heading 3
+#### heading 4
+##### Imbalanced ##
+######## There is no heading 8
+TEXT;
+		$result = $this->Parser->parse($text);
+		$expected = <<<HTML
+<h1>H1</h1>
+<h2>H2</h2>
+<h3>heading 3</h3>
+<h4>heading 4</h4>
+<h5>Imbalanced</h5>
+<h6>There is no heading 8</h6>
+HTML;
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * end test
  *
  * @return void

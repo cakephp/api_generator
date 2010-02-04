@@ -62,7 +62,21 @@ class DocMarkdown {
  * @return string Transformed text
  */
 	protected function _doHeaders($text) {
-		return $text;
+		$headingPattern = '/(#+)\s([^#\n]+)(#*)/';
+		return preg_replace_callback($headingPattern, array($this, '_headingHelper'), $text);
+	}
+
+/**
+ * Heading callback method
+ *
+ * @return string Transformed text
+ */
+	protected function _headingHelper($matches) {
+		$count = strlen($matches[1]);
+		if ($count > 6) {
+			$count = 6;
+		}
+		return $this->_makePlaceHolder(sprintf('<h%s>%s</h%s>', $count, trim($matches[2]), $count));
 	}
 
 /**
@@ -73,7 +87,11 @@ class DocMarkdown {
 	protected function _doParagraphs($text) {
 		$blocks = preg_split('/\n\n/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $len = count($blocks); $i < $len; $i++) {
-			$blocks[$i] = '<p>' . $this->_runInline($blocks[$i]) . '</p>';
+			if (substr($blocks[$i], 0, 5) === 'B0x1A') {
+				$blocks[$i] = $this->_replacePlaceHolders($blocks[$i]);
+			} else {
+				$blocks[$i] = '<p>' . $this->_runInline($blocks[$i]) . '</p>';
+			}
 		}
 		return implode("\n\n", $blocks);
 	}
@@ -95,6 +113,7 @@ class DocMarkdown {
  * - Class::method()
  * - Class::$property
  *
+ * @param string $text Text to convert.
  * @return string Transformed text.
  */
 	protected function _runInline($text) {
@@ -102,9 +121,7 @@ class DocMarkdown {
 		$text = $this->_doItalicAndBold($text);
 		$text = $this->_doInlineCode($text);
 		$text = $this->_doInlineLink($text);
-
 		$text = $this->_doAutoLink($text);
-
 		$text = $this->_replacePlaceHolders($text);
 		return $text;
 	}
@@ -176,7 +193,6 @@ class DocMarkdown {
  */
 	protected function _doInlineLink($text) {
 		// 1 = name, 2 = url , 3 = title + quotes, 4 = quote, 5 = title 
-		//$linkPattern = '/\[([^\]]+)\]\s*\(([^ \t]+)([\s\t]+?([\"|\'])(.+)\4)\)/';
 		$linkPattern = '/\[([^\]]+)\]\s*\(([^ \t]+)([\s\t]*([\"|\'])(.+)\4)?\)/';
 		return preg_replace_callback($linkPattern, array($this, '_inlineLinkHelper'), $text);
 	}
