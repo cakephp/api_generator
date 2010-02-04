@@ -90,6 +90,23 @@ class DocMarkdownTestCase extends CakeTestCase {
 	}
 
 /**
+ * test inline links
+ *
+ * @return void
+ */
+	function testInlineLinks() {
+		$text = 'Normal text [test link](http://www.foo.com) normal code normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <a href="http://www.foo.com">test link</a> normal code normal.</p>';
+		$this->assertEqual($result, $expected);
+		
+		$text = 'Normal text [test link](http://www.foo.com "some title") normal code normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <a href="http://www.foo.com" title="some title">test link</a> normal code normal.</p>';
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * end test
  *
  * @return void

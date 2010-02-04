@@ -100,7 +100,11 @@ class DocMarkdown {
 	protected function _runInline($text) {
 		$text = $this->_doItalicAndBold($text);
 		$text = $this->_doInlineCode($text);
+		$text = $this->_doInlineLink($text);
+
 		$text = $this->_doAutoLink($text);
+
+		$text = $this->_replacePlaceHolders($text);
 		return $text;
 	}
 
@@ -138,8 +142,7 @@ class DocMarkdown {
  */
 	protected function _doAutoLink($text) {
 		$wwwPattern = '/((https?:\/\/|www\.)[^\s]+)\s/';
-		$text = preg_replace_callback($wwwPattern, array($this, '_autoLinkHelper'), $text);
-		return $text;
+		return preg_replace_callback($wwwPattern, array($this, '_autoLinkHelper'), $text);
 	}
 
 /**
@@ -152,6 +155,33 @@ class DocMarkdown {
 			return sprintf('<a href="http://%s">%s</a> ', $matches[1], $matches[1]);
 		}
 		return sprintf('<a href="%s">%s</a> ', $matches[1], $matches[1]);
+	}
+
+/**
+ * Replace inline links [foo bar](http://foo.com) with <a href="http://foo.com">foo bar</a>
+ *
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	protected function _doInlineLink($text) {
+		// 1 = name, 2 = url , 3 = title + quotes, 4 = quote, 5 = title 
+		//$linkPattern = '/\[([^\]]+)\]\s*\(([^ \t]+)([\s\t]+?([\"|\'])(.+)\4)\)/';
+		$linkPattern = '/\[([^\]]+)\]\s*\(([^ \t]+)([\s\t]*([\"|\'])(.+)\4)?\)/';
+		return preg_replace_callback($linkPattern, array($this, '_inlineLinkHelper'), $text);
+	}
+
+/**
+ * Helper function for replacing of inline links
+ *
+ * @return string Text
+ * @see DocMarkdown::_doInlineLink()
+ */
+	protected function _inlineLinkHelper($matches) {
+		$title = null;
+		if (isset($matches[5])) {
+			$title = ' title="' . $matches[5] . '"';
+		}
+		return $this->_makePlaceHolder(sprintf('<a href="%s"%s>%s</a>', $matches[2], $title, $matches[1]));
 	}
 
 /**
