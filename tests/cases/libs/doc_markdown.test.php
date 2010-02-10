@@ -28,12 +28,12 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <strong>bold</strong> normal <em>emphasis</em> normal.</p>';
 		$this->assertEqual($result, $expected);
-		
+
 		$text = 'Normal text ***bold*** normal *emphasis* normal.';
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <strong><em>bold</em></strong> normal <em>emphasis</em> normal.</p>';
 		$this->assertEqual($result, $expected);
-		
+
 		$text = 'Normal text _emphasis text_ normal _emphasis_ normal.';
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <em>emphasis text</em> normal <em>emphasis</em> normal.</p>';
@@ -43,7 +43,7 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <strong>bold</strong> normal <em>emphasis</em> normal.</p>';
 		$this->assertEqual($result, $expected);
-		
+
 		$text = 'Normal text ___bold___ normal _emphasis_ normal.';
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <strong><em>bold</em></strong> normal <em>emphasis</em> normal.</p>';
@@ -142,6 +142,51 @@ TEXT;
 <h6>There is no heading 8</h6>
 HTML;
 		$this->assertEqual($result, $expected);
+	}
+	function getTests() {
+		return array('start', 'startCase', 'testHorizontalRule', 'endCase', 'end');
+	}
+
+/**
+ * test horizontal rules.
+ *
+ * @return void
+ */
+	function testHorizontalRule() {
+		$expected = <<<HTML
+<p>this is some</p>
+
+<hr />
+
+<p>text</p>
+HTML;
+
+		foreach (array('-', '*', '_') as $char) {
+			$text = <<<TEXT
+this is some
+{$char}{$char}{$char}
+text
+TEXT;
+			$result = $this->Parser->parse($text);
+			$this->assertEqual($result, $expected);
+
+			$text = <<<TEXT
+this is some
+{$char}  {$char}  {$char}
+text
+TEXT;
+			$result = $this->Parser->parse($text);
+			$this->assertEqual($result, $expected);
+
+			$text = <<<TEXT
+this is some
+{$char}{$char}{$char}{$char}{$char}{$char}
+text
+TEXT;
+			$result = $this->Parser->parse($text);
+			$this->assertEqual($result, $expected);
+		}
+
 	}
 
 /**

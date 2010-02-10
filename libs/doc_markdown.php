@@ -60,6 +60,7 @@ class DocMarkdown {
  * The following block syntaxes are supported
  *
  * - ATX style headers
+ * - horizontal rules.
  * - Code blocks
  * - lists
  * - paragraph
@@ -69,6 +70,7 @@ class DocMarkdown {
  */
 	protected function _runBlocks($text) {
 		$text = $this->_doHeaders($text);
+		$text = $this->_doHorizontalRule($text);
 		$text = $this->_doParagraphs($text);
 		return $text;
 	}
@@ -87,6 +89,7 @@ class DocMarkdown {
 /**
  * Heading callback method
  *
+ * @param array $matches array of matches from _doHeaders()
  * @return string Transformed text
  */
 	protected function _headingHelper($matches) {
@@ -95,6 +98,17 @@ class DocMarkdown {
 			$count = 6;
 		}
 		return $this->_makePlaceHolder(sprintf('<h%s>%s</h%s>', $count, trim($matches[2]), $count));
+	}
+
+/**
+ * Converts various horizontal rule markers into <hr /> elements.
+ *
+ * @param string $text Text to be transformed
+ * @return string Transformed text
+ */
+	protected function _doHorizontalRule($text) {
+		$hrPattern = '/\n+([-_* ]{3,})\n+/';
+		return preg_replace($hrPattern, "\n\n" . $this->_makePlaceHolder("<hr />") . "\n\n", $text);
 	}
 
 /**
