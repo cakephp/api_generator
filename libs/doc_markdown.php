@@ -1,5 +1,23 @@
 <?php
-
+/**
+ * DocMarkdown is a simple Markdown Parser.  It provides a set of syntax 
+ * parsing for documentation blocks.  It does not support the full markdown feature set 
+ * and implements several additional elements that have extra utility in documentation 
+ * for PHP projects.
+ *
+ * ### Unsuported syntax items:
+ *
+ * - reference style links are not supported, only inline links work.
+ * - Setext style headers are not supported, only ATX style headers work.
+ * 
+ * ### Additional syntax items:
+ *
+ * - Class::method() links. These are links to other class + methods in your code base.
+ * - Class::$property links. These are links to other class properties in your code base.
+ * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@
+ *
+ * @package api_generator.libs
+ */
 class DocMarkdown {
 
 /**
