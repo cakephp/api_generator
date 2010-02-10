@@ -143,9 +143,6 @@ TEXT;
 HTML;
 		$this->assertEqual($result, $expected);
 	}
-	function getTests() {
-		return array('start', 'startCase', 'testHorizontalRule', 'endCase', 'end');
-	}
 
 /**
  * test horizontal rules.
@@ -186,7 +183,55 @@ TEXT;
 			$result = $this->Parser->parse($text);
 			$this->assertEqual($result, $expected);
 		}
+	}
 
+/**
+ * test multiline code blocks
+ *
+ * @return void
+ */
+	function testCodeBlock() {
+		$text = <<<TEXT
+this is some
+@@@
+function test() {
+	echo '<test>';
+}
+@@@
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+	echo '&lt;test&gt;';
+}</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+
+		$text = <<<TEXT
+this is some
+{{{
+function test() {
+	echo '<test>';
+}
+}}}
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+	echo '&lt;test&gt;';
+}</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
 	}
 
 /**

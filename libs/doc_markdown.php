@@ -71,8 +71,31 @@ class DocMarkdown {
 	protected function _runBlocks($text) {
 		$text = $this->_doHeaders($text);
 		$text = $this->_doHorizontalRule($text);
+		$text = $this->_doCodeBlocks($text);
 		$text = $this->_doParagraphs($text);
 		return $text;
+	}
+
+/**
+ * Generate code blocks.
+ *
+ * @param string $text Text to be transformed
+ * @return string Transformed text
+ */
+	protected function _doCodeBlocks($text) {
+		$codePattern = '/(@{3}|\{{3})\n(.+)\n(\1|\}{3})/s';
+		return preg_replace_callback($codePattern, array($this, '_codeBlockHelper'), $text);
+	}
+
+/**
+ * code block assist
+ *
+ * @return string
+ */
+	function _codeBlockHelper($matches) {
+		return "\n" . $this->_makePlaceHolder(
+			'<pre><code>' . htmlspecialchars($matches[2]) . '</code></pre>'
+		) . "\n";
 	}
 
 /**
@@ -107,7 +130,7 @@ class DocMarkdown {
  * @return string Transformed text
  */
 	protected function _doHorizontalRule($text) {
-		$hrPattern = '/\n+([-_* ]{3,})\n+/';
+		$hrPattern = '/\n+([-_*])(?>[ ]*\1){2,}\n+/';
 		return preg_replace($hrPattern, "\n\n" . $this->_makePlaceHolder("<hr />") . "\n\n", $text);
 	}
 
@@ -117,7 +140,7 @@ class DocMarkdown {
  * @return void
  */
 	protected function _doParagraphs($text) {
-		$blocks = preg_split('/\n\n/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$blocks = preg_split('/\n{2,}/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 		for ($i = 0, $len = count($blocks); $i < $len; $i++) {
 			if (substr($blocks[$i], 0, 5) === 'B0x1A') {
 				$blocks[$i] = $this->_replacePlaceHolders($blocks[$i]);
