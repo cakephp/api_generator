@@ -188,8 +188,8 @@ class ApiFile extends Object {
 				}
 			}
 		}
-		foreach ($this->allowedExtensions as $ext) {
-			$extPattern = '/\.' . $ext . '$/i';
+		if (!empty($this->allowedExtensions)) {
+			$extPattern = '/\.' . implode('|', $this->allowedExtensions) . '$/i';
 			foreach ($fileList as $i => $file) {
 				if (!preg_match($extPattern, $file)) {
 					unset($fileList[$i]);
