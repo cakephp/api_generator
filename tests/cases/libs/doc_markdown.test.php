@@ -309,6 +309,116 @@ HTML;
 	}
 
 /**
+ * Test simple ordered list parsing
+ *
+ * @return void
+ */
+	function testSimpleOrderedList() {
+		$text = <<<TEXT
+Some text here.
+
+ - Line 1
+ - Line 2
+ - Line 3
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ul>
+<li>Line 1</li>
+<li>Line 2</li>
+<li>Line 3</li>
+</ul>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+
+		$text = <<<TEXT
+Some text here.
+
+ - Line `with code`
+ + Line 2
+ * Line **bold**
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ul>
+<li>Line <code>with code</code></li>
+<li>Line 2</li>
+<li>Line <strong>bold</strong></li>
+</ul>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * Test simple ordered list parsing
+ *
+ * @return void
+ */
+	function testSimpleUnorderedList() {
+		$text = <<<TEXT
+Some text here.
+
+ 1. Line 1
+ 2. Line 2
+ 3. Line 3
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ol>
+<li>Line 1</li>
+<li>Line 2</li>
+<li>Line 3</li>
+</ol>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+
+		$text = <<<TEXT
+Some text here.
+
+ 8. Line `with code`
+ 100. Line 2
+ 5. Line **bold**
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ol>
+<li>Line <code>with code</code></li>
+<li>Line 2</li>
+<li>Line <strong>bold</strong></li>
+</ol>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * end test
  *
  * @return void

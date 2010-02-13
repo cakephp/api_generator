@@ -9,12 +9,15 @@
  *
  * - reference style links are not supported, only inline links work.
  * - Setext style headers are not supported, only ATX style headers work.
+ * - Block quotes are not implemented at this time.
  * 
  * ### Additional syntax items:
  *
  * - Class::method() links. These are links to other class + methods in your code base.
  * - Class::$property links. These are links to other class properties in your code base.
- * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@
+ * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@ or indented.
+ *
+ * Several patterns and ideas were adopted from MarkdownSharp (http://code.google.com/p/markdownsharp/)
  *
  * @package api_generator.libs
  */
@@ -42,11 +45,32 @@ class DocMarkdown {
 	protected $_indentedCode = false;
 
 /**
+ * Current list level
+ *
+ * @var string
+ */
+	protected $_listDepth = 0;
+
+/**
  * Number of spaces per tab char
  *
  * @var string
  */
-	var $spacesPerTab = 4;
+	public $spacesPerTab = 4;
+
+/**
+ * pattern for ordered lists
+ *
+ * @var string
+ */
+	protected $_orderedListPattern = '\d+\.';
+
+/**
+ * unordered list marker
+ *
+ * @var string
+ */
+	protected $_unorderedListPattern = '[-+*]';
 
 /**
  * Parses $text containing doc-markdown text and generates the correct 
@@ -76,9 +100,9 @@ class DocMarkdown {
  * The following block syntaxes are supported
  *
  * - ATX style headers
+ * - lists
  * - horizontal rules.
  * - Code blocks
- * - lists
  * - paragraph
  *
  * @param string $text Text to transform
@@ -87,6 +111,7 @@ class DocMarkdown {
 	protected function _runBlocks($text) {
 		$text = $this->_doHeaders($text);
 		$text = $this->_doHorizontalRule($text);
+		$text = $this->_doLists($text);
 		$text = $this->_doCodeBlocksDelimited($text);
 		$text = $this->_doCodeBlocksIndented($text);
 		$text = $this->_doParagraphs($text);
@@ -105,7 +130,7 @@ class DocMarkdown {
 	}
 
 /**
- * Generate code blocks.
+ * Generate code blocks using indented style.
  *
  * @param string $text Text to be transformed
  * @return string Transformed text
@@ -178,6 +203,63 @@ class DocMarkdown {
 		return preg_replace($hrPattern, "\n\n" . $this->_makePlaceHolder("<hr />") . "\n\n", $text);
 	}
 
+/**
+ * Create elements for UL and OL lists.
+ * UL is indicated with -, +, *
+ * OL is indicated with 1. 
+ *
+ * @param string $text Text to be transformed
+ * @return string Transformed text
+ */
+	protected function _doLists($text) {
+		$listMarkers = sprintf('(?:%s|%s)', $this->_orderedListPattern, $this->_unorderedListPattern);
+
+		//1 = leading space, 2 = marker, 3 = text, 4=end
+		$listPattern = sprintf(
+			'(([ ]{0,4})(%s[ ]+)(.+?)(\Z|\n{2,}(?=\S)(?!%s)))',
+			$listMarkers, $listMarkers
+		);
+		if ($this->_listDepth == 0) {
+			$listPattern = '/(?:(?<=\n\n)|\A\n?)' . $listPattern . '/s';
+		}
+		return preg_replace_callback($listPattern, array($this, '_processList'), $text);
+	}
+
+/**
+ * Process list items and generate nested list elements
+ *
+ * @return string Processed text
+ */
+	protected function _processList($matches) {
+		$listType = preg_match('/'. $this->_orderedListPattern . '/', $matches[3]) ? 'ol' : 'ul';
+		$markerPattern = $listType == 'ol' ? $this->_orderedListPattern : $this->_unorderedListPattern;
+		$items = $this->_processListItems($matches[1], $markerPattern);
+		$list = sprintf("<%s>\n%s</%s>", $listType, $items, $listType);
+		if ($this->_listDepth == 0) {
+			return $this->_makePlaceHolder($list) . "\n\n";
+		}
+		return $list;
+	}
+
+/**
+ * Generates list items and recurses into nested list structrures.
+ *
+ * @return string
+ */
+	protected function _processListItems($list, $markerPattern) {
+		$listPattern = sprintf(
+			'/(?:[ ]{0,4}(?:%s[ ]+))(.+?)(?:\n{1,2})/s',
+			$markerPattern, $markerPattern
+		);
+		$this->_listDepth++;
+		preg_match_all($listPattern, $list, $items);
+		$out = '';
+		foreach ($items[1] as $item) {
+			$out .= "<li>" . $this->_runInline($item) . "</li>\n";
+		}
+		$this->_listDepth--;
+		return $out;
+	}
 /**
  * Create paragraphs
  *
