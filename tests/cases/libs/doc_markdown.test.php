@@ -281,6 +281,31 @@ TEXT;
 HTML;
 		$result = $this->Parser->parse($text);
 		$this->assertEqual($result, $expected);
+
+		$text = <<<TEXT
+this is some
+
+    function test() {
+    	echo '<test>';
+    }
+    
+    \$foo->bar();
+
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+    echo '&lt;test&gt;';
+}
+
+\$foo-&gt;bar();</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
 	}
 
 /**
