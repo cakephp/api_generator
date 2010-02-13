@@ -67,8 +67,18 @@ class ApiFileTestCase extends CakeTestCase {
 	function testRead() {
 		$result = $this->ApiFile->read($this->_path  . DS . 'models');
 		$this->assertTrue(empty($result[0]));
-		$expected = array('api_config.php', 'api_class.php', 'api_file.php');
-		$this->assertEqual(sort($result[1]), sort($expected));
+		$expected = array('api_config.php', 'api_class.php', 'api_file.php', 'api_package.php');
+		sort($result[1]);
+		sort($expected);
+		$this->assertEqual($result[1], $expected);
+
+		$this->ApiFile->allowedExtensions = array('php', 'ctp');
+		$result = $this->ApiFile->read($this->_path  . DS . 'models');
+		$this->assertTrue(empty($result[0]));
+		$expected = array('api_config.php', 'api_class.php', 'api_file.php', 'api_package.php');
+		sort($result[1]);
+		sort($expected);
+		$this->assertEqual($result[1], $expected);
 
 		$this->ApiFile->excludeFiles[] = 'api_class.php';
 		$result = $this->ApiFile->read($this->_path . DS . 'models');
