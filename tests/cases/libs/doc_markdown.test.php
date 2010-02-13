@@ -190,7 +190,7 @@ TEXT;
  *
  * @return void
  */
-	function testCodeBlock() {
+	function testCodeBlockWithDelimiters() {
 		$text = <<<TEXT
 this is some
 @@@
@@ -204,7 +204,7 @@ TEXT;
 <p>this is some</p>
 
 <pre><code>function test() {
-	echo '&lt;test&gt;';
+    echo '&lt;test&gt;';
 }</code></pre>
 
 <p>more text</p>
@@ -225,7 +225,56 @@ TEXT;
 <p>this is some</p>
 
 <pre><code>function test() {
-	echo '&lt;test&gt;';
+    echo '&lt;test&gt;';
+}</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * test indented code blocks
+ *
+ * @return void
+ */
+	function testCodeBlockWithIndents() {
+		$text = <<<TEXT
+this is some
+
+	function test() {
+		echo '<test>';
+	}
+
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+    echo '&lt;test&gt;';
+}</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+
+		$text = <<<TEXT
+this is some
+
+    function test() {
+    	echo '<test>';
+    }
+
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+    echo '&lt;test&gt;';
 }</code></pre>
 
 <p>more text</p>

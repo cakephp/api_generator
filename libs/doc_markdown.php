@@ -32,7 +32,21 @@ class DocMarkdown {
  *
  * @var array
  */
-	var $_placeHolders = array();
+	protected $_placeHolders = array();
+
+/**
+ * indented code block flag used to signal an outdent
+ *
+ * @var boolean
+ */
+	protected $_indentedCode = false;
+
+/**
+ * Number of spaces per tab char
+ *
+ * @var string
+ */
+	var $spacesPerTab = 4;
 
 /**
  * Parses $text containing doc-markdown text and generates the correct 
@@ -50,7 +64,9 @@ class DocMarkdown {
 		if (!empty($options['stripHtml'])) {
 			$text = strip_tags($text);
 		}
+		$this->_placeHolders = array();
 		$text = str_replace("\r\n", "\n", $text);
+		$text = str_replace("\t", str_repeat(' ', $this->spacesPerTab), $text);
 		$text = $this->_runBlocks($text);
 		return $text;
 	}
@@ -71,7 +87,8 @@ class DocMarkdown {
 	protected function _runBlocks($text) {
 		$text = $this->_doHeaders($text);
 		$text = $this->_doHorizontalRule($text);
-		$text = $this->_doCodeBlocks($text);
+		$text = $this->_doCodeBlocksDelimited($text);
+		$text = $this->_doCodeBlocksIndented($text);
 		$text = $this->_doParagraphs($text);
 		return $text;
 	}
@@ -82,9 +99,23 @@ class DocMarkdown {
  * @param string $text Text to be transformed
  * @return string Transformed text
  */
-	protected function _doCodeBlocks($text) {
+	protected function _doCodeBlocksDelimited($text) {
 		$codePattern = '/(@{3}|\{{3})\n(.+)\n(\1|\}{3})/s';
 		return preg_replace_callback($codePattern, array($this, '_codeBlockHelper'), $text);
+	}
+
+/**
+ * Generate code blocks.
+ *
+ * @param string $text Text to be transformed
+ * @return string Transformed text
+ */
+	protected function _doCodeBlocksIndented($text) {
+		$codePattern = '/(\n\n|\A)((?:[ ]{4}.*\n+)+)((?=[ ]{0,4}|\Z))/';
+		$this->_indentedCode = true;
+		$return = preg_replace_callback($codePattern, array($this, '_codeBlockHelper'), $text);
+		$this->_indentedCode = false;
+		return $return;
 	}
 
 /**
@@ -92,10 +123,23 @@ class DocMarkdown {
  *
  * @return string
  */
-	function _codeBlockHelper($matches) {
-		return "\n" . $this->_makePlaceHolder(
-			'<pre><code>' . htmlspecialchars($matches[2]) . '</code></pre>'
-		) . "\n";
+	protected function _codeBlockHelper($matches) {
+		if ($this->_indentedCode) {
+			$matches[2] = $this->_outdent($matches[2]);
+		}
+		return "\n\n" . $this->_makePlaceHolder(
+			'<pre><code>' . htmlspecialchars(trim($matches[2])) . '</code></pre>'
+		) . "\n\n";
+	}
+
+/**
+ * Outdents code one $spacesPerTab amount.
+ *
+ * @param string $text Text to outdent
+ * @return string 
+ */
+	protected function _outdent($text) {
+		return preg_replace('/^[ ]{1,4}/ms', '', $text);
 	}
 
 /**
