@@ -419,6 +419,45 @@ HTML;
 	}
 
 /**
+ * test nested one line lists
+ *
+ * @return void
+ */
+	function testNestedLists() {
+		$text = <<<TEXT
+Some text here.
+
+ - Line 1
+    - Indented 1
+    - Indented 2
+    - Indented 3
+ - Line 2
+ - Line 3
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ul>
+<li>Line 1
+<ul>
+<li>Indented 1</li>
+<li>Indented 2</li>
+<li>Indented 3</li>
+</ul></li>
+<li>Line 2</li>
+<li>Line 3</li>
+</ul>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * end test
  *
  * @return void

@@ -17,7 +17,8 @@
  * - Class::$property links. These are links to other class properties in your code base.
  * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@ or indented.
  *
- * Several patterns and ideas were adopted from MarkdownSharp (http://code.google.com/p/markdownsharp/)
+ * Several patterns and ideas like list processing were adopted from 
+ * MarkdownSharp (http://code.google.com/p/markdownsharp/)
  *
  * @package api_generator.libs
  */
@@ -221,6 +222,8 @@ class DocMarkdown {
 		);
 		if ($this->_listDepth == 0) {
 			$listPattern = '/(?:(?<=\n\n)|\A\n?)' . $listPattern . '/s';
+		} else {
+			$listPattern = '/' . $listPattern . '/s';
 		}
 		return preg_replace_callback($listPattern, array($this, '_processList'), $text);
 	}
@@ -233,7 +236,9 @@ class DocMarkdown {
 	protected function _processList($matches) {
 		$listType = preg_match('/'. $this->_orderedListPattern . '/', $matches[3]) ? 'ol' : 'ul';
 		$markerPattern = $listType == 'ol' ? $this->_orderedListPattern : $this->_unorderedListPattern;
+
 		$items = $this->_processListItems($matches[1], $markerPattern);
+		
 		$list = sprintf("<%s>\n%s</%s>", $listType, $items, $listType);
 		if ($this->_listDepth == 0) {
 			return $this->_makePlaceHolder($list) . "\n\n";
@@ -251,15 +256,38 @@ class DocMarkdown {
 			'/(?:[ ]{0,4}(?:%s[ ]+))(.+?)(?:\n{1,2})/s',
 			$markerPattern, $markerPattern
 		);
+		$listPattern = sprintf('/
+			(\n)?
+			(^[ ]*)
+			(%s[ ]+) # list marker
+			((.+?)(\n{1,2})) # text
+			(?=\n*(\Z|\2(%s)[ ]+))
+		/smx', $markerPattern, $markerPattern);
 		$this->_listDepth++;
-		preg_match_all($listPattern, $list, $items);
-		$out = '';
-		foreach ($items[1] as $item) {
-			$out .= "<li>" . $this->_runInline($item) . "</li>\n";
-		}
+
+		$out = preg_replace_callback($listPattern, array($this, '_listItem'), $list);
+
 		$this->_listDepth--;
 		return $out;
 	}
+
+/**
+ * Make a single list item
+ *
+ * @return string
+ */
+	protected function _listItem($matches) {
+		$item = $matches[4];
+		$leadingLine = $matches[1];
+		if (!empty($leadingLine)) {
+			
+		} else {
+			$item = $this->_runInline($item);
+			$item = $this->_doLists($item . "\n"); 
+		}
+		return '<li>' . trim($item) . "</li>\n";
+	}
+
 /**
  * Create paragraphs
  *
