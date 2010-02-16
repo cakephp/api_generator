@@ -137,7 +137,10 @@ class DocMarkdown {
  * @return string Transformed text
  */
 	protected function _doCodeBlocksIndented($text) {
-		$codePattern = '/(\n\n|\A)((?:[ ]{4}.*\n+)+)((?=[ ]{0,4}|\Z))/';
+		$codePattern = sprintf(
+			'/(\n\n|\A)((?:[ ]{%s}.*\n+)+)((?=[ ]{0,%s}|\Z))/',
+			$this->spacesPerTab,$this->spacesPerTab
+		);
 		$this->_indentedCode = true;
 		$return = preg_replace_callback($codePattern, array($this, '_codeBlockHelper'), $text);
 		$this->_indentedCode = false;
@@ -165,7 +168,7 @@ class DocMarkdown {
  * @return string 
  */
 	protected function _outdent($text) {
-		return preg_replace('/^[ ]{1,4}/ms', '', $text);
+		return preg_replace(sprintf('/^[ ]{1,%s}/ms', $this->spacesPerTab), '', $text);
 	}
 
 /**
@@ -217,8 +220,8 @@ class DocMarkdown {
 
 		//1 = leading space, 2 = marker, 3 = text, 4=end
 		$listPattern = sprintf(
-			'(([ ]{0,4})(%s[ ]+)(.+?)(\Z|\n{2,}(?=\S)(?!%s)))',
-			$listMarkers, $listMarkers
+			'(([ ]{0,%s})(%s[ ]+)(.+?)(\Z|\n{2,}(?=\S)(?!%s)))',
+			$this->spacesPerTab, $listMarkers, $listMarkers
 		);
 		if ($this->_listDepth == 0) {
 			$listPattern = '/(?:(?<=\n\n)|\A\n?)' . $listPattern . '/s';
@@ -238,7 +241,7 @@ class DocMarkdown {
 		$markerPattern = $listType == 'ol' ? $this->_orderedListPattern : $this->_unorderedListPattern;
 
 		$items = $this->_processListItems($matches[1], $markerPattern);
-		
+
 		$list = sprintf("<%s>\n%s</%s>", $listType, $items, $listType);
 		if ($this->_listDepth == 0) {
 			return $this->_makePlaceHolder($list) . "\n\n";
@@ -283,7 +286,7 @@ class DocMarkdown {
 			
 		} else {
 			$item = $this->_runInline($item);
-			$item = $this->_doLists($item . "\n"); 
+			$item = $this->_doLists($this->_outdent($item) . "\n"); 
 		}
 		return '<li>' . trim($item) . "</li>\n";
 	}
