@@ -488,7 +488,43 @@ TEXT;
 <p>more text</p>
 HTML;
 		$result = $this->Parser->parse($text);
-		var_dump($result);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * test mixed lists.
+ *
+ * @return void
+ */
+	function testMixedList() {
+		$text = <<<TEXT
+Some text here.
+
+ - Line 1
+    1. Indented 1
+    2. Indented 2
+ - Line 2
+ - Line 3
+
+more text
+TEXT;
+
+		$expected = <<<HTML
+<p>Some text here.</p>
+
+<ul>
+<li>Line 1
+<ol>
+<li>Indented 1</li>
+<li>Indented 2</li>
+</ol></li>
+<li>Line 2</li>
+<li>Line 3</li>
+</ul>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
 		$this->assertEqual($result, $expected);
 	}
 
