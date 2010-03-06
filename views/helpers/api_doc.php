@@ -81,8 +81,8 @@ class ApiDocHelper extends AppHelper {
 		$this->setBasePath($view->getVar('basePath'));
 
 		$this->_Parser = new DocMarkdown();
-		$generator = new ApiLinkGenerator();
-		$this->_Parser->setLinkGenerator($generator);
+		$this->_generator = new ApiLinkGenerator();
+		$this->_Parser->setLinkGenerator($this->_generator);
 	}
 
 /**
@@ -175,6 +175,7 @@ class ApiDocHelper extends AppHelper {
  **/
 	public function setClassIndex($classList) {
 		$this->_classList = $classList;
+		$this->_generator->setClassIndex($classList);
 	}
 
 /**
