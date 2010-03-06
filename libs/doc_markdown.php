@@ -242,7 +242,7 @@ class DocMarkdown {
 		if ($this->_listDepth == 0) {
 			$listPattern = '/(?:(?<=\n\n)|\A\n?)' . $listPattern . '/s';
 		} else {
-			$listPattern = '/' . $listPattern . '/s';
+			$listPattern = '/^' . $listPattern . '/sm';
 		}
 		return preg_replace_callback($listPattern, array($this, '_processList'), $text);
 	}
@@ -258,7 +258,7 @@ class DocMarkdown {
 
 		$items = $this->_processListItems($matches[1], $markerPattern);
 
-		$list = sprintf("<%s>\n%s</%s>", $listType, $items, $listType);
+		$list = sprintf("<%s>\n%s\n</%s>", $listType, $items, $listType);
 		if ($this->_listDepth == 0) {
 			return $this->_makePlaceHolder($list) . "\n\n";
 		}
@@ -271,23 +271,20 @@ class DocMarkdown {
  * @return string
  */
 	protected function _processListItems($list, $markerPattern) {
-		$listPattern = sprintf(
-			'/(?:[ ]{0,4}(?:%s[ ]+))(.+?)(?:\n{1,2})/s',
-			$markerPattern, $markerPattern
-		);
+		$list .= "\n";
 		$listPattern = sprintf('/
 			(\n)?
 			(^[ ]*)
 			(%s[ ]+) # list marker
 			((.+?)(\n{1,2})) # text
-			(?=\n*(\Z|\2(%s)[ ]+))
+			(?=\n*(\z|\2(%s)[ ]+))
 		/smx', $markerPattern, $markerPattern);
 		$this->_listDepth++;
 
 		$out = preg_replace_callback($listPattern, array($this, '_listItem'), $list);
 
 		$this->_listDepth--;
-		return $out;
+		return trim($out);
 	}
 
 /**
@@ -301,6 +298,7 @@ class DocMarkdown {
 		if (!empty($leadingLine)) {
 			$item = $this->_runBlocks($this->_outdent($item) . "\n");
 		} else {
+			$item = rtrim($item, "\n");
 			$item = $this->_runInline($item);
 			$item = $this->_doLists($this->_outdent($item) . "\n");
 		}

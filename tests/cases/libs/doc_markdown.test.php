@@ -365,6 +365,35 @@ HTML;
 	}
 
 /**
+ * test that lists ending on the last line of the text are handled properly
+ *
+ * @return void
+ */
+	function testUnorderedListAtEndOfText() {
+		$text = <<<TEXT
+### Attributes:
+
+ - `empty` - If true, the empty select option is shown.  If a string, 
+    that string is displayed as the empty element.
+ - this is another line
+TEXT;
+
+		$expected = <<<HTML
+<h3>Attributes:</h3>
+
+<ul>
+<li><code>empty</code> - If true, the empty select option is shown.  If a string, 
+that string is displayed as the empty element.</li>
+<li>this is another line</li>
+</ul>
+
+<p></p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * Test simple ordered list parsing
  *
  * @return void
