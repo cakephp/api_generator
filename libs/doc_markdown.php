@@ -452,6 +452,9 @@ class DocMarkdown {
 		}
 		$linkPattern = '/([A-Z-_0-9]+)\:\:([A-Z-_0-9]+)\(\)/i';
 		$text = preg_replace_callback($linkPattern, array($this->_LinkGenerator, 'classMethodLink'), $text);
+
+		$propertyPattern = '/([A-Z-_0-9]+)\:\:\$([A-Z-_0-9]+)/i';
+		$text = preg_replace_callback($propertyPattern, array($this->_LinkGenerator, 'classPropertyLink'), $text);
 		return $text;
 	}
 
@@ -496,8 +499,21 @@ abstract class ApiDocLinkGenerator {
 
 	protected $_classList = array();
 
-
+/**
+ * Generate links for Methods.  Uses Class::method() as a template
+ *
+ * @param array $matches
+ * @return string Completed text link
+ */
 	public abstract function classMethodLink($matches);
+
+/**
+ * Generate links for properties.  Uses Class::$property as a template
+ *
+ * @param array $matches
+ * @return string Completed text link
+ */
+	public abstract function classPropertyLink($matches);
 
 /**
  * Set the Class list so that linkClassName will know which classes are in the index.

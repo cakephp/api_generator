@@ -550,6 +550,26 @@ HTML;
 	}
 
 /**
+ * test generation of class links
+ *
+ * @return void
+ */
+	function testPropertyLinks() {
+		$generator = new ApiLinkGenerator();
+		$generator->setClassIndex(array('model' => 'Model'));
+		$this->Parser->setLinkGenerator($generator);
+		$text = <<<TEXT
+This is some text Model::\$order more here
+TEXT;
+
+		$expected = <<<HTML
+<p>This is some text <a href="/api_generator/api_classes/view_class/model#property-Modelorder">Model::\$order</a> more here</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * end test
  *
  * @return void

@@ -37,7 +37,7 @@ class ApiLinkGenerator extends ApiDocLinkGenerator {
 /**
  * Handles the creation of Class::method() links.
  *
- * @return void
+ * @return string Generated link text
  */
 	public function classMethodLink($matches) {
 		$listFlip = array_flip($this->_classList);
@@ -46,8 +46,22 @@ class ApiLinkGenerator extends ApiDocLinkGenerator {
 			$url = array_merge($this->_defaultUrl['class'], $link);
 			return $this->Html->link($matches[0], $url);
 		}
-		return $matches[0];		
+		return $matches[0];
 	}
 
+/**
+ * Handle the creation of Class::$property links
+ *
+ * @return string Generated link text.
+ */
+	public function classPropertyLink($matches) {
+		$listFlip = array_flip($this->_classList);
+		if (array_key_exists($matches[1], $listFlip)) {
+			$link = array($this->slug($matches[1]), '#' => 'property-' . $matches[1] . $matches[2]);
+			$url = array_merge($this->_defaultUrl['class'], $link);
+			return $this->Html->link($matches[0], $url);
+		}
+		return $matches[0];
+	}
 
 }
