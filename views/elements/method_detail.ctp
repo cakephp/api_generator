@@ -19,7 +19,7 @@ echo $apiUtils->element('before_method_detail');
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo $apiDoc->parseText(h($method['comment']['description'])); ?></div>
+		<div class="markdown-block"><?php echo $apiDoc->parse($method['comment']['description']); ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt><?php __d('api_generator', 'Parameters:'); ?></dt>

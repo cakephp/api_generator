@@ -19,6 +19,9 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+App::import('Lib', 'ApiGenerator.DocMarkdown');
+App::import('Lib', 'ApiGenerator.ApiLinkGenerator');
+
 class ApiDocHelper extends AppHelper {
 /**
  * Helpers used by ApiDocHelper
@@ -60,12 +63,14 @@ class ApiDocHelper extends AppHelper {
  * @var string
  **/
 	protected $_methodLinkPattern = '/([A-Z-_0-9]+)\:\:([A-Z-_0-9]+)\(\)/i';
+
 /**
  * classList 
  *
  * @var array
  **/
 	protected $_classList = array();
+
 /**
  * Constructor.
  *
@@ -74,6 +79,10 @@ class ApiDocHelper extends AppHelper {
 	public function __construct($config = array()) {
 		$view = ClassRegistry::getObject('view');
 		$this->setBasePath($view->getVar('basePath'));
+
+		$this->_Parser = new DocMarkdown();
+		$generator = new ApiLinkGenerator();
+		$this->_Parser->setLinkGenerator($generator);
 	}
 
 /**
@@ -113,6 +122,7 @@ class ApiDocHelper extends AppHelper {
 		}
 		return $filename;
 	}
+
 /**
  * trim the basePath from a filename so it can be used in links
  *
@@ -194,29 +204,17 @@ class ApiDocHelper extends AppHelper {
 		}
 		return $className;
 	}
+
 /**
  * Parses the text and converts any supported markup syntax
+ * Checkout DocMarkdown for all the supported syntax elements.
  *
- * @return void
+ * @return string Converted text
  **/
-	public function parseText($text) {
-		$text = preg_replace_callback($this->_methodLinkPattern, array($this, '_parseMethodLink'), $text);
-		return $text;
+	public function parse($text) {
+		return $this->_Parser->parse($text);
 	}
-/**
- * Parse out the method links
- *
- * @return void
- **/
-	protected function _parseMethodLink($matches) {
-		$listFlip = array_flip($this->_classList);
-		if (array_key_exists($matches[1], $listFlip)) {
-			$link = array($this->slug($matches[1]), '#' => 'method-' . $matches[1] . $matches[2]);
-			$url = array_merge($this->_defaultUrl['class'], $link);
-			return $this->Html->link($matches[0], $url);
-		}
-		return $matches[0];
-	}
+
 /**
  * Check the access string against the excluded method access.
  *
@@ -307,6 +305,7 @@ class ApiDocHelper extends AppHelper {
 		$url[] = $slug;
 		return $this->Html->link($package, $url, $attributes);
 	}
+
 /**
  * parse a dot split package string and return the last package element.
  *

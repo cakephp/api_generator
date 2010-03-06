@@ -11,13 +11,13 @@ echo $apiUtils->element('before_class_info');
 	<div class="doc-body">
 	  <dl>
 		<dt><?php __d('api_generator', 'Class Declaration:'); ?></dt>
-		<dd><?php echo $doc->classInfo['classDescription']; ?></dd>
+		<dd><?php echo $apiDoc->parse($doc->classInfo['classDescription']); ?></dd>
 		
 		<dt><?php __d('api_generator', 'File name:'); ?></dt>
 		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		
 		<dt><?php __d('api_generator', 'Summary:'); ?></dt>
-		<dd class="markdown-block"><?php echo h($doc->classInfo['comment']['description']); ?></dd>
+		<dd class="markdown-block"><?php echo $apiDoc->parse($doc->classInfo['comment']['description']); ?></dd>
 		
 		<?php if (!empty($doc->classInfo['parents'])): ?>
 		<dt><?php __d('api_generator', 'Class Inheritance'); ?></dt>

@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo $doc->info['comment']['description']; ?></div>
+		<div class="markdown-block"><?php echo $apiDoc->parse($doc->info['comment']['description']); ?></div>
 	<dl>
 		<?php if (count($doc->params)): ?>
 		<dt><?php __d('api_generator', 'Parameters:'); ?></dt>
