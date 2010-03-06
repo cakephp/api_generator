@@ -1,8 +1,8 @@
 <?php
 /**
- * DocMarkdown is a simple Markdown Parser.  It provides a set of syntax 
- * parsing for documentation blocks.  It does not support the full markdown feature set 
- * and implements several additional elements that have extra utility in documentation 
+ * DocMarkdown is a simple Markdown Parser.  It provides a set of syntax
+ * parsing for documentation blocks.  It does not support the full markdown feature set
+ * and implements several additional elements that have extra utility in documentation
  * for PHP projects.
  *
  * ### Unsuported syntax items:
@@ -10,14 +10,14 @@
  * - reference style links are not supported, only inline links work.
  * - Setext style headers are not supported, only ATX style headers work.
  * - Block quotes are not implemented at this time.
- * 
+ *
  * ### Additional syntax items:
  *
  * - Class::method() links. These are links to other class + methods in your code base.
  * - Class::$property links. These are links to other class properties in your code base.
  * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@ or indented.
  *
- * Several patterns and ideas like list processing were adopted from 
+ * Several patterns and ideas like list processing were adopted from
  * MarkdownSharp (http://code.google.com/p/markdownsharp/)
  *
  * @package api_generator.libs
@@ -74,7 +74,14 @@ class DocMarkdown {
 	protected $_unorderedListPattern = '[-+*]';
 
 /**
- * Parses $text containing doc-markdown text and generates the correct 
+ * A link parser for special API links.
+ *
+ * @var string
+ */
+	protected $_LinkGenerator;
+
+/**
+ * Parses $text containing doc-markdown text and generates the correct
  * HTML
  *
  * ### Options:
@@ -94,6 +101,15 @@ class DocMarkdown {
 		$text = str_replace("\t", str_repeat(' ', $this->spacesPerTab), $text);
 		$text = $this->_runBlocks($text);
 		return $text;
+	}
+
+/**
+ * Set the active linkParser to be used for special API links.
+ *
+ * @return void
+ */
+	public function setLinkGenerator(ApiDocLinkGenerator $linkGenerator) {
+		$this->_LinkGenerator = $linkGenerator;
 	}
 
 /**
@@ -165,7 +181,7 @@ class DocMarkdown {
  * Outdents code one $spacesPerTab amount.
  *
  * @param string $text Text to outdent
- * @return string 
+ * @return string
  */
 	protected function _outdent($text) {
 		return preg_replace(sprintf('/^[ ]{1,%s}/ms', $this->spacesPerTab), '', $text);
@@ -210,7 +226,7 @@ class DocMarkdown {
 /**
  * Create elements for UL and OL lists.
  * UL is indicated with -, +, *
- * OL is indicated with 1. 
+ * OL is indicated with 1.
  *
  * @param string $text Text to be transformed
  * @return string Transformed text
@@ -283,10 +299,10 @@ class DocMarkdown {
 		$item = $matches[4];
 		$leadingLine = $matches[1];
 		if (!empty($leadingLine)) {
-			
+			$item = $this->_runBlocks($this->_outdent($item) . "\n");
 		} else {
 			$item = $this->_runInline($item);
-			$item = $this->_doLists($this->_outdent($item) . "\n"); 
+			$item = $this->_doLists($this->_outdent($item) . "\n");
 		}
 		return '<li>' . trim($item) . "</li>\n";
 	}
@@ -319,7 +335,7 @@ class DocMarkdown {
  * - autolink
  * - entity encoding
  *
- * In addition two special elements are parsed by a helper class specific to the 
+ * In addition two special elements are parsed by a helper class specific to the
  * API generation being used.
  *
  * - Class::method()
@@ -334,6 +350,7 @@ class DocMarkdown {
 		$text = $this->_doInlineCode($text);
 		$text = $this->_doInlineLink($text);
 		$text = $this->_doAutoLink($text);
+		$text = $this->_doSpecialLinks($text);
 		$text = $this->_replacePlaceHolders($text);
 		return $text;
 	}
@@ -376,7 +393,7 @@ class DocMarkdown {
 /**
  * Convert url into anchor elements.  Converts both
  * http://www.foo.com  and www.foo.com
- * 
+ *
  * @param string $text Text to transform
  * @return string Transformed text.
  */
@@ -404,7 +421,7 @@ class DocMarkdown {
  * @return string Transformed text.
  */
 	protected function _doInlineLink($text) {
-		// 1 = name, 2 = url , 3 = title + quotes, 4 = quote, 5 = title 
+		// 1 = name, 2 = url , 3 = title + quotes, 4 = quote, 5 = title
 		$linkPattern = '/\[([^\]]+)\]\s*\(([^ \t]+)([\s\t]*([\"|\'])(.+)\4)?\)/';
 		return preg_replace_callback($linkPattern, array($this, '_inlineLinkHelper'), $text);
 	}
@@ -424,11 +441,26 @@ class DocMarkdown {
 	}
 
 /**
+ * Process any special links that are in the text.
+ *
+ * @param string $text Text to transform
+ * @return string Transformed text.
+ */
+	protected function _doSpecialLinks($text) {
+		if (empty($this->_LinkGenerator)) {
+			return $text;
+		}
+		$linkPattern = '/([A-Z-_0-9]+)\:\:([A-Z-_0-9]+)\(\)/i';
+		$text = preg_replace_callback($linkPattern, array($this->_LinkGenerator, 'classMethodLink'), $text);
+		return $text;
+	}
+
+/**
  * Replace placeholders in $text with the literal values in the _placeHolders array.
  *
  * @param string $text Text to have placeholders replaced in.
  * @return string Text with placeholders replaced.
- **/
+ */
 	protected function _replacePlaceHolders($text) {
 		foreach ($this->_placeHolders as $marker => $replacement) {
 			$replaced = 0;
@@ -445,11 +477,46 @@ class DocMarkdown {
  *
  * @param string $text Text to convert into a placeholder marker
  * @return string
- **/
+ */
 	protected function _makePlaceHolder($text) {
 		$count = count($this->_placeHolders);
 		$marker = 'B0x1A' . $count;
 		$this->_placeHolders[$marker] = $text;
 		return $marker;
 	}
+}
+
+
+/**
+ * Interface for object link generator implementations
+ *
+ * @package api_generator
+ */
+abstract class ApiDocLinkGenerator {
+
+	protected $_classList = array();
+
+
+	public abstract function classMethodLink($matches);
+
+/**
+ * Set the Class list so that linkClassName will know which classes are in the index.
+ *
+ * @param array $classList The list of classes to use when making links.
+ * @return void
+ */
+	public function setClassIndex($classList) {
+		$this->_classList = $classList;
+	}
+
+/**
+ * Slugs a classname to match the format in the database.
+ *
+ * @param string $className Name of class to sluggify.
+ * @return string
+ */
+	public function slug($className) {
+		return str_replace('_', '-', Inflector::underscore($className));
+	}
+
 }

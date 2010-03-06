@@ -1,6 +1,7 @@
 <?php
 
 App::import('Lib', 'ApiGenerator.DocMarkdown');
+App::import('Lib', 'ApiGenerator.ApiLinkGenerator');
 
 class DocMarkdownTestCase extends CakeTestCase {
 
@@ -523,6 +524,26 @@ TEXT;
 </ul>
 
 <p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * test generation of class links
+ *
+ * @return void
+ */
+	function testClassLinks() {
+		$generator = new ApiLinkGenerator();
+		$generator->setClassIndex(array('model' => 'Model'));
+		$this->Parser->setLinkGenerator($generator);
+		$text = <<<TEXT
+This is some text Model::save() more here
+TEXT;
+
+		$expected = <<<HTML
+<p>This is some text <a href="/api_generator/api_classes/view_class/model#method-Modelsave">Model::save()</a> more here</p>
 HTML;
 		$result = $this->Parser->parse($text);
 		$this->assertEqual($result, $expected);
