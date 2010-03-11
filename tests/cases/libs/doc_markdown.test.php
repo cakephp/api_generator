@@ -236,6 +236,73 @@ HTML;
 	}
 
 /**
+ * test two code blocks with delimiters.
+ *
+ * @return void
+ */
+	function testMultipleCodeBlocksWithDelimiters() {
+		$text = <<<TEXT
+this is some
+{{{
+function test() {
+	echo '<test>';
+}
+}}}
+
+more text goes here.
+
+{{{
+function test() {
+	echo '<test>';
+}
+}}}
+
+Additional text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>function test() {
+    echo '&lt;test&gt;';
+}</code></pre>
+
+<p>more text goes here.</p>
+
+<pre><code>function test() {
+    echo '&lt;test&gt;';
+}</code></pre>
+
+<p>Additional text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
+ * test that code blocks work with no newlines
+ *
+ * @return void
+ */
+	function testCodeBlockNoNewLines() {
+		$text = <<<TEXT
+this is some
+
+{{{ Router::connectNamed(false, array('default' => true)); }}}
+
+more text
+TEXT;
+		$expected = <<<HTML
+<p>this is some</p>
+
+<pre><code>Router::connectNamed(false, array('default' =&gt; true));</code></pre>
+
+<p>more text</p>
+HTML;
+		$result = $this->Parser->parse($text);
+		$this->assertEqual($result, $expected);
+	}
+
+/**
  * test indented code blocks
  *
  * @return void

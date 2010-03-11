@@ -142,7 +142,7 @@ class DocMarkdown {
  * @return string Transformed text
  */
 	protected function _doCodeBlocksDelimited($text) {
-		$codePattern = '/(@{3}|\{{3})\n(.+)\n(\1|\}{3})/s';
+		$codePattern = '/(@{3}|\{{3})\n*(.+?)\n*(\1|\}{3})/s';
 		return preg_replace_callback($codePattern, array($this, '_codeBlockHelper'), $text);
 	}
 
