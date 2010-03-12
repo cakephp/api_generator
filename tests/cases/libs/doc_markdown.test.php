@@ -66,6 +66,16 @@ class DocMarkdownTestCase extends CakeTestCase {
 		$result = $this->Parser->parse($text);
 		$expected = '<p>Normal text <code>code text` normal `code</code> normal.</p>';
 		$this->assertEqual($result, $expected);
+
+		$text = 'Normal text ``code text` < > & normal `code`` normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <code>code text` &lt; > &amp; normal `code</code> normal.</p>';
+		$this->assertEqual($result, $expected);
+		
+		$text = 'Normal text ``code text some_variable_here_code text`` normal.';
+		$result = $this->Parser->parse($text);
+		$expected = '<p>Normal text <code>code text some_variable_here_code text</code> normal.</p>';
+		$this->assertEqual($result, $expected);
 	}
 
 /**
