@@ -33,13 +33,20 @@ class ApiClassFixture extends CakeTestFixture {
 		'modified' => array('type' => 'datetime'),
 	);
 
-var $records = array(
+	function __construct() {
+		foreach ($this->records as &$record) {
+			$record['file_name'] = TEST_CAKE_CORE_INCLUDE_PATH . $record['file_name'];
+		}
+		parent::__construct();
+	}
+
+	var $records = array(
 	array(
 		'id' => '498cee77-97c8-441a-99c3-80ed87460ad7', 
 		'api_package_id' => null,
 		'name' => 'basics.php', 
 		'slug' => 'basics.php',
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/basics.php', 
+		'file_name' => 'basics.php', 
 		'method_index' => 'config uses debug getMicrotime sortByKey h a aa e low up r pr params am env cache clearCache stripslashes_deep __ __n __d __dn __dc __dcn __c LogError fileExistsInPath convertSlash ife', 
 		'property_index' => NULL,
 		'flags' => '1',
@@ -52,7 +59,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'Dispatcher', 
 		'slug' => 'dispatcher', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/dispatcher.php', 
+		'file_name' => 'dispatcher.php', 
 		'method_index' => '__construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached __construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached', 
 		'property_index' => 'base webroot here admin plugin params base webroot here admin plugin params', 
 		'flags' => '2',
@@ -65,7 +72,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'Router', 
 		'slug' => 'router', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/router.php', 
+		'file_name' => 'libs/router.php', 
 		'method_index' => 'getinstance getnamedexpressions connect connectnamed mapresources writeroute prefixes parse __matchroute compile __parseextension __connectdefaultroutes setrequestinfo getparams getparam getpaths reload promote url maprouteelements __maproute getnamedelements matchnamed querystring normalize requestroute currentroute stripplugin stripescape parseextensions getargs getinstance getnamedexpressions connect connectnamed mapresources writeroute prefixes parse __matchroute compile __parseextension __connectdefaultroutes setrequestinfo getparams getparam getpaths reload promote url maprouteelements __maproute getnamedelements matchnamed querystring normalize requestroute currentroute stripplugin stripescape parseextensions getargs', 
 		'property_index' => 'routes __admin __prefixes __parseextensions __validextensions __named named __currentroute __headermap __resourcemap __resourcemapped __params __paths __defaultsmapped routes __admin __prefixes __parseextensions __validextensions __named named __currentroute __headermap __resourcemap __resourcemapped __params __paths __defaultsmapped', 
 		'flags' => '2',
@@ -78,7 +85,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'ShellDispatcher', 
 		'slug' => 'shell-dispatcher', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/cake.php', 
+		'file_name' => 'console/cake.php', 
 		'method_index' => 'shelldispatcher __construct __initconstants _initenvironment __buildpaths __bootstrap dispatch getinput stdout stderr parseparams __parseparams shiftargs help _stop shelldispatcher __construct __initconstants _initenvironment __buildpaths __bootstrap dispatch getinput stdout stderr parseparams __parseparams shiftargs help _stop', 
 		'property_index' => 'stdin stdout stderr params args shell shellclass shellcommand shellpaths shellpath shellname stdin stdout stderr params args shell shellclass shellcommand shellpaths shellpath shellname', 
 		'flags' => '2',
@@ -91,7 +98,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'ErrorHandler', 
 		'slug' => 'error-handler', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/console/error.php', 
+		'file_name' => 'console/error.php', 
 		'method_index' => '__construct error error404 missingcontroller missingaction privateaction missingtable missingdatabase missingview missinglayout missingconnection missinghelperfile missinghelperclass missingcomponentfile missingcomponentclass missingmodel stdout stderr __construct error error404 missingcontroller missingaction privateaction missingtable missingdatabase missingview missinglayout missingconnection missinghelperfile missinghelperclass missingcomponentfile missingcomponentclass missingmodel stdout stderr', 
 		'property_index' => 'stdout stderr stdout stderr', 
 		'flags' => '2',
@@ -104,7 +111,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'AclComponent', 
 		'slug' => 'acl-component', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
+		'file_name' => 'libs/controller/components/acl.php', 
 		'method_index' => '__construct startup _initacl check allow deny inherit grant revoke __construct startup _initacl check allow deny inherit grant revoke', 
 		'property_index' => '_instance _instance', 
 		'flags' => '2',
@@ -117,7 +124,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'AclBase', 
 		'slug' => 'acl-base', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
+		'file_name' => 'libs/controller/components/acl.php', 
 		'method_index' => '__construct check initialize __construct check initialize', 
 		'property_index' => '',
 		'flags' => '2',
@@ -130,7 +137,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'DbAcl', 
 		'slug' => 'db-acl', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
+		'file_name' => 'libs/controller/components/acl.php', 
 		'method_index' => '__construct initialize check allow deny inherit grant revoke getacllink _getacokeys __construct initialize check allow deny inherit grant revoke getacllink _getacokeys', 
 		'property_index' => '',
 		'flags' => '2',
@@ -143,7 +150,7 @@ var $records = array(
 		'api_package_id' => null,
 		'name' => 'IniAcl', 
 		'slug' => 'ini-acl', 
-		'file_name' => '/usr/local/lib/php5/cakephp1.2/cake/libs/controller/components/acl.php', 
+		'file_name' => 'libs/controller/components/acl.php', 
 		'method_index' => '__construct check readconfigfile arraytrim __construct check readconfigfile arraytrim', 
 		'property_index' => 'config config', 
 		'flags' => '2',

@@ -18,7 +18,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 App::import('Model', 'ApiGenerator.ApiClass');
-App::import('Vendor', 'ApiGenerator.ClassDocumentor');
+App::import('Lib', 'ApiGenerator.ClassDocumentor');
 /**
  * ApiClassSampleClass doc block
  *
@@ -98,7 +98,7 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function startTest() {
-		$this->_path = APP . 'plugins' . DS . 'api_generator';
+		$this->_path = App::pluginPath('api_generator');
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 
 		Configure::write('ApiGenerator.filePath', $this->_path);
@@ -170,7 +170,7 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function testSavePseudoClassDocs() {
-		$file = CAKE_CORE_INCLUDE_PATH . DS . CAKE . 'basics.php';
+		$file = TEST_CAKE_CORE_INCLUDE_PATH . 'basics.php';
 		$ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$docs = $ApiFile->loadFile($file);
 
@@ -275,5 +275,23 @@ class ApiClassTestCase extends CakeTestCase {
 		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
 		$result = $this->ApiClass->analyzeCoverage($apiClass);
 		$this->assertFalse($result);
+	}
+
+/**
+ * test that coverage options can be configured
+ *
+ * @return void
+ */
+	function testCoverageWithConfiguration() {
+		$this->ApiClass->config['coverageRules'] = array('Empty');
+		$apiClass = $this->ApiClass->read(null, '498cee77-68c4-4eb7-ba8b-80ed87460ad7');
+		$resultOne = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertTrue(isset($resultOne['sectionTotals']['methods']));
+
+ 		$this->ApiClass->config['coverageRules'] = array('Empty', 'IncompleteTags', 'MissingParams');
+		$resultTwo = $this->ApiClass->analyzeCoverage($apiClass);
+		$this->assertTrue(isset($resultTwo['sectionTotals']['methods']));
+
+		$this->assertNotEqual($resultOne['finalScore'], $resultTwo['finalScore']);
 	}
 }

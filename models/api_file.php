@@ -19,7 +19,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Vendor', 'ApiGenerator.DocumentorFactory');
+App::import('Lib', 'ApiGenerator.DocumentorFactory');
 
 class ApiFile extends Object {
 /**

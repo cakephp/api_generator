@@ -1,6 +1,6 @@
 <?php
 
-App::import('Vendor', 'ApiGenerator.DocblockTools');
+App::import('Lib', 'ApiGenerator.DocblockTools');
 
 class DocblockToolsTestCase extends CakeTestCase {
 
@@ -215,7 +215,7 @@ EOD;
  * @return void
  **/
 	function testMakeFunctionSignature() {
-		App::import('Vendor', array('ApiGenerator.FunctionDocumentor', 'ApiGenerator.ClassDocumentor'));
+		App::import('Lib', array('ApiGenerator.FunctionDocumentor', 'ApiGenerator.ClassDocumentor'));
 		$Func = new FunctionDocumentor('count');
 		$result = DocblockTools::makeFunctionSignature($Func);
 		$expected = 'count( $var, $mode )';

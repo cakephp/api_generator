@@ -57,6 +57,14 @@ class ApiClass extends ApiGeneratorAppModel {
 		)
 	);
 /**
+ * Configuration values for ApiClass
+ *
+ * @var string
+ */
+	public $config = array(
+		'coverageRules' => null
+	);
+/**
  * Flag bitmask for Pseudo classes (files with global functions)
  * get a pseudo class assigned to them
  *
@@ -70,13 +78,36 @@ class ApiClass extends ApiGeneratorAppModel {
  **/
 	const CONCRETE_CLASS = 2;
 /**
+ * Constructor, make instance of ApiConfig and initialize configration data.
+ *
+ * @param string $id 
+ * @param string $table 
+ * @param string $ds 
+ */
+	public function __construct($id = null, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
+		$this->_initConfig();
+	}
+/**
+ * Pull out the relevant information from the ApiConfig
+ *
+ * @return void
+ */
+	protected function _initConfig() {
+		$config = $this->ApiConfig->read();
+		if (isset($config['coverage']['rules'])) {
+			$this->config['coverageRules'] = array_filter(preg_split('/\W/', $config['coverage']['rules']));
+		}
+	}
+/**
  * Clears (truncates) the class index.
  *
  * @return void
  **/
 	public function clearIndex() {
 		$db = ConnectionManager::getDataSource($this->useDbConfig);
-		$db->truncate($this->useTable);
+		$db->truncate($db->fullTableName($this));
 	}
 /**
  * save the entry in the index for a ClassDocumentor object
@@ -302,13 +333,13 @@ class ApiClass extends ApiGeneratorAppModel {
  *  was an error with analyzation.
  **/
 	public function analyzeCoverage($apiClass) {
-		App::import('Vendor', 'ApiGenerator.DocBlockAnalyzer');
+		App::import('Lib', 'ApiGenerator.DocBlockAnalyzer');
 		$className = $apiClass['ApiClass']['name'];
 
 		$ApiFile = ClassRegistry::init('ApiFile');
 		$docsObjects = $ApiFile->loadFile($apiClass['ApiClass']['file_name'], array('useIndex' => true));
 		if ($apiClass['ApiClass']['flags'] & ApiClass::CONCRETE_CLASS) {
-			$Analyzer = new DocBlockAnalyzer();
+			$Analyzer = new DocBlockAnalyzer($this->config['coverageRules']);
 			$Analyzer->setSource($docsObjects['class'][$className]);
 			$coverage = $Analyzer->analyze();
 			$this->id = $apiClass['ApiClass']['id'];

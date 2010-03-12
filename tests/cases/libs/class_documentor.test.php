@@ -18,7 +18,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
 
-App::import('Vendor', 'ApiGenerator.ClassDocumentor');
+App::import('Lib', 'ApiGenerator.ClassDocumentor');
 
 /**
  * SimpleDocumentorSubjectClass
@@ -183,7 +183,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'return' => 'integer'
 					)
 				),
-				'startLine' => '59',
+				'startLine' => '58',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'args' => array( ), 
@@ -218,7 +218,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'comment' => 'Second arg'
 					)
 				),
-				'startLine' => '70',
+				'startLine' => '69',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
 				'access' => 'protected',
@@ -243,7 +243,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'comment' => 'a parameter'
 					)
 				),
-				'startLine' => '78',
+				'startLine' => '77',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__, 
 				'access' => 'public',

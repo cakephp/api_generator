@@ -106,7 +106,8 @@ class ApiConfig extends Object {
 			}
 			$ini['mappings'] = $mappings;
 		}
-		return $this->data = $ini;
+		$this->data = $ini;
+		return $this->data;
 	}
 /**
  * Save a config
