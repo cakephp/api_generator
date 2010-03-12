@@ -17,6 +17,9 @@
  * - Class::$property links. These are links to other class properties in your code base.
  * - Code blocks - Code blocks can be indicated with either {{{ code }}} or @@@ code @@@ or indented.
  *
+ * DocMarkdown also implements the more 'strict' italic and bold flavours, so under_scored_variables
+ * are not interpreted as italicized text.
+ *
  * Several patterns and ideas like list processing were adopted from
  * MarkdownSharp (http://code.google.com/p/markdownsharp/)
  *
