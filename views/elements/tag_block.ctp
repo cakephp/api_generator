@@ -16,10 +16,10 @@
 			echo '<dd>' . $apiDoc->packageLink(trim($value)) . '</dd>';
 		elseif (is_array($value)):
 			foreach ($value as $line):
-				echo '<dd>' . $apiDoc->parseText(h($line)) . '</dd>';
+				echo '<dd>' . $apiDoc->parseText($line) . '</dd>';
 			endforeach;
 		else:
-			echo '<dd>' . $apiDoc->parseText(h($value)) . '</dd>';
+			echo '<dd>' . $apiDoc->parse($value) . '</dd>';
 		endif; ?>
 	<?php endforeach; ?>
 </dl>

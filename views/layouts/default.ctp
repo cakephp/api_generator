@@ -34,7 +34,6 @@
 	</script>
 	<?php
 		echo $javascript->link('/api_generator/js/mootools');
-		echo $javascript->link('/api_generator/js/showdown');
 		echo $javascript->link('/api_generator/js/api_generator');
 
 		echo $scripts_for_layout;

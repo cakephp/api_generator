@@ -69,17 +69,7 @@ ApiGenerator.init = function() {
 		}
 	}
 }
-/**
- * Enable markdown conversion for .markdown-block
- */
-ApiGenerator.docBlocks = {
-	init : function() {
-		var converter = new Showdown.converter(window.basePath);
-		$$('.markdown-block').each(function(item) {
-			item.set('html', converter.makeHtml(item.get('text').trim()));
-		});
-	}
-}
+
 
 ApiGenerator.packageTree = {
 	init: function () {
