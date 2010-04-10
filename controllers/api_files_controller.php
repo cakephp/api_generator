@@ -88,8 +88,28 @@ class ApiFilesController extends ApiGeneratorAppController {
 		$previousPath = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -1));
 		$upOneFolder = implode('/', array_slice($this->passedArgs, 0, count($this->passedArgs) -2));
 
+		foreach ($this->ApiFile->excludeDirectories as $exclude) {
+			if (strpos($fullPath, $exclude) !== false) {
+				$this->_notFound(__d('api_generator', 'No file exists with that name', true));
+			}
+		}
 		if (!file_exists($fullPath)) {
 			$this->_notFound(__d('api_generator', 'No file exists with that name', true));
+		}
+		if (isset($this->passedArgs[count($this->passedArgs) - 1])) {
+			$file = $this->passedArgs[count($this->passedArgs) - 1];
+			foreach ($this->ApiFile->excludeFiles as $exclude) {
+				if ($exclude === $file) {
+					$this->_notFound(__d('api_generator', 'No file exists with that name', true));
+				}
+			}
+			if (strpos($file, '.') !== false) {
+				$ext = explode('.', $file);
+				$ext = $ext[count($ext) - 1];
+				if (!in_array($ext, $this->ApiFile->allowedExtensions)) {
+					$this->_notFound(__d('api_generator', 'No file exists with that name', true));
+				}
+			}
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($fullPath, array('useIndex' => true));

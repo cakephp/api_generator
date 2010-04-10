@@ -128,6 +128,10 @@ class ApiFile extends Object {
 			return array(array(), array());
 		}
 		$this->_Folder->cd($path);
+		$length = strlen($path);
+		if (substr($path, -1) !== DS) {
+			$length++;
+		}
 		$ignore = $this->excludeFiles;
 		$ignore[] = '.';
 		$contents = $this->_Folder->read(true, $ignore);
