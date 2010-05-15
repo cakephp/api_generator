@@ -11,7 +11,7 @@
 		<ul class="element-list">
 		<?php foreach (array_keys($docs['class']) as $class): ?>
 			<li class="class">
-				<?php echo $html->link($class, "#class-" . $class, array('class' => 'scroll-link')); ?>
+				<?php echo $this->Html->link($class, "#class-" . $class, array('class' => 'scroll-link')); ?>
 			</li>
 		<?php endforeach; ?>
 		</ul>
@@ -25,7 +25,7 @@
 		<ul class="element-list">
 		<?php foreach (array_keys($docs['function']) as $function): ?>
 			<li class="function">
-				<?php echo $html->link($function, "#function-" . $function, array('class' => 'scroll-link')); ?>
+				<?php echo $this->Html->link($function, "#function-" . $function, array('class' => 'scroll-link')); ?>
 			</li>
 		<?php endforeach; ?>
 		</ul>

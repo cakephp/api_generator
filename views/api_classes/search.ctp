@@ -24,7 +24,7 @@ endif; ?>
 								<td class="access public"><span><?php __d('api_generator', 'public'); ?></span></td>
 								<td>
 								<?php
-									echo $html->link($doc->info['signature'],
+									echo $this->Html->link($doc->info['signature'],
 											array('action' => 'view_file', $apiDoc->trimFileName($doc->info['declaredInFile']),
 											'#' => 'function-' . $doc->name),
 											array('class' => 'scroll-link')

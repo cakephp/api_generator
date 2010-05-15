@@ -41,7 +41,7 @@
 			$pseudoClass = basename($doc->info['declaredInFile']);
 			if ($apiDoc->inClassIndex($pseudoClass)):
 				__d('api_generator', ' on line ');
-				echo $html->link($doc->info['startLine'], array(
+				echo $this->Html->link($doc->info['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
 					$pseudoClass,

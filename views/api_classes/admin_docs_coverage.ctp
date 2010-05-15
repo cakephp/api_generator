@@ -1,4 +1,4 @@
-<?php echo $html->link(__d('api_generator', 'go back', true), $backwards); ?>
+<?php echo $this->Html->link(__d('api_generator', 'go back', true), $backwards); ?>
 <h1><?php __d('api_generator', 'Docs Coverage for '); echo $apiClass['ApiClass']['name']; ?></h1>
 <div class="score-box">
 	<div class="scorebar" style="width:<?php echo $number->toPercentage($analysis['finalScore'] * 100); ?>;">

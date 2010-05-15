@@ -20,21 +20,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<?php echo $html->charset(); ?>
+	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php __d('api_generator', 'CakePHP: API Generator'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php 
-		echo $html->meta('icon');
-		echo $html->css('/api_generator/css/base.css');
+		echo $this->Html->meta('icon');
+		echo $this->Html->css('/api_generator/css/base.css');
 	?>
 	<script type="text/javascript">
 		var basePath = "<?php echo $this->base; ?>";
 	</script>
 	<?php
-		echo $javascript->link('/api_generator/js/mootools');
-		echo $javascript->link('/api_generator/js/api_generator');
+		echo $this->Html->script('/api_generator/js/mootools');
+		echo $this->Html->script('/api_generator/js/api_generator');
 
 		echo $scripts_for_layout;
 	?>
@@ -43,12 +43,12 @@
 	<?php $bodyClass = (isset($showSidebar) && $showSidebar) ? 'with-sidebar' : 'no-sidebar'; ?>
 	<div id="wrapper" class="<?php echo $bodyClass; ?>">
 		<div id="header" class="clearfix">
-			<h1><?php echo $html->link(__d('api_generator', 'CakePHP: API Generator', true), 'http://cakephp.org'); ?></h1>
+			<h1><?php echo $this->Html->link(__d('api_generator', 'CakePHP: API Generator', true), 'http://cakephp.org'); ?></h1>
 			<?php echo $this->element('header_search'); ?>
 			<?php echo $this->element('api_menu');?>
 		</div>
 		<div id="content" class="clearfix">
-			<?php $session->flash(); ?>
+			<?php echo $session->flash(); ?>
 			<div id="content-inner">
 				<?php echo $content_for_layout; ?>
 			</div>
@@ -59,11 +59,11 @@
 			<?php endif; ?>
 		</div>
 		<div id="footer">
-			<?php echo $html->link(
-					$html->image('cake.power.gif', array('alt'=> __d('api_generator', "CakePHP: the rapid development php framework", true), 'border'=>"0")),
-					'http://www.cakephp.org/',
-					array('target'=>'_blank'), null, false
-				);
+			<?php echo $this->Html->image('cake.power.gif', array(
+				'alt'=> __d('api_generator', "CakePHP: the rapid development php framework", true), 
+				'border' => "0", 
+				'url' => 'http:://cakephp.org'
+			));
 			?>
 		</div>
 	</div>

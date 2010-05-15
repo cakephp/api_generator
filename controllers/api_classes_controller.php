@@ -24,24 +24,28 @@ class ApiClassesController extends ApiGeneratorAppController {
  * @var string
  */
 	public $name = 'ApiClasses';
+
 /**
  * Uses array
  *
  * @var array
  */
 	public $uses = array('ApiGenerator.ApiFile', 'ApiGenerator.ApiClass');
+
 /**
  * Components array
  *
  * @var array
  **/
-	public $components = array('RequestHandler', 'Security');
+	public $components = array('Session', 'RequestHandler', 'Security');
+
 /**
  * Helpers
  *
  * @var array
  **/
-	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
+	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Text');
+
 /**
  * beforeFilter callback
  *

@@ -20,7 +20,7 @@
 			?></td>
 			<td>
 				<?php 
-				echo $html->link(__d('api_generator', 'View Coverage', true), array('action' => 'docs_coverage', $apiClass['ApiClass']['slug'])); 
+				echo $this->Html->link(__d('api_generator', 'View Coverage', true), array('action' => 'docs_coverage', $apiClass['ApiClass']['slug'])); 
 				?>
 			</td>
 		</tr>

@@ -9,7 +9,7 @@
 <?php foreach ($classIndex as $slug => $name): ?>
 	<li class="class">
 		<?php 
-		echo $html->link($name, array(
+		echo $this->Html->link($name, array(
 			'plugin' => 'api_generator', 'controller' => 'api_classes',
 			'action' => 'view_class', $slug
 		));

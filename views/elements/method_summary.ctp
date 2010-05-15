@@ -31,12 +31,12 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 					<td>
 					<?php
 						if (empty($isSearch)):
-							echo $html->link($method['signature'],
+							echo $this->Html->link($method['signature'],
 								'#method-' . $doc->name . $method['name'],
 								array('class' => 'scroll-link')
 							);
 						else:
-							echo $html->link($method['signature'],
+							echo $this->Html->link($method['signature'],
 								array('action' => 'view_class', $apiDoc->slug($doc->name),
 								'#' => 'method-' . $doc->name . $method['name']),
 								array('class' => 'scroll-link')

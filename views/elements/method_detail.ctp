@@ -51,7 +51,7 @@ echo $apiUtils->element('before_method_detail');
 			
 			if ($apiDoc->inClassIndex($method['declaredInClass'])):
 				__d('api_generator', ' on line ');
-				echo $html->link($method['startLine'], array(
+				echo $this->Html->link($method['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
 					$apiDoc->slug($method['declaredInClass']),

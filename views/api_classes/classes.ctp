@@ -60,7 +60,7 @@ foreach (array_keys($letterIndex) as $letter):
 	if (!$letterIndex[$letter]) {
 		echo '<span>' . $letter . '</span>';
 	} else {
-		echo $html->link($letter, '#letter-' . $letter);
+		echo $this->Html->link($letter, '#letter-' . $letter);
 	}
 endforeach;
 ?>
@@ -79,7 +79,7 @@ endforeach;
 		<ul class="class-index">
 		<?php foreach ($classes as $slug => $name): ?>
 			<li><?php
-				echo $html->link($name, array(
+				echo $this->Html->link($name, array(
 					'plugin' => 'api_generator', 'controller' => 'api_classes',
 					'action' => 'view_class', $slug));
 			?></li>

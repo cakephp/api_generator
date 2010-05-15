@@ -11,17 +11,17 @@ $this->pageTitle = $currentPath;
 <?php endif; ?>
 
 	<li class="folder previous-folder">
-		<?php echo $html->link(__d('api_generator', 'Up one folder', true), array('action' => 'source', $previousPath)); ?>
+		<?php echo $this->Html->link(__d('api_generator', 'Up one folder', true), array('action' => 'source', $previousPath)); ?>
 	</li>
 <?php foreach ($dirs as $dir): ?>
 	<li class="folder">
-		<?php echo $html->link($dir, array('action' => 'source', $currentPath . '/' . $dir)); ?>
+		<?php echo $this->Html->link($dir, array('action' => 'source', $currentPath . '/' . $dir)); ?>
 	</li>
 <?php endforeach; ?>
 <?php if (!empty($files)): ?>
 <?php foreach ($files as $file): ?>
 	<li class="file">
-		<?php echo $html->link($file, array('action' => 'view_file', $currentPath . '/' . $file)); ?>
+		<?php echo $this->Html->link($file, array('action' => 'view_file', $currentPath . '/' . $file)); ?>
 	</li>
 <?php endforeach; ?>
 <?php else: ?>

@@ -7,20 +7,20 @@
 <h3><?php __d('api_generator', 'File browser'); ?></h3>
 <ul id="file-browser">
 	<li class="up-dir folder">
-		<?php echo $html->link(__d('api_generator', 'Up one folder', true), array(
+		<?php echo $this->Html->link(__d('api_generator', 'Up one folder', true), array(
 				'action' => 'source', $upOneFolder)); 
 		?>
 	</li>
 	<?php foreach ($dirs as $dir): ?>
 		<li class="folder">
-			<?php echo $html->link($dir, array('action' => 'source', $previousPath . '/' . $dir)); ?>
+			<?php echo $this->Html->link($dir, array('action' => 'source', $previousPath . '/' . $dir)); ?>
 		</li>
 	<?php endforeach; ?>
 	
 	<?php if (!empty($files)): ?>
 		<?php foreach ($files as $file): ?>
 			<li class="file">
-				<?php echo $html->link($file, array('action' => 'view_file', $previousPath . '/' . $file)); ?>
+				<?php echo $this->Html->link($file, array('action' => 'view_file', $previousPath . '/' . $file)); ?>
 			</li>
 		<?php endforeach; ?>
 	<?php else: ?>
