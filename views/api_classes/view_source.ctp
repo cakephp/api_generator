@@ -3,7 +3,7 @@
  * View the source code for a file.
  *
  */
-$this->pageTitle = $apiDoc->trimFileName($filename);
+$this->set('title_for_layout', $apiDoc->trimFileName($filename));
 ?>
 <h1><?php echo $apiDoc->trimFileName($filename); ?></h1>
 

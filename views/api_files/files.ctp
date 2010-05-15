@@ -3,7 +3,7 @@
  * Recursive Listing of all allowed files.
  *
  */
-$this->pageTitle = __d('api_generator', 'All Files', true);
+$this->set('title_for_layout', __d('api_generator', 'All Files', true));
 ?>
 <h1><?php __d('api_generator', 'All files')?></h1>
 

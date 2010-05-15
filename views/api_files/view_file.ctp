@@ -3,7 +3,7 @@
  * View view.  Shows generated api docs from a file.
  * 
  */
-$this->pageTitle = $apiDoc->trimFileName($currentPath);
+$this->set('title_for_layout', $apiDoc->trimFileName($currentPath));
 
 $apiDoc->setClassIndex($classIndex);
 ?>

@@ -3,7 +3,7 @@
  * Browse Classes View file
  *
  */
-$this->pageTitle = __d('api_generator', 'Api Class index', true);
+$this->set('title_for_layout', __d('api_generator', 'Api Class index', true));
 
 /**
  * Tittle height to class name height ratio

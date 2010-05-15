@@ -3,7 +3,7 @@
  * View a single class
  *
  */
-$this->pageTitle = $doc->classInfo['name'];
+$this->set('title_for_layout', $doc->classInfo['name']);
 
 $apiDoc->setClassIndex($classIndex);
 
