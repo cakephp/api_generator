@@ -197,13 +197,28 @@ class ApiDocHelper extends AppHelper {
  * @return string Html link or plaintext
  **/
 	public function classLink($className, $url = array(), $attributes = array()) {
-		$url = array_merge($this->_defaultUrl['class'], $url);
-		$listFlip = array_flip($this->_classList);
-		if (array_key_exists($className, $listFlip)) {
-			$url[] = $listFlip[$className];
+		$url = $this->classUrl($className, $url);
+		if ($url) {
 			return $this->Html->link($className, $url, $attributes);
 		}
 		return $className;
+	}
+
+/**
+ * Generates a url for a class in the API.
+ *
+ * @param string $className The classname to make a url for.
+ * @param array $url Additional params for the url.
+ * @return string
+ */
+	public function classUrl($className, $url = array()) {
+		$url = array_merge($this->_defaultUrl['class'], $url);
+		$listFlip = array_flip($this->_classList);
+		if (!array_key_exists($className, $listFlip)) {
+			return false;
+		}
+		$url[] = $listFlip[$className];
+		return $this->url($url, true);
 	}
 
 /**
@@ -298,13 +313,24 @@ class ApiDocHelper extends AppHelper {
  * @return string Html link
  **/
 	public function packageLink($package, $url = array(), $attributes = array()) {
+		$url = $this->packageUrl($package, $url);
+		return $this->Html->link($package, $url, $attributes);
+	}
+
+/**
+ * Generate a url for a package name
+ *
+ * @param string $package The package to generate a url for.
+ * @return string URL for the package.
+ */
+	public function packageUrl($package, $url = array()) {
 		$url = array_merge($this->_defaultUrl['package'], $url);
 		$slug = $this->slug($package);
 		if (strpos($slug, '.') !== false) {
 			$slug = $this->_parsePackageString($slug);
 		}
 		$url[] = $slug;
-		return $this->Html->link($package, $url, $attributes);
+		return $this->url($url, true);
 	}
 
 /**
