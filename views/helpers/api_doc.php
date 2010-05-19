@@ -305,6 +305,29 @@ class ApiDocHelper extends AppHelper {
 	}
 
 /**
+ * Generate a package tree in json
+ *
+ * @param array package tree
+ * @return void
+ */
+	public function generatePackageJsonTree($packageTree) {
+		$out = array();
+		foreach ($packageTree as $branch) {
+			$children = array();
+			$url = $this->packageUrl($branch['ApiPackage']['name']);
+			if (!empty($branch['children'])) {
+				$children = $this->generatePackageJsonTree($branch['children']);
+			}
+			$out[] = array(
+				'name' => $branch['ApiPackage']['name'],
+				'url' => $url,
+				'children' => $children
+			);
+		}
+		return $out;
+	}
+
+/**
  * Create a link to a package
  *
  * @param string $package The package name you want to link to.
