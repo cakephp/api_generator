@@ -16,7 +16,7 @@
 			echo '<dd>' . $apiDoc->packageLink(trim($value)) . '</dd>';
 		elseif (is_array($value)):
 			foreach ($value as $line):
-				echo '<dd>' . $apiDoc->parseText($line) . '</dd>';
+				echo '<dd>' . $apiDoc->parse($line) . '</dd>';
 			endforeach;
 		else:
 			echo '<dd>' . $apiDoc->parse($value) . '</dd>';
