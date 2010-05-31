@@ -16,7 +16,7 @@ echo $apiUtils->element('before_class_info');
 		<dt><?php __d('api_generator', 'File name:'); ?></dt>
 		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		
-		<dt><?php __d('api_generator', 'Summary:'); ?></dt>
+		<dt><?php __d('api_generator', 'Description:'); ?></dt>
 		<dd class="markdown-block"><?php echo $apiDoc->parse($doc->classInfo['comment']['description']); ?></dd>
 		
 		<?php if (!empty($doc->classInfo['parents'])): ?>

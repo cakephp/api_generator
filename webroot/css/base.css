@@ -255,11 +255,12 @@ Documentation Page Styles
 .doc-head h2,
 .doc-head h3 {
 	color: #333348;
-	border-left:7px solid #fff;
-	margin:0;
+	border-left: 7px solid #fff;
+	margin: 0;
 	padding: 0 0 0 8px;
-	-webkit-text-shadow: 1px 1px #ccc;
-	text-shadow:1px 1px #ccc;
+	-webkit-text-shadow: 0px 1px #ccc;
+	text-shadow: 0px 1px #ccc;
+	font-size: 18px;
 }
 .parent-method .doc-head {
 	background:#FFFFEF;
@@ -316,7 +317,7 @@ Documentation Page Styles
 	margin:0 0 1.2em 0;
 }
 .doc-body dd {
-	margin: 0 0 12px 12px;
+	margin: 0 0 1.2em;
 }
 .doc-body dd table {
 	margin:0;
@@ -326,10 +327,13 @@ Documentation Page Styles
 	color: #27676E;
 	font-size:16px;
 	line-height:1.4em;
-	margin:0;
+	margin:1.5em 0 0 0;
 	clear:both;
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
+}
+.doc-body dt:first-child {
+	margin-top:0;
 }
 /** Markdown blocks **/
 .markdown-block h2,
@@ -365,9 +369,18 @@ Documentation Page Styles
 .markdown-block strong {
 	font-weight:bold;
 }
+.markdown-block ul,
+.markdown-block ol {
+	list-style-position: outside;
+	margin: 1em 0 1em 1.5em;
+}
 .markdown-block ol {
 	list-style:decimal;
 }
+.markdown-block ul {
+	list-style: disc;
+}
+
 
 
 /** inheritance trees **/

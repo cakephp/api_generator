@@ -7,7 +7,7 @@
 <div class="tag-block">
 <dl>
 	<?php foreach ($tags as $name => $value): ?>
-		<dt><?php echo $name; ?></dt>
+		<dt><?php echo ucfirst($name); ?></dt>
 		<?php 
 		$lower = strtolower($name);
 		if ($lower == 'link'):
