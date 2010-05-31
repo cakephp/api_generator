@@ -15,23 +15,32 @@ $apiUtils->sortByName($doc->properties);
 			<a href="#" id="hide-parent-properties"><?php __d('api_generator', 'Show/Hide parent properties'); ?></a>
 		</span>
 <?php endif; ?>
-		<table>
-		<?php $i = 0; ?>
-		<?php foreach ($doc->properties as $prop): ?>
-			<?php
-			if ($apiDoc->excluded($prop['access'], 'property')) :
-				continue;
-			endif;
-			$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
-			?>
-			<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-property'; ?>">
-				<td class="access <?php echo $prop['access']; ?>"><span><?php echo $prop['access']; ?></span></td>
-				<td><?php echo $prop['name']; ?></td>
-				<td class="markdown-block"><?php echo $apiDoc->parse($prop['comment']['description']); ?></td>
-			</tr>
-			<?php $i++;?>
-		<?php endforeach; ?>
-		</table>
+		<ul class="property-list">
+			<?php foreach ($doc->properties as $prop):
+				if ($apiDoc->excluded($prop['access'], 'property')) :
+					continue;
+				endif;
+				$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
+				$classname = $prop['access'] . ($definedInThis ? '' : ' parent-property');
+				?>
+				<li class="<?php echo $classname; ?>">
+					<h3>
+					<span class="access <?php echo $prop['access']; ?>">
+						<span><?php echo $prop['access']; ?></span>
+					</span>
+					<?php echo $prop['name']; ?>
+					<?php
+					if (!empty($prop['comment']['tags']['var'])):
+						printf('<span class="property-type">%s</span>', $prop['comment']['tags']['var']);
+					endif;
+					?>
+					</h3>
+					<div class="markdown-block">
+					<?php echo $apiDoc->parse($prop['comment']['description']); ?>
+					</div>
+				</li>
+			<?php endforeach; ?>
+		</ul>
 	<?php endif; ?>
 	</div>
 </div>

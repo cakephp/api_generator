@@ -440,6 +440,10 @@ Documentation Page Styles
 	background-repeat:none;
 	background-position:center center;
 }
+.property-list .access {
+	float: left;
+	margin-right: 8px;
+}
 /** IE6 fix */
 * html .access span {
 	background-position: top left;
@@ -450,7 +454,6 @@ Documentation Page Styles
 	background-position: top left;
 	background-repeat:none;
 }
-
 .protected span, 
 .protected-static span {
 	background-image: url(../img/icon_protected.gif);
@@ -475,6 +478,12 @@ Documentation Page Styles
 .parent-property .public span {
 	background-image: url(../img/icon_public_parent.gif);
 }
+.property-list .property-type {
+	background: none;
+	color: #5e5e5e;
+	font-size: 12px;
+}
+
 
 /* Element table of contents */
 #element-toc {
