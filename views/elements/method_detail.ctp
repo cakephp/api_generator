@@ -14,7 +14,7 @@ echo $apiUtils->element('before_method_detail');
 <div class="doc-block <?php echo $definedInThis ? '' : 'parent-method'; ?>">
 	<a id="method-<?php echo $doc->name . $method['name']; ?>"></a>
 	<div class="doc-head">
-		<h2 class="<?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
+		<h2 class="access <?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
 		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>"><?php __d('api_generator', 'top'); ?></a>
 	</div>
 
@@ -24,21 +24,23 @@ echo $apiUtils->element('before_method_detail');
 		<?php if (count($method['args'])): ?>
 		<dt><?php __d('api_generator', 'Parameters:'); ?></dt>
 		<dd>
-			<table>
-				<tbody>
-				<?php $i = 0; ?>
+			<ul class="argument-list">
 				<?php foreach ($method['args'] as $name => $paramInfo): ?>
-					<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?>">
-						<td>$<?php echo $name; ?></td>
-						<td><?php echo $paramInfo['type']; ?></td>
-						<td><?php echo h($paramInfo['comment']); ?></td>
-						<td><?php echo ($paramInfo['optional']) ? 'optional' : 'required'; ?></td>
-						<td><?php echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)', true); ?></td>
-					</tr>
-					<?php $i++;?>
+				<li>
+					<div class="argument-properties">
+						<span class="name">$<?php echo $name; ?></span>
+						<span class="type"><?php echo $paramInfo['type']; ?></span>
+						<span class="required"><?php echo $paramInfo['optional'] ? 'optional' : 'required' ?></span>
+						<span class="default"><?php 
+							echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)', true); ?>
+						</span>
+					</div>
+					<div class="markdown-block">
+						<?php echo $apiDoc->parse($paramInfo['comment']); ?>
+					</div>
+				</li>
 				<?php endforeach; ?>
-				</tbody>
-			</table>
+			</ul>
 		</dd>
 		<?php endif; ?>
 		

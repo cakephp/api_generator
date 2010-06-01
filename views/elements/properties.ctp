@@ -21,14 +21,11 @@ $apiUtils->sortByName($doc->properties);
 					continue;
 				endif;
 				$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
-				$classname = $prop['access'] . ($definedInThis ? '' : ' parent-property');
+				$classname = ($definedInThis ? '' : ' parent-property');
 				?>
 				<li class="<?php echo $classname; ?>">
-					<h3>
-					<span class="access <?php echo $prop['access']; ?>">
-						<span><?php echo $prop['access']; ?></span>
-					</span>
-					<?php echo $prop['name']; ?>
+					<h3 class="access <?php echo $prop['access']; ?>">
+						<?php echo $prop['name']; ?>
 					<?php
 					if (!empty($prop['comment']['tags']['var'])):
 						printf('<span class="property-type">%s</span>', $prop['comment']['tags']['var']);
