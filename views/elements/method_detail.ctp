@@ -45,11 +45,8 @@ echo $apiUtils->element('before_method_detail');
 			</ul>
 		</dd>
 		<?php endif; ?>
-		
-		<dt><?php __d('api_generator', 'Method defined in class:'); ?></dt>
-		<dd><?php echo $apiDoc->classLink($method['declaredInClass']); ?></dd>
-		
-		<dt><?php __d('api_generator', 'Method defined in file:'); ?></dt>
+
+		<dt><?php __d('api_generator', 'Method defined in:'); ?></dt>
 		<dd><?php 
 			echo $apiDoc->fileLink($method['declaredInFile']);
 			
