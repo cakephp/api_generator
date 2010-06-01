@@ -300,10 +300,11 @@ Documentation Page Styles
 }
 
 /* Method listing */
-.method-summary li {
+ul.method-summary li {
 	font-size: 12px;
 	line-height: 18px;
 	margin: 0 0 0.75em;
+	list-style-image: none;
 }
 .method-summary li span {
 	display: block;
@@ -343,8 +344,9 @@ Documentation Page Styles
 .property-list .markdown-block p {
 	clear: none;
 }
-.property-list li {
+ul.property-list li {
 	margin-bottom: 1.5em;
+	list-style-image: none;
 }
 .property-list .property-type {
 	background: none;
