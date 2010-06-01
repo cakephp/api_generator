@@ -75,7 +75,6 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, th, dt {
-	font-family: "Gill Sans", "Trebuchet MS", trebuchet, Helvetica, Tahoma, sans-serif;
 	font-weight:100;
 	color: #32270d;
 	margin:1em 0 0;
@@ -339,8 +338,10 @@ Documentation Page Styles
 }
 
 /* Property list */
-.property-list {
-	float: left;
+.property-list h3,
+.property-list .markdown-block,
+.property-list .markdown-block p {
+	clear: none;
 }
 .property-list li {
 	margin-bottom: 1.5em;

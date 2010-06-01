@@ -21,7 +21,7 @@ $apiUtils->sortByName($doc->properties);
 					continue;
 				endif;
 				$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
-				$classname = ($definedInThis ? '' : ' parent-property');
+				$classname = ($definedInThis ? '' : 'parent-property');
 				?>
 				<li class="<?php echo $classname; ?>">
 					<h3 class="access <?php echo $prop['access']; ?>">
