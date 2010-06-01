@@ -44,41 +44,6 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 				</li>
 			<?php endforeach; ?>
 		</ul>
-		<!--
-		<table class="summary">
-			<tbody>
-			<?php $i = 0; ?>
-			<?php foreach ($doc->methods as $method): ?>
-				<?php
-				if ($apiDoc->excluded($method['access'], 'method')) :
-					continue;
-				endif;
-				$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
-				?>
-				<tr class="<?php echo ($i % 2) ? 'even' : 'odd'; ?> <?php echo $definedInThis ? '' : 'parent-method'; ?>">
-					<td class="access <?php echo $method['access']; ?>"><span><?php echo $method['access']; ?></span></td>
-					<td>
-					<?php
-						if (empty($isSearch)):
-							echo $this->Html->link($method['signature'],
-								'#method-' . $doc->name . $method['name'],
-								array('class' => 'scroll-link')
-							);
-						else:
-							echo $this->Html->link($method['signature'],
-								array('action' => 'view_class', $apiDoc->slug($doc->name),
-								'#' => 'method-' . $doc->name . $method['name']),
-								array('class' => 'scroll-link')
-							);
-						endif;
-					?>
-					</td>
-				</tr>
-				<?php $i++;?>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
-		-->
 	</div>
 </div>
 <?php echo $apiUtils->element('after_method_summary'); ?>
