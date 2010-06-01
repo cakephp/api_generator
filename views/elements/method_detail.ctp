@@ -28,8 +28,8 @@ echo $apiUtils->element('before_method_detail');
 				<?php foreach ($method['args'] as $name => $paramInfo): ?>
 				<li>
 					<div class="argument-properties">
-						<span class="name">$<?php echo $name; ?></span>
 						<span class="type"><?php echo $paramInfo['type']; ?></span>
+						<span class="name">$<?php echo $name; ?></span>
 						<span class="required"><?php echo $paramInfo['optional'] ? 'optional' : 'required' ?></span>
 						<span class="default"><?php 
 							echo ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)', true); ?>
