@@ -290,7 +290,7 @@ Documentation Page Styles
 	color: #27676E;
 	font-size:16px;
 	line-height:1.4em;
-	margin:1.5em 0 0 0;
+	margin:1.5em 0 0.3em 0;
 	clear:both;
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
@@ -359,9 +359,10 @@ Documentation Page Styles
 /** Markdown blocks **/
 .markdown-block h2,
 .markdown-block h3 {
-	font-size: 16px;
-	line-height:20px;
-	margin-bottom:10px;
+	font-size: 14px;
+	line-height: 20px;
+	margin-bottom: 10px;
+	color: #6e6c6c;
 }
 .markdown-block h4 {
 	font-size: 14px;
