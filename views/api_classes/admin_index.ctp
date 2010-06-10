@@ -3,8 +3,8 @@
 <table class="listing coverage" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<th><?php __d('api_generator', 'Classname'); ?> </th>
-			<th><?php __d('api_generator', 'Coverage'); ?>
+			<th><?php echo $this->Paginator->sort(__d('api_generator', 'Classname', true), 'name'); ?> </th>
+			<th><?php echo $this->Paginator->sort(__d('api_generator', 'Coverage', true), 'coverage_cache'); ?>
 			<th><?php __d('api_generator', 'Actions'); ?> </th>
 		</tr>
 	</thead>
