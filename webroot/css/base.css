@@ -295,7 +295,7 @@ Documentation Page Styles
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
 }
-.doc-body dt:first-child {
+.class-info dt:first-child {
 	margin-top:0;
 }
 
@@ -329,9 +329,9 @@ ul.method-summary li {
 }
 .argument-properties .required,
 .argument-properties .default {
-	background: #efefef;
+	background: #f5f5f5;
 	color: #666;
-	padding: 3px;
+	padding: 2px 3px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 	font-family: Monaco, Consolas, "Courier New", Courier;
