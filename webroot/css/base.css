@@ -301,7 +301,7 @@ Documentation Page Styles
 
 /* Method listing */
 ul.method-summary li {
-	font-size: 12px;
+	font-size: 16px;
 	line-height: 18px;
 	margin: 0 0 0.75em;
 	list-style-image: none;
@@ -683,19 +683,20 @@ Search results
 	margin: 10px;
 	padding: 4px 0;
 }
-#search-results li {
+#search-results > li {
 	margin: 30px 10px;
-	font-size: 140%;
+	list-style-image: none;
+}
+#search-results .function-info div {
+	font-size: 16px;
+	margin: 10px 0px 10px 14px;
+	padding: 0 0 0 16px;
 }
 #search-results .doc-head {
 	border: 0;
 }
-#search-results h3 {
-	font-size: 18px;
-}
 #search-results .doc-body {
 	padding-bottom: 0;
-	padding-top: 5px;
 }
 #search-results .doc-body table {
 	margin: 0;
@@ -704,7 +705,7 @@ Search results
 	background: #C9E2E6;
 }
 #search-results h2 {
-	font-size:24px;
+	font-size: 20px;
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #ddd;
 	margin:0.2em 0;

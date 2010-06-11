@@ -17,30 +17,20 @@ endif; ?>
 		foreach($result['function'] as $name => $doc): ?>
 			<li class="doc-block function-info">
 				<h2><?php echo $apiDoc->fileLink($doc->info['declaredInFile']); ?></h2>
-				<div class="doc-body">
-					<table class="summary">
-						<tbody>
-							<tr class="even">
-								<td class="access public"><span><?php __d('api_generator', 'public'); ?></span></td>
-								<td>
-								<?php
-									echo $this->Html->link($doc->info['signature'],
-											array('action' => 'view_file', $apiDoc->trimFileName($doc->info['declaredInFile']),
-											'#' => 'function-' . $doc->name),
-											array('class' => 'scroll-link')
-										);
-								?>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-
+				<div class="access public">
+				<?php
+					echo $this->Html->link($doc->info['signature'],
+						array('action' => 'view_file', $apiDoc->trimFileName($doc->info['declaredInFile']),
+						'#' => 'function-' . $doc->name),
+						array('class' => 'scroll-link')
+					);
+				?>
 				</div>
 			</li>
 <?php	endforeach;
 	elseif (isset($result['class'])) :
 		foreach ($result['class'] as $name => $doc): ?>
-			<li class="doc-block class-info">
+			<li>
 				<h2><?php echo $apiDoc->classLink($doc->name, array(), array('class' => false)); ?></h2><?php
 			if ($doc->properties):
 				echo $this->element('properties', array('doc' => $doc, 'isSearch' => true));
