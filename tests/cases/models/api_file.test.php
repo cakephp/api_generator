@@ -35,6 +35,10 @@ class ApiFileTestCase extends CakeTestCase {
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiFile = new ApiFile();
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
+
+		$this->ApiFile->excludeDirectories = array();
+		$this->ApiFile->excludeFiles = array();
+		
 	}
 /**
  * endTest
@@ -163,6 +167,8 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadFileOnAlreadyIncludedFile() {
+		$this->ApiFile->allowedExtensions = array('test', 'php');
+
 		$result = $this->ApiFile->loadFile(__FILE__);
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
@@ -244,6 +250,26 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(function_exists('config'));
 		$results = $this->ApiFile->loadFile($cacheFile);
 		$this->assertEqual($results['function'], array());
+	}
+/**
+ * test isExcluded
+ *
+ * @return void
+ */
+	function testIsAllowed() {
+		$file = '/something/test/file.php';
+
+		$this->ApiFile->excludeDirectories = array('test');
+		$this->assertFalse($this->ApiFile->isAllowed($file));
+
+		$this->ApiFile->excludeDirectories = array();
+		$this->ApiFile->excludeFiles = array('file.php');
+		$this->assertFalse($this->ApiFile->isAllowed($file));
+
+		$this->ApiFile->excludeDirectories = array();
+		$this->ApiFile->excludeFiles = array();
+		$this->ApiFile->allowedExtensions = array('banana');
+		$this->assertFalse($this->ApiFile->isAllowed($file));
 	}
 /**
  * test that _initConfig doesn't need ', ' between items.

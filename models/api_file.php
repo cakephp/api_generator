@@ -253,6 +253,9 @@ class ApiFile extends Object {
 		if (!defined('DISABLE_AUTO_DISPATCH')) {
 			define('DISABLE_AUTO_DISPATCH', true);
 		}
+		if (!$this->isAllowed($filePath)) {
+			throw new Exception(__d('api_geneartor', 'No file with that name exists.', true));
+		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath, $options);
 		$this->_getDefinedObjects();
@@ -458,6 +461,28 @@ class ApiFile extends Object {
 			$return[$var] = $this->{$var};
 		}
 		return $return;
+	}
+/**
+ * Checks if a file/path has been excluded by any of the exclusions.
+ *
+ * @param string $filePath file to check
+ * @return boolean True if the file has been excluded
+ */
+	public function isAllowed($filePath) {
+		foreach ($this->excludeDirectories as $exclude) {
+			if (strpos($filePath, $exclude) !== false) {
+				return false;
+			}
+		}
+		$basename = basename($filePath);
+		if (in_array($basename, $this->excludeFiles)) {
+			return false;
+		}
+		list ($file, $ext) = explode('.', $basename);
+		if (!in_array($ext, $this->allowedExtensions)) {
+			return false;
+		}
+		return true;
 	}
 /**
  * Initialize the configuration for ApiFile.
