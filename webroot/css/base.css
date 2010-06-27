@@ -295,6 +295,9 @@ Documentation Page Styles
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
 }
+.doc-body dt {
+	font-size: 14px;
+}
 .class-info dt:first-child {
 	margin-top:0;
 }
