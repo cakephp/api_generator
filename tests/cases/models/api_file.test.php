@@ -245,4 +245,28 @@ class ApiFileTestCase extends CakeTestCase {
 		$results = $this->ApiFile->loadFile($cacheFile);
 		$this->assertEqual($results['function'], array());
 	}
+/**
+ * test that _initConfig doesn't need ', ' between items.
+ *
+ * @return void
+ */
+	function testInitConfigNotNeedingSpaces() {
+		$config =& ClassRegistry::init('ApiGenerator.ApiConfig');
+		$config->data = array(
+			'exclude' => array(
+				'files' => 'one,two, three',
+				'methods' => 'one,two, three',
+				'directories' => 'one, two,three',
+				'properties' => 'one, two,three'
+			)
+		);
+		ClassRegistry::addObject('ApiConfig', $config);
+		$file = new ApiFile();
+		$expected = array('one', 'two', 'three');
+
+		$this->assertEqual($file->excludeFiles, $expected);
+		$this->assertEqual($file->excludeMethods, $expected);
+		$this->assertEqual($file->excludeProperties, $expected);
+		$this->assertEqual($file->excludeDirectories, $expected);
+	}
 }

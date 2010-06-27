@@ -465,11 +465,11 @@ class ApiFile extends Object {
 		if (isset($config['exclude']) && is_array($config['exclude'])) {
 			foreach ($config['exclude'] as $type => $exclusion) {
 				$var = 'exclude' . Inflector::camelize($type);
-				$this->{$var} = explode(', ', $exclusion);
+				$this->{$var} = array_map('trim', explode(',', $exclusion));
 			}
 		}
 		if (isset($config['file']['extensions'])) {
-			$this->allowedExtensions = explode(', ', $config['file']['extensions']);
+			$this->allowedExtensions = array_map('trim', explode(',', $config['file']['extensions']));
 		}
 		if (isset($config['file']['regex'])) {
 			$this->fileRegExp = $config['file']['regex'];
@@ -481,7 +481,7 @@ class ApiFile extends Object {
 					if ($var == 'classMap') {
 						$this->{$var}[$name] = $value;
 					} else {
-						$this->{$var}[$name] = explode(', ', $value);
+						$this->{$var}[$name] = array_map('trim', explode(',', $value));
 					}
 				}
 			}
