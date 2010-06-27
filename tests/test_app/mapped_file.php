@@ -4,4 +4,3 @@ class MappedRandomFile extends Object implements SillyTestInterface {
 
 	}
 }
-?>

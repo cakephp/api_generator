@@ -190,4 +190,3 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$this->assertEqual($result['properties'][1]['totalScore'], 0.75);
 	}
 }
-?>

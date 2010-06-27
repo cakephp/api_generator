@@ -228,4 +228,3 @@ EOD;
 		$this->assertEqual($result, $expected);
 	}
 }
-?>

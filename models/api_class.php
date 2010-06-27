@@ -352,4 +352,3 @@ class ApiClass extends ApiGeneratorAppModel {
 		));
 	}
 }
-?>

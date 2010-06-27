@@ -8,4 +8,3 @@
 	function debug() {
 	
 	}
-?>

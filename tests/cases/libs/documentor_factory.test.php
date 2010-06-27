@@ -20,4 +20,3 @@ class DocumentorFactoryTestCase extends CakeTestCase {
 		$this->assertTrue($result instanceof ClassDocumentor);
 	}
 }
-?>

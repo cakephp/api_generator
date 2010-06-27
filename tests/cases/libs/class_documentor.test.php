@@ -267,4 +267,3 @@ class ClassDocumentorTestCase extends CakeTestCase {
 		$this->assertFalse(empty($Docs->methods));
 	}
 }
-?>

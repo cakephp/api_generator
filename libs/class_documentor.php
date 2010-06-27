@@ -237,4 +237,3 @@ class ClassDocumentor extends ReflectionClass {
 		$this->getProperties();
 	}
 }
-?>

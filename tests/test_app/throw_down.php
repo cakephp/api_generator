@@ -2,4 +2,3 @@
 class ThrowDown extends TheClassThatShallNotBeCreated {
 	
 }
-?>

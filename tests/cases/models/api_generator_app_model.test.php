@@ -69,4 +69,3 @@ class ApiGeneratorAppModelTestCase extends CakeTestCase {
 		unset($this->Model);
 	}
 }
-?>

@@ -83,4 +83,3 @@ var $records = array(
 	)
 );
 }
-?>

@@ -62,4 +62,4 @@ class ApiGeneratorAppController extends AppController {
 		$this->_stop();
 	}
 }
-?>
+

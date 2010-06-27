@@ -212,4 +212,3 @@ class ApiConfig extends Object {
 		return $path;
 	}
 }
-?>

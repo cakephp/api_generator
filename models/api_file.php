@@ -490,4 +490,3 @@ class ApiFile extends Object {
 }
 
 class MissingClassException extends Exception { }
-?>
