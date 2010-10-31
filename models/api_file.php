@@ -439,6 +439,9 @@ class ApiFile extends Object {
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
 		}
+		if (strpos($filePath, 'shell') !== false) {
+			$baseClass['Shell'] = 'Shell';
+		}
 		if (strpos($filePath, 'socket') !== false) {
 			$baseClass['Core'] = 'Socket';
 		}
