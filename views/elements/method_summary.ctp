@@ -5,7 +5,7 @@
  */
 echo $this->ApiUtils->element('before_method_summary');
 $this->ApiUtils->sortByName($doc->methods); 
-$title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __d('api_generator', 'Methods:', true);
+$title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:') : __d('api_generator', 'Methods:');
 ?>
 <div class="doc-block">
 	<a id="top-<?php echo $doc->name; ?>"></a>
@@ -13,7 +13,7 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 	<div class="doc-body">
 <?php if (empty($isSearch)): ?>
 		<span class="doc-controls">
-			<a href="#" id="hide-parent-methods"><?php __d('api_generator', 'Show/Hide parent methods'); ?></a>
+			<a href="#" id="hide-parent-methods"><?php echo __d('api_generator', 'Show/Hide parent methods'); ?></a>
 		</span>
 <?php endif; ?>
 		<ul class="method-summary">

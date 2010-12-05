@@ -72,7 +72,7 @@ foreach ($doc->methods as $method) {
 			'type' => $paramInfo['type'],
 			'comment' => $paramInfo['comment'],
 			'optional' => $paramInfo['optional'],
-			'default' => ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)', true)
+			'default' => ($paramInfo['hasDefault']) ? var_export($paramInfo['default'], true) : __d('api_generator', '(no default)')
 		);
 	}
 

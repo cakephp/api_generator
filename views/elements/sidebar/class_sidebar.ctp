@@ -4,7 +4,7 @@
  *
  */
 ?>
-<h3><?php __d('api_generator', 'Class Index'); ?> </h3>
+<h3><?php echo __d('api_generator', 'Class Index'); ?> </h3>
 <ul class="class-index">
 <?php foreach ($classIndex as $slug => $name): ?>
 	<li class="class">

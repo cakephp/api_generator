@@ -3,9 +3,9 @@
  * Recursive Listing of all allowed files.
  *
  */
-$this->set('title_for_layout', __d('api_generator', 'All Files', true));
+$this->set('title_for_layout', __d('api_generator', 'All Files'));
 ?>
-<h1><?php __d('api_generator', 'All files')?></h1>
+<h1><?php echo __d('api_generator', 'All files')?></h1>
 
 <ul id="file-list">
 <?php if (!empty($files)): ?>
@@ -16,7 +16,7 @@ $this->set('title_for_layout', __d('api_generator', 'All Files', true));
 <?php endforeach; ?>
 <?php else: ?>
 	<li class="file">
-		<?php __d('api_generator', 'No files'); ?>
+		<?php echo __d('api_generator', 'No files'); ?>
 	</li>
 <?php endif; ?>
 </ul>

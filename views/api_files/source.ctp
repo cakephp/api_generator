@@ -11,7 +11,7 @@ $this->set('title_for_layout', $currentPath);
 <?php endif; ?>
 
 	<li class="folder previous-folder">
-		<?php echo $this->Html->link(__d('api_generator', 'Up one folder', true), array('action' => 'source', $previousPath)); ?>
+		<?php echo $this->Html->link(__d('api_generator', 'Up one folder'), array('action' => 'source', $previousPath)); ?>
 	</li>
 <?php foreach ($dirs as $dir): ?>
 	<li class="folder">
@@ -26,7 +26,7 @@ $this->set('title_for_layout', $currentPath);
 <?php endforeach; ?>
 <?php else: ?>
 	<li class="file">
-		<span><?php __d('api_generator', 'No files'); ?></span>
+		<span><?php echo __d('api_generator', 'No files'); ?></span>
 	</li>
 <?php endif; ?>
 

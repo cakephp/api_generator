@@ -347,7 +347,7 @@ class ApiClass extends ApiGeneratorAppModel {
 			return $coverage;
 		}
 		throw new Exception(sprintf(
-			__d('api_generator', '%s is a pseudo class, and cannot have coverage generated', true),
+			__d('api_generator', '%s is a pseudo class, and cannot have coverage generated'),
 			$apiClass['ApiClass']['name']
 		));
 	}

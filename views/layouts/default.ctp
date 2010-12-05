@@ -22,7 +22,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __d('api_generator', 'CakePHP: API Generator'); ?>
+		<?php echo __d('api_generator', 'CakePHP: API Generator'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php 
@@ -43,7 +43,7 @@
 	<?php $bodyClass = (isset($showSidebar) && $showSidebar) ? 'with-sidebar' : 'no-sidebar'; ?>
 	<div id="wrapper" class="<?php echo $bodyClass; ?>">
 		<div id="header" class="clearfix">
-			<h1><?php echo $this->Html->link(__d('api_generator', 'CakePHP: API Generator', true), 'http://cakephp.org'); ?></h1>
+			<h1><?php echo $this->Html->link(__d('api_generator', 'CakePHP: API Generator'), 'http://cakephp.org'); ?></h1>
 			<?php echo $this->element('header_search'); ?>
 			<?php echo $this->element('api_menu');?>
 		</div>
@@ -60,7 +60,7 @@
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->image('cake.power.gif', array(
-				'alt'=> __d('api_generator', "CakePHP: the rapid development php framework", true), 
+				'alt'=> __d('api_generator', "CakePHP: the rapid development php framework"), 
 				'border' => "0", 
 				'url' => 'http:://cakephp.org'
 			));

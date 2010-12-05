@@ -100,12 +100,12 @@ class ApiClassesController extends ApiGeneratorAppController {
  **/
 	public function view_class($classSlug = null) {
 		if (!$classSlug) {
-			$this->Session->setFlash(__d('api_generator', 'No class name was given', true));
+			$this->Session->setFlash(__d('api_generator', 'No class name was given'));
 			$this->redirect($this->referer());
 		}
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 		if (empty($classInfo['ApiClass']['file_name'])) {
-			$this->_notFound(__d('api_generator', 'No class exists in the index with that name', true));
+			$this->_notFound(__d('api_generator', 'No class exists in the index with that name'));
 		}
 		try {
 			$docs = $this->ApiFile->loadFile($classInfo['ApiClass']['file_name'], array('useIndex' => true));
@@ -120,7 +120,7 @@ class ApiClassesController extends ApiGeneratorAppController {
 			$this->set('sidebarElement', 'sidebar/class_sidebar');
 			$this->set(compact('doc', 'classIndex'));
 		} else {
-			$this->_notFound(__d('api_generator', "Oops, seems we couldn't get the documentation for that class.", true));
+			$this->_notFound(__d('api_generator', "Oops, seems we couldn't get the documentation for that class."));
 		}
 	}
 /**
@@ -132,7 +132,7 @@ class ApiClassesController extends ApiGeneratorAppController {
 		$classInfo = $this->ApiClass->findBySlug($classSlug);
 
 		if (empty($classInfo['ApiClass']['file_name'])) {
-			$this->_notFound(__d('api_generator', 'No class exists in the index with that name', true));
+			$this->_notFound(__d('api_generator', 'No class exists in the index with that name'));
 		}
 		$fileContents = file_get_contents($classInfo['ApiClass']['file_name']);
 		$this->set('contents', $fileContents);
@@ -177,7 +177,7 @@ class ApiClassesController extends ApiGeneratorAppController {
 	public function admin_docs_coverage($className = null) {
 		$apiClass = $this->ApiClass->findBySlug($className);
 		if (empty($apiClass)) {
-			$this->_notFound(__d('api_generator', 'No class exists with that name', true));
+			$this->_notFound(__d('api_generator', 'No class exists with that name'));
 		}
 		try {
 			$analysis = $this->ApiClass->analyzeCoverage($apiClass);
@@ -196,14 +196,14 @@ class ApiClassesController extends ApiGeneratorAppController {
  **/
 	public function admin_calculate_coverage($id = null) {
 		if (!$this->RequestHandler->isAjax()) {
-			$this->_notFound(__d('api_generator', 'Invalid request.', true));
+			$this->_notFound(__d('api_generator', 'Invalid request.'));
 		}
 		if (isset($this->Toolbar)) {
 			$this->Toolbar->enabled = false;
 		}
 		$apiClass = $this->ApiClass->findById($id);
 		if (empty($apiClass)) {
-			$this->_notFound(__d('api_generator', 'No class exists with that name', true));
+			$this->_notFound(__d('api_generator', 'No class exists with that name'));
 		}
 		try {
 			$analysis = $this->ApiClass->analyzeCoverage($apiClass);

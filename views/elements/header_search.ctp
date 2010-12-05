@@ -23,7 +23,7 @@
 		'class' => 'query',
 		'value' => $value
 	)); ?>
-<?php echo $this->Form->submit(__d('api_generator', 'Search', true), array('div' => false, 'class' => 'submit')); ?>
+<?php echo $this->Form->submit(__d('api_generator', 'Search'), array('div' => false, 'class' => 'submit')); ?>
 </fieldset>
 <?php echo $this->Form->end(null); ?>
 </div>
