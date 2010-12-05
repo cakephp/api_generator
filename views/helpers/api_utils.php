@@ -186,7 +186,7 @@ HTML;
  */	
 	public function element($name, $params = array(), $loadHelpers = false) {
 		$file = $plugin = $key = null;
-
+		return '';
 		$paths = $this->_View->_paths($this->plugin);
 
 		foreach ($paths as $path) {
