@@ -19,6 +19,8 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+App::import('Core', 'Folder');
+
 class ApiConfig extends Object {
 /**
  * holds data for read

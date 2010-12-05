@@ -3,10 +3,10 @@
  * Method Detail element
  *
  */
-echo $apiUtils->element('before_method_detail');
+echo $this->ApiUtils->element('before_method_detail');
 ?>
 <?php foreach ($doc->methods as $method):
-	if ($apiDoc->excluded($method['access'], 'method')) :
+	if ($this->ApiDoc->excluded($method['access'], 'method')) :
 		continue;
 	endif;
 	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
@@ -19,7 +19,7 @@ echo $apiUtils->element('before_method_detail');
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo $apiDoc->parse($method['comment']['description']); ?></div>
+		<div class="markdown-block"><?php echo $this->ApiDoc->parse($method['comment']['description']); ?></div>
 	<dl>
 		<?php if (count($method['args'])): ?>
 		<dt><?php __d('api_generator', 'Parameters:'); ?></dt>
@@ -38,7 +38,7 @@ echo $apiUtils->element('before_method_detail');
 						<?php endif; ?>
 					</div>
 					<div class="markdown-block">
-						<?php echo $apiDoc->parse($paramInfo['comment']); ?>
+						<?php echo $this->ApiDoc->parse($paramInfo['comment']); ?>
 					</div>
 				</li>
 				<?php endforeach; ?>
@@ -48,14 +48,14 @@ echo $apiUtils->element('before_method_detail');
 
 		<dt><?php __d('api_generator', 'Method defined in:'); ?></dt>
 		<dd><?php 
-			echo $apiDoc->fileLink($method['declaredInFile']);
+			echo $this->ApiDoc->fileLink($method['declaredInFile']);
 			
-			if ($apiDoc->inClassIndex($method['declaredInClass'])):
+			if ($this->ApiDoc->inClassIndex($method['declaredInClass'])):
 				__d('api_generator', ' on line ');
 				echo $this->Html->link($method['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
-					$apiDoc->slug($method['declaredInClass']),
+					$this->ApiDoc->slug($method['declaredInClass']),
 					'#line-'. $method['startLine']
 				));
 			endif;
@@ -66,5 +66,5 @@ echo $apiUtils->element('before_method_detail');
 </div>
 <?php
 endforeach;
-echo $apiUtils->element('after_method_detail');
+echo $this->ApiUtils->element('after_method_detail');
 ?>

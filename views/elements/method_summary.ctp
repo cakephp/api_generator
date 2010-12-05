@@ -3,8 +3,8 @@
  * Method Summary Element
  *
  */
-echo $apiUtils->element('before_method_summary');
-$apiUtils->sortByName($doc->methods); 
+echo $this->ApiUtils->element('before_method_summary');
+$this->ApiUtils->sortByName($doc->methods); 
 $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __d('api_generator', 'Methods:', true);
 ?>
 <div class="doc-block">
@@ -19,7 +19,7 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 		<ul class="method-summary">
 			<?php foreach ($doc->methods as $method): ?>
 				<?php 
-				if ($apiDoc->excluded($method['access'], 'method')) :
+				if ($this->ApiDoc->excluded($method['access'], 'method')) :
 					continue;
 				endif;
 				$parent = ($method['declaredInClass'] == $doc->classInfo['name']) ? '' : 'parent-method'; 
@@ -34,7 +34,7 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 							);
 						else:
 							echo $this->Html->link($method['signature'],
-								array('action' => 'view_class', $apiDoc->slug($doc->name),
+								array('action' => 'view_class', $this->ApiDoc->slug($doc->name),
 								'#' => 'method-' . $doc->name . $method['name']),
 								array('class' => 'scroll-link')
 							);
@@ -46,4 +46,4 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:', true) : __
 		</ul>
 	</div>
 </div>
-<?php echo $apiUtils->element('after_method_summary'); ?>
+<?php echo $this->ApiUtils->element('after_method_summary'); ?>

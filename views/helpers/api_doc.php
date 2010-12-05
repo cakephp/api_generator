@@ -76,12 +76,12 @@ class ApiDocHelper extends AppHelper {
  *
  * @return void
  **/
-	public function __construct($config = array()) {
-		$view = ClassRegistry::getObject('view');
-		$this->setBasePath($view->getVar('basePath'));
+	public function __construct($View, $config = array()) {
+		parent::__construct($View, $config);
+		$this->setBasePath($this->_View->getVar('basePath'));
 
 		$this->_Parser = new DocMarkdown();
-		$this->_generator = new ApiLinkGenerator();
+		$this->_generator = new ApiLinkGenerator($View);
 		$this->_Parser->setLinkGenerator($this->_generator);
 	}
 
@@ -239,9 +239,8 @@ class ApiDocHelper extends AppHelper {
  * @return boolean
  **/
 	public function excluded($accessString, $type) {
-		$view = ClassRegistry::getObject('view');
 		$accessName = Inflector::variable('exclude_' . Inflector::pluralize($type));
-		$exclusions = $view->getVar($accessName);
+		$exclusions = $this->_View->getVar($accessName);
 		if (in_array($accessString, $exclusions)) {
 			return true;
 		}

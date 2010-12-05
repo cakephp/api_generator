@@ -48,7 +48,7 @@
 			<?php echo $this->element('api_menu');?>
 		</div>
 		<div id="content" class="clearfix">
-			<?php echo $session->flash(); ?>
+			<?php echo $this->Session->flash(); ?>
 			<div id="content-inner">
 				<?php echo $content_for_layout; ?>
 			</div>

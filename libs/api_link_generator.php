@@ -30,8 +30,8 @@ class ApiLinkGenerator extends ApiDocLinkGenerator {
  *
  * @return void
  */
-	public function __construct() {
-		$this->Html = new HtmlHelper();
+	public function __construct($View) {
+		$this->Html = new HtmlHelper($View);
 	}
 
 /**

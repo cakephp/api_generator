@@ -3,7 +3,7 @@
  * Class information element
  *
  */
-echo $apiUtils->element('before_class_info');
+echo $this->ApiUtils->element('before_class_info');
 ?>
 <a id="class-<?php echo $doc->name; ?>"></a>
 <div class="doc-block class-info">
@@ -11,24 +11,24 @@ echo $apiUtils->element('before_class_info');
 	<div class="doc-body">
 	  <dl>
 		<dt><?php __d('api_generator', 'Class Declaration:'); ?></dt>
-		<dd><?php echo $apiDoc->parse($doc->classInfo['classDescription']); ?></dd>
+		<dd><?php echo $this->ApiDoc->parse($doc->classInfo['classDescription']); ?></dd>
 		
 		<dt><?php __d('api_generator', 'File name:'); ?></dt>
-		<dd><?php echo $apiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
+		<dd><?php echo $this->ApiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
 		
 		<dt><?php __d('api_generator', 'Description:'); ?></dt>
-		<dd class="markdown-block"><?php echo $apiDoc->parse($doc->classInfo['comment']['description']); ?></dd>
+		<dd class="markdown-block"><?php echo $this->ApiDoc->parse($doc->classInfo['comment']['description']); ?></dd>
 		
 		<?php if (!empty($doc->classInfo['parents'])): ?>
 		<dt><?php __d('api_generator', 'Class Inheritance'); ?></dt>
-		<dd><?php echo $apiDoc->inheritanceTree($doc->classInfo['parents']); ?></dd>
+		<dd><?php echo $this->ApiDoc->inheritanceTree($doc->classInfo['parents']); ?></dd>
 		<?php endif;?>
 		
 		<?php if (!empty($doc->classInfo['interfaces'])): ?>
 		<dt><?php __d('api_generator', 'Interfaces Implemented'); ?></dt>
 		<dd>
 			<?php foreach ($doc->classInfo['interfaces'] as $interfaces): ?>
-		        <?php echo $apiDoc->classLink($interfaces); ?>
+		        <?php echo $this->ApiDoc->classLink($interfaces); ?>
 			<?php endforeach; ?>
 		</dd>
 		<?php endif;?>
@@ -37,4 +37,4 @@ echo $apiUtils->element('before_class_info');
 	  <?php echo $this->element('tag_block', array('tags' => $doc->classInfo['comment']['tags'])); ?>
 	</div>
 </div>
-<?php echo $apiUtils->element('after_class_info'); ?>
+<?php echo $this->ApiUtils->element('after_class_info'); ?>

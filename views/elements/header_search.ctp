@@ -5,7 +5,7 @@
  */
 ?>
 <div id="header-search">
-<?php echo $form->create('ApiClass', array(
+<?php echo $this->Form->create('ApiClass', array(
 	'url' => array(
 		'plugin' => 'api_generator', 'controller' => 'api_classes',
 		'action' => 'search'
@@ -19,11 +19,11 @@
 	} else {
 		$value = '';
 	}
-	echo $form->text('Search.query', array(
+	echo $this->Form->text('Search.query', array(
 		'class' => 'query',
 		'value' => $value
 	)); ?>
-<?php echo $form->submit(__d('api_generator', 'Search', true), array('div' => false, 'class' => 'submit')); ?>
+<?php echo $this->Form->submit(__d('api_generator', 'Search', true), array('div' => false, 'class' => 'submit')); ?>
 </fieldset>
-<?php echo $form->end(null); ?>
+<?php echo $this->Form->end(null); ?>
 </div>

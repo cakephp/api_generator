@@ -35,7 +35,8 @@ class ApiPackagesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
+	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Text');
+
 /**
  * Index of Packages + subpackages.
  *

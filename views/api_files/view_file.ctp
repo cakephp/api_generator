@@ -3,9 +3,9 @@
  * View view.  Shows generated api docs from a file.
  * 
  */
-$this->set('title_for_layout', $apiDoc->trimFileName($currentPath));
+$this->set('title_for_layout', $this->ApiDoc->trimFileName($currentPath));
 
-$apiDoc->setClassIndex($classIndex);
+$this->ApiDoc->setClassIndex($classIndex);
 ?>
 <h1 class="breadcrumb"><?php echo $this->element('breadcrumb'); ?></h1>
 <?php

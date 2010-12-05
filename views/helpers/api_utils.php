@@ -38,7 +38,9 @@ class ApiUtilsHelper extends AppHelper {
  *
  * @return void
  **/
-	function __construct() {
+	function __construct($View, $config = array()) {
+		parent::__construct($View, $config);
+
 		ini_set('highlight.comment', 'comment');
 		ini_set('highlight.default', 'default');
 		ini_set('highlight.keyword', 'keyword');
@@ -184,12 +186,12 @@ HTML;
  */	
 	public function element($name, $params = array(), $loadHelpers = false) {
 		$file = $plugin = $key = null;
-		$view = ClassRegistry::getObject('view');
-		$paths = $view->_paths($this->plugin);
+
+		$paths = $this->_View->_paths($this->plugin);
 
 		foreach ($paths as $path) {
 			if (file_exists($path . 'elements' . DS . $name . $view->ext)) {
-				return $view->element($name, $params, $loadHelpers);
+				return $this->_View->element($name, $params, $loadHelpers);
 			}
 		}
 		return '';

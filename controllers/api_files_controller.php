@@ -41,7 +41,7 @@ class ApiFilesController extends ApiGeneratorAppController {
  *
  * @var array
  **/
-	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Javascript', 'Text');
+	public $helpers = array('ApiGenerator.ApiDoc', 'ApiGenerator.ApiUtils', 'Html', 'Text');
 /**
  * Extract all the useful config info out of the ApiConfig.
  *

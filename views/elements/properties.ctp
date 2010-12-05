@@ -3,8 +3,8 @@
  * Properties Element
  *
  */
-echo $apiUtils->element('before_properties');
-$apiUtils->sortByName($doc->properties);
+echo $this->ApiUtils->element('before_properties');
+$this->ApiUtils->sortByName($doc->properties);
 ?>
 <div class="doc-block">
 	<div class="doc-head"><h3><?php __d('api_generator', 'Properties:'); ?></h3></div>
@@ -17,7 +17,7 @@ $apiUtils->sortByName($doc->properties);
 <?php endif; ?>
 		<ul class="property-list">
 			<?php foreach ($doc->properties as $prop):
-				if ($apiDoc->excluded($prop['access'], 'property')) :
+				if ($this->ApiDoc->excluded($prop['access'], 'property')) :
 					continue;
 				endif;
 				$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
@@ -33,7 +33,7 @@ $apiUtils->sortByName($doc->properties);
 					?>
 					</h3>
 					<div class="markdown-block">
-					<?php echo $apiDoc->parse($prop['comment']['description']); ?>
+					<?php echo $this->ApiDoc->parse($prop['comment']['description']); ?>
 					</div>
 				</li>
 			<?php endforeach; ?>
@@ -41,4 +41,4 @@ $apiUtils->sortByName($doc->properties);
 	<?php endif; ?>
 	</div>
 </div>
-<?php echo $apiUtils->element('after_properties'); ?>
+<?php echo $this->ApiUtils->element('after_properties'); ?>

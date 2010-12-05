@@ -5,7 +5,7 @@
  */
 $this->set('title_for_layout', $doc->classInfo['name']);
 
-$apiDoc->setClassIndex($classIndex);
+$this->ApiDoc->setClassIndex($classIndex);
 
 echo $this->element('class_info');
 echo $this->element('properties');
