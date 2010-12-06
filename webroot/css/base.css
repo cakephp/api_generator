@@ -422,6 +422,7 @@ ul.property-list li {
 	clear:left;
 	background: url(../img/inheritance_arrow.png) center bottom no-repeat;
 }
+.inheritance-tree .no-link,
 .inheritance-tree a {
 	min-width:100px;
 	padding:5px 15px;

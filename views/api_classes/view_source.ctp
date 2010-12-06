@@ -3,8 +3,8 @@
  * View the source code for a file.
  *
  */
-$this->set('title_for_layout', $apiDoc->trimFileName($filename));
+$this->set('title_for_layout', $this->ApiDoc->trimFileName($filename));
 ?>
-<h1><?php echo $apiDoc->trimFileName($filename); ?></h1>
+<h1><?php echo $this->ApiDoc->trimFileName($filename); ?></h1>
 
-<?php echo $apiUtils->highlight($contents); ?>
+<?php echo $this->ApiUtils->highlight($contents); ?>

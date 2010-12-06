@@ -51,7 +51,7 @@ echo $this->ApiUtils->element('before_method_detail');
 			echo $this->ApiDoc->fileLink($method['declaredInFile']);
 			
 			if ($this->ApiDoc->inClassIndex($method['declaredInClass'])):
-				__d('api_generator', ' on line ');
+				echo __d('api_generator', ' on line ');
 				echo $this->Html->link($method['startLine'], array(
 					'controller' => 'api_classes',
 					'action' => 'view_source', 

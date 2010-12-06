@@ -201,7 +201,7 @@ class ApiDocHelper extends AppHelper {
 		if ($url) {
 			return $this->Html->link($className, $url, $attributes);
 		}
-		return $className;
+		return '<span class="no-link">' . $className . '</span>';
 	}
 
 /**
