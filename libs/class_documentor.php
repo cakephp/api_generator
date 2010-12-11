@@ -56,7 +56,7 @@ class ClassDocumentor extends ReflectionClass {
 		if ($this->isFinal()) {
 			$desc .= 'final ';
 		}
-		if ($this->isAbstract()) {
+		if ($this->isAbstract() && !$this->isInterface()) {
 			$desc .= 'abstract ';
 		}
 		if ($this->isInterface()) {
