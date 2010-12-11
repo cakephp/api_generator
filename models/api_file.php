@@ -306,7 +306,7 @@ class ApiFile extends Object {
 		$include = false;
 		foreach ($tmp['class'] as $classInFile) {
 			$include = false;
-			if (!class_exists($classInFile, false)) {
+			if (!class_exists($classInFile, false) && !interface_exists($classInFile, false)) {
 				$include = true;
 			}
 		}
@@ -322,7 +322,6 @@ class ApiFile extends Object {
 			ob_start();
 			include_once $filePath;
 			ob_clean();
-
 			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
 			$funcs = get_defined_functions();
 			$new['function'] = array_diff($funcs['user'], $this->_definedFunctions);
