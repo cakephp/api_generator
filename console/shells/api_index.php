@@ -138,13 +138,13 @@ class ApiIndexShell extends Shell {
 				try {
 					$docsInFile = $this->ApiFile->loadFile($file);
 				} catch (Exception $e) {
-					$this->err($e->getMessage());
+					$this->err(__('<error>Error:</error> %s', $e->getMessage()));
 				}
 				foreach ($docsInFile['class'] as $classDocs) {
 					$className = $classDocs->getName();
 					$this->ApiClass->create();
 					if (!isset($foundClasses[$className]) && $this->ApiClass->saveClassDocs($classDocs)) {
-						$this->out('Added docs for ' . $classDocs->name . ' to index');
+						$this->out('Added docs for ' . $classDocs->name . ' to index',  1, Shell::VERBOSE);
 						$foundClasses[$className] = true;
 						try {
 							$packages = $this->ApiPackage->parsePackage($classDocs->classInfo['comment']);
@@ -152,20 +152,23 @@ class ApiIndexShell extends Shell {
 							$lastPackage = $this->ApiPackage->findEndPackageId($packages);
 							$this->ApiClass->saveField('api_package_id', $lastPackage);
 						} catch (Exception $e) {
-							$this->out(sprintf('Warning: %s does not have any packages.', $classDocs->getName()));
+							$this->out(sprintf(
+								'<warning>Warning:</warning> %s does not have any packages.',
+								$classDocs->getName()
+							));
 						}
 					}
 				}
 				if (!empty($docsInFile['function'])) {
 					$this->ApiClass->create();
 					if ($this->ApiClass->savePseudoClassDocs($docsInFile['function'], $file)) {
-						$this->out('Added docs for global functions in ' . basename($file));
+						$this->out('Added docs for global functions in ' . basename($file), 1, Shell::VERBOSE);
 					}
 				}
 			}
 		}
 
-		$this->out('Class index Regenerated.');
+		$this->out('<success>Class index Regenerated.</success>');
 	}
 /**
  * Show the list of files that will be parsed.
