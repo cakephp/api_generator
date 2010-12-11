@@ -67,17 +67,16 @@ class ApiIndexShell extends Shell {
 			}
 		}
 	}
+
 /**
  * Initialize the database and insert the schema.
  *
  * @return void
  **/
 	public function initdb() {
-		$this->Dispatch->args = array('schema', 'create');
-		$this->Dispatch->params['name'] = 'ApiGenerator';
-		$this->Dispatch->params['plugin'] = 'api_generator';
-		$this->Dispatch->dispatch();
+		$this->dispatchShell('schema create --name ApiGenerator --plugin ApiGenerator');
 	}
+
 /**
  * Initialize the database and insert the schema.
  *
@@ -111,14 +110,7 @@ class ApiIndexShell extends Shell {
 		$this->out(__d('api_generator', 'Routes file NOT updated'));
 		return;
 	}
-/**
- * Main method
- *
- * @return void
- **/
-	public function main() {
-		return $this->help();
-	}
+
 /**
  * Update the Api Class index.
  *
@@ -409,26 +401,29 @@ class ApiIndexShell extends Shell {
 		}
 		return $config;
 	}
+
 /**
- * Get help
+ * get the option parser
  *
  * @return void
- **/
-	public function help() {
-		$this->out('Api Generator Class Index Generation');
-		$this->hr();
-		$this->out('Available commands:');
-		$this->out('  initdb');
-		$this->out('	Create the schema used for the Api Generator Plugin');
-		$this->out('  showfiles');
-		$this->out('	Show the list of files that will be parsed for classes based on your configuration.');
-		$this->out('	Use to check if your config is going to parse the files you want.');
-		$this->out('  update');
-		$this->out('	Clear the existing class index and regenerate it.');
-		$this->out('  set_routes');
-		$this->out('	Add routes for Api generator to your routes file.');
-		$this->out('  users');
-		$this->out('	View list of users, and create new ones.');
+ */
+	public function getOptionParser() {
+		return parent::getOptionParser()
+			->description("Api Generator Class index tool.
+
+Used for building the index tables that ApiGenerator uses.  Also allows you to create the schema, add admin users and routes to your application."
+			)->addSubcommand('initdb', array(
+				'help' => 'Create the schema used for the ApiGenerator plugin.'
+			))->addSubcommand('showfiles', array(
+				'help' => 'Show the list of files that will be parsed for classes based on your configuration.' .
+					'Use to check if your config is going to parse the files you want.'
+			))->addSubcommand('update', array(
+				'help' => 'Clear the existing class index and regenerate it.'
+			))->addSubcommand('set_routes', array(
+				'help' => 'Add routes for Api generator to your routes file.'
+			))->addSubcommand('users', array(
+				'help' => 'View list of users able to access admin features, and create new ones.'
+			));
 	}
 
 }
