@@ -14,7 +14,7 @@ echo $this->ApiUtils->element('before_class_info');
 		<dd><?php echo $this->ApiDoc->parse($doc->classInfo['classDescription']); ?></dd>
 		
 		<dt><?php echo __d('api_generator', 'File name:'); ?></dt>
-		<dd><?php echo $this->ApiDoc->trimFileName($doc->classInfo['fileName']); ?></dd>
+		<dd><?php echo $this->ApiDoc->fileLink($doc->classInfo['fileName']); ?></dd>
 		
 		<dt><?php echo __d('api_generator', 'Description:'); ?></dt>
 		<dd class="markdown-block"><?php echo $this->ApiDoc->parse($doc->classInfo['comment']['description']); ?></dd>
