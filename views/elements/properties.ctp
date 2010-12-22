@@ -5,6 +5,10 @@
  */
 echo $this->ApiUtils->element('before_properties');
 $this->ApiUtils->sortByName($doc->properties);
+
+if (empty($doc->properties)) {
+	return;
+}
 ?>
 <div class="doc-block">
 	<div class="doc-head"><h3><?php echo __d('api_generator', 'Properties:'); ?></h3></div>
