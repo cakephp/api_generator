@@ -11,7 +11,7 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:') : __d('api
 	<a id="top-<?php echo $doc->name; ?>"></a>
 	<div class="doc-head"><h3><?php echo $title; ?></h3></div>
 	<div class="doc-body">
-<?php if (empty($isSearch)): ?>
+<?php if (empty($isSearch)  && $doc->hasParentMethods()): ?>
 		<span class="doc-controls">
 			<a href="#" id="hide-parent-methods"><?php echo __d('api_generator', 'Show/Hide parent methods'); ?></a>
 		</span>
