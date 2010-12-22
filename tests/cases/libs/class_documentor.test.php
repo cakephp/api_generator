@@ -266,4 +266,20 @@ class ClassDocumentorTestCase extends CakeTestCase {
 		$this->assertFalse(empty($Docs->properties));
 		$this->assertFalse(empty($Docs->methods));
 	}
+
+	function testHasParentMethods() {
+		$docs = new ClassDocumentor('SimpleDocumentorSubjectClass');
+		$this->assertFalse($docs->hasParentMethods());
+		
+		$docs = new ClassDocumentor(get_class($this));
+		$this->assertTrue($docs->hasParentMethods());
+	}
+	
+	function testHasParentProperties() {
+		$docs = new ClassDocumentor('SimpleDocumentorSubjectClass');
+		$this->assertFalse($docs->hasParentProperties());
+		
+		$docs = new ClassDocumentor(get_class($this));
+		$this->assertTrue($docs->hasParentProperties());
+	}
 }

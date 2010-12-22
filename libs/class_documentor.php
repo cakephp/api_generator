@@ -209,6 +209,36 @@ class ClassDocumentor extends ReflectionClass {
 		}
 		return $this->methods;
 	}
+
+/**
+ * Check if a class has any parent methods.
+ *
+ * @return boolean
+ */
+	public function hasParentMethods() {
+		$name = $this->getName();
+		foreach (parent::getMethods() as $method) {
+			if ($method->getDeclaringClass()->getName() != $name) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+/**
+ * Check if a class has any parent properties
+ *
+ * @return boolean
+ */
+	public function hasParentProperties() {
+		$name = $this->getName();
+		foreach (parent::getProperties() as $property) {
+			if ($property->getDeclaringClass()->getName() != $name) {
+				return true;
+			}
+		}
+		return false;
+	}
 /**
  * _parseComment
  *
