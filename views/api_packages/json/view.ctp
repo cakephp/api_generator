@@ -1,11 +1,11 @@
 <?php
-$apiDoc->setClassIndex($classIndex);
+$this->ApiDoc->setClassIndex($classIndex);
 
 $children = array();
 foreach ($apiPackage['ChildPackage'] as $child) {
 	$children[] = array(
 		'name' => $child['name'],
-		'url' => $apiDoc->packageUrl($child['name'], array('ext' => 'json'))
+		'url' => $this->ApiDoc->packageUrl($child['name'], array('ext' => 'json'))
 	);
 }
 
@@ -13,7 +13,7 @@ $classes = array();
 foreach ($apiPackage['ApiClass'] as $packageClass) {
 	$classes[] = array(
 		'name' => $packageClass['name'],
-		'url' => $apiDoc->classUrl($packageClass['name'], array('ext' => 'json'))
+		'url' => $this->ApiDoc->classUrl($packageClass['name'], array('ext' => 'json'))
 	);
 }
 

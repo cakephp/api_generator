@@ -4,18 +4,18 @@ function extract_tags($tags, $apiDoc) {
 	$return = array();
 	foreach ($tags as $tag => $value) {
 		if (!is_array($value)) {
-			$return[$tag] = $apiDoc->parse($value);
+			$return[$tag] = $this->ApiDoc->parse($value);
 		} else {
 			$return[$tag] = '';
 			foreach ($value as $val) {
-				$return[$tag] .= $apiDoc->parse($val);
+				$return[$tag] .= $this->ApiDoc->parse($val);
 			}
 		}
 	}
 	return $return;
 }
 
-$apiDoc->setClassIndex($classIndex);
+$this->ApiDoc->setClassIndex($classIndex);
 
 // Generate the output array which is a datastructure of all the values to be returned.
 $output = array();
@@ -23,7 +23,7 @@ $output = array();
 $output['classInfo'] = array(
 	'classDescription' => $doc->classInfo['classDescription'],
 	'filename' => $doc->classInfo['fileName'],
-	'description' => $apiDoc->parse($doc->classInfo['comment']['description']),
+	'description' => $this->ApiDoc->parse($doc->classInfo['comment']['description']),
 	'parents' => $doc->classInfo['parents'],
 	'interfaces' => array(),
 	'tags' => array()
@@ -31,7 +31,7 @@ $output['classInfo'] = array(
 
 if (!empty($doc->classInfo['interfaces'])) {
 	foreach ($doc->classInfo['interfaces'] as $interface) {
-		$output['classInfo']['interfaces'][] = $apiDoc->classUrl($interface);
+		$output['classInfo']['interfaces'][] = $this->ApiDoc->classUrl($interface);
 	}
 }
 
@@ -43,7 +43,7 @@ if (!empty($doc->classInfo['comment']['tags'])) {
 $properties = array();
 
 foreach ($doc->properties as $prop) {
-	if ($apiDoc->excluded($prop['access'], 'property')) {
+	if ($this->ApiDoc->excluded($prop['access'], 'property')) {
 		continue;
 	}
 	$definedInThis = ($prop['declaredInClass'] == $doc->classInfo['name']);
@@ -51,7 +51,7 @@ foreach ($doc->properties as $prop) {
 		'name' => $prop['name'],
 		'access' => $prop['access'],
 		'parentMethod' => !$definedInThis,
-		'description' => $apiDoc->parse($prop['comment']['description'])
+		'description' => $this->ApiDoc->parse($prop['comment']['description'])
 	);
 }
 $output['properties'] = $properties;
@@ -60,7 +60,7 @@ $output['properties'] = $properties;
 $methods = array();
 
 foreach ($doc->methods as $method) {
-	if ($apiDoc->excluded($method['access'], 'method')) {
+	if ($this->ApiDoc->excluded($method['access'], 'method')) {
 		continue;
 	}
 	$definedInThis = ($method['declaredInClass'] == $doc->classInfo['name']);
@@ -79,11 +79,11 @@ foreach ($doc->methods as $method) {
 	$methods[] = array(
 		'name' => $method['name'],
 		'access' => $method['access'],
-		'description' => $apiDoc->parse($method['comment']['description']),
+		'description' => $this->ApiDoc->parse($method['comment']['description']),
 		'parameters' => $parameters,
 		'declaredIn' => array(
 			'name' => $method['declaredInClass'],
-			'url' => $apiDoc->classUrl($method['declaredInClass'])
+			'url' => $this->ApiDoc->classUrl($method['declaredInClass'])
 		),
 		'line' => $method['startLine'],
 		'tags' => extract_tags($method['comment']['tags'], $apiDoc)

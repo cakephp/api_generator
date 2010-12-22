@@ -11,7 +11,7 @@ $this->set('title_for_layout', __d('api_generator', 'All Files'));
 <?php if (!empty($files)): ?>
 <?php foreach ($files as $file): ?>
 	<li class="file">
-		<?php echo $apiDoc->fileLink($file); ?>
+		<?php echo $this->ApiDoc->fileLink($file); ?>
 	</li>
 <?php endforeach; ?>
 <?php else: ?>

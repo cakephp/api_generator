@@ -12,7 +12,7 @@
 	</div>
 
 	<div class="doc-body">
-		<div class="markdown-block"><?php echo $apiDoc->parse($doc->info['comment']['description']); ?></div>
+		<div class="markdown-block"><?php echo $this->ApiDoc->parse($doc->info['comment']['description']); ?></div>
 		<dl>
 			<?php if (count($doc->params)): ?>
 			<dt><?php echo __d('api_generator', 'Parameters:'); ?></dt>
@@ -31,7 +31,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="markdown-block">
-							<?php echo $apiDoc->parse($paramInfo['comment']); ?>
+							<?php echo $this->ApiDoc->parse($paramInfo['comment']); ?>
 						</div>
 					</li>
 					<?php endforeach; ?>
@@ -41,9 +41,9 @@
 
 			<dt><?php echo __d('api_generator', 'Method defined in:'); ?></dt>
 			<dd><?php 
-				echo $apiDoc->fileLink($doc->info['declaredInFile']);
+				echo $this->ApiDoc->fileLink($doc->info['declaredInFile']);
 				$pseudoClass = basename($doc->info['declaredInFile']);
-				if ($apiDoc->inClassIndex($pseudoClass)):
+				if ($this->ApiDoc->inClassIndex($pseudoClass)):
 					__d('api_generator', ' on line ');
 					echo $this->Html->link($doc->info['startLine'], array(
 						'controller' => 'api_classes',

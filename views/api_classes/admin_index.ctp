@@ -1,4 +1,4 @@
-<?php $html->script('/api_generator/js/request_manager.js', array('inline' => false)); ?>
+<?php $this->Html->script('/api_generator/js/request_manager.js', array('inline' => false)); ?>
 <h1><?php echo __d('api_generator', 'Admin Class Index'); ?></h1>
 <table class="listing coverage" cellspacing="0" cellpadding="0">
 	<thead>
@@ -13,7 +13,7 @@
 			<td><?php echo $apiClass['ApiClass']['name']; ?></td>
 			<td><?php 
 				if (!empty($apiClass['ApiClass']['coverage_cache'])): 
-					echo $apiUtils->colourPercent($apiClass['ApiClass']['coverage_cache']);
+					echo $this->ApiUtils->colourPercent($apiClass['ApiClass']['coverage_cache']);
 				else:
 					echo '<span class="coverage-indicator" id="' . $apiClass['ApiClass']['id'] . '">' . __d('api_generator', 'Loading..') . '</span>';
 				endif;
