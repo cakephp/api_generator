@@ -44,6 +44,16 @@ class ApiGeneratorAppController extends AppController {
 		}
 		$this->path = Folder::slashTerm(realpath($path));
 	}
+
+/**
+ * Login failure
+ *
+ * @return void
+ */
+	public function _loginFail() {
+		$this->response->send();
+	}
+
 /**
  * Error Generating Page.
  * Needs to be public for Security Blackhole.
