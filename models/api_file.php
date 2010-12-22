@@ -286,7 +286,7 @@ class ApiFile extends Object {
  * @return void
  **/
 	protected function _getDefinedObjects() {
-		$this->_definedClasses = get_declared_classes();
+		$this->_definedClasses = array_merge(get_declared_classes(), get_declared_interfaces());
 		$funcs = get_defined_functions();
 		$this->_definedFunctions = $funcs['user'];
 	}
@@ -322,7 +322,8 @@ class ApiFile extends Object {
 			ob_start();
 			include_once $filePath;
 			ob_clean();
-			$new['class'] = array_diff(get_declared_classes(), $this->_definedClasses);
+			$existingClasses = array_merge(get_declared_classes(), get_declared_interfaces());
+			$new['class'] = array_diff($existingClasses, $this->_definedClasses);
 			$funcs = get_defined_functions();
 			$new['function'] = array_diff($funcs['user'], $this->_definedFunctions);
 		}
