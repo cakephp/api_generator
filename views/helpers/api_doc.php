@@ -29,12 +29,14 @@ class ApiDocHelper extends AppHelper {
  * @var array
  */
 	public $helpers = array('Html');
+
 /**
  * internal basePath used when browsing files. and making links to them
  *
  * @var string
  **/
 	protected $_basePath;
+
 /**
  * default Urls
  *
@@ -57,6 +59,7 @@ class ApiDocHelper extends AppHelper {
 			'plugin' => 'api_generator'
 		)
 	);
+
 /**
  * pattern for finding Class::method() type links.
  *
@@ -366,4 +369,17 @@ class ApiDocHelper extends AppHelper {
 		return $this->slug(end($bits));
 	}
 
+/**
+ * Generate the visibility keywords for a method.
+ *
+ * @param array $method Method doc information.
+ * @return string
+ */
+	public function access($method) {
+		$base = 'access ' . $method['access'];
+		if ($method['isStatic']) {
+			$base .= ' static';
+		}
+		return $base;
+	}
 }

@@ -14,7 +14,7 @@ echo $this->ApiUtils->element('before_method_detail');
 <div class="doc-block <?php echo $definedInThis ? '' : 'parent-method'; ?>">
 	<a id="method-<?php echo $doc->name . $method['name']; ?>"></a>
 	<div class="doc-head">
-		<h2 class="access <?php echo $method['access'] ?>"><?php echo $method['name']; ?></h2>
+		<h2 class="<?php echo $this->ApiDoc->access($method); ?>"><?php echo $method['name']; ?></h2>
 		<a class="top-link scroll-link" href="#top-<?php echo $doc->name; ?>"><?php echo __d('api_generator', 'top'); ?></a>
 	</div>
 

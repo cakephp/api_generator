@@ -25,21 +25,32 @@ App::import('Helper', array('ApiGenerator.ApiDoc', 'Html'));
 */
 class ApiDocHelperTestCase extends CakeTestCase {
 /**
- * startTest
+ * setup
  *
  * @return void
  **/
-	function startTest() {
+	function setup() {
+		parent::setup();
 		$this->_pluginPath = dirname(dirname(dirname(dirname(__FILE__))));
 		$controller = new Controller();
 		$view = new View($controller);
 		$view->set('basePath', $this->_pluginPath);
-		$this->ApiDoc = new ApiDocHelper();
-		$this->ApiDoc->Html = new HtmlHelper();
-		
+		$this->ApiDoc = new ApiDocHelper($view);
+
 		Router::reload();
 		Router::parse('/');
 	}
+
+/**
+ * endTest
+ *
+ * @return void
+ **/
+	function tearDown() {
+		parent::tearDown();
+		unset($this->ApiDoc);
+	}
+
 /**
  * test inBasePath
  *
@@ -129,17 +140,28 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testParsingMethodLinks() {
 		$this->ApiDoc->setClassIndex(array('JsHelper', 'Model'));
 		$text = 'This is some JsHelper::method() more text here.';
-		$expected = 'This is some <a href="/api_generator/api_classes/view_class/js-helper#method-JsHelpermethod">JsHelper::method()</a> more text here.';
-		$result = $this->ApiDoc->parseText($text);
+		$expected = '<p>This is some <a href="/api_generator/api_classes/view_class/js-helper#method-JsHelpermethod">JsHelper::method()</a> more text here.</p>';
+		$result = $this->ApiDoc->parse($text);
 		$this->assertEqual($result, $expected);
 	}
+
 /**
- * endTest
+ * test access()
  *
  * @return void
- **/
-	function endTest() {
-		ClassRegistry::flush();
-		unset($this->ApiDoc);
+ */
+	function testAccess() {
+		$doc = array(
+			'access' => 'public',
+			'isStatic' => true
+		);
+		$this->assertEquals('access public static', $this->ApiDoc->access($doc));
+		
+		$doc = array(
+			'access' => 'public',
+			'isStatic' => false
+		);
+		$this->assertEquals('access public', $this->ApiDoc->access($doc));
 	}
+
 }
