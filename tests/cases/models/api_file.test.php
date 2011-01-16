@@ -30,7 +30,8 @@ class ApiFileTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function startTest() {
+	function setUp() {
+		parent::setUp();
 		$this->_path = dirname(dirname(dirname(dirname(__FILE__))));
 		Configure::write('ApiGenerator.filePath', $this->_path);
 		$this->ApiFile = new ApiFile();
@@ -45,7 +46,8 @@ class ApiFileTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		unset($this->ApiFile);
 	}
 /**
@@ -215,7 +217,7 @@ class ApiFileTestCase extends CakeTestCase {
  **/
 	function testLoadingFileParentClassInSameFile() {
 		$result = $this->ApiFile->loadFile($this->_testAppPath . 'inline_parents.php');
-		$this->assertEqual(count($result['class']), 3);
+		$this->assertEqual(count($result['class']), 4);
 	}
 /**
  * test loading files that have sloppy code conventions
@@ -246,7 +248,7 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadingFileWithAmbiguousFunction() {
-		$cacheFile = CAKE_CORE_INCLUDE_PATH . DS . LIBS . 'cache.php';
+		$cacheFile = LIBS . 'cache.php';
 		$this->assertTrue(function_exists('config'));
 		$results = $this->ApiFile->loadFile($cacheFile);
 		$this->assertEqual($results['function'], array());

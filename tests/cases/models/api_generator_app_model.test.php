@@ -27,11 +27,12 @@ class ApiGeneratorAppTestModel extends ApiGeneratorAppModel {
 
 class ApiGeneratorAppModelTestCase extends CakeTestCase {
 /**
- * startTest
+ * setup
  *
  * @return void
  **/
-	function startTest() {
+	function setup() {
+		parent::setup();
 		$this->Model = ClassRegistry::init('ApiGeneratorAppTestModel');
 	}
 /**
@@ -65,7 +66,8 @@ class ApiGeneratorAppModelTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		unset($this->Model);
 	}
 }

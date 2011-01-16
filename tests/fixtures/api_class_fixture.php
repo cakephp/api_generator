@@ -59,7 +59,7 @@ class ApiClassFixture extends CakeTestFixture {
 		'api_package_id' => null,
 		'name' => 'Dispatcher', 
 		'slug' => 'dispatcher', 
-		'file_name' => 'dispatcher.php', 
+		'file_name' => 'libs/dispatcher.php', 
 		'method_index' => '__construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached __construct dispatch _invoke __extractparams parseparams baseurl _restructureparams __getcontroller __loadcontroller uri geturl cached', 
 		'property_index' => 'base webroot here admin plugin params base webroot here admin plugin params', 
 		'flags' => '2',

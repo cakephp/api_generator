@@ -97,7 +97,8 @@ class ApiClassTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function startTest() {
+	function setUp() {
+		parent::setUp();
 		$this->_path = App::pluginPath('api_generator');
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 
@@ -109,9 +110,11 @@ class ApiClassTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		unset($this->ApiClass);
 	}
+
 /**
  * Test Saving of the class docs to the db.
  *
@@ -236,7 +239,7 @@ class ApiClassTestCase extends CakeTestCase {
 	function testClearIndex() {
 		$this->ApiClass->clearIndex();
 		$result = $this->ApiClass->find('all');
-		$this->assertFalse($result);
+		$this->assertFalse((bool)$result);
 	}
 /**
  * Test that getting the class index works as expected and that the PSEUDO_CLASS flag works

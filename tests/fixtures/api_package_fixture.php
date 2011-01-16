@@ -21,7 +21,7 @@ class ApiPackageFixture extends CakeTestFixture {
 	var $name = 'ApiPackage';
 	var $fields = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
-		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false),
+		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),

@@ -56,7 +56,8 @@ class ApiPackageTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function startTest() {
+	function setup() {
+		parent::setup();
 		$this->_path = APP . 'plugins' . DS . 'api_generator';
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 
@@ -68,9 +69,9 @@ class ApiPackageTestCase extends CakeTestCase {
  *
  * @return void
  **/
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		unset($this->ApiPackage);
-		ClassRegistry::flush();
 	}
 /**
  * test getting the package index tree
@@ -94,7 +95,7 @@ class ApiPackageTestCase extends CakeTestCase {
 			$result = $this->ApiPackage->parsePackage($docBlock);
 			$this->fail('No exception thrown');
 		} catch(InvalidArgumentException $e) {
-			$this->pass('Exception thrown');
+			$this->assertTrue(true, 'Exception thrown');
 		}
 
 		$docBlock = array(
