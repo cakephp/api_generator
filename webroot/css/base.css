@@ -466,17 +466,23 @@ ul.property-list li {
 	background-repeat: no-repeat;
 	background-position:left center;
 }
-.protected, 
-.protected-static {
-	background-image: url(../img/icon_protected.gif);
-}
-.public,
-.public-static {
+.public {
 	background-image: url(../img/icon_public.gif);
 }
-.private, 
-.private-static {
+.protected {
+	background-image: url(../img/icon_protected.gif);
+}
+.private {
 	background-image: url(../img/icon_private.gif);
+}
+.private.static {
+	background-image: url(../img/icon_private_static.png);
+}
+.protected.static {
+	background-image: url(../img/icon_protected_static.png);
+}
+.public.static {
+	background-image: url(../img/icon_public_static.png);
 }
 .parent-method .private,
 .parent-property .private {

@@ -25,7 +25,7 @@ $title = (empty($isSearch)) ? __d('api_generator', 'Method Summary:') : __d('api
 				$parent = ($method['declaredInClass'] == $doc->classInfo['name']) ? '' : 'parent-method'; 
 				?>
 				<li class="<?php echo $parent; ?>">
-					<span class="access <?php echo $method['access'] ?>">
+					<span class="<?php echo $this->ApiDoc->access($method); ?>">
 					<?php
 						if (empty($isSearch)):
 							echo $this->Html->link($method['signature'],
