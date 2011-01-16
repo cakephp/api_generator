@@ -166,7 +166,8 @@ class ClassDocumentor extends ReflectionClass {
 				'declaredInClass' => $method->getDeclaringClass()->getName(),
 				'declaredInFile' => $method->getDeclaringClass()->getFileName(),
 				'signature' => DocblockTools::makeFunctionSignature($method),
-				'isStatic' => $method->isStatic()
+				'isStatic' => $method->isStatic(),
+				'isAbstract' => $method->isAbstract(),
 			);
 
 			$params = $method->getParameters();

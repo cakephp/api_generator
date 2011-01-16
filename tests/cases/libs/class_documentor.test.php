@@ -28,7 +28,7 @@ App::import('Lib', 'ApiGenerator.ClassDocumentor');
  * @package this is my package
  * @another-tag long value
  */
-class SimpleDocumentorSubjectClass extends StdClass implements Countable {
+abstract class SimpleDocumentorSubjectClass extends StdClass implements Countable {
 /**
  * This var is protected
  *
@@ -75,6 +75,13 @@ class SimpleDocumentorSubjectClass extends StdClass implements Countable {
  * @return void
  **/
 	public static function goGo($param) { }
+
+/**
+ * An abstract function
+ *
+ * @return void
+ */
+	abstract public function isAbstract();
 }
 
 /**
@@ -105,7 +112,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 		$expected = array (
 			'name' => 'SimpleDocumentorSubjectClass', 
 			'fileName' => __FILE__,
-			'classDescription' => 'class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
+			'classDescription' => 'abstract class SimpleDocumentorSubjectClass extends stdClass implements Countable ', 
 			'comment' => array ( 
 				'description' => "SimpleDocumentorSubjectClass\n\nA simple class to test ClassInfo introspection", 
 				'tags' => array (
@@ -186,10 +193,11 @@ class ClassDocumentorTestCase extends CakeTestCase {
 				'startLine' => '58',
 				'declaredInClass' => 'SimpleDocumentorSubjectClass',
 				'declaredInFile' => __FILE__,
-				'args' => array( ), 
-				'access' => 'public',
 				'signature' => 'count(  )',
 				'isStatic' => false,
+				'isAbstract' => false,
+				'args' => array( ), 
+				'access' => 'public',
 			), 
 			array(
 				'name' => 'something', 
@@ -199,12 +207,18 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'access' => 'public', 
 						'return' => 'integer'
 					)
-				), 
+				),
+				'startLine' => '69',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__,
+				'signature' => 'something( $arg1, $arg2 = \'file\' )',
+				'isStatic' => false,
+				'isAbstract' => false,
 				'args' => array(
 					'arg1' => array( 
 						'optional' => false,
+						'default' => NULL,
 						'hasDefault' => false,
-						'default' => NULL, 
 						'position' => 0,
 						'type' => 'string',
 						'comment' => 'First arg'
@@ -218,12 +232,7 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'comment' => 'Second arg'
 					)
 				),
-				'startLine' => '69',
-				'declaredInClass' => 'SimpleDocumentorSubjectClass',
-				'declaredInFile' => __FILE__,
 				'access' => 'protected',
-				'signature' => 'something( $arg1, $arg2 = \'file\' )',
-				'isStatic' => false,
 			),
 			array(
 				'name' => 'goGo', 
@@ -233,26 +242,45 @@ class ClassDocumentorTestCase extends CakeTestCase {
 						'return' => 'void'
 					)
 				),
+				'startLine' => '77',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__,
+				'signature' => 'goGo( $param )',
+				'isStatic' => true,
+				'isAbstract' => false,
 				'args' => array(
 					'param' => array(
 						'optional' => false,
-						'default' => NULL, 
+						'default' => NULL,
+						'hasDefault' => false,
 						'position' => 0,
 						'type' => 'string',
-						'hasDefault' => false,
 						'comment' => 'a parameter'
 					)
 				),
-				'startLine' => '77',
-				'declaredInClass' => 'SimpleDocumentorSubjectClass',
-				'declaredInFile' => __FILE__, 
 				'access' => 'public',
-				'signature' => 'goGo( $param )',
-				'isStatic' => true,
+			),
+			array(
+				'name' => 'isAbstract', 
+				'comment' => array( 
+					'description' => "An abstract function", 
+					'tags' => array(
+						'return' => 'void'
+					)
+				),
+				'startLine' => '84',
+				'declaredInClass' => 'SimpleDocumentorSubjectClass',
+				'declaredInFile' => __FILE__,
+				'signature' => 'isAbstract(  )',
+				'isStatic' => false,
+				'isAbstract' => true,
+				'args' => array(
+				),
+				'access' => 'public',
 			)
 		);
-		$this->assertEqual($result, $expected);
-		$this->assertEqual($Docs->methods, $expected);
+		$this->assertEquals($expected, $result);
+		$this->assertEquals($expected, $Docs->methods);
 	}
 /**
  * test getAll()
