@@ -19,7 +19,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Core', 'Folder');
+App::uses('Folder', 'Utility');
 
 class ApiConfig extends Object {
 /**
@@ -41,8 +41,8 @@ class ApiConfig extends Object {
  *
  **/
 	public function __construct() {
-		if (file_exists(CONFIGS . 'api_config.ini')) {
-			$this->path =  CONFIGS . 'api_config.ini';
+		if (file_exists(APP . 'Config' . DS . 'api_config.ini')) {
+			$this->path =  APP . 'Config' . DS . 'api_config.ini';
 		} else {
 			$this->path =  dirname(dirname(__FILE__)) . DS . 'config' . DS . 'api_config.ini';
 		}

@@ -250,9 +250,6 @@ class ApiFile extends Object {
 		if (preg_match('|\.\.|', $filePath)) {
 			return $docs;
 		}
-		if (!defined('DISABLE_AUTO_DISPATCH')) {
-			define('DISABLE_AUTO_DISPATCH', true);
-		}
 		if (!$this->isAllowed($filePath)) {
 			throw new Exception(__d('api_geneartor', '%s is not accesible or does not exist.', $filePath));
 		}
@@ -277,7 +274,10 @@ class ApiFile extends Object {
  * @return void
  **/
 	public function importCoreClasses() {
-		App::import('Core', array('Controller', 'Model', 'View', 'Helper'));
+		App::uses('Controller', 'Controler');
+		App::uses('Model', 'Model');
+		App::uses('View', 'View');
+		App::uses('Helper', 'View/Helper');
 	}
 /**
  * gets the currently defined functions and classes
@@ -393,8 +393,8 @@ class ApiFile extends Object {
 			$neededParent = array_pop($parentClasses);
 
 			$exists = (
-				class_exists($neededParent, false) ||
-				interface_exists($neededParent, false) ||
+				class_exists($neededParent) ||
+				interface_exists($neededParent) ||
 				in_array($neededParent, $classNamesInFile)
 			);
 			if (!$exists && $options['useIndex']) {
@@ -417,7 +417,7 @@ class ApiFile extends Object {
 			}
 		}
 		foreach ($loadClasses as $className) {
-			App::import('File', $className, true, array(), $this->classMap[$className]);
+			require_once $this->classMap[$className];
 		}
 	}
 /**
@@ -428,28 +428,28 @@ class ApiFile extends Object {
 	protected function _importCakeBaseClasses($filePath) {
 		$baseClass = array();
 		if (strpos($filePath, 'controllers') !== false) {
-			$baseClass['Controller'] = 'App';
+			$baseClass['Controller'] = 'AppController';
 		}
 		if (strpos($filePath, 'models') !== false) {
-			$baseClass['Model'] = 'App';
+			$baseClass['Model'] = 'AppModel';
 		}
 		if (strpos($filePath, 'helpers') !== false) {
-			$baseClass['Helper'] = 'App';
+			$baseClass['View/Helper'] = 'AppHelper';
 		}
 		if (strpos($filePath, 'view') !== false) {
 			$baseClass['View'] = 'View';
 		}
 		if (strpos($filePath, 'shell') !== false) {
-			$baseClass['Shell'] = 'Shell';
+			$baseClass['Command'] = 'Shell';
 		}
 		if (strpos($filePath, 'socket') !== false) {
-			$baseClass['Core'] = 'Socket';
+			$baseClass['Network'] = 'Socket';
 		}
 		if (strpos($filePath, 'schema') !== false) {
-			$baseClass['Model'] = 'Schema';
+			$baseClass['Model'] = 'CakeSchema';
 		}
 		foreach ($baseClass as $type => $class) {
-			App::import($type, $class);
+			App::uses($class, $type);
 		}
 	}
 /**
