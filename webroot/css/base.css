@@ -484,6 +484,15 @@ ul.property-list li {
 .public.static {
 	background-image: url(../img/icon_public_static.png);
 }
+.private.abstract {
+	background-image: url(../img/icon_private_abstract.png);
+}
+.protected.abstract {
+	background-image: url(../img/icon_protected_abstract.png);
+}
+.public.abstract {
+	background-image: url(../img/icon_public_abstract.png);
+}
 .parent-method .private,
 .parent-property .private {
 	background-image: url(../img/icon_private_parent.gif);

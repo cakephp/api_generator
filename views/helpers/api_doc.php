@@ -377,8 +377,11 @@ class ApiDocHelper extends AppHelper {
  */
 	public function access($method) {
 		$base = 'access ' . $method['access'];
-		if ($method['isStatic']) {
+		if (!empty($method['isStatic'])) {
 			$base .= ' static';
+		}
+		if (!empty($method['isAbstract'])) {
+			$base .= ' abstract';
 		}
 		return $base;
 	}
