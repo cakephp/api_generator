@@ -56,12 +56,14 @@ class ApiClassesController extends ApiGeneratorAppController {
 
 		$this->ApiFile->ApiConfig->read();
 
+		/*
 		if (isset($this->ApiFile->ApiConfig->data['users'])) {
 			$this->Security->loginUsers = $this->ApiFile->ApiConfig->data['users'];
 		}
 		$this->Security->loginOptions = array('type' => 'basic');
 		$this->Security->blackHoleCallback = '_loginFail';
 		$this->Security->requireLogin('admin_index', 'admin_docs_coverage', 'admin_calculate_coverage');
+		 */
 	}
 /**
  * Extract all the useful config info out of the ApiConfig.

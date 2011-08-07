@@ -17,6 +17,8 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+App::uses('Folder', 'Utility');
+
 class ApiGeneratorAppController extends AppController {
 /**
  * theme
