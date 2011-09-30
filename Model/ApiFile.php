@@ -354,6 +354,11 @@ class ApiFile extends Object {
 				$foundClasses = array_merge($foundClasses, explode(', ', $className[2]));
 			}
 		}
+		foreach ($foundClasses as $i => $class) {
+			if (strpos($fileContent, "App::uses('$class'") !== false) {
+				unset($foundClasses[$i]);
+			}
+		}
 		return $foundClasses;
 	}
 /**

@@ -233,8 +233,9 @@ class ApiIndexShell extends Shell {
 		$this->hr();
 
 		$path = null;
+
 		while($path == null && $path != 'q') {
-			$path = $this->in('Enter the path to the codebase.', '', $this->params['working']);
+			$path = $this->in('Enter the path to the codebase.', '', APP);
 			if ($path[0] != '/' && $path[1] != ':') {
 				$path = $this->params['working'] . DS . $path;
 			}
@@ -291,7 +292,7 @@ class ApiIndexShell extends Shell {
 
 		$regex = null;
 		while($regex == null && $regex != 'n') {
-			$regex = $this->in('Regex for matching files', '', '[a-z_\-0-9]+');
+			$regex = $this->in('Regex for matching files', '', '[A-Za-z_\-0-9]+');
 			if ($regex != 'n') {
 				$config['file']['regex'] = $regex;
 			}

@@ -21,6 +21,7 @@
  **/
 App::import('Lib', 'ApiGenerator.DocMarkdown');
 App::import('Lib', 'ApiGenerator.ApiLinkGenerator');
+App::uses('Folder', 'Utility');
 
 class ApiDocHelper extends AppHelper {
 /**

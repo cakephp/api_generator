@@ -48,8 +48,6 @@ class TestSubjectOne {
 	}
 }
 
-Mock::generate('DocBlockRule', 'MockDocBlockRule');
-
 class DocBlockAnalyzerTestCase extends CakeTestCase {
 /**
  * test construction and rule building.
@@ -84,9 +82,10 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
  **/
 	function testAnalyze() {
 		//test that rules get called properly
+		$this->getMock('DocBlockRule', array(), array(), 'MockDocBlockRule');
 		$analyze = new DocBlockAnalyzer(array('Mock'));
-		$analyze->rules['Mock']->expectCallCount('setSubject', 7);
-		$analyze->rules['Mock']->expectCallCount('score', 7);
+		$analyze->rules['Mock']->expects($this->exactly(7))->method('setSubject');
+		$analyze->rules['Mock']->expects($this->exactly(7))->method('score');
 
 		$reflection = new ClassDocumentor('TestSubjectOne');
 		$result = $analyze->analyze($reflection);

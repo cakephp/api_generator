@@ -19,6 +19,8 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+App::uses('AppModel', 'Model');
+
 class ApiGeneratorAppModel extends AppModel {
 /**
  * Inflect a slashed path to url safe path. Trims ApiGenerator.filePath off as well.
