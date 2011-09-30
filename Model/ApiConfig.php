@@ -44,7 +44,7 @@ class ApiConfig extends Object {
 		if (file_exists(APP . 'Config' . DS . 'api_config.ini')) {
 			$this->path =  APP . 'Config' . DS . 'api_config.ini';
 		} else {
-			$this->path =  dirname(dirname(__FILE__)) . DS . 'config' . DS . 'api_config.ini';
+			$this->path =  dirname(dirname(__FILE__)) . DS . 'Config' . DS . 'api_config.ini';
 		}
 	}
 /**
@@ -202,7 +202,7 @@ class ApiConfig extends Object {
 		if (Folder::isAbsolute($path)) {
 			return $path;
 		}
-		$coreFile = CAKE_CORE_INCLUDE_PATH . DS . $path;
+		$coreFile = CAKE . $path;
 		if (file_exists($coreFile)) {
 			return $coreFile;
 		}

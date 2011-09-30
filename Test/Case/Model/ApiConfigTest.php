@@ -70,10 +70,9 @@ class ApiConfigTestCase extends CakeTestCase {
  * @return void
  */
 	function testMakeAbosolute() {
-		$path = 'view/helpers/xml.php';
-		$roots = Configure::corePaths();
-		$result = $this->ApiConfig->makeAbsolute($path, $roots['libs']);
-		$this->assertEqual($result, $roots['libs'][0] . $path);
+		$path = 'View/Helper/HtmlHelper.php';
+		$result = $this->ApiConfig->makeAbsolute($path);
+		$this->assertEquals(CAKE . $path, $result);
 	}
 
 /**

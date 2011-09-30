@@ -71,24 +71,24 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testRead() {
-		$result = $this->ApiFile->read($this->_path  . DS . 'models');
+		$result = $this->ApiFile->read($this->_path  . DS . 'Model');
 		$this->assertTrue(empty($result[0]));
-		$expected = array('api_config.php', 'api_class.php', 'api_file.php', 'api_package.php');
+		$expected = array('ApiConfig.php', 'ApiClass.php', 'ApiFile.php', 'ApiPackage.php', 'ApiGeneratorAppModel.php');
 		sort($result[1]);
 		sort($expected);
-		$this->assertEqual($result[1], $expected);
+		$this->assertEquals($expected, $result[1]);
 
 		$this->ApiFile->allowedExtensions = array('php', 'ctp');
-		$result = $this->ApiFile->read($this->_path  . DS . 'models');
+		$result = $this->ApiFile->read($this->_path  . DS . 'Model');
 		$this->assertTrue(empty($result[0]));
-		$expected = array('api_config.php', 'api_class.php', 'api_file.php', 'api_package.php');
+		$expected = array('ApiConfig.php', 'ApiClass.php', 'ApiFile.php', 'ApiPackage.php', 'ApiGeneratorAppModel.php');
 		sort($result[1]);
 		sort($expected);
 		$this->assertEqual($result[1], $expected);
 
-		$this->ApiFile->excludeFiles[] = 'api_class.php';
-		$result = $this->ApiFile->read($this->_path . DS . 'models');
-		$expected = array('api_config.php', 'api_file.php', 'api_package.php');
+		$this->ApiFile->excludeFiles[] = 'ApiClass.php';
+		$result = $this->ApiFile->read($this->_path . DS . 'Model');
+		$expected = array('ApiConfig.php', 'ApiFile.php', 'ApiGeneratorAppModel.php', 'ApiPackage.php');
 		$this->assertEqual($result[1], $expected);
 
 		$this->ApiFile->excludeDirectories = array('models', 'controllers');
@@ -97,7 +97,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertFalse(in_array('models', $result[0]));
 
 		$this->ApiFile->allowedExtensions = array('css');
-		$this->ApiFile->excludeDirectories = array('models');
+		$this->ApiFile->excludeDirectories = array('Model');
 		$result = $this->ApiFile->read($this->_path);
 		$this->assertTrue(empty($result[1]), 'file with not allowed extension found. %s');
 		$this->assertFalse(in_array('models', $result[0]), 'file in ignored folder found %s');
@@ -116,35 +116,33 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testGetFileList() {
-		$this->ApiFile->excludeDirectories = array('config', 'webroot');
+		$this->ApiFile->excludeDirectories = array('Config', 'webroot');
 		$result = $this->ApiFile->fileList(APP);
-		$core = CONFIGS . 'core.php';
-		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$core = APP . 'Config' . DS . 'core.php';
+		$index = WWW_ROOT . 'index.php';
 		$this->assertFalse(in_array($core, $result));
-		$this->assertFalse(in_array($vendorJs, $result));
+		$this->assertFalse(in_array($index, $result));
 
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
-		$core = CONFIGS . 'core.php';
-		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$core = APP . 'Config' . DS . 'core.php';
 		$this->assertFalse(in_array($core, $result));
-		$this->assertFalse(in_array($vendorJs, $result));
+		$this->assertFalse(in_array($index, $result));
 
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('css');
 		$result = $this->ApiFile->fileList(APP);
-		$core = CONFIGS . 'core.php';
-		$vendorJs = WWW_ROOT . 'js' . DS . 'vendors.php';
+		$core = APP . 'Config' . DS . 'core.php';
 		$this->assertFalse(in_array($core, $result));
-		$this->assertFalse(in_array($vendorJs, $result));
+		$this->assertFalse(in_array($index, $result));
 
 		$this->ApiFile->excludeDirectories = array();
 		$this->ApiFile->allowedExtensions = array('php');
 		$this->ApiFile->excludeFiles = array('index.php');
 		$this->ApiFile->fileRegExp = '[a-z_0-9]+';
 		$result = $this->ApiFile->fileList(APP);
-		$core = CONFIGS . 'core.php';
+		$core = APP . 'Config' . DS . 'core.php';
 		$index = APP . 'index.php';
 		$this->assertTrue(in_array($core, $result));
 		$this->assertFalse(in_array($index, $result));
@@ -176,7 +174,7 @@ class ApiFileTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class'][__CLASS__] instanceof ClassDocumentor);
 
-		$result = $this->ApiFile->loadFile($this->_path . DS . 'models' . DS . 'api_class.php');
+		$result = $this->ApiFile->loadFile($this->_path . DS . 'Model' . DS . 'ApiClass.php');
 		$this->assertTrue(isset($result['class']));
 		$this->assertTrue(isset($result['function']));
 		$this->assertTrue($result['class']['ApiClass'] instanceof ClassDocumentor);
@@ -187,7 +185,7 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadingEvilPath() {
-		$result = $this->ApiFile->loadFile($this->_path . '../../../config/database.php');
+		$result = $this->ApiFile->loadFile($this->_path . '../../../Config/database.php');
 		$this->assertEqual($result, array('class' => array(), 'function' => array()));
 	}
 /**
@@ -248,7 +246,7 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  **/
 	function testLoadingFileWithAmbiguousFunction() {
-		$cacheFile = LIBS . 'cache.php';
+		$cacheFile = CAKE . 'Cache' . DS . 'Cache.php';
 		$this->assertTrue(function_exists('config'));
 		$results = $this->ApiFile->loadFile($cacheFile);
 		$this->assertEqual($results['function'], array());

@@ -17,7 +17,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Model', 'ApiGenerator.AppModel');
+App::uses('ApiGeneratorAppModel', 'ApiGenerator.Model');
 
 class ApiGeneratorAppTestModel extends ApiGeneratorAppModel {
 	public $name = 'ApiGeneratorAppTestModel';
@@ -43,12 +43,12 @@ class ApiGeneratorAppModelTestCase extends CakeTestCase {
 	function testSlugPath() {
 		Configure::write('ApiGenerator.filePath', '/this/is/');
 		$result = $this->Model->slugPath('/this/is/a/path/to_my/file.php');
-		$expected = 'a-path-to_my-file-php';
+		$expected = 'a-path-to-my-file-php';
 		$this->assertEqual($result, $expected);
 		
 		Configure::write('ApiGenerator.filePath', '/this/is/');
 		$result = $this->Model->slugPath('/this/is/a/path/to_my/f i le.php');
-		$expected = 'a-path-to_my-f-i-le-php';
+		$expected = 'a-path-to-my-f-i-le-php';
 		$this->assertEqual($result, $expected);
 		
 		Configure::write('ApiGenerator.filePath', 'C:\www');

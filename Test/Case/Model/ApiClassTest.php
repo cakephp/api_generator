@@ -99,7 +99,7 @@ class ApiClassTestCase extends CakeTestCase {
  **/
 	function setUp() {
 		parent::setUp();
-		$this->_path = App::pluginPath('api_generator');
+		$this->_path = CakePlugin::path('ApiGenerator');
 		$this->_testAppPath = dirname(dirname(dirname(__FILE__))) . DS . 'test_app' . DS;
 
 		Configure::write('ApiGenerator.filePath', $this->_path);
@@ -124,7 +124,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$docs = new ClassDocumentor('ApiClassSampleClass');
 
 		$result = $this->ApiClass->saveClassDocs($docs);
-		$this->assertTrue($result);
+		$this->assertFalse(empty($result));
 
 		$result = $this->ApiClass->read();
 		$now = date('Y-m-d H:i:s');
@@ -147,7 +147,7 @@ class ApiClassTestCase extends CakeTestCase {
 
 		$docs = new ClassDocumentor('ApiClassSampleClassChild');
 		$result = $this->ApiClass->saveClassDocs($docs);
-		$this->assertTrue($result);
+		$this->assertFalse(empty($result));
 		$result = $this->ApiClass->read();
 		$now = date('Y-m-d H:i:s');
 		$expected = array(
@@ -173,12 +173,12 @@ class ApiClassTestCase extends CakeTestCase {
  * @return void
  **/
 	function testSavePseudoClassDocs() {
-		$file = TEST_CAKE_CORE_INCLUDE_PATH . 'basics.php';
+		$file = CAKE . 'basics.php';
 		$ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		$docs = $ApiFile->loadFile($file);
 
 		$result = $this->ApiClass->savePseudoClassDocs($docs['function'], $file);
-		$this->assertTrue($result);
+		$this->assertFalse(empty($result));
 	}
 /**
  * test the search implementation
@@ -204,12 +204,12 @@ class ApiClassTestCase extends CakeTestCase {
 		//test by partial method match
 		$result = $this->ApiClass->search('missing');
 		$this->assertEqual(count($result), 1);
-		$this->assertEqual(array_keys($result), array('ErrorHandler'));
+		$this->assertEqual(array_keys($result), array('ConsoleErrorHandler'));
 
 		//test relevance in find
 		$result = $this->ApiClass->search('acl');
-		$this->assertEqual(count($result), 4);
-		$this->assertEqual(array_keys($result), array('AclComponent', 'DbAcl', 'AclBase', 'IniAcl'));
+		$this->assertEqual(count($result), 2);
+		$this->assertEqual(array_keys($result), array('AclComponent', 'IniAcl'));
 
 		//test searching of global functions
 		$result = $this->ApiClass->search('debug');
@@ -248,11 +248,11 @@ class ApiClassTestCase extends CakeTestCase {
  **/
 	function testGetClassIndex() {
 		$results = $this->ApiClass->getClassIndex();
-		$this->assertEqual(count($results), 8);
+		$this->assertEqual(count($results), 6);
 		$this->assertFalse(in_array('basics.php', $results));
 
 		$results = $this->ApiClass->getClassIndex(true);
-		$this->assertEqual(count($results), 9);
+		$this->assertEqual(count($results), 7);
 		$this->assertTrue(in_array('basics.php', $results));
 	}
 /**
@@ -262,7 +262,7 @@ class ApiClassTestCase extends CakeTestCase {
  **/
 	function testAnalyzeCoverage() {
 		//dispatcher class
-		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
+		$apiClass = $this->ApiClass->read(null, '498cee77-68c4-4eb7-ba8b-80ed87460ad7');
 		$result = $this->ApiClass->analyzeCoverage($apiClass);
 
 		$this->assertTrue(isset($result['sectionTotals']['properties']));
@@ -270,7 +270,7 @@ class ApiClassTestCase extends CakeTestCase {
 		$this->assertTrue(isset($result['sectionTotals']['classInfo']));
 
 		$this->ApiClass->cacheQueries = false;
-		$apiClass = $this->ApiClass->read(null, '498cee77-ddbc-4f12-b457-80ed87460ad7');
+		$apiClass = $this->ApiClass->read(null, '498cee77-68c4-4eb7-ba8b-80ed87460ad7');
 		$this->assertTrue(is_numeric($apiClass['ApiClass']['coverage_cache']));
 
 		// try with pseudo class file.

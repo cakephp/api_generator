@@ -2,6 +2,8 @@
 
 App::import('Lib', 'ApiGenerator.DocMarkdown');
 App::import('Lib', 'ApiGenerator.ApiLinkGenerator');
+App::uses('View', 'View');
+App::uses('Controller', 'Controller');
 
 class DocMarkdownTestCase extends CakeTestCase {
 
@@ -641,7 +643,7 @@ HTML;
  * @return void
  */
 	function testClassLinks() {
-		$generator = new ApiLinkGenerator();
+		$generator = new ApiLinkGenerator(new View(new Controller));
 		$generator->setClassIndex(array('model' => 'Model'));
 		$this->Parser->setLinkGenerator($generator);
 		$text = <<<TEXT
@@ -661,7 +663,7 @@ HTML;
  * @return void
  */
 	function testPropertyLinks() {
-		$generator = new ApiLinkGenerator();
+		$generator = new ApiLinkGenerator(new View(new Controller));
 		$generator->setClassIndex(array('model' => 'Model'));
 		$this->Parser->setLinkGenerator($generator);
 		$text = <<<TEXT

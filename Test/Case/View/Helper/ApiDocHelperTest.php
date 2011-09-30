@@ -17,8 +17,10 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Core', array('View', 'Controller'));
-App::import('Helper', array('ApiGenerator.ApiDoc', 'Html'));
+App::uses('Controller', 'Controller');
+App::uses('View', 'View');
+App::uses('ApiDocHelper', 'ApiGenerator.View/Helper');
+App::uses('HtmlHelper', 'View/Helper');
 
 /**
 * ApiDocHelper test case
@@ -31,7 +33,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
  **/
 	function setup() {
 		parent::setup();
-		$this->_pluginPath = dirname(dirname(dirname(dirname(__FILE__))));
+		$this->_pluginPath = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
 		$controller = new Controller();
 		$view = new View($controller);
 		$view->set('basePath', $this->_pluginPath);
@@ -66,12 +68,12 @@ class ApiDocHelperTestCase extends CakeTestCase {
  * @return void
  **/
 	function testTrimFileName() {
-		$result = $this->ApiDoc->trimFileName($this->_pluginPath . '/tests/cases/helpers/api_doc.test.php');
-		$this->assertEqual($result, 'tests/cases/helpers/api_doc.test.php');
+		$result = $this->ApiDoc->trimFileName($this->_pluginPath . '/Test/Case/View/Helper/ApiDocHelperTest.php');
+		$this->assertEqual($result, 'Test/Case/View/Helper/ApiDocHelperTest.php');
 
-		$result = $this->ApiDoc->trimFileName('/some/other/path/tests/cases/helpers/api_doc.test.php');
-		$expected = 'tests/cases/helpers/api_doc.test.php';
-		$this->assertEqual($result, $expected, 'Trim path with different bases is not working %s');
+		$result = $this->ApiDoc->trimFileName('/some/other/path/Test/Case/View/Helper/ApiDocHelperTest.php');
+		$expected = 'Test/Case/View/Helper/ApiDocHelperTest.php';
+		$this->assertEqual($result, $expected, 'Trim path with different bases is not working');
 	}
 /**
  * testFileLink
@@ -110,7 +112,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 	function testPackageLink() {
 		$result = $this->ApiDoc->packageLink('foo');
 		$expected = array(
-			'a' => array('href' => '/api_generator/api_packages/view/foo'),
+			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/foo'),
 			'foo',
 			'/a'
 		);
@@ -118,7 +120,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 
 		$result = $this->ApiDoc->packageLink('some.package.deep');
 		$expected = array(
-			'a' => array('href' => '/api_generator/api_packages/view/deep'),
+			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/deep'),
 			'some.package.deep',
 			'/a'
 		);
@@ -126,7 +128,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 
 		$result = $this->ApiDoc->packageLink('  some.package.deep');
 		$expected = array(
-			'a' => array('href' => '/api_generator/api_packages/view/deep'),
+			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/deep'),
 			'  some.package.deep',
 			'/a'
 		);
