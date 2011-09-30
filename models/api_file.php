@@ -254,7 +254,7 @@ class ApiFile extends Object {
 			define('DISABLE_AUTO_DISPATCH', true);
 		}
 		if (!$this->isAllowed($filePath)) {
-			throw new Exception(__d('api_geneartor', 'No file with that name exists.', true));
+			throw new Exception(__d('api_generator', 'No file with that name exists.', true));
 		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath, $options);
