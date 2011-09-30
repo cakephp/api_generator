@@ -20,16 +20,7 @@
 App::uses('Folder', 'Utility');
 
 class ApiGeneratorAppController extends AppController {
-/**
- * theme
- *
- **/
-	public $theme = 'api';
-/**
- * view
- *
- **/
-	public $view = 'Theme';
+
 /**
  * beforeFilter callback
  *
