@@ -121,7 +121,7 @@ class ApiDocHelper extends AppHelper {
 		$url = array_merge($this->_defaultUrl['file'], $url);
 		$trimmedFile = $this->trimFileName($filename);
 		if (!empty($trimmedFile) && $trimmedFile != $filename) {
-			$url[] = $trimmedFile;
+			$url = array_merge($url, explode('/', $trimmedFile));
 			return $this->Html->link($trimmedFile, $url, $attributes);
 		}
 		return $filename;
