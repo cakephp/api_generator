@@ -49,7 +49,7 @@
 						'controller' => 'api_classes',
 						'action' => 'view_source', 
 						$pseudoClass,
-						'#line-'. $doc->info['startLine']
+						'#' => 'line-'. $doc->info['startLine']
 					));
 				endif;
 			?> </dd>
