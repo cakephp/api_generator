@@ -56,7 +56,7 @@ echo $this->ApiUtils->element('before_method_detail');
 					'controller' => 'api_classes',
 					'action' => 'view_source', 
 					$this->ApiDoc->slug($method['declaredInClass']),
-					'#line-'. $method['startLine']
+					'#' => 'line-'. $method['startLine']
 				));
 			endif;
 		?> </dd>
