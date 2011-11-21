@@ -290,7 +290,7 @@ Documentation Page Styles
 	color: #27676E;
 	font-size:16px;
 	line-height:1.4em;
-	margin:1.5em 0 0.3em 0;
+	margin:1.5em 0 0 0;
 	clear:both;
 	-webkit-text-shadow:1px 0px #ddd;
 	text-shadow:0px 1px #eee;
@@ -422,6 +422,7 @@ ul.property-list li {
 	clear:left;
 	background: url(../img/inheritance_arrow.png) center bottom no-repeat;
 }
+.inheritance-tree .no-link,
 .inheritance-tree a {
 	min-width:100px;
 	padding:5px 15px;
@@ -465,17 +466,32 @@ ul.property-list li {
 	background-repeat: no-repeat;
 	background-position:left center;
 }
-.protected, 
-.protected-static {
-	background-image: url(../img/icon_protected.gif);
-}
-.public,
-.public-static {
+.public {
 	background-image: url(../img/icon_public.gif);
 }
-.private, 
-.private-static {
+.protected {
+	background-image: url(../img/icon_protected.gif);
+}
+.private {
 	background-image: url(../img/icon_private.gif);
+}
+.private.static {
+	background-image: url(../img/icon_private_static.png);
+}
+.protected.static {
+	background-image: url(../img/icon_protected_static.png);
+}
+.public.static {
+	background-image: url(../img/icon_public_static.png);
+}
+.private.abstract {
+	background-image: url(../img/icon_private_abstract.png);
+}
+.protected.abstract {
+	background-image: url(../img/icon_protected_abstract.png);
+}
+.public.abstract {
+	background-image: url(../img/icon_public_abstract.png);
 }
 .parent-method .private,
 .parent-property .private {
