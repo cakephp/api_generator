@@ -7,7 +7,8 @@ The Api Generator provides an easy to use always current documentation generatio
 - PHP5 - Requires PHP5.2.  If you are on PHP4 too bad, time to upgrade anyways.
 - CakePHP 1.x
 	- The `0.3` tag and `0.3-branch` are compatible with CakePHP 1.2
-	- The `master` branch is compatible with CakePHP 1.3
+	- The `v0.4` tag and the `1.3` branch are compatible with CakePHP 1.3
+	- The `master` branch is compatible with CakePHP 2.0
 
 ## Configuration + Installation
 
