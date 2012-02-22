@@ -351,7 +351,7 @@ class ApiDocHelper extends AppHelper {
  */
 	public function packageUrl($package, $url = array()) {
 		if (empty($url)) {
-			$slug = str_replace('.', '/', $this->slug($package));
+			$slug = str_replace('.', '/', $this->slug(trim($package)));
 			$url[] = $slug;
 		}		
 		$url = array_merge($this->_defaultUrl['package'], $url);

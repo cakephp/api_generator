@@ -120,7 +120,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 
 		$result = $this->ApiDoc->packageLink('some.package.deep');
 		$expected = array(
-			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/deep'),
+			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/some/package/deep'),
 			'some.package.deep',
 			'/a'
 		);
@@ -128,7 +128,7 @@ class ApiDocHelperTestCase extends CakeTestCase {
 
 		$result = $this->ApiDoc->packageLink('  some.package.deep');
 		$expected = array(
-			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/deep'),
+			'a' => array('href' => 'http://localhost/api_generator/api_packages/view/some/package/deep'),
 			'  some.package.deep',
 			'/a'
 		);

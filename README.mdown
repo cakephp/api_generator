@@ -14,6 +14,8 @@ The Api Generator provides an easy to use always current documentation generatio
 
 Please See the [installation guide](http://cakephp.lighthouseapp.com/projects/42879/docs-installation).
 
+On Apache servers you may need `AllowEncodedSlashes` directive `On`
+
 ## Reporting issues
 
 If you have an issues with Api Generator please open a ticket on lighthouse http://cakephp.lighthouseapp.com/projects/42879-api-generator/overview
