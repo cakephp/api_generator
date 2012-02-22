@@ -22,6 +22,7 @@ class ApiPackageFixture extends CakeTestFixture {
 	var $fields = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
 		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36),
+		'package_path' => array('type' => 'string', 'null' => false, 'length' => 500),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),
@@ -34,6 +35,7 @@ var $records = array(
 	array(
 		'id' => 1,
 		'parent_id' => null,
+		'package_path' => 'cake',
 		'name' => 'cake',
 		'slug' => 'cake',
 		'lft' => 1,
@@ -44,6 +46,7 @@ var $records = array(
 	array(
 		'id' => 2,
 		'parent_id' => 1,
+		'package_path' => 'cake/controller',
 		'name' => 'controller',
 		'slug' => 'controller',
 		'lft' => 2,
@@ -54,6 +57,7 @@ var $records = array(
 	array(
 		'id' => 3,
 		'parent_id' => 2,
+		'package_path' => 'cake/controller/component',
 		'name' => 'component',
 		'slug' => 'component',
 		'lft' => 3,
@@ -64,6 +68,7 @@ var $records = array(
 	array(
 		'id' => 4,
 		'parent_id' => 1,
+		'package_path' => 'cake/model',
 		'name' => 'model',
 		'slug' => 'model',
 		'lft' => 6,
@@ -74,6 +79,7 @@ var $records = array(
 	array(
 		'id' => 5,
 		'parent_id' => 4,
+		'package_path' => 'cake/model/behavior',
 		'name' => 'behavior',
 		'slug' => 'behavior',
 		'lft' => 7,
