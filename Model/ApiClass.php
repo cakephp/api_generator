@@ -103,15 +103,6 @@ class ApiClass extends ApiGeneratorAppModel {
 		}
 	}
 /**
- * Clears (truncates) the class index.
- *
- * @return void
- **/
-	public function clearIndex() {
-		$db = ConnectionManager::getDataSource($this->useDbConfig);
-		$db->truncate($db->fullTableName($this));
-	}
-/**
  * save the entry in the index for a ClassDocumentor object
  *
  * @param object $classDoc Instance of ClassDocumentor to add to database.

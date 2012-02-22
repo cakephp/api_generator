@@ -19,6 +19,8 @@
  * @since         ApiGenerator v 0.5
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+App::uses('ApiGeneratorAppModel', 'ApiGenerator.Model');
+
 class ApiPackage extends ApiGeneratorAppModel {
 /**
  * name
@@ -99,16 +101,20 @@ class ApiPackage extends ApiGeneratorAppModel {
  **/
 	public function updatePackageTree($packages) {
 		$parentId = null;
+		$path = array();
 		foreach ($packages as $package) {
 			$slug = $this->_makeSlug($package);
-			$existing = $this->findBySlug($slug, null, null, -1);
+			$existing = $this->findBySlugAndParentId($slug, $parentId, null, null, -1);
 			if ($existing) {
 				$parentId = $existing['ApiPackage']['id'];
+				$path[] = $slug;
 				continue;
 			}
+			$path[] = $slug;
 			$new = array(
 				'ApiPackage' => array(
 					'parent_id' => $parentId,
+					'package_path' => $this->_makePath($path),
 					'slug' => $slug,
 					'name' => $package
 				)
@@ -119,7 +125,7 @@ class ApiPackage extends ApiGeneratorAppModel {
 			}
 			$parentId = $this->id;
 		}
-		return true;
+		return $parentId;
 	}
 /**
  * Find The last package's id value.
@@ -130,6 +136,15 @@ class ApiPackage extends ApiGeneratorAppModel {
 		$lastPackage = array_pop($packages);
 		$last = $this->findBySlug($this->_makeSlug($lastPackage));
 		return $last['ApiPackage']['id'];
+	}
+/**
+ * Make a package path.
+ *
+ * @param mixed $path Package path
+ * @return string
+ **/
+ 	protected function _makePath($path){
+		return implode('/', $path);
 	}
 
 }

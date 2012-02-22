@@ -296,7 +296,7 @@ class ApiDocHelper extends AppHelper {
 		$out = '<ul class="package-tree depth-'. $depth . '">' . "\n";
 		foreach ($packageTree as $branch) {
 			$children = null;
-			$link = $this->packageLink($branch['ApiPackage']['name']);
+			$link = $this->packageLink($branch['ApiPackage']['name'], array($branch['ApiPackage']['package_path']));
 			if (!empty($branch['children'])) {
 				$depth++;
 				$children = $this->generatePackageTree($branch['children'], $depth);
@@ -317,7 +317,7 @@ class ApiDocHelper extends AppHelper {
 		$out = array();
 		foreach ($packageTree as $branch) {
 			$children = array();
-			$url = $this->packageUrl($branch['ApiPackage']['name']);
+			$url = $this->packageUrl($branch['ApiPackage']['name'], array($branch['ApiPackage']['package_path']));
 			if (!empty($branch['children'])) {
 				$children = $this->generatePackageJsonTree($branch['children']);
 			}
@@ -350,12 +350,11 @@ class ApiDocHelper extends AppHelper {
  * @return string URL for the package.
  */
 	public function packageUrl($package, $url = array()) {
+		if (empty($url)) {
+			$slug = str_replace('.', '/', $this->slug($package));
+			$url[] = $slug;
+		}		
 		$url = array_merge($this->_defaultUrl['package'], $url);
-		$slug = $this->slug($package);
-		if (strpos($slug, '.') !== false) {
-			$slug = $this->_parsePackageString($slug);
-		}
-		$url[] = $slug;
 		return $this->url($url, true);
 	}
 

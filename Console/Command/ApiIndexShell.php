@@ -129,6 +129,7 @@ class ApiIndexShell extends Shell {
 		$this->ApiPackage = ClassRegistry::init('ApiGenerator.ApiPackage');
 
 		$this->ApiClass->clearIndex();
+		$this->ApiPackage->clearIndex();
 		$this->ApiFile->importCoreClasses();
 
 		$foundClasses = array();
@@ -148,8 +149,10 @@ class ApiIndexShell extends Shell {
 						$foundClasses[$className] = true;
 						try {
 							$packages = $this->ApiPackage->parsePackage($classDocs->classInfo['comment']);
-							$this->ApiPackage->updatePackageTree($packages);
-							$lastPackage = $this->ApiPackage->findEndPackageId($packages);
+							$lastPackage = $this->ApiPackage->updatePackageTree($packages);
+							if (!$lastPackage) {
+								$lastPackage = $this->ApiPackage->findEndPackageId($packages);
+							}
 							$this->ApiClass->saveField('api_package_id', $lastPackage);
 						} catch (Exception $e) {
 							$this->out(sprintf(

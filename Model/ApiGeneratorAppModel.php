@@ -37,6 +37,15 @@ class ApiGeneratorAppModel extends AppModel {
 		return $slugPath;
 	}
 /**
+ * Clears (truncates) the model index.
+ *
+ * @return void
+ **/
+	public function clearIndex() {
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
+		$db->truncate($db->fullTableName($this));
+	}
+/**
  * Make a slug
  *
  * @param string $name Make a slug
