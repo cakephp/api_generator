@@ -351,8 +351,9 @@ class ApiDocHelper extends AppHelper {
  */
 	public function packageUrl($package, $url = array()) {
 		if (empty($url)) {
-			$slug = str_replace('.', '/', $this->slug(trim($package)));
-			$url[] = $slug;
+			$url = explode('.', $this->slug(trim($package)));
+		} else {
+			$url = $this->_mergePackageUrl($url);
 		}		
 		$url = array_merge($this->_defaultUrl['package'], $url);
 		return $this->url($url, true);
@@ -363,12 +364,28 @@ class ApiDocHelper extends AppHelper {
  *
  * @param string $package A package string with .'s in it.
  * @return string
+ * @deprecated _mergePackageUrl instead
  **/
 	protected function _parsePackageString($package) {
 		$bits = explode('.', $package);
 		return $this->slug(end($bits));
 	}
-
+/**
+ * merge url with a slash split package path and return new url.
+ *
+ * Note: It assumes the package path has always numeric key (0), 
+ * so all other arguments you want to preserve must have string key
+ *
+ * @param string $package A package string with .'s in it.
+ * @return string
+ **/
+	protected function _mergePackageUrl($url) {
+		if (is_array($url) && isset($url[0])) {
+			$path = explode('/', $url[0]);
+			$url = $path + $url;
+		}
+		return $url;
+	}
 /**
  * Generate the visibility keywords for a method.
  *

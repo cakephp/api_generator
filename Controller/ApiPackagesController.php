@@ -51,7 +51,11 @@ class ApiPackagesController extends ApiGeneratorAppController {
  *
  * @return void
  **/
-	public function view($packagePath = null) {
+	public function view() {
+		$packagePath = null;
+		if (!empty($this->passedArgs)) {
+			$packagePath = $this->ApiPackage->makePath($this->passedArgs);
+		}
 		if (!$packagePath) {
 			$this->Session->setFlash(__d('api_generator', 'No package name was given'));
 			$this->redirect($this->referer());

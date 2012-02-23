@@ -104,17 +104,16 @@ class ApiPackage extends ApiGeneratorAppModel {
 		$path = array();
 		foreach ($packages as $package) {
 			$slug = $this->_makeSlug($package);
+			$path[] = $slug;
 			$existing = $this->findBySlugAndParentId($slug, $parentId, null, null, -1);
 			if ($existing) {
 				$parentId = $existing['ApiPackage']['id'];
-				$path[] = $slug;
 				continue;
 			}
-			$path[] = $slug;
 			$new = array(
 				'ApiPackage' => array(
 					'parent_id' => $parentId,
-					'package_path' => $this->_makePath($path),
+					'package_path' => $this->makePath($path),
 					'slug' => $slug,
 					'name' => $package
 				)
@@ -143,7 +142,7 @@ class ApiPackage extends ApiGeneratorAppModel {
  * @param mixed $path Package path
  * @return string
  **/
- 	protected function _makePath($path){
+ 	public function makePath($path){
 		return implode('/', $path);
 	}
 
