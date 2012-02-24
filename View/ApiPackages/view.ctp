@@ -7,7 +7,12 @@ $this->ApiDoc->setClassIndex($classIndex);
 	<?php if(!empty($apiPackage['ParentPackage']['name'])): ?>
 		<h3><?php echo __d('api_generator', 'Parent Package'); ?> </h3>
 		<ul class="package-list">
-			<li><?php echo $this->ApiDoc->packageLink($apiPackage['ParentPackage']['name'], array($apiPackage['ParentPackage']['package_path'])); ?></li>
+			<li>
+			<?php echo $this->ApiDoc->packageLink(
+				$apiPackage['ParentPackage']['name'], 
+				$this->ApiDoc->path($apiPackage['ParentPackage']['package_path'])
+			); ?>
+			</li>
 		</ul>
 	<?php endif; ?>
 
@@ -15,7 +20,12 @@ $this->ApiDoc->setClassIndex($classIndex);
 		<h3><?php echo __d('api_generator', 'Child Packages'); ?></h3>
 		<ul class="package-list">
 		<?php foreach ($apiPackage['ChildPackage'] as $child): ?>
-			<li><?php echo $this->ApiDoc->packageLink($child['name'], array($child['package_path'])); ?></li>
+			<li>
+			<?php echo $this->ApiDoc->packageLink(
+				$child['name'], 
+				$this->ApiDoc->path($child['package_path'])
+			); ?>
+			</li>
 		<?php endforeach; ?>
 		</ul>
 	<?php endif;?>

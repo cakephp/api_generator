@@ -262,6 +262,16 @@ class ApiDocHelper extends AppHelper {
 	}
 
 /**
+ * Splits package path by /'s to be usable as a passed argument(s) in URL.
+ *
+ * @param string $packagePath Package path stored in DB.
+ * @return array
+ **/
+	public function path($packagePath) {
+		return explode('/', $packagePath);
+	}
+
+/**
  * Create a nested inheritance tree from an array.
  * Uses an array stack like a tree. So
  *     array('foo', 'bar', 'baz')
@@ -296,7 +306,7 @@ class ApiDocHelper extends AppHelper {
 		$out = '<ul class="package-tree depth-'. $depth . '">' . "\n";
 		foreach ($packageTree as $branch) {
 			$children = null;
-			$link = $this->packageLink($branch['ApiPackage']['name'], array($branch['ApiPackage']['package_path']));
+			$link = $this->packageLink($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['package_path']));
 			if (!empty($branch['children'])) {
 				$depth++;
 				$children = $this->generatePackageTree($branch['children'], $depth);
@@ -317,7 +327,7 @@ class ApiDocHelper extends AppHelper {
 		$out = array();
 		foreach ($packageTree as $branch) {
 			$children = array();
-			$url = $this->packageUrl($branch['ApiPackage']['name'], array($branch['ApiPackage']['package_path']));
+			$url = $this->packageUrl($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['package_path']));
 			if (!empty($branch['children'])) {
 				$children = $this->generatePackageJsonTree($branch['children']);
 			}
@@ -352,8 +362,6 @@ class ApiDocHelper extends AppHelper {
 	public function packageUrl($package, $url = array()) {
 		if (empty($url)) {
 			$url = explode('.', $this->slug(trim($package)));
-		} else {
-			$url = $this->_mergePackageUrl($url);
 		}		
 		$url = array_merge($this->_defaultUrl['package'], $url);
 		return $this->url($url, true);
@@ -364,28 +372,13 @@ class ApiDocHelper extends AppHelper {
  *
  * @param string $package A package string with .'s in it.
  * @return string
- * @deprecated _mergePackageUrl instead
+ * @deprecated No use for it now
  **/
 	protected function _parsePackageString($package) {
 		$bits = explode('.', $package);
 		return $this->slug(end($bits));
 	}
-/**
- * merge url with a slash split package path and return new url.
- *
- * Note: It assumes the package path has always numeric key (0), 
- * so all other arguments you want to preserve must have string key
- *
- * @param string $package A package string with .'s in it.
- * @return string
- **/
-	protected function _mergePackageUrl($url) {
-		if (is_array($url) && isset($url[0])) {
-			$path = explode('/', $url[0]);
-			$url = $path + $url;
-		}
-		return $url;
-	}
+
 /**
  * Generate the visibility keywords for a method.
  *

@@ -5,7 +5,10 @@ $children = array();
 foreach ($apiPackage['ChildPackage'] as $child) {
 	$children[] = array(
 		'name' => $child['name'],
-		'url' => $this->ApiDoc->packageUrl($child['name'], array($child['package_path'], 'ext' => 'json'))
+		'url' => $this->ApiDoc->packageUrl(
+			$child['name'], 
+			array_merge($this->ApiDoc->path($child['package_path']), array('ext' => 'json'))
+		)
 	);
 }
 
