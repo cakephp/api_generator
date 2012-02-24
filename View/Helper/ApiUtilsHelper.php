@@ -85,7 +85,7 @@ class ApiUtilsHelper extends AppHelper {
 		$code= str_replace('<br />', "\n", $code);
 
 		/* Normalize Newlines */
-		$code= str_replace("\r", "\n", $code);
+		$code= str_replace(array("\r\n", "\r"), "\n", $code);
 
 		$lines= explode("\n", $code);
 
