@@ -102,8 +102,8 @@ class ClassDocumentor extends ReflectionClass {
  * split by access level
  *
  * @return array All properties separated by access type
- **/
-	public function getProperties(){
+ */
+	public function getProperties($filter = null) {
 		$public = $protected = $private = array();
 		$properties = parent::getProperties();
 		
@@ -148,8 +148,8 @@ class ClassDocumentor extends ReflectionClass {
  *
  * @see $this->_parseComment
  * @return array multi-dimensional array of methods and their attributes 
- **/
-	public function getMethods() {
+ */
+	public function getMethods($filter = null) {
 		$methods = parent::getMethods();
 		
 		foreach ($methods as $method) {

@@ -239,7 +239,7 @@ class ApiClass extends ApiGeneratorAppModel {
 		$return = $_return = array();
 		$searchedClasses = Set::extract('/ApiClass/name', $results);
 
-		$ApiFile =& ClassRegistry::init('ApiGenerator.ApiFile');
+		$ApiFile = ClassRegistry::init('ApiGenerator.ApiFile');
 		foreach ($results as $i => $record) {
 			$result = $ApiFile->loadFile($record['ApiClass']['file_name'], array('useIndex' => true));
 			foreach ($result['class'] as $name => $obj) {

@@ -53,7 +53,7 @@ foreach ($classIndex as $slug => $name) {
 ?>
 <h1><?php echo __d('api_generator', 'Index'); ?></h1>
 
-<div class="letter-links">
+<div class="letter-links show-on-desktops">
 <?php
 
 foreach (array_keys($letterIndex) as $letter):
@@ -68,7 +68,7 @@ endforeach;
 
 <?php $current = null; ?>
 <?php foreach ($classChunks as $column): ?>
-<div class="letter-section">
+<div class="letter-section columns three">
 	<?php foreach ($column as $letter => $classes): ?>
 		<?php if ($current != $letter): ?>
 			<h3><a id="letter-<?php echo $letter; ?>"></a><?php echo $letter; ?></h3>

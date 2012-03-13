@@ -20,10 +20,10 @@
 		$value = '';
 	}
 	echo $this->Form->text('Search.query', array(
-		'class' => 'query',
+		'class' => 'query search-input',
 		'value' => $value
 	)); ?>
-<?php echo $this->Form->submit(__d('api_generator', 'Search'), array('div' => false, 'class' => 'submit')); ?>
+<?php echo $this->Form->submit(__d('api_generator', 'Search'), array('div' => false, 'class' => 'button red submit')); ?>
 </fieldset>
 <?php echo $this->Form->end(null); ?>
 </div>
