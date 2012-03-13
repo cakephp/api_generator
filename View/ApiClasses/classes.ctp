@@ -66,9 +66,10 @@ endforeach;
 ?>
 </div>
 
+<div class="row">
 <?php $current = null; ?>
 <?php foreach ($classChunks as $column): ?>
-<div class="letter-section columns three">
+<div class="letter-section columns four">
 	<?php foreach ($column as $letter => $classes): ?>
 		<?php if ($current != $letter): ?>
 			<h3><a id="letter-<?php echo $letter; ?>"></a><?php echo $letter; ?></h3>
@@ -88,3 +89,4 @@ endforeach;
 	<?php endforeach; ?>
 </div>
 <?php endforeach; ?>
+</div>
