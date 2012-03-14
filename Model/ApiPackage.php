@@ -113,7 +113,7 @@ class ApiPackage extends ApiGeneratorAppModel {
 			$new = array(
 				'ApiPackage' => array(
 					'parent_id' => $parentId,
-					'package_path' => $this->makePath($path),
+					'path' => $this->makePath($path),
 					'slug' => $slug,
 					'name' => $package
 				)

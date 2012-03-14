@@ -55,7 +55,7 @@ class ApiGeneratorSchema extends CakeSchema {
 	public $api_packages = array(
 		'id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => false, 'key' => 'primary'),
 		'parent_id' => array('type' => 'string', 'default' => NULL, 'length' => 36, 'null' => true, 'key' => 'index'),
-		'package_path' => array('type' => 'string', 'null' => false, 'length' => 500, 'key' => 'index'),
+		'path' => array('type' => 'string', 'null' => false, 'length' => 500, 'key' => 'index'),
 		'name' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'slug' => array('type' => 'string', 'length' => 255, 'null' => false),
 		'lft' => array('type' => 'integer'),
@@ -65,7 +65,7 @@ class ApiGeneratorSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => true),
 			'parent_id' => array('column' => 'parent_id', 'unique' => false),
-			'package_path' => array('column' => 'package_path', 'unique' => false),
+			'path' => array('column' => 'path', 'unique' => false),
 		)
 	);
 }

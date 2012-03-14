@@ -306,7 +306,7 @@ class ApiDocHelper extends AppHelper {
 		$out = '<ul class="package-tree depth-'. $depth . '">' . "\n";
 		foreach ($packageTree as $branch) {
 			$children = null;
-			$link = $this->packageLink($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['package_path']));
+			$link = $this->packageLink($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['path']));
 			if (!empty($branch['children'])) {
 				$depth++;
 				$children = $this->generatePackageTree($branch['children'], $depth);
@@ -327,7 +327,7 @@ class ApiDocHelper extends AppHelper {
 		$out = array();
 		foreach ($packageTree as $branch) {
 			$children = array();
-			$url = $this->packageUrl($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['package_path']));
+			$url = $this->packageUrl($branch['ApiPackage']['name'], $this->path($branch['ApiPackage']['path']));
 			if (!empty($branch['children'])) {
 				$children = $this->generatePackageJsonTree($branch['children']);
 			}

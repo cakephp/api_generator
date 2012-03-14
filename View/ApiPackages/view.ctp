@@ -10,7 +10,7 @@ $this->ApiDoc->setClassIndex($classIndex);
 			<li>
 			<?php echo $this->ApiDoc->packageLink(
 				$apiPackage['ParentPackage']['name'], 
-				$this->ApiDoc->path($apiPackage['ParentPackage']['package_path'])
+				$this->ApiDoc->path($apiPackage['ParentPackage']['path'])
 			); ?>
 			</li>
 		</ul>
@@ -23,7 +23,7 @@ $this->ApiDoc->setClassIndex($classIndex);
 			<li>
 			<?php echo $this->ApiDoc->packageLink(
 				$child['name'], 
-				$this->ApiDoc->path($child['package_path'])
+				$this->ApiDoc->path($child['path'])
 			); ?>
 			</li>
 		<?php endforeach; ?>

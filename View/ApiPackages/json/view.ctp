@@ -7,7 +7,7 @@ foreach ($apiPackage['ChildPackage'] as $child) {
 		'name' => $child['name'],
 		'url' => $this->ApiDoc->packageUrl(
 			$child['name'], 
-			array_merge($this->ApiDoc->path($child['package_path']), array('ext' => 'json'))
+			array_merge($this->ApiDoc->path($child['path']), array('ext' => 'json'))
 		)
 	);
 }
