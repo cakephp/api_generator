@@ -251,7 +251,7 @@ class ApiFile extends Object {
 			return $docs;
 		}
 		if (!$this->isAllowed($filePath)) {
-			throw new Exception(__d('api_geneartor', '%s is not accesible or does not exist.', $filePath));
+			throw new Exception(__d('api_generator', '%s is not accesible or does not exist.', $filePath));
 		}
 		$this->_importCakeBaseClasses($filePath);
 		$this->_resolveDependancies($filePath, $options);
