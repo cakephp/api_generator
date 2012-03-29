@@ -62,6 +62,7 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 /**
  * test that the source setting only allows Documentors.
  *
+ * @expectedException RuntimeException
  * @return void
  **/
 	function testSourceSetting() {
@@ -70,7 +71,6 @@ class DocBlockAnalyzerTestCase extends CakeTestCase {
 		$result = $analyze->setSource($reflection);
 		$this->assertTrue($result);
 		
-		$this->expectException();
 		$fail = new StdClass();
 		$result = $analyze->setSource($fail);
 		$this->assertFalse($result);

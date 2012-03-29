@@ -208,8 +208,8 @@ class ApiClassTestCase extends CakeTestCase {
 
 		//test relevance in find
 		$result = $this->ApiClass->search('acl');
-		$this->assertEqual(count($result), 2);
-		$this->assertEqual(array_keys($result), array('AclComponent', 'IniAcl'));
+		$this->assertEqual(count($result), 1);
+		$this->assertEqual(array_keys($result), array('AclComponent'));
 
 		//test searching of global functions
 		$result = $this->ApiClass->search('debug');
@@ -258,6 +258,7 @@ class ApiClassTestCase extends CakeTestCase {
 /**
  * Test that DocBlockAnalyzer is correctly invoked
  *
+ * @expectedException RuntimeException
  * @return void
  **/
 	function testAnalyzeCoverage() {
@@ -274,10 +275,8 @@ class ApiClassTestCase extends CakeTestCase {
 		$this->assertTrue(is_numeric($apiClass['ApiClass']['coverage_cache']));
 
 		// try with pseudo class file.
-		$this->expectException();
 		$apiClass = $this->ApiClass->read(null, '498cee77-97c8-441a-99c3-80ed87460ad7');
 		$result = $this->ApiClass->analyzeCoverage($apiClass);
-		$this->assertFalse($result);
 	}
 
 /**

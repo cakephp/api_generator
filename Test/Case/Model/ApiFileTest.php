@@ -277,7 +277,7 @@ class ApiFileTestCase extends CakeTestCase {
  * @return void
  */
 	function testInitConfigNotNeedingSpaces() {
-		$config =& ClassRegistry::init('ApiGenerator.ApiConfig');
+		$config = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$config->data = array(
 			'exclude' => array(
 				'files' => 'one,two, three',

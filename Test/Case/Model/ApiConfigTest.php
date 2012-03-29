@@ -45,20 +45,22 @@ App::import('Model', 'ApiGenerator.ApiConfig');
 
 class ApiConfigTestCase extends CakeTestCase {
 /**
- * startTest
+ * setup
  *
  * @return void
  **/
-	function startTest() {
+	function setUp() {
+		parent::setUp();
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
 		$this->ApiConfig->path = TMP . 'api_config.ini';
 	}
 /**
- * endTest
+ * teardown
  *
  * @return void
  **/
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		$Cleanup = new File($this->ApiConfig->path);
 		$Cleanup->delete();
 		unset($this->ApiConfig);
@@ -126,14 +128,14 @@ class ApiConfigTestCase extends CakeTestCase {
 		$result = $this->ApiConfig->read();
 		$this->assertEqual($result, array(
 			'paths' => array(
-				'/home/cake/plugins/api_generator' => true
+				'/home/cake/plugins/api_generator' => 'true'
 			)
 		));
 
 		$result = $this->ApiConfig->read($data);
 		$this->assertEqual($result, array(
 			'paths' => array(
-				'/home/cake/plugins/api_generator' => true
+				'/home/cake/plugins/api_generator' => 'true'
 			)
 		));
 
@@ -145,7 +147,7 @@ class ApiConfigTestCase extends CakeTestCase {
 		$result = $this->ApiConfig->read();
 		$this->assertEqual($result, array(
 			'paths' => array(
-				'/home/cake/plugins/api_generator' => true
+				'/home/cake/plugins/api_generator' => 'true'
 			)
 		));
 
@@ -154,7 +156,7 @@ class ApiConfigTestCase extends CakeTestCase {
 		$result = $this->ApiConfig->read($data);
 		$this->assertEqual($result, array(
 			'paths' => array(
-				'/Home/Cake/Plugins/Api_generator' => true
+				'/Home/Cake/Plugins/Api_generator' => 'true'
 			)
 		));
 	}
@@ -183,7 +185,7 @@ class ApiConfigTestCase extends CakeTestCase {
 	function testSaveAndRead() {
 		$data = array(
 			'paths' => array(
-				'/home/cake/plugins/api_generator' => true
+				'/home/cake/plugins/api_generator' => 'true'
 			),
 			'exclude' => array(
 				'properties' => 'private',

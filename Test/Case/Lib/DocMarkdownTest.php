@@ -8,11 +8,12 @@ App::uses('Controller', 'Controller');
 class DocMarkdownTestCase extends CakeTestCase {
 
 /**
- * start test
+ * setup
  *
  * @return void
  */
-	function startTest() {
+	function setUp() {
+		parent::setUp();
 		$this->Parser = new DocMarkdown();
 	}
 
@@ -678,11 +679,12 @@ HTML;
 	}
 
 /**
- * end test
+ * tearDown
  *
  * @return void
  */
-	function endTest() {
+	function tearDown() {
+		parent::tearDown();
 		unset($this->Parser);
 	}
 }

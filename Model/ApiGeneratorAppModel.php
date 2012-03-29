@@ -19,6 +19,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
+App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
 
 class ApiGeneratorAppModel extends AppModel {
