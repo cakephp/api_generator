@@ -13,19 +13,32 @@
  * @copyright     Copyright 2008-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org
  * @package       api_generator
- * @subpackage    
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- **/
+ */
 App::uses('Folder', 'Utility');
 
 class ApiGeneratorAppController extends AppController {
 
 /**
+ * Auto-Render
+ *
+ * @var boolean
+ */
+	public $autoRender = true;
+
+/**
+ * Helpers
+ *
+ * @var array
+ */
+	public $helpers = array('Html', 'Form', 'Session');
+
+/**
  * beforeFilter callback
  *
  * @return void
- **/
+ */
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->ApiConfig = ClassRegistry::init('ApiGenerator.ApiConfig');
