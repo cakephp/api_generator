@@ -2,8 +2,10 @@
 interface SomeOtherInterface {
 	const FOOO = 'foo';
 }
-class BazTestFile implements SomeOtherInterface {
-	
+class BazTestFile implements Countable, SomeOtherInterface {
+	public function count() {
+
+	}
 }
 class BarTestFile extends BazTestFile {
 	

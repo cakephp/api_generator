@@ -342,7 +342,7 @@ class ApiFile extends Object {
 		$fileContent = file_get_contents($fileName);
 		$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+([^\s\{\:]+)\s*[^\{]*\{/mi';
 		if ($getParents) {
-			$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+[^\s]*\s*(?:extends\s+([^\s\{\:]*))?(?:\s*implements\s*([^\s\{]*))?[^\{]*/mi';
+			$pattern = '/^\s*(?:abstract\s*)?(?:class|interface)\s+[^\s]*\s*(?:extends\s+([^\s\{\:]*))?(?:\s*implements\s*([^\{]*))?/mi';
 		}
 		preg_match_all($pattern, $fileContent, $matches, PREG_SET_ORDER);
 
@@ -351,7 +351,7 @@ class ApiFile extends Object {
 				$foundClasses[] = $className[1];
 			}
 			if (isset($className[2])) {
-				$foundClasses = array_merge($foundClasses, explode(', ', $className[2]));
+				$foundClasses = array_merge($foundClasses, explode(', ', trim($className[2])));
 			}
 		}
 		foreach ($foundClasses as $i => $class) {
