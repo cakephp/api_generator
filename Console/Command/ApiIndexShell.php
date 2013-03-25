@@ -19,7 +19,7 @@
  * @since         ApiGenerator 0.1
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  **/
-App::import('Core', 'ClassRegistry');
+App::uses('ClassRegistry', 'Utility');
 
 /**
 * Api Index Shell
