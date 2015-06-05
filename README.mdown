@@ -1,5 +1,7 @@
 # Api Generator
 
+:warning: This project is now unmaintained. I recommend using ApiGen or PHPDocumentor instead. If you would like to become its maintainer open an issue.
+
 The Api Generator provides an easy to use always current documentation generation tool.  Api documentation is generated using PHP's reflection API.  A few simple database tables are used to maintain an index of classes, packages and files and provide the ability to search through a project.  Api Generator supports [PHPdoc format docblocks](http://en.wikipedia.org/wiki/PHPDoc) and allows you to use [Markdown](http://en.wikipedia.org/wiki/Markdown) formatting in your documentation blocks.
 
 ## Requirements:
